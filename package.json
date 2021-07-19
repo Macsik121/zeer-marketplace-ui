@@ -8,8 +8,9 @@
     "npm": "6.x"
   },
   "scripts": {
-    "start": "nodemon dist/server",
-    "heroku-postbuild": "npm run start"
+    "start": "node dist/server",
+    "compile": "npx webpack --mode production",
+    "heroku-postbuild": "npm run compile"
   },
   "keywords": [
     "ReactJS",
