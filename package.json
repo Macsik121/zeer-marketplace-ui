@@ -8,7 +8,8 @@
     "npm": "6.x"
   },
   "scripts": {
-    "start": "nodemon dist/server"
+    "start": "nodemon dist/server",
+    "heroku-postbuild": "npm run start"
   },
   "keywords": [
     "ReactJS",
@@ -29,7 +30,6 @@
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.3.2",
     "mini-css-extract-plugin": "^2.1.0",
-    "nodemon": "^2.0.10",
     "sass": "^1.35.2",
     "sass-loader": "^12.1.0",
     "style-loader": "^3.0.0",
@@ -40,6 +40,7 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.12.1",
+    "nodemon": "^2.0.10",
     "@material-ui/icons": "^4.11.2",
     "apollo-server-express": "^2.25.2",
     "babel-polyfill": "^6.26.0",
