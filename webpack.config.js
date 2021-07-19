@@ -68,7 +68,7 @@ const browserConfig = {
         new CleanWebpackPlugin(),
         new webpack.DefinePlugin({
             __isBrowser__: true,
-            __SERVER_ENDPOINT_ADDRESS__: JSON.stringify('http://localhost:3000/graphql')
+            __SERVER_ENDPOINT_ADDRESS__: JSON.stringify('https://zeer-marketplace-api-macsik121.herokuapp.com/graphql')
         })
     ]
 };
