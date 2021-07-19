@@ -9,8 +9,7 @@
   },
   "scripts": {
     "start": "nodemon dist/server",
-    "compile": "node dist/server",
-    "heroku-postbuild": "npm run compile"
+    "heroku-postbuild": "npm run start"
   },
   "keywords": [
     "ReactJS",
