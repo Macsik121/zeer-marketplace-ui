@@ -1,0 +1,78 @@
+.not-found {
+    background-image: url('../images/backgrounds/not-found.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: black;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.not-found h2 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    /* font-size: 36px; */
+    line-height: 36px;
+    text-align: center;
+}
+
+.not-found .content {
+    display: flex;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 1.05vw;
+    line-height: 22px;
+    margin: 18px auto 0 auto;
+    max-width: 350px;
+    text-align: center;
+}
+
+.not-found .error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3vw;
+}
+
+.not-found .error .four {
+    font-size: 20vw;
+    color: #fff;
+    opacity: .1;
+    font-family: 'Roboto', sans-serif;
+}
+
+.not-found .error .four:nth-of-type(1) {
+    margin-right: 5vw;
+}
+
+.not-found .error .four:nth-of-type(2) {
+    margin-left: 5vw;
+}
+
+.not-found .error .logo {
+    width: 20vw;
+}
+
+.not-found .link {
+    display: flex;
+    justify-content: center;
+}
+
+.not-found .link .link-to-home {
+    margin-top: 3vw;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    background-color: #1E75FF;
+    padding: 1vw 3.5vw;
+    border-radius: 1vw;
+    font-size: 1.2vw;
+}
