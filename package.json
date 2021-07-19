@@ -10,7 +10,7 @@
   "scripts": {
     "start": "nodemon dist/server",
     "compile": "node dist/server",
-    "heroku-postbuild": "npm run start"
+    "heroku-postbuild": "npm run compile"
   },
   "keywords": [
     "ReactJS",
