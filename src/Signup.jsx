@@ -102,12 +102,14 @@ class Signup extends React.Component {
         const res = await fetchData(query, vars);
         this.setState({signUpAttempt: res.signUp});
         const { signUpAttempt } = this.state;
+
         if (signUpAttempt.token == '') {
             this.showError(signUpAttempt.message);
             return;
         }
 
         if (signUpAttempt.token && signUpAttempt.token != '') {
+            localStorage.setItem('token', signUpAttempt.token);
             this.props.history.replace(`/dashboard/${signUpAttempt.user.name}`);
             return;
         }
