@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import CloseIcon from '@material-ui/icons/Close';
+import jwtDecode from 'jwt-decode';
 import fetchData from './fetchData';
 
 class Signup extends React.Component {
@@ -15,6 +16,12 @@ class Signup extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleFieldFocus = this.handleFieldFocus.bind(this);
         this.showError = this.showError.bind(this);
+    }
+    componentDidMount() {
+        if (localStorage.getItem('token') && localStorage.getItem('token') != '') {
+            const token = jwtDecode(localStorage.getItem('token'));
+            this.props.history.push(`/dashboard/${token.name}`);
+        }
     }
     showError(message) {
         this.setState({

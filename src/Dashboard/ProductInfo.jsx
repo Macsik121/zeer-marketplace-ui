@@ -71,10 +71,10 @@ export default class ProductInfo extends React.Component {
                     <h3>{popProduct.title}{' | '}{popProduct.productFor}</h3>
                     <span className="description">{popProduct.description}</span>
                     <div className="buttons">
-                        <Link className="buy" to="/dashbaord/">
+                        <Link className="buy" to="/dashboard/">
                             Купить
                         </Link>
-                        <Link className="detailed" to={`/dashboard/products/${popProduct.title}`}>
+                        <Link to={`/dashboard/products/${popProduct.title}`} className="detailed">
                             Подробнее
                         </Link>
                     </div>

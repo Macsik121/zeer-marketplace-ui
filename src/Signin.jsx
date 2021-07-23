@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
 import CloseIcon from '@material-ui/icons/Close';
 import fetchData from './fetchData';
 
@@ -21,6 +22,12 @@ class Signin extends React.Component {
         this.showError = this.showError.bind(this);
         this.handleFocusInput = this.handleFocusInput.bind(this);
         this.enableSubmitButton = this.enableSubmitButton.bind(this);
+    }
+    componentDidMount() {
+        if (localStorage.getItem('token') && localStorage.getItem('token') != '') {
+            const token = jwtDecode(localStorage.getItem('token'));
+            this.props.history.push(`/dashboard/${token.name}`);
+        }
     }
     showError(message) {
         this.setState({
@@ -74,18 +81,21 @@ class Signin extends React.Component {
         }
         
         const res = await fetchData(query, vars);
-        const token = await fetchData(`query {token}`);
         this.setState({signInAttempt: res.signIn});
         const { signInAttempt } = this.state;
-        if (signInAttempt.token != '' && token != '') {
-            this.props.history.replace(`/dashboard/${signInAttempt.user.name}`);
+
+        localStorage.setItem('token', signInAttempt.token)
+
+        if (signInAttempt.token != '' && localStorage.getItem('token') != '') {
+            const token = jwtDecode(localStorage.getItem('token'));
+            this.props.history.replace(`/dashboard/${token.name}`);
+            this.enableSubmitButton();
+            return;
         } else {
             this.showError(signInAttempt.message);
             this.enableSubmitButton();
             return;
         }
-
-        this.enableSubmitButton();
     }
     handleFocusInput() {
         this.setState({

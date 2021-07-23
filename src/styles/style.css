@@ -772,6 +772,7 @@ fieldset {
 .dashboard .main .product-info .product .general .characteristics ul .wrap {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .dashboard .main .product-info .product .general .characteristics ul .characteristic {
@@ -936,6 +937,129 @@ fieldset {
 
 .dashboard .main .FAQ {
     margin-top: 50px;
+    background-color: #13131A;
+}
+
+.dashboard .main .FAQ .search-bar {
+    margin-top: 30px;
+}
+
+.dashboard .main .FAQ .answers-wrap {
+    margin-top: 70px;
+    padding-bottom: 60px;
+}
+
+.dashboard .main .FAQ .title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.dashboard .main .FAQ .title:not(.dashboard .main .FAQ .title:first-of-type) {
+    margin-top: 40px;
+}
+
+.dashboard .main .FAQ .title .number {
+    color: #92929D;
+    font-weight: 400;
+}
+
+.dashboard .main .FAQ .answers {
+    display: flex;
+    margin-top: 30px;
+}
+
+.dashboard .main .FAQ .answers .answer {
+    background-color: #292932;
+    width: 23%;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: 200ms;
+}
+
+.dashboard .main .FAQ .answers .answer .answer-title {
+    line-height: 27px;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.dashboard .main .FAQ .answers .answer .answer-content {
+    font-size: .9rem;
+    color: #92929D;
+    line-height: 22px;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.dashboard .main .FAQ .answers .answer .useful {
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard .main .FAQ .answers .answer .useful .useful-rate {
+    display: flex;
+    align-items: center;
+    font-size: .9rem;
+    margin-top: 50px;
+}
+
+.dashboard .main .FAQ .answers .answer .useful .useful-rate {
+    display: flex;
+    justify-content: space-between;
+}
+
+.dashboard .main .FAQ .answers .answer .useful .useful-rate .percent-bar {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.dashboard .main .FAQ .answers .answer .useful .useful-rate .percent-bar div {
+    width: 23%;
+    height: 6px;
+    background-color: #50B5FF;
+    border-radius: 10px;
+}
+
+.dashboard .main .FAQ .answers .answer .useful .useful-rate .percent-bar div:first-of-type {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.dashboard .main .FAQ .answers .answer .useful .useful-rate .percent-bar div:last-of-type {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.dashboard .main .FAQ .answers .answer .useful .how-useful {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.dashboard .main .FAQ .answers .answer .useful .how-useful .percent-people {
+    font-size: .725rem;
+    color: #92929D;
+    width: 40%;
+}
+
+.dashboard .main .FAQ .answers .answer .useful .how-useful .rate-answer {
+    width: 45%;
+    border: 1px solid gray;
+    border-radius: 10px;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    transition: 200ms;
+    padding: 5px 0;
+}
+
+.dashboard .main .FAQ .answers .answer .useful .how-useful .rate-answer:hover {
+    background-color: #fff;
+    color: #000;
 }
 
 .dashboard .main .set-new-avatar {

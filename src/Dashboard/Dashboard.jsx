@@ -13,37 +13,41 @@ class NavBar extends React.Component {
     constructor() {
         super();
         this.state = {
-            userAvatar: {},
             user: {}
         };
         this.logout = this.logout.bind(this);
     }
+    componentDidUpdate(prevProps) {
+        // const { user } = this.props
+        if (prevProps.user != this.props.user) {
+            this.setState({user: this.props.user});
+        }
+    }
     componentDidMount() {
-        const { user } = this.props;
-        this.setState({user});
-        if (user.avatar && user.avatar.length < 500) {
-            this.setState({userAvatar: {
-                background: `url(${user.avatar})`,
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'center center',
-                backgroundSize: 'cover'
-            }})
-        } else {
-            this.setState({userAvatar: {
-                background: user.avatar
-            }})
+        if (Object.keys(this.props.user).length > 0) {
+            if (user.avatar && user.avatar.length < 500) {
+                this.setState({userAvatar: {
+                    background: `url(${user.avatar})`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center center',
+                    backgroundSize: 'cover'
+                }})
+            } else {
+                this.setState({userAvatar: {
+                    background: user.avatar
+                }})
+            }
         }
     }
     toggleDropdown(e) {
         e.target.parentNode.childNodes[3].classList.toggle('shown');
     }
     async logout() {
-        await fetchData('mutation { logout }');
+        localStorage.clear();
         this.props.history.push('/');
     }
     render() {
-        const { user } = this.props;
-        const { userAvatar } = this.state;
+        const { user } = this.state;
         return (
             <nav className="nav">
                 <div className="container">
@@ -159,21 +163,13 @@ class Dashboard extends React.Component {
         }
     }
     async componentDidMount() {
-        const res = await fetchData('query { token }');
-        const jwt = jwtDecode(res.token);
-        const name = jwt.name;
-        const user = await fetchData(`
-            query user($name: String!) {
-                user(name: $name) {
-                    email
-                    avatar
-                    name
-                }
-            }
-        `, {name});
-        if (!user) this.props.history.push('/');
-        this.setState({user: user.user});
-        this.setState({user: {...this.state.user, nameFirstChar: this.state.user.name.charAt(0)}});
+        if (!localStorage.getItem('token') || localStorage.getItem('token') && localStorage.getItem('token') == '') {
+            this.props.history.push('/');
+            return;
+        }
+        const user = jwtDecode(localStorage.getItem('token'));
+        this.setState({user: jwtDecode(localStorage.getItem("token"))});
+        this.setState({user: {...user, nameFirstChar: user.name.charAt(0)}});
         const result = await fetchData(`
             query getSubscriptions($name: String!) {
                 getSubscriptions(name: $name) {
@@ -206,7 +202,7 @@ class Dashboard extends React.Component {
                     }
                 }
             }
-        `, {name});
+        `, {name: user.name});
         this.setState({subscriptions: result.getSubscriptions});
     }
     render() {

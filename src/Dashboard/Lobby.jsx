@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import SlickSlider from 'react-slick';
+import jwtDecode from 'jwt-decode';
 import fetchData from '../fetchData.js';
 import { fetchPopularProducts } from '../PopularProducts.jsx';
 

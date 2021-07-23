@@ -1,8 +1,9 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import SlickSlider from 'react-slick';
+import jwtDecode from 'jwt-decode';
 import { fetchPopularProducts, Product } from './PopularProducts.jsx';
 import fetchData from './fetchData';
-import SlickSlider from 'react-slick';
 
 export default class Home extends React.Component {
     constructor() {
@@ -64,6 +65,10 @@ export default class Home extends React.Component {
         };
     }
     async componentDidMount() {
+        const token = localStorage.getItem('token');
+        if (token && token != '') {
+            this.props.history.push(`/dashboard/${jwtDecode(token).name}`);
+        }
         const popProducts = await fetchPopularProducts();
         const allProducts = await fetchData(`
                 query {

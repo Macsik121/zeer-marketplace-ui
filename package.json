@@ -8,7 +8,7 @@
     "npm": "6.x"
   },
   "scripts": {
-    "start": "node dist/server",
+    "start": "nodemon dist/server",
     "compile": "npx webpack --mode production",
     "heroku-postbuild": "npm run compile"
   },
@@ -41,7 +41,6 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.12.1",
-    "nodemon": "^2.0.10",
     "@material-ui/icons": "^4.11.2",
     "apollo-server-express": "^2.25.2",
     "babel-polyfill": "^6.26.0",
@@ -53,6 +52,8 @@
     "isomorphic-fetch": "^3.0.0",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^3.1.2",
+    "node-localstorage": "^2.2.1",
+    "nodemon": "^2.0.10",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.1",
     "react-dom": "^17.0.2",
