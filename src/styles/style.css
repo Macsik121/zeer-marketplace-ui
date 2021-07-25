@@ -7,6 +7,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    outline: none;
 }
 
 :root {
@@ -58,23 +59,34 @@ fieldset {
 }
 
 .home .nav {
+    height: 40vw;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+}
+
+.home .header .nav .nav-BG {
     background-image: url('../images/backgrounds/header.png');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
-    height: 40vw;
     width: 100%;
-    position: relative
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -2;
+    position: absolute;
 }
 
 .home .header .nav .black {
-    background-image: linear-gradient(transparent, #000 95%),
+    background-image: linear-gradient(transparent, #000 99%),
                       radial-gradient(transparent 80%, #000);
+    z-index: 1;
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 40vw;
+    height: 100%;
     pointer-events: none;
 }
 
@@ -103,7 +115,7 @@ fieldset {
 }
 
 .home .nav .logo h1 {
-    margin-left: 15px;
+    margin-left: 10px;
     text-transform: uppercase;
 }
 
@@ -115,6 +127,7 @@ fieldset {
     cursor: pointer;
     font-size: 16px;
     transition: 200ms;
+    margin-left: 10px;
 }
 
 .home .nav .download-loader:hover {
@@ -413,11 +426,11 @@ fieldset {
     top: calc(100% + 3px);
     left: 0;
     width: 100%;
-    transition: 200ms;
     -webkit-box-shadow: 0px 0px 50px -5px #000000; 
     box-shadow: 0px 0px 50px -5px #000000;
     cursor: pointer;
     z-index: 1;
+    font-size: 16px;
 }
 
 .dashboard .nav .user-menu .dropdown {
@@ -427,7 +440,7 @@ fieldset {
 
 .dashboard .nav .user-menu .dropdown .item {
     width: 100%;
-    font-size: .8rem;
+    font-size: .9rem;
     background: #1C1C24;
     padding: 10px 0 10px 10px;
 }
@@ -1138,6 +1151,11 @@ fieldset {
     width: 50%;
 }
 
+.dashboard .main .FAQ .answers .answer {
+    flex-basis: 30%;
+    width: 30%;
+}
+
 .dashboard .main .set-new-avatar {
     margin-top: 5vw;
     padding-bottom: 5vw;
@@ -1173,14 +1191,32 @@ fieldset {
     margin-top: 5vw;
 }
 
-@media (max-width: 1050px) {
-    .dashboard .main .FAQ .answers .answer {
-        flex-basis: 30%;
-        width: 30%;
-    }
-}
-
 @media (max-width: 1000px) {
+    .home .nav {
+        height: 100%;
+    }
+    .home .nav .download-loader {
+        margin-top: 20px;
+    }
+    .home .nav .container .social-media {
+        margin-top: 20px;
+    }
+    .home .nav .container .auth-buttons {
+        width: 100%;
+        justify-content: space-between;
+        margin-top: 15px;
+    }
+    .home .nav .container .container {
+        flex-direction: column;
+        padding-bottom: 100px;
+    }
+    .home .nav .gray-line {
+        height: 0;
+    }
+    .home .footer {
+        display: flex;
+        flex-direction: column-reverse;
+    }
     .dashboard .nav .container {
         flex-direction: row-reverse;
     }
@@ -1225,6 +1261,11 @@ fieldset {
     }
     .dashboard .main .products .product .cover {
         height: 30vw;
+    }
+    .dashboard .nav .user-menu .dropdown {
+        width: 250%;
+        left: -135%;
+        top: 100%;
     }
 }
 

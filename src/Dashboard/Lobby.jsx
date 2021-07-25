@@ -56,9 +56,9 @@ export default class Lobby extends React.Component {
             infinite: true,
             speed: 500,
             slidesToShow: 3,
-            adaptiveHeight: true,
             autoplay: true,
             autoplaySpeed: 7500,
+            // arrows: false,
             responsive: [
                 {
                     breakpoint: 720,

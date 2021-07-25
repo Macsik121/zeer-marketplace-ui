@@ -118,6 +118,7 @@ export default class Home extends React.Component {
                 <div className="header">
                     <nav className="nav">
                         <div className="black"></div>
+                        <div className="nav-BG"></div>
                         <div className="container">
                             <div className="container">
                                 <div>
