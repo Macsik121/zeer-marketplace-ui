@@ -233,7 +233,7 @@ export default class FAQ extends React.Component {
                 <div className="container">
                     <h2>Ответы на вопросы</h2>
                     <div className="search-bar">
-                        <select onChange={this.handleChangeCategory} name="categories">
+                        <select onChange={this.handleChangeCategory} className="categories" name="categories">
                             {categoriesToSearch.map(category => <option key={category}>{category}</option>)}
                         </select>
                         <input placeholder="Ваш вопрос..." className="search" value={searchValue} onChange={this.handleSearch} />

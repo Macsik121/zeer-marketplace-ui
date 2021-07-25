@@ -41,6 +41,7 @@
 
 .auth-form .heading .close-modal .close-icon {
     fill: #1E75FF;
+    margin-left: 3vw;
 }
 
 .auth-form .form {
@@ -165,4 +166,10 @@
 .signup .container .addition {
     flex-direction: row;
     justify-content: space-between;
+}
+
+@media (max-width: 1000px) {
+    .auth-form .form {
+        width: 100%;
+    }
 }

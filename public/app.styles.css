@@ -180,6 +180,7 @@
 
 .auth-form .heading .close-modal .close-icon {
     fill: #1E75FF;
+    margin-left: 3vw;
 }
 
 .auth-form .form {
@@ -304,6 +305,12 @@
 .signup .container .addition {
     flex-direction: row;
     justify-content: space-between;
+}
+
+@media (max-width: 1000px) {
+    .auth-form .form {
+        width: 100%;
+    }
 }
 
 /*!********************************************************************************!*\
@@ -721,10 +728,17 @@ fieldset {
 
 .dashboard .nav .user-menu .avatar {
     border-radius: 50%;
-    padding: 0 15px;
     height: 50%;
     display: flex;
     align-items: center;
+    position: relative;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.dashboard .nav .user-menu .avatar .first-char {
+    position: absolute;
 }
 
 .dashboard .nav .user-menu .username {
@@ -749,12 +763,9 @@ fieldset {
     z-index: 1;
 }
 
-.dashboard .nav .user-menu .dropdown.hidden {
-    display: none;
-}
-
-.dashboard .nav .user-menu .dropdown.shown {
-    display: block;
+.dashboard .nav .user-menu .dropdown {
+    transition: 200ms;
+    overflow: hidden;
 }
 
 .dashboard .nav .user-menu .dropdown .item {
@@ -819,7 +830,12 @@ fieldset {
     justify-content: center;
     border: 3px solid gray;
     border-radius: 50%;
-    padding: 12px 15px;
+    padding: 20px;
+    position: relative;
+}
+
+.dashboard .main .lobby .info .user .general .avatar .first-char {
+    position: absolute;
 }
 
 .dashboard .main .lobby .info .user .general .data {
@@ -1005,7 +1021,7 @@ fieldset {
 
 .dashboard .main .products .product .cover {
     width: 100%;
-    height: 305px;
+    height: 25vw;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -1069,6 +1085,10 @@ fieldset {
     border-radius: 10px;
 }
 
+.dashboard .main .product-info .info .general .cost .dropdown {
+    width: 100%;
+}
+
 .dashboard .main .product-info .product .cover {
     background-repeat: no-repeat;
     background-position: center center;
@@ -1083,10 +1103,12 @@ fieldset {
     margin-top: 30px;
     background-color: #1C1C24;
     min-height: auto;
+    flex-direction: column;
 }
 
 .dashboard .main .product-info .product .title {
     font-size: 1.5rem;
+    text-align: center;
 }
 
 .dashboard .main .product-info .product .main .actions {
@@ -1110,7 +1132,7 @@ fieldset {
 }
 
 .dashboard .main .product-info .product .main .actions .last-update {
-    margin-top: 15px;
+    margin: 15px auto 0 auto;
 }
 
 .dashboard .main .product-info .product .general .description h4 {
@@ -1142,6 +1164,7 @@ fieldset {
 .dashboard .main .product-info .product .general .characteristics ul .characteristic {
     margin-top: 20px;
     list-style-image: url(/images/characteristics-product-li.png);
+
 }
 
 .dashboard .main .product-info .product .general .characteristics ul .characteristic span {
@@ -1159,6 +1182,7 @@ fieldset {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-direction: column;
 }
 
 .dashboard .main .product-info .product .general .cost .dropdown .item {
@@ -1310,6 +1334,10 @@ fieldset {
 
 .dashboard .main .FAQ .search-bar {
     margin-top: 30px;
+}
+
+.dashboard .main .FAQ .search-bar .categories {
+    width: 10%;
 }
 
 .dashboard .main .FAQ .answers-wrap {
@@ -1535,6 +1563,12 @@ fieldset {
         width: 50%;
         margin: 3vw auto 0 auto;
     }
+    .dashboard .main .products .product {
+        flex-basis: 40%;
+    }
+    .dashboard .main .products .product .cover {
+        height: 30vw;
+    }
 }
 
 @media (max-width: 900px) {
@@ -1555,6 +1589,45 @@ fieldset {
     .dashboard .main .FAQ .answers .answer .answer-to-question {
         font-size: .8rem;
     }
+    .dashboard .main .product-info .container:first-of-type {
+        flex-direction: column;
+    }
+    .dashboard .main .product-info .info {
+        width: 90%;
+        margin: 0 auto;
+    }
+    .dashboard .main .product-info .popular-products .products {
+        width: 70%;
+        margin: 0 auto;
+    }
+    .dashboard .main .product-info .product .main .actions .undetect {
+        margin-top: 15px;
+    }
+    .dashboard .main .product-info .info .general .cost .dropdown {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .dashboard .main .product-info .popular-products {
+        width: 95%;
+        margin: 0 auto;
+    }
+    .dashboard .main .product-info .popular-products .products {
+        width: 60%;
+        margin: 30px auto 0 auto;
+    }
+    .dashboard .nav .user-menu .avatar .first-char {
+        font-size: .85rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .dashboard .main .products .product {
+        flex-basis: 70%;
+    }
+    .dashboard .main .products .product .cover {
+        height: 50vw;
+    }
 }
 
 @media (max-width: 650px) {
@@ -1566,11 +1639,8 @@ fieldset {
         width: 30%;
         height: 25%;
     }
-}
-
-@media (max-width: 570px) {
-    .dashboard .main .lobby .info .user .general .avatar {
-        padding: .1vw 12px;
+    .dashboard .main .product-info .product .general .cost .button {
+        width: 35%;
     }
 }
 
@@ -1583,6 +1653,12 @@ fieldset {
     }
     .dashboard .main .FAQ .answers .people-percent .rate-answer {
         padding: 15px 0;
+    }
+    .dashboard .main .products .product {
+        flex-basis: 85%;
+    }
+    .dashboard .main .products .product .cover {
+        height: 60vw;
     }
 }
 

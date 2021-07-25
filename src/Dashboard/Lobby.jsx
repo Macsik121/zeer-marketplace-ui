@@ -49,6 +49,7 @@ export default class Lobby extends React.Component {
         }
         this.setState({popularProducts});
     }
+
     render() {
         const { user, subscriptions } = this.props;
         const sliderSettings = {
@@ -92,7 +93,11 @@ export default class Lobby extends React.Component {
                         <div className="info">
                             <div className="user">
                                 <div className="general">
-                                    <div className="avatar" style={{background: user.avatar}}>{user.nameFirstChar}</div>
+                                    <div className="avatar" style={{background: user.avatar}}>
+                                        <span className="first-char">
+                                            {user.nameFirstChar}
+                                        </span>
+                                    </div>
                                     <div className="data">
                                         <span>{user.name}</span>
                                         <span>{user.email}</span>

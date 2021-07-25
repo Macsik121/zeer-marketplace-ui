@@ -13,15 +13,18 @@ class NavBar extends React.Component {
     constructor() {
         super();
         this.state = {
-            user: {}
+            user: {},
+            isDropdownShown: false,
+            deviceWidth: 1
         };
         this.logout = this.logout.bind(this);
+        this.toggleDropdown = this.toggleDropdown.bind(this);
     }
-    componentDidUpdate(prevProps) {
-        // const { user } = this.props
+    componentDidUpdate(prevProps, prevState) {
         if (prevProps.user != this.props.user) {
             this.setState({user: this.props.user});
         }
+        if (prevState.deviceWidth != this.state.deviceWidth) this.setState({deviceWidth: innerWidth})
     }
     componentDidMount() {
         if (Object.keys(this.props.user).length > 0) {
@@ -38,44 +41,74 @@ class NavBar extends React.Component {
                 }})
             }
         }
+        this.setState({deviceWidth: innerWidth});
     }
     toggleDropdown(e) {
-        e.target.parentNode.childNodes[3].classList.toggle('shown');
+        this.setState({isDropdownShown: !this.state.isDropdownShown});
     }
     async logout() {
         localStorage.clear();
         this.props.history.push('/');
     }
     render() {
-        const { user } = this.state;
+        const { user, isDropdownShown } = this.state;
         return (
             <nav className="nav">
                 <div className="container">
                     <div className="user-menu">
-                        <div style={/*userAvatar.background ? userAvatar : {background: 'gray'}*/{background: user.avatar}} className="avatar">
-                            {user.avatar && user.avatar.length < 500 &&
-                                user.nameFirstChar
+                        <div
+                            onClick={this.toggleDropdown}
+                            style={
+                                isDropdownShown
+                                    ? {
+                                        background: user.avatar,
+                                        border: '2px solid gray',
+                                        padding: '0 20px'
+                                    }
+                                    : {
+                                        background: user.avatar,
+                                        border: 'none',
+                                        padding: '0 22px'
+                                    }
                             }
+                            className="avatar"
+                        >
+                            <span className="first-char">
+                                {user.avatar && user.avatar.length < 500 &&
+                                    user.nameFirstChar
+                                }
+                            </span>
                         </div>
                         <span className="username">{user.name}</span>
-                        <img onClick={this.toggleDropdown} className="menu-arrow" src="/images/user-menu-arrow.png" />
-                        <div className="dropdown hidden">
-                            <Link to={`/dashboard/${user.name}/changeavatar`}>
+                        <img
+                            onClick={this.toggleDropdown}
+                            className="menu-arrow"
+                            src="/images/user-menu-arrow.png"
+                        />
+                        <div
+                            className="dropdown"
+                            style={
+                                isDropdownShown
+                                    ? {maxHeight: '550px', transition: '350ms'}
+                                    : {maxHeight: 0, transition: '200ms'}
+                            }
+                        >
+                            <Link onClick={this.toggleDropdown} to={`/dashboard/${user.name}/changeavatar`}>
                                 <div className="item">
-                                Установить новый аватар
+                                    Установить новый аватар
                                 </div>
                             </Link>
-                            <Link to={`/dashboard/${user.name}`}>
+                            <Link onClick={this.toggleDropdown} to={`/dashboard/${user.name}`}>
                                 <div className="item">
                                     Сменить пароль
                                 </div>
                             </Link>
-                            <Link to={`/dashboard/${user.name}`}>
+                            <Link onClick={this.toggleDropdown} to={`/dashboard/${user.name}`}>
                                 <div className="item">
                                     Сбросить привязку
                                 </div>
                             </Link>
-                            <Link to={`/dashboard/${user.name}`}>
+                            <Link onClick={this.toggleDropdown} to={`/dashboard/${user.name}`}>
                                 <div className="item">
                                     Админ-панель
                                 </div>
@@ -221,7 +254,7 @@ class Dashboard extends React.Component {
         this.setState({subscriptions: result.getSubscriptions});
     }
     render() {
-        const { user, subscriptions } = this.state;
+        const { user, subscriptions, deviceWidth } = this.state;
         return (
             <div className="dashboard">
                 <header className="header">
