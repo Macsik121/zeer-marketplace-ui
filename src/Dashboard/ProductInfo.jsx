@@ -13,8 +13,20 @@ export default class ProductInfo extends React.Component {
             changes: [],
             showAllChanges: false
         };
+        this.loadProduct = this.loadProduct.bind(this);
+        this.loadPopProducts = this.loadPopProducts.bind(this);
+    }
+    async componentDidUpdate(prevProps) {
+        if (prevProps.match.params.title != this.props.match.params.title) {
+            await this.loadProduct();
+            await this.loadPopProducts();
+        }
     }
     async componentDidMount() {
+        await this.loadProduct();
+        await this.loadPopProducts();
+    }
+    async loadProduct() {
         const title = this.props.match.params.title;
         const resultProduct = await fetchData(`
             query getProduct($title: String!) {
@@ -44,26 +56,71 @@ export default class ProductInfo extends React.Component {
                 }
             }
         `, {title});
-        this.setState({popularProducts: await fetchPopularProducts()});
-        this.setState({product: resultProduct.getProduct});
-        const { product } = this.state;
-        const changes = [];
-        product.changes.map(change => (
-            changes.push(
-                <div key={change.version} className="change">
-                    <div className="general">
-                        <span className="version">{change.version} версия</span>
-                        <span className="created">{new Date(change.created).toDateString()}</span>
-                    </div>
-                    <div className="description">
-                        {change.description}. {' '}
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa error iure quis aspernatur, recusandae odio quasi nemo porro qui cum, rerum eaque ullam omnis eum obcaecati sit nostrum. Nisi, consequuntur.
-                    </div>
+
+        const { getProduct } = resultProduct;
+
+        let changes = getProduct.changes;
+        changes = changes.map(change => (
+            <div key={change.version} className="change">
+                <div className="general">
+                    <span className="version">{change.version} версия</span>
+                    <span className="created">{new Date(change.created).toLocaleDateString()}</span>
                 </div>
-            )
+                <div className="description">
+                    {change.description}. {' '}
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa error iure quis aspernatur, recusandae odio quasi nemo porro qui cum, rerum eaque ullam omnis eum obcaecati sit nostrum. Nisi, consequuntur.
+                </div>
+            </div>
         ));
-        this.setState({changes});
+
+        this.setState({
+            popularProducts: await fetchPopularProducts(),
+            product: getProduct,
+            changes
+        });
+    }
+    async loadPopProducts() {
         const resultPopularProducts = await fetchPopularProducts();
+        if (resultPopularProducts.length < 3) {
+            const resultProducts = await fetchData(`
+                query {
+                    products {
+                        title
+                        costPerDay
+                        id
+                        productFor
+                        viewedToday
+                        imageURLdashboard
+                        buyings {
+                            email
+                        }
+                        workingTime
+                        description
+                        characteristics {
+                            version
+                            osSupport
+                            cpuSupport
+                            gameMode
+                            developer
+                            supportedAntiCheats
+                        }
+                    }
+                }
+            `);
+
+            const products = resultProducts.products;
+
+            for(let i = 0; i < products.length; i++) {
+                if (i < 3) {
+                    if (products[i].title != resultPopularProducts[0].title || products[i].title != resultPopularProducts[0].title) {
+                        resultPopularProducts.push(products[i]);
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
+
         const popularProducts = resultPopularProducts.map(popProduct => {
             return (
                 <div key={popProduct.id} className="popular-product">
@@ -81,6 +138,7 @@ export default class ProductInfo extends React.Component {
                 </div>
             )
         });
+
         this.setState({popularProducts});
     }
     render() {
@@ -88,7 +146,71 @@ export default class ProductInfo extends React.Component {
         const popularProducts = this.state.popularProducts.map(popProduct => {
             if (popProduct.key) return popProduct;
         });
+        const productWorkingTime = new Date(product.workingTime);
         let createdDate;
+        let days = new Date().getDate() - productWorkingTime.getDate();
+        let months = new Date().getMonth() + 1 - productWorkingTime.getMonth() + 1;
+        let years = new Date().getFullYear() - productWorkingTime.getFullYear();
+        if (days == 0) {
+            let hoursDifference = new Date().getHours() - productWorkingTime.getHours();
+            if (hoursDifference == 0) {
+                let mins = new Date().getMinutes() - productWorkingTime.getMinutes();
+                mins = 31;
+                const minsLastNumber = Number(mins.toString()[mins.toString().length - 1]);
+                console.log(minsLastNumber);
+                if (mins < 20 && mins > 4) {
+                    createdDate = `${mins} минут`;
+                } else if (minsLastNumber == 1) {
+                    createdDate = `${mins} минуту`;
+                } else if (minsLastNumber < 5 && minsLastNumber > 1) {
+                    createdDate = `${mins} минуты`;
+                } else {
+                    createdDate = `${mins} минут`;
+                }
+            } else if (hoursDifference == 1) {
+                createdDate = `${hoursDifference} час`;
+            } else if (hoursDifference < 5 && hoursDifference > 1) {
+                createdDate = `${hoursDifference} часа`;
+            } else if (hoursDifference <= 20 && hoursDifference >= 5) {
+                createdDate = `${hoursDifference} часов`;
+            } else if (hoursDifference < 24 && hoursDifference > 20) {
+                createdDate = `${hoursDifference} часа`;
+            }
+        } else if (days < 31 && days > 0) {
+            const lastDaysNumber = Number(days.toString()[days.toString().length - 1]);
+            if (days < 20 && days > 4) {
+                createdDate = `${days} дней`;
+            } else if (lastDaysNumber == 1) {
+                createdDate = `${days} день`;
+            } else if (lastDaysNumber < 5 && lastDaysNumber > 1) {
+                createdDate = `${days} дня`;
+            } else {
+                createdDate = `${days} дней`;
+            }
+        } else if (months < 6 && months > 0) {
+            if (months == 1) {
+                createdDate = `1 месяц`
+            } else if (months <= 4 && months >= 2) {
+                createdDate = `${months} месяца`;
+            } else {
+                createdDate = `${months} месяцев`;
+            }
+        } else if (months < 12 && months >= 6) {
+            createdDate = `Пол года`;
+        } else {
+            const lastYearsNumber = Number(years.toString()[years.toString().length - 1]);
+            if (lastYearsNumber == 1) {
+                createdDate = `${years} год`;
+            } else if (lastYearsNumber == 0) {
+                createdDate = `${years} лет`;
+            } else if (years <= 20 && years >= 5) {
+                createdDate = `${years} лет`;
+            } else if (lastYearsNumber < 5 && lastYearsNumber > 1) {
+                createdDate = `${years} года`;
+            } else if (lastYearsNumber >= 5) {
+                createdDate = `${years} лет`
+            }
+        }
         let productCost = (
             <span className="cost">
                 {product.costPerDay && product.costPerDay} &#8381; / День
@@ -102,13 +224,6 @@ export default class ProductInfo extends React.Component {
             } else if (choosenDropdown == 'annually') {
                 productCost = <span className="cost">{product.costPerDay && product.costPerDay * 30 * 12} &#8381; / Год</span>
             }
-        } 
-        if (product.changes && product.changes.length > 0) {
-            console.log(new Date(product.changes[0].created).getUTCHours());
-            createdDate = new Date(product.changes[0].created);
-        }
-        if (createdDate && createdDate.getDate() - new Date().getDate() == 0) {
-            createdDate = createdDate.getHours() + 1 - new Date().getHours() + 1 + ' часов назад';
         }
         const productInfo = (
             <div className="product">
@@ -127,7 +242,7 @@ export default class ProductInfo extends React.Component {
                             </button>
                             <span className="last-update">
                                 {createdDate
-                                    ? `Обновлён ${createdDate}`
+                                    ? `Обновлён ${createdDate} назад`
                                     : 'Ни разу не обновлялся'
                                 }
                             </span>

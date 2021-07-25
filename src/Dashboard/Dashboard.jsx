@@ -163,11 +163,26 @@ class Dashboard extends React.Component {
         }
     }
     async componentDidMount() {
-        if (!localStorage.getItem('token') || localStorage.getItem('token') && localStorage.getItem('token') == '') {
-            this.props.history.push('/');
+        const { match, history } = this.props;
+        const token = localStorage.getItem('token');
+        if (!token || token && token == '') {
+            history.push('/');
             return;
         }
         const user = jwtDecode(localStorage.getItem('token'));
+        if (match.params.username != user.name && match.url != '/dashboard/FAQ' && match.url != '/dashboard/products') {
+            history.push(`/dashboard/${user.name}`);
+        }
+        const verifyToken = await fetchData(`
+            query verifyToken($token: String!) {
+                verifyToken(token: $token)
+            }
+        `, {token});
+        if (verifyToken.verifyToken == 'jwt expired') {
+            localStorage.clear();
+            this.props.history.push('/');
+            return;
+        }
         this.setState({user: jwtDecode(localStorage.getItem("token"))});
         this.setState({user: {...user, nameFirstChar: user.name.charAt(0)}});
         const result = await fetchData(`

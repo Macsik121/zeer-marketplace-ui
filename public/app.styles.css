@@ -23,7 +23,7 @@
     display: flex;
     padding: 15px;
     justify-content: center;
-    border-radius: 5px;
+    border-radius: 3px;
 }
 
 .slider .slick-arrow::before {
@@ -362,8 +362,6 @@ html {
     height: 100%;
 }
 
-/* !important is in use because of bootstrap styles under my */
-
 body {
     font-family: 'Poppins', sans-serif;
     width: 100%;
@@ -543,14 +541,26 @@ fieldset {
     margin-left: 15px;
 }
 
-.home .pop-product {
+.home .slider-wrap .info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.home .slider-wrap .info .date {
+    color: #fe0000;
+    font-weight: 600;
+    font-size: 1.7rem;
+}
+
+.home .slider .pop-product {
     padding: 1rem;
     width: 18vw;
     position: relative;
     z-index: -2;
 }
 
-.home .pop-product .pop-product-blackBG {
+.home .slider .pop-product .pop-product-blackBG {
     position: absolute;
     left: 0;
     top: 0;
@@ -560,8 +570,18 @@ fieldset {
     z-index: -1;
 }
 
-.home .pop-product .cost {
+.home .slider .pop-product .cost {
     margin-top: 20vw;
+    color: #fa0707;
+    font-weight: 500;
+    font-family: Roboto;
+}
+
+.home .slider .pop-product .title {
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-top: 10px;
+    font-family: Roboto;
 }
 
 .home .advantages {
@@ -754,8 +774,12 @@ fieldset {
     color: #fff;
 }
 
-.dashboard .main .lobby {
+.dashboard .main {
+    min-height: 85vh;
     background: #13131A;
+}
+
+.dashboard .main .lobby {
     margin-top: calc(3vw - 1vh);
 }
 
@@ -822,6 +846,8 @@ fieldset {
     color: #fff;
     border: none;
     border-radius: 10px;
+    font-weight: 600;
+    font-size: .9rem;
 }
 
 .dashboard .main .lobby .info .buttons a {
@@ -831,6 +857,8 @@ fieldset {
     color: #fff;
     border: none;
     border-radius: 10px;
+    font-weight: 600;
+    font-size: .85rem;
 }
 
 .dashboard .main .lobby .subscriptions {
@@ -959,7 +987,6 @@ fieldset {
 .dashboard .main .products {
     margin-top: 30px;
     padding-bottom: 60px;
-    background-color: #13131A;
 }
 
 .dashboard .main .products .container {
@@ -1019,7 +1046,6 @@ fieldset {
 
 .dashboard .main .product-info {
     margin-top: 50px;
-    background-color: #13131A;
 }
 
 .dashboard .main .product-info .container:first-of-type {
@@ -1055,6 +1081,8 @@ fieldset {
     display: flex;
     justify-content: space-between;
     margin-top: 30px;
+    background-color: #1C1C24;
+    min-height: auto;
 }
 
 .dashboard .main .product-info .product .title {
@@ -1216,6 +1244,10 @@ fieldset {
     align-items: center;
 }
 
+.dashboard .main .product-info .popular-products .popular-product + .popular-product {
+    margin-top: 50px;
+}
+
 .dashboard .main .product-info .popular-products .popular-product .cover {
     width: 90%;
 }
@@ -1259,7 +1291,8 @@ fieldset {
 
 .dashboard .main .product-info .popular-products .products {
     display: flex;
-    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .dashboard .main .subscriptions .container {
@@ -1273,7 +1306,6 @@ fieldset {
 
 .dashboard .main .FAQ {
     margin-top: 50px;
-    background-color: #13131A;
 }
 
 .dashboard .main .FAQ .search-bar {
@@ -1285,10 +1317,29 @@ fieldset {
     padding-bottom: 60px;
 }
 
+.dashboard .main .FAQ .answer-title {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.dashboard .main .FAQ .answers-arrow {
+    height: 15px;
+    transition: 200ms;
+}
+
 .dashboard .main .FAQ .title {
     font-size: 1.1rem;
     font-weight: 600;
-    cursor: pointer;
+    margin-left: 15px;
+    width: auto;
+}
+
+.dashboard .main .FAQ .answer-title .gray-line {
+    height: 1px;
+    background-color: #292932;
+    margin-left: 15px;
+    width: 100%;
 }
 
 .dashboard .main .FAQ .title:not(.dashboard .main .FAQ .title:first-of-type) {
@@ -1302,7 +1353,10 @@ fieldset {
 
 .dashboard .main .FAQ .answers {
     display: flex;
-    margin-top: 30px;
+    justify-content: space-between;
+    overflow: hidden;
+    flex-wrap: wrap;
+    max-height: 0;
 }
 
 .dashboard .main .FAQ .answers .answer {
@@ -1314,93 +1368,93 @@ fieldset {
     flex-direction: column;
     justify-content: space-between;
     transition: 200ms;
+    flex-basis: 23%;
+    margin: 30px auto 0 auto;
+}
+
+.dashboard .main .FAQ .answers .answer .answer-to-question {
+    color: #92929D;
+    font-size: .9rem;
+    margin-top: 5px;
 }
 
 .dashboard .main .FAQ .answers .answer .answer-title {
     line-height: 27px;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 600;
+    cursor: text;
 }
 
-.dashboard .main .FAQ .answers .answer .answer-content {
-    font-size: .9rem;
-    color: #92929D;
-    line-height: 22px;
-    display: inline-block;
-    margin-top: 10px;
-}
-
-.dashboard .main .FAQ .answers .answer .useful {
+.dashboard .main .FAQ .answers .answer .answer-rate {
     display: flex;
-    flex-direction: column;
-}
-
-.dashboard .main .FAQ .answers .answer .useful .useful-rate {
-    display: flex;
+    justify-content: space-between;
     align-items: center;
-    font-size: .9rem;
     margin-top: 50px;
 }
 
-.dashboard .main .FAQ .answers .answer .useful .useful-rate {
-    display: flex;
-    justify-content: space-between;
+.dashboard .main .FAQ .answers .answer .answer-rate .useful-rate {
+    font-size: .725rem;
+    color: #92929D;
 }
 
-.dashboard .main .FAQ .answers .answer .useful .useful-rate .percent-bar {
+.dashboard .main .FAQ .answers .answer .answer-rate .useful-rate .bar {
+    display: flex;
+    align-items: center;
+}
+
+.dashboard .main .FAQ .answers .answer .answer-rate .bar {
     width: 80%;
     display: flex;
     justify-content: space-between;
 }
 
-.dashboard .main .FAQ .answers .answer .useful .useful-rate .percent-bar div {
+.dashboard .main .FAQ .answers .answer .answer-rate .bar div {
     width: 23%;
     height: 6px;
-    background-color: #50B5FF;
     border-radius: 10px;
 }
 
-.dashboard .main .FAQ .answers .answer .useful .useful-rate .percent-bar div:first-of-type {
+.dashboard .main .FAQ .answers .answer .answer-rate .bar div:first-of-type {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
 
-.dashboard .main .FAQ .answers .answer .useful .useful-rate .percent-bar div:last-of-type {
+.dashboard .main .FAQ .answers .answer .answer-rate .bar div:last-of-type {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 }
 
-.dashboard .main .FAQ .answers .answer .useful .how-useful {
+.dashboard .main .FAQ .answers .people-percent {
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
 }
 
-.dashboard .main .FAQ .answers .answer .useful .how-useful .percent-people {
-    font-size: .725rem;
-    color: #92929D;
+.dashboard .main .FAQ .answers .people-percent .rate-answer {
     width: 40%;
-}
-
-.dashboard .main .FAQ .answers .answer .useful .how-useful .rate-answer {
-    width: 45%;
-    border: 1px solid gray;
-    border-radius: 10px;
+    border: 1px solid #B5B5BE;
+    border-radius: 5px;
     background: transparent;
     color: #fff;
     cursor: pointer;
+    width: 40%;
     transition: 200ms;
-    padding: 5px 0;
 }
 
-.dashboard .main .FAQ .answers .answer .useful .how-useful .rate-answer:hover {
+.dashboard .main .FAQ .answers .people-percent .rate-answer:hover {
     background-color: #fff;
     color: #000;
 }
 
+.dashboard .main .FAQ .answers .people-percent .percent {
+    font-size: .8rem;
+    font-weight: 500;
+    color: #92929D;
+    width: 50%;
+}
+
 .dashboard .main .set-new-avatar {
     margin-top: 5vw;
-    background-color: #13131A;
     padding-bottom: 5vw;
 }
 
@@ -1432,6 +1486,13 @@ fieldset {
 
 .dashboard .main .set-new-avatar .changeavatar .confirm {
     margin-top: 5vw;
+}
+
+@media (max-width: 1050px) {
+    .dashboard .main .FAQ .answers .answer {
+        flex-basis: 30%;
+        width: 30%;
+    }
 }
 
 @media (max-width: 1000px) {
@@ -1473,7 +1534,7 @@ fieldset {
         height: 500px;
         width: 50%;
         margin: 3vw auto 0 auto;
-    } 
+    }
 }
 
 @media (max-width: 900px) {
@@ -1483,6 +1544,16 @@ fieldset {
     .dashboard .main .lobby .video .watch {
         width: 35%;
         height: 35%;
+    }
+    .dashboard .main .FAQ .answers .answer {
+        flex-basis: 45%;
+        width: 40%;
+    }
+    .dashboard .main .FAQ .answers .answer .answer-title {
+        font-size: 1.1rem;
+    }
+    .dashboard .main .FAQ .answers .answer .answer-to-question {
+        font-size: .8rem;
     }
 }
 
@@ -1500,6 +1571,18 @@ fieldset {
 @media (max-width: 570px) {
     .dashboard .main .lobby .info .user .general .avatar {
         padding: .1vw 12px;
+    }
+}
+
+@media (max-width: 500px) {
+    .dashboard .main .FAQ .answers .answer {
+        flex-basis: 90%;
+    }
+    .dashboard .main .FAQ .answers .people-percent {
+        align-items: center;
+    }
+    .dashboard .main .FAQ .answers .people-percent .rate-answer {
+        padding: 15px 0;
     }
 }
 

@@ -151,9 +151,24 @@ export default class Home extends React.Component {
                         </div>
                     </nav>
                 </div>
-                <div>
+                <div className="slider-wrap">
                     <div className="container">
-                        <h3 className="popular-products">Популярные продукты</h3>
+                        <div className="info">
+                            <h3 className="popular-products">Популярные продукты</h3>
+                            <span className="date">
+                                {
+                                    `${
+                                        new Date().getMonth() + 1 < 10
+                                            ? `0${new Date().getMonth() + 1}`
+                                            : new Date().getMonth() + 1
+                                    }/${
+                                        new Date().getDate() < 10
+                                            ? `0${new Date().getDate()}`
+                                            : new Date().getDate()
+                                    }`
+                                }
+                            </span>
+                        </div>
                         <SlickSlider className="slider" {...sliderSettings}>
                             {popProducts}
                             {popProducts[1]}

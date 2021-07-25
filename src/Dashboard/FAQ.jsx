@@ -6,162 +6,240 @@ export default class FAQ extends React.Component {
         super();
         this.state = {
             answers: [],
-            showAnswer: false
+            answersCopy: [],
+            searchValue: '',
+            categoriesToSearch: [],
+            currentCategory: 'Все категории'
         };
-        this.hiddenAnswersGroup = this.hiddenAnswersGroup.bind(this);
+        this.renderAnswers = this.renderAnswers.bind(this);
+        this.addElement = this.addElement.bind(this);
+        this.handleChangeCategory = this.handleChangeCategory.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
+        this.filterAnswers = this.filterAnswers.bind(this);
+    }
+    componentDidUpdate(_, prevState) {
+        const { currentCategory, answersCopy, searchValue } = this.state; 
+        const answers = this.state.answersCopy.slice();
+        if (prevState.currentCategory != currentCategory) {
+            for (let i = 0; i < answers.length; i++) {
+                if (currentCategory == 'Все категории') {
+                    this.setState({answers: answersCopy}, () => this.filterAnswers(searchValue));
+                    break;
+                }
+                if (answers[i].sort == currentCategory) {
+                    this.setState({ answers: [ { ...answers[i] } ] }, () => this.filterAnswers(searchValue));
+                }
+            }
+        }
     }
     async componentDidMount() {
         const query = `
             query {
                 getAnswers {
-                    answer
-                    usefulRate
-                    sort {
-                        config
-                        base
-                        paymentActivation
+                    sort
+                    answers {
+                        title
+                        answer
+                        rateCount
+                        usefulRate
                     }
-                    title
                 }
             }
         `;
         const result = await fetchData(query);
         this.setState({answers: result.getAnswers});
+        let modifiedStateAnswers = this.state.answers;
+        modifiedStateAnswers = modifiedStateAnswers.map(answer => {
+            answer.isShown = false;
+            return answer;
+        });
+        this.setState({answers: modifiedStateAnswers, answersCopy: modifiedStateAnswers});
+        const categoriesToSearch = ['Все категории'];
+        this.state.answers.map(answer => categoriesToSearch.push(answer.sort));
+        this.setState({categoriesToSearch});
     }
-    hiddenAnswersGroup() {
-        this.setState({showAnswer: !this.state.showAnswer});
+    filterAnswers(search) {
+        const { answers, answersCopy, currentCategory } = this.state;
+        this.setState({searchValue: search});
+
+        let answersToRender = [];
+
+        answers.map(answer => {
+            let answerToRender = {...answer};
+            answerToRender.answers = [];
+            answer.answers.filter(filteredAnswer => {
+                if (filteredAnswer.title.toLowerCase().includes(search.toLowerCase().trim())) {
+                    answerToRender.answers.push(filteredAnswer);
+                } else if (filteredAnswer.answer.toLowerCase().includes(search.toLowerCase().trim())) {
+                    answerToRender.answers.push(filteredAnswer);
+                }    
+            });
+            if (answerToRender.answers.length > 0) answersToRender.push(answerToRender);
+        });
+
+        if (search.length < 1) {
+            answersToRender = [];
+            for (let i = 0; i < answersCopy.length; i++) {
+                if (currentCategory == 'Все категории') {
+                    answersToRender.push(answersCopy[i]);
+                } else if (currentCategory == answersCopy[i].sort) {
+                    answersToRender.push(answersCopy[i]);
+                }
+            }
+            this.setState({ answers: answersToRender });
+        } else if (answersToRender.length < 1) {
+            this.setState({answers: answersCopy});
+        } else {
+            this.setState({answers: answersToRender});
+        }
     }
-    render() {
-        const { answers, showAnswer } = this.state;
-        function addElement(answer) {
-            return (
-                <div key={answer.title} className="answer">
-                    <h4 className="answer-title">{answer.title}?</h4>
-                    <span className="answer-content">
-                        {answer.answer}
-                    </span>
-                    <div className="useful">
-                        <div className="useful-rate">
-                            <div className="percent-bar">
+    addElement(answers) {
+        const renderedAnswers = answers.answers.map(
+            answer => {
+                return (
+                    <div key={answer.title} className="answer">
+                        <h4 className="answer-title">
+                            {answer.title}?
+                        </h4>
+                        <div className="answer-to-question">
+                            {answer.answer}
+                        </div>
+                        <div className="answer-rate">
+                            <div className="bar">
                                 <div
                                     className="25-percents"
                                     style={
-                                        answer.usefulRate < 25
-                                        ? {backgroundColor: '#fff'}
-                                        : {backgroundColor: '#50B5FF'}
+                                        answer.usefulRate >= 25
+                                            ? {backgroundColor: '#50B5FF'}
+                                            : {backgroundColor: '#fff'}
                                     }
                                 />
                                 <div
                                     className="50-percents"
                                     style={
-                                        answer.usefulRate < 50
-                                        ? {backgroundColor: '#fff'}
-                                        : {backgroundColor: '#50B5FF'}
+                                        answer.usefulRate >= 50
+                                            ? {backgroundColor: '#50B5FF'}
+                                            : {backgroundColor: '#fff'}
                                     }
                                 />
                                 <div
                                     className="75-percents"
                                     style={
-                                        answer.usefulRate < 75
-                                        ? {backgroundColor: '#fff'}
-                                        : {backgroundColor: '#50B5FF'}
+                                        answer.usefulRate >= 75
+                                            ? {backgroundColor: '#50B5FF'}
+                                            : {backgroundColor: '#fff'}
                                     }
                                 />
                                 <div
                                     className="100-percents"
                                     style={
-                                        answer.usefulRate < 100
-                                        ? {backgroundColor: '#fff'}
-                                        : {backgroundColor: '#50B5FF'}
+                                        answer.usefulRate >= 100
+                                            ? {backgroundColor: '#50B5FF'}
+                                            : {backgroundColor: '#fff'}
                                     }
                                 />
                             </div>
-                            <label className="rate">{answer.usefulRate}%</label>
-                        </div>
-                        <div className="how-useful">
-                            <span className="percent-people">
+                            <span className="useful-rate">
                                 {answer.usefulRate}%
-                                считают этот ответ полезным
+                            </span>
+                        </div>
+                        <div className="people-percent">
+                            <span className="percent">
+                                {answer.usefulRate}% считают ответ полезным
                             </span>
                             <button className="rate-answer">Полезно</button>
                         </div>
                     </div>
-                </div>
-            )
-        }
-        const answersBase = [];
-        const answersPaymentActivation = [];
-        const answersConfig = [];
-        for (let i = 0; i < answers.length; i++) {
-            if (answers[i].sort.base) {
-                answersBase.push(
-                    addElement(answers[i])
-                );
-            }
-            if (answers[i].sort.paymentActivation) {
-                answersPaymentActivation.push(
-                    addElement(answers[i])
                 )
             }
-            else if (answers[i].sort.config) {
-                answersConfig.push(
-                    addElement(answers[i])
-                );
+        );
+        return renderedAnswers;
+    }
+    renderAnswers() {
+        const answers = this.state.answers.map(
+            (answer, i) => {
+                const answers = this.addElement(answer);
+                let answersHeight = 350;
+                for(let i = 0; i < answer.answers.length; i++) {
+                    if (i % 4 == 0) {
+                        answersHeight += 350;
+                    }
+                }
+                return (
+                    <div key={i} className="answers-wrap">
+                        <div
+                            className="answer-title"
+                            onClick={() => {
+                                const hiddenAnswers = (
+                                    this.state.answers.map(hiddenAnswer => {
+                                        if (hiddenAnswer.sort == answer.sort) {
+                                            hiddenAnswer.isShown = !hiddenAnswer.isShown
+                                        }
+                                        return hiddenAnswer;
+                                    })
+                                );
+                                this.setState({answers: hiddenAnswers});
+                            }}
+                        >
+                            <img
+                                style={
+                                    answer.isShown
+                                        ? {transform: 'rotate(90deg)'}
+                                        : {transform: 'rotate(0deg)'}
+                                }
+                                className="answers-arrow"
+                                src="/images/Rectangle.png"
+                            />
+                            <h3
+                                className="title"
+                            >
+                                {answer.sort}&nbsp;
+                                <span className="number">
+                                    ({answer.answers.length})
+                                </span>
+                            </h3>
+                            <div className="gray-line"></div>
+                        </div>
+                        <div
+                            className="answers"
+                            style={
+                                answer.isShown
+                                    ? { maxHeight: `${answersHeight}px`, transition: '500ms' }
+                                    : { maxHeight: 0, transition: '250ms' }
+                            }
+                        >
+                            {answers}
+                        </div>
+                    </div>
+                )
             }
-        }
+        );
+        return (
+            <>
+                {answers}
+            </>
+        )
+    }
+    handleChangeCategory(e) {
+        this.setState({currentCategory: e.target.value });
+    }
+    handleSearch(e) {
+        this.filterAnswers(e.target.value);
+    }
+    render() {
+        const { searchValue, categoriesToSearch } = this.state;
         return (
             <div className="FAQ">
                 <div className="container">
                     <h2>Ответы на вопросы</h2>
                     <div className="search-bar">
-                        <input className="search" />
+                        <select onChange={this.handleChangeCategory} name="categories">
+                            {categoriesToSearch.map(category => <option key={category}>{category}</option>)}
+                        </select>
+                        <input placeholder="Ваш вопрос..." className="search" value={searchValue} onChange={this.handleSearch} />
                     </div>
-                    <div
-                        className="answers-wrap"
-                    >
-                        <h3
-                            className="base-title title"
-                            onClick={this.hiddenAnswersGroup}
-                        >
-                            Базовые&nbsp;
-                            <span className="number">
-                                ({answersBase.length})
-                            </span>
-                        </h3>
-                        <div
-                            style={answersBase.length < 4
-                                ? {justifyContent: 'space-around'}
-                                : {justifyContent: 'space-between'}
-                            }
-                            // style={
-                            //     showAnswer
-                            //     ? {transform: 'scale(0)'}
-                            //     : {transform: 'scale(1)'}
-                            // }
-                            className="base answers"
-                        >
-                            {answersBase}
-                        </div>
-                        <h3 className="payment-title title">Оплата и активация <span className="number">({answersPaymentActivation.length})</span></h3>
-                        <div
-                            style={answersPaymentActivation.length < 4
-                                ? {justifyContent: 'space-around'}
-                                : {justifyContent: 'space-between'}
-                            }
-                            className="paymentActivation answers"
-                        >
-                            {answersPaymentActivation}
-                        </div>
-                        <h3 className="config-title title">Конфиги <span className="number">({answersPaymentActivation.length})</span></h3>
-                        <div
-                            style={answersConfig.length < 4
-                                ? {justifyContent: 'space-around'}
-                                : {justifyContent: 'sapce-between'}
-                            }
-                            className="config answers"
-                        >
-                            {answersConfig}
-                        </div>
+                    <div className="answers-wrap">
+                        {this.renderAnswers()}
                     </div>
                 </div>
             </div>

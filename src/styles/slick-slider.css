@@ -16,7 +16,7 @@
     display: flex;
     padding: 15px;
     justify-content: center;
-    border-radius: 5px;
+    border-radius: 3px;
 }
 
 .slider .slick-arrow::before {

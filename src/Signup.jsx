@@ -60,6 +60,16 @@ class Signup extends React.Component {
             }
         }
 
+        if (name.toLowerCase() == 'faq') {
+            this.showError('Ваше имя не должно быть FAQ')
+            return;
+        }
+
+        if (name.toLowerCase() == 'products') {
+            this.showError('Ваше имя не должно быть products');
+            return;
+        }
+
         if (email == '') {
             this.showError('Напишите свою почту, чтобы зарегестрироваться');
             return;

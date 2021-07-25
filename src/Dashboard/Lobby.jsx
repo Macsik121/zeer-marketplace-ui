@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import SlickSlider from 'react-slick';
-import jwtDecode from 'jwt-decode';
 import fetchData from '../fetchData.js';
 import { fetchPopularProducts } from '../PopularProducts.jsx';
 
@@ -57,6 +56,8 @@ export default class Lobby extends React.Component {
             speed: 500,
             slidesToShow: 3,
             adaptiveHeight: true,
+            autoplay: true,
+            autoplaySpeed: 7500,
             responsive: [
                 {
                     breakpoint: 720,
