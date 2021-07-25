@@ -430,11 +430,9 @@ fieldset {
     box-shadow: 0px 0px 50px -5px #000000;
     cursor: pointer;
     z-index: 1;
-    font-size: 16px;
 }
 
 .dashboard .nav .user-menu .dropdown {
-    transition: 200ms;
     overflow: hidden;
 }
 
@@ -1264,8 +1262,9 @@ fieldset {
     }
     .dashboard .nav .user-menu .dropdown {
         width: 250%;
-        left: -135%;
+        left: -132%;
         top: 100%;
+        font-size: 1rem;
     }
 }
 

@@ -168,8 +168,8 @@
     justify-content: space-between;
 }
 
-@media (max-width: 1000px) {
-    .auth-form .form {
-        width: 100%;
+@media (max-width: 800px) {
+    .auth-form  .signin-form {
+        width: 70vw;
     }
 }

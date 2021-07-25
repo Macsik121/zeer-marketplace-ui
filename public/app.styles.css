@@ -307,9 +307,9 @@
     justify-content: space-between;
 }
 
-@media (max-width: 1000px) {
-    .auth-form .form {
-        width: 100%;
+@media (max-width: 800px) {
+    .auth-form  .signin-form {
+        width: 70vw;
     }
 }
 
@@ -773,11 +773,9 @@ fieldset {
     box-shadow: 0px 0px 50px -5px #000000;
     cursor: pointer;
     z-index: 1;
-    font-size: 16px;
 }
 
 .dashboard .nav .user-menu .dropdown {
-    transition: 200ms;
     overflow: hidden;
 }
 
@@ -1556,6 +1554,10 @@ fieldset {
     .home .nav .gray-line {
         height: 0;
     }
+    .home .footer {
+        display: flex;
+        flex-direction: column-reverse;
+    }
     .dashboard .nav .container {
         flex-direction: row-reverse;
     }
@@ -1603,8 +1605,9 @@ fieldset {
     }
     .dashboard .nav .user-menu .dropdown {
         width: 250%;
-        left: -135%;
+        left: -132%;
         top: 100%;
+        font-size: 1rem;
     }
 }
 
