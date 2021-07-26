@@ -15,8 +15,10 @@ export default class ProductInfo extends React.Component {
         };
         this.loadProduct = this.loadProduct.bind(this);
         this.loadPopProducts = this.loadPopProducts.bind(this);
+        this.showAllChanges = this.showAllChanges.bind(this);
+        this.renderChanges = this.renderChanges.bind(this);
     }
-    async componentDidUpdate(prevProps) {
+    async componentDidUpdate(prevProps, prevState) {
         if (prevProps.match.params.title != this.props.match.params.title) {
             await this.loadProduct();
             await this.loadPopProducts();
@@ -60,18 +62,6 @@ export default class ProductInfo extends React.Component {
         const { getProduct } = resultProduct;
 
         let changes = getProduct.changes;
-        changes = changes.map(change => (
-            <div key={change.version} className="change">
-                <div className="general">
-                    <span className="version">{change.version} версия</span>
-                    <span className="created">{new Date(change.created).toLocaleDateString()}</span>
-                </div>
-                <div className="description">
-                    {change.description}. {' '}
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa error iure quis aspernatur, recusandae odio quasi nemo porro qui cum, rerum eaque ullam omnis eum obcaecati sit nostrum. Nisi, consequuntur.
-                </div>
-            </div>
-        ));
 
         this.setState({
             popularProducts: await fetchPopularProducts(),
@@ -141,8 +131,45 @@ export default class ProductInfo extends React.Component {
 
         this.setState({popularProducts});
     }
+    showAllChanges() {
+        this.setState({showAllChanges: !this.state.showAllChanges});
+    }
+    renderChanges() {
+        const changes = this.state.changes.map((change, i) => {
+            if (!this.state.showAllChanges && i < 3) {
+                return (
+                    <div key={change.version} className="change">
+                        <div className="general">
+                            <span className="version">{change.version} версия</span>
+                            <span className="created">{new Date(change.created).toLocaleDateString()}</span>
+                        </div>
+                        <div className="description">
+                            {change.description}. {' '}
+                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa error iure quis aspernatur, recusandae odio quasi nemo porro qui cum, rerum eaque ullam omnis eum obcaecati sit nostrum. Nisi, consequuntur.
+                        </div>
+                    </div>
+                )
+            } else if (this.state.showAllChanges) {
+                return (
+                    <div key={change.version} className="change">
+                        <div className="general">
+                            <span className="version">{change.version} версия</span>
+                            <span className="created">{new Date(change.created).toLocaleDateString()}</span>
+                        </div>
+                        <div className="description">
+                            {change.description}. {' '}
+                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa error iure quis aspernatur, recusandae odio quasi nemo porro qui cum, rerum eaque ullam omnis eum obcaecati sit nostrum. Nisi, consequuntur.
+                        </div>
+                    </div>
+                )
+            }
+        });
+        return changes;
+    }
     render() {
-        const { product, choosenDropdown, changes } = this.state;
+        const { product, choosenDropdown } = this.state;
+        const info = [];
+        const changes = this.renderChanges();
         const popularProducts = this.state.popularProducts.map(popProduct => {
             if (popProduct.key) return popProduct;
         });
@@ -157,7 +184,6 @@ export default class ProductInfo extends React.Component {
                 let mins = new Date().getMinutes() - productWorkingTime.getMinutes();
                 mins = 31;
                 const minsLastNumber = Number(mins.toString()[mins.toString().length - 1]);
-                console.log(minsLastNumber);
                 if (mins < 20 && mins > 4) {
                     createdDate = `${mins} минут`;
                 } else if (minsLastNumber == 1) {
@@ -241,17 +267,23 @@ export default class ProductInfo extends React.Component {
                                 <img className="ellipse" src="/images/Ellipse 1.png" />
                             </button>
                             <span className="last-update">
-                                {createdDate
-                                    ? `Обновлён ${createdDate} назад`
-                                    : 'Ни разу не обновлялся'
-                                }
+                                <span className="createdDate">
+                                    {createdDate
+                                        ? `Обновлён ${createdDate} назад`
+                                        : 'Ни разу не обновлялся'
+                                    }
+                                </span>
+                                {' * '}
+                                <span className="current-version">
+                                    {this.state.changes[0] &&
+                                        this.state.changes[0].version
+                                    } версия
+                                </span>
                             </span>
                         </div>
                     </div>
                     <div className="info">
-                        <div className="item">
 
-                        </div>
                     </div>
                     <div className="general">
                         <div className="description">
@@ -377,6 +409,23 @@ export default class ProductInfo extends React.Component {
                                 {changes.length > 0 &&
                                     <div className="changes">
                                         {changes}
+                                        <div className="show-all">
+                                            <button onClick={this.showAllChanges} className="show-more">
+                                                {
+                                                    this.state.showAllChanges
+                                                        ? 'Спрятать'
+                                                        : 'Показать ещё'
+                                                }
+                                            </button>
+                                            <span className="how-many-shown">
+                                                Показано последние
+                                                {this.state.showAllChanges
+                                                    ? ` ${changes.length} `
+                                                    : ' 3 '
+                                                }
+                                                обновлений из {changes.length}
+                                            </span>
+                                        </div>
                                     </div>
                                 }
                             </div>

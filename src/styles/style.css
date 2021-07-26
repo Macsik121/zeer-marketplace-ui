@@ -401,10 +401,14 @@ fieldset {
     flex-direction: column;
 }
 
+.dashboard .nav .three-dots .open-menu.active .menu-line {
+    transition: 200ms;
+}
+
 .dashboard .nav .three-dots .menu-line {
     width: 30px;
     padding: 1px;
-    background: gray;
+    border-radius: 30px;
 }
 
 .dashboard .nav .three-dots .menu-line + .menu-line {
@@ -416,6 +420,8 @@ fieldset {
     top: 100%;
     left: 0;
     flex-wrap: wrap;
+    display: flex;
+    overflow: hidden;
 }
 
 .dashboard .nav .three-dots .menu-dropdown .link-item {
@@ -872,6 +878,7 @@ fieldset {
 .dashboard .main .product-info .product .main .actions {
     display: flex;
     flex-direction: column;
+    align-items: flex-end;
 }
 
 .dashboard .main .product-info .product .main .actions .undetect {
@@ -884,6 +891,7 @@ fieldset {
     cursor: pointer;
     display: flex;
     align-items: center;
+    width: 160px;
 }
 
 .dashboard .main .product-info .product .main .actions .undetect .ellipse {
@@ -893,6 +901,11 @@ fieldset {
 
 .dashboard .main .product-info .product .main .actions .last-update {
     margin: 15px auto 0 auto;
+}
+
+.dashboard .main .product-info .product .main .actions .last-update .createdDate {
+    color: #92929D;
+    font-size: .9rem;
 }
 
 .dashboard .main .product-info .product .general .description h4 {
@@ -907,11 +920,11 @@ fieldset {
 
 .dashboard .main .product-info .product .general .characteristics h4 {
     font-size: 1.2rem;
-    margin-top: 150px;
+    margin-top: 100px;
 }
 
 .dashboard .main .product-info .product .general .characteristics ul {
-    margin-top: 60px;
+    margin-top: 30px;
     padding-bottom: 30px;
 }
 
@@ -1011,6 +1024,35 @@ fieldset {
 
 .dashboard .main .product-info .info .changes .change:last-child .description {
     border: none;
+}
+
+.dashboard .main .product-info .info .changes .show-all {
+    padding: 0 30px 40px;
+    margin-top: 30px;
+}
+
+.dashboard .main .product-info .info .changes .show-all .show-more {
+    padding: 10px 0;
+    width: 20%;
+    border-radius: 10px;
+    border: 1px solid #292932;
+    background: transparent;
+    color: #FAFAFB;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: .9rem;
+    transition: 200ms;
+}
+
+.dashboard .main .product-info .info .changes .show-all .show-more:hover {
+    background-color: #FAFAFB;
+    color: #000;
+}
+
+.dashboard .main .product-info .info .changes .show-all .how-many-shown {
+    margin-left: 30px;
+    color: #B5B5BE;
+    font-size: .9rem;
 }
 
 .dashboard .main .product-info .popular-products {
@@ -1469,6 +1511,19 @@ fieldset {
     }
 }
 
+@media (max-width: 550px) {
+    .dashboard .main .product-info .product .general .characteristics ul .wrap {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .dashboard .main .product-info .product .general .characteristics ul .characteristic span {
+        width: 100%;
+    }
+    .dashboard .main .product-info .product .general .characteristics ul .characteristic .value {
+        margin-top: 15px;
+    }
+}
+
 @media (max-width: 500px) {
     .home .advantages .advantage {
         flex-basis: 90%;
@@ -1594,5 +1649,11 @@ fieldset {
     }
     .dashboard .nav .links .icon {
         margin: 0;
+    }
+    .dashboard .nav .three-dots .menu-dropdown .link-item .icon {
+        width: 30px;
+    }
+    .dashboard .nav .three-dots .menu-dropdown .link-item span {
+        margin-top: 15px;
     }
 }

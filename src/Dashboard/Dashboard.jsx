@@ -129,7 +129,7 @@ class NavBar extends React.Component {
         ]
         this.setState({navLinks, deviceWidth: window.innerWidth});
     }
-    toggleMenuDropdown() {
+    toggleMenuDropdown(e) {
         this.setState({menuDropdownShown: !this.state.menuDropdownShown});
     }
     hiddenMenuDropdown() {
@@ -199,20 +199,34 @@ class NavBar extends React.Component {
                         <div
                             className="open-menu"
                             onClick={
-                                function() {
+                                function(e) {
                                     this.hiddenUserDropdown();
-                                    this.toggleMenuDropdown();
+                                    this.toggleMenuDropdown(e);
                                 }.bind(this)
                             }
                         >
-                            <div className="line-1 menu-line"></div>
-                            <div className="line-2 menu-line"></div>
+                            <div
+                                className="line-1 menu-line"
+                                style={
+                                    menuDropdownShown
+                                        ? {backgroundColor: '#1E75FF'}
+                                        : {backgroundColor: '#92929D'}
+                                }
+                            />
+                            <div
+                                className="line-2 menu-line"
+                                style={
+                                    menuDropdownShown
+                                        ? {backgroundColor: '#1E75FF'}
+                                        : {backgroundColor: '#92929D'}
+                                }
+                            />
                         </div>
                         <div
                             style={
                                 menuDropdownShown
-                                    ? {display: 'flex'}
-                                    : {display: 'none'}
+                                    ? {maxHeight: '550px', transition: '350ms'}
+                                    : {maxHeight: 0, transition: '200ms'}
                             }
                             className="menu-dropdown"
                         >
@@ -295,9 +309,16 @@ class NavBar extends React.Component {
                             <div onClick={this.logout} className="item">Выйти</div>
                         </div>
                     </div>
-                    <ul className="links" onClick={this.hiddenDropdown}>
+                    <ul className="links">
                         {navMenu}
-                        <Link to={`/dashboard/${user.name}`}>
+                        <Link
+                            onClick={
+                                function(e) {
+                                    this.hiddenMenuDropdown();
+                                    this.hiddenUserDropdown();
+                                }.bind(this)
+                            } to={`/dashboard/${user.name}`}
+                        >
                             <img className="logo" src="/images/zeer-logo.png" />
                         </Link>
                     </ul>
