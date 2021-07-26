@@ -362,6 +362,8 @@ fieldset {
     display: flex;
     align-items: center;
     flex-direction: row-reverse;
+    width: 100%;
+    justify-content: flex-end;
 }
 
 .dashboard .nav .links .links-wrap {
@@ -462,9 +464,6 @@ fieldset {
 .dashboard .main {
     min-height: 85vh;
     background: #13131A;
-}
-
-.dashboard .main .lobby {
     margin-top: calc(3vw - 1vh);
 }
 
@@ -476,7 +475,7 @@ fieldset {
 .dashboard .main .lobby .general-info {
     display: flex;
     justify-content: space-between;
-    margin-top: calc(3vw - 1vh);
+    margin-top: 20px;
 }
 
 .dashboard .main .lobby .info {
@@ -666,16 +665,13 @@ fieldset {
     position: relative;
 }
 
-.dashboard .main .lobby .popular-products {
-    margin-top: calc(3vw - 1vh);
-}
-
 .dashboard .main .lobby .dashboard-slider {
     margin-top: 30px;
 }
 
 .dashboard .main .lobby .popular-products {
     text-align: center;
+    margin-top: 60px;
 }
 
 .dashboard .main .lobby .popular-products-slides {
@@ -986,7 +982,7 @@ fieldset {
 }
 
 .dashboard .main .product-info .popular-products .popular-product {
-    width: 90%;
+    width: 85%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1050,10 +1046,6 @@ fieldset {
 
 .dashboard .main .subscriptions .all-subscriptions {
     width: 100%;
-}
-
-.dashboard .main .FAQ {
-    margin-top: 50px;
 }
 
 .dashboard .main .FAQ .search-bar {
@@ -1287,11 +1279,8 @@ fieldset {
     }
     .dashboard .nav .links {
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: space-around;
         padding-left: 20px;
-    }
-    .dashboard .nav .links .links-wrap {
-        width: 1%;
     }
     .dashboard .nav .user-menu {
         border: none;
@@ -1390,7 +1379,10 @@ fieldset {
 
 @media (max-width: 800px) {
     .home .advantages .advantage {
-        flex-basis: 45%;
+        flex-basis: 50%;
+    }
+    .dashboard .main .product-info .popular-products .popular-product {
+        width: 100%;
     }
 }
 
@@ -1408,7 +1400,7 @@ fieldset {
 
 @media (max-width: 680px) {
     .dashboard .main .product-info .popular-products .products {
-        width: 75%;
+        width: 85%;
     }
 }
 
@@ -1456,7 +1448,7 @@ fieldset {
         height: 60vw;
     }
     .dashboard .main .product-info .popular-products .products {
-        width: 90%;
+        width: 100%;
     }
 }
 

@@ -54,14 +54,14 @@ class NavBar extends React.Component {
                             style={
                                 isDropdownShown
                                     ? {
-                                        background: user.avatar,
+                                        background: `${user.avatar}`,
                                         border: '2px solid gray',
-                                        padding: '0 20px'
+                                        padding: '20px'
                                     }
                                     : {
-                                        background: user.avatar,
+                                        background: `${user.avatar}`,
                                         border: 'none',
-                                        padding: '0 22px'
+                                        padding: '22px'
                                     }
                             }
                             className="avatar"
@@ -86,22 +86,22 @@ class NavBar extends React.Component {
                                     : {maxHeight: 0, transition: '200ms'}
                             }
                         >
-                            <Link onClick={this.toggleDropdown} to={`/dashboard/${user.name}/changeavatar`}>
+                            <Link onClick={toggleDropdown} to={`/dashboard/${user.name}/changeavatar`}>
                                 <div className="item">
                                     Установить новый аватар
                                 </div>
                             </Link>
-                            <Link onClick={this.toggleDropdown} to={`/dashboard/${user.name}`}>
+                            <Link onClick={toggleDropdown} to={`/dashboard/${user.name}`}>
                                 <div className="item">
                                     Сменить пароль
                                 </div>
                             </Link>
-                            <Link onClick={this.toggleDropdown} to={`/dashboard/${user.name}`}>
+                            <Link onClick={toggleDropdown} to={`/dashboard/${user.name}`}>
                                 <div className="item">
                                     Сбросить привязку
                                 </div>
                             </Link>
-                            <Link onClick={this.toggleDropdown} to={`/dashboard/${user.name}`}>
+                            <Link onClick={toggleDropdown} to={`/dashboard/${user.name}`}>
                                 <div className="item">
                                     Админ-панель
                                 </div>
@@ -202,9 +202,6 @@ class Dashboard extends React.Component {
             }.bind(this);
         } else {
             window.onkeydown = function() {}
-        }
-        window.onkeydown = function(e) {
-            console.log(e.keyCode);
         }
     }
     async componentDidMount() {
