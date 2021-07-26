@@ -403,7 +403,6 @@ fieldset {
 .home .nav {
     height: 40vw;
     width: 100%;
-    position: relative;
     z-index: 2;
 }
 
@@ -704,6 +703,7 @@ fieldset {
     display: flex;
     justify-content: space-between;
     flex-direction: row-reverse;
+    position: relative;
 }
 
 .dashboard .nav .links {
@@ -716,7 +716,6 @@ fieldset {
 
 .dashboard .nav .links .links-wrap {
     display: flex;
-    flex-direction: row-reverse;
     height: 100%;
 }
 
@@ -734,13 +733,47 @@ fieldset {
     border-bottom: 3px solid transparent;
 }
 
-.dashboard .nav .links a:not(.dashboard .nav .links a:first-of-type) {
+.dashboard .nav .links a + a {
     margin-left: 1.5vw;
 }
 
 .dashboard .nav .links a.active {
     color: #1E75FF;
     border-bottom: 3px solid #1E75FF;
+}
+
+.dashboard .nav .three-dots {
+    cursor: pointer;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard .nav .three-dots .menu-line {
+    width: 30px;
+    padding: 1px;
+    background: gray;
+}
+
+.dashboard .nav .three-dots .menu-line + .menu-line {
+    margin-top: 10px;
+}
+
+.dashboard .nav .three-dots .menu-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    flex-wrap: wrap;
+}
+
+.dashboard .nav .three-dots .menu-dropdown .link-item {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #292932;
+    background-color: #1C1C24;
+    margin: 0;
+    flex-basis: 50%;
+    padding: 50px;
 }
 
 .dashboard .nav .user-menu {
@@ -779,7 +812,7 @@ fieldset {
 
 .dashboard .nav .user-menu .dropdown {
     position: absolute;
-    top: calc(100% + 3px);
+    top: 100%;
     left: 0;
     width: 100%;
     -webkit-box-shadow: 0px 0px 50px -5px #000000; 
@@ -794,13 +827,19 @@ fieldset {
 
 .dashboard .nav .user-menu .dropdown .item {
     width: 100%;
-    font-size: .9rem;
+    font-size: .8rem;
     background: #1C1C24;
-    padding: 10px 0 10px 10px;
+    padding: 15px;
+    border: 1px solid #292932;
+    border-bottom: 0;
+}
+
+.dashboard .nav .user-menu .dropdown .item:last-of-type {
+    border-bottom: 1px solid #292932;
 }
 
 .dashboard .nav .user-menu .dropdown a {
-    color: rgba(255, 255, 255, .8);
+    color: rgba(255, 255, 255, .6);
     text-decoration: none;
     transition: 100ms;
 }
@@ -849,7 +888,7 @@ fieldset {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 3px solid gray;
+    border: 3px solid #44444F;
     border-radius: 50%;
     padding: 20px;
     position: relative;
@@ -1670,9 +1709,10 @@ fieldset {
         height: 30vw;
     }
     .dashboard .nav .user-menu .dropdown {
-        width: 250%;
-        left: -132.5%;
+        left: -133%;
         top: 100%;
+        width: 250%;
+        box-shadow: none;
     }
     .dashboard .main .lobby .video .watch {
         width: 175px;
@@ -1766,7 +1806,7 @@ fieldset {
 
 @media (max-width: 600px) {
     .dashboard .nav .user-menu .dropdown .item {
-        font-size: 17px;
+        font-size: 16px;
     }
     .dashboard .main .products .product {
         flex-basis: 70%;
@@ -1779,6 +1819,12 @@ fieldset {
 @media (max-width: 500px) {
     .home .advantages .advantage {
         flex-basis: 90%;
+    }
+    .dashboard .nav {
+        position: relative;
+    }
+    .dashboard .nav .user-menu {
+        position: static;
     }
     .dashboard .main .FAQ .answers .answer {
         flex-basis: 90%;
@@ -1798,6 +1844,11 @@ fieldset {
     .dashboard .main .product-info .popular-products .products {
         width: 100%;
     }
+    .dashboard .nav .user-menu .dropdown {
+        width: 100%;
+        left: 0;
+        top: 100%;
+    }   
 }
 
 @media (max-width: 400px) {
@@ -1887,6 +1938,9 @@ fieldset {
     .dashboard .footer .contacts {
         flex-direction: column;
         margin-top: 20px;
+    }
+    .dashboard .nav .links .icon {
+        margin: 0;
     }
 }
 
