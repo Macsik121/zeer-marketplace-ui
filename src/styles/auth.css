@@ -48,6 +48,7 @@
     display: flex;
     flex-direction: column;
     width: 30vw;
+    min-width: 100%;
 }
 
 .auth-form .error {
@@ -56,9 +57,10 @@
     justify-content: center;
     font-size: .7rem;
     transition: 100ms;
-    width: 100%;
+    max-width: 100%;
     text-align: center;
     font-size: .9rem;
+    margin-top: 10px;
 }
 
 .auth-form .form label {
@@ -171,5 +173,8 @@
 @media (max-width: 800px) {
     .auth-form  .signin-form {
         width: 70vw;
+    }
+    .auth-form .signin-form fieldset {
+        width: 100%;
     }
 }

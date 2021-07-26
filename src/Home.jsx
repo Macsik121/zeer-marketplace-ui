@@ -117,7 +117,7 @@ export default class Home extends React.Component {
             <div className="home">
                 <div className="header">
                     <nav className="nav">
-                        <div className="black"></div>
+                        {/* <div className="black"></div> */}
                         <div className="nav-BG"></div>
                         <div className="container">
                             <div className="container">

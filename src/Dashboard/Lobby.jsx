@@ -8,7 +8,8 @@ export default class Lobby extends React.Component {
     constructor() {
         super();
         this.state = {
-            popularProducts: []
+            popularProducts: [],
+            deviceWidth: 801
         };
     }
     async componentDidMount() {
@@ -47,10 +48,10 @@ export default class Lobby extends React.Component {
             }
             this.setState({popularProducts: Object.assign(popularProducts, productsToAdd)})
         }
-        this.setState({popularProducts});
+        this.setState({popularProducts, deviceWidth: innerWidth});
     }
-
     render() {
+        const { deviceWidth } = this.state;
         const { user, subscriptions } = this.props;
         const sliderSettings = {
             infinite: true,
@@ -58,13 +59,11 @@ export default class Lobby extends React.Component {
             slidesToShow: 3,
             autoplay: true,
             autoplaySpeed: 7500,
-            // arrows: false,
             responsive: [
                 {
-                    breakpoint: 720,
+                    breakpoint: 1180,
                     settings: {
-                        slidesToShow: 1,
-                        slidesToScroll: 1
+                        arrows: false
                     }
                 }
             ]
@@ -159,10 +158,20 @@ export default class Lobby extends React.Component {
                         </div>
                     </div>
                     <h2 className="popular-products">Популярные продукты</h2>
-                    <SlickSlider className="popular-products-slider" {...sliderSettings}>
-                        {popularProducts}
-                        {popularProducts ? popularProducts[1] : ''}
-                    </SlickSlider>
+                    {
+                        deviceWidth > 800
+                            ? (
+                                <SlickSlider className="popular-products-slider" {...sliderSettings}>
+                                    {popularProducts}
+                                    {popularProducts ? popularProducts[1] : ''}
+                                </SlickSlider>
+                            )
+                            : (
+                                <div className="popular-products-slides">
+                                    {popularProducts}
+                                </div>
+                            )
+                    }
                 </div>
             </div>
         )

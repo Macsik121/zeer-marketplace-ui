@@ -22,6 +22,7 @@ class Signin extends React.Component {
         this.showError = this.showError.bind(this);
         this.handleFocusInput = this.handleFocusInput.bind(this);
         this.enableSubmitButton = this.enableSubmitButton.bind(this);
+        this.changeRememberMe = this.changeRememberMe.bind(this);
     }
     componentDidMount() {
         if (localStorage.getItem('token') && localStorage.getItem('token') != '') {
@@ -39,6 +40,9 @@ class Signin extends React.Component {
     }
     enableSubmitButton() {
         this.setState({isDisabled: false})
+    }
+    changeRememberMe() {
+        this.setState({rememberMe: !this.state.rememberMe});
     }
     async handleSubmit(e) {
         this.setState({isDisabled: true});
@@ -77,7 +81,7 @@ class Signin extends React.Component {
         const vars = {
             email,
             password,
-            rememberMe
+            rememberMe: this.state.rememberMe
         }
         
         const res = await fetchData(query, vars);
@@ -138,7 +142,7 @@ class Signin extends React.Component {
                                 <input onFocus={this.handleFocusInput} name="password" className={this.state.isNameFocused ?  'field' : 'field active'} onChange={this.handleChange} />
                             </div>
                             <div onClick={this.handleRememberMeClick} className="remember">
-                                <input checked={rememberMe} className="check" type="checkbox" name="rememberMe" />
+                                <input checked={rememberMe} onChange={this.changeRememberMe} className="check" type="checkbox" name="rememberMe" />
                                 <label onClick={this.handleRememberMeClick} className="remember-me">Запомнить</label>
                             </div>
                             {/* <ReCAPTCHA

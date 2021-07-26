@@ -13,18 +13,14 @@ class NavBar extends React.Component {
     constructor() {
         super();
         this.state = {
-            user: {},
-            isDropdownShown: false,
-            deviceWidth: 1
+            user: {}
         };
         this.logout = this.logout.bind(this);
-        this.toggleDropdown = this.toggleDropdown.bind(this);
     }
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         if (prevProps.user != this.props.user) {
             this.setState({user: this.props.user});
         }
-        if (prevState.deviceWidth != this.state.deviceWidth) this.setState({deviceWidth: innerWidth})
     }
     componentDidMount() {
         if (Object.keys(this.props.user).length > 0) {
@@ -41,23 +37,20 @@ class NavBar extends React.Component {
                 }})
             }
         }
-        this.setState({deviceWidth: innerWidth});
-    }
-    toggleDropdown(e) {
-        this.setState({isDropdownShown: !this.state.isDropdownShown});
     }
     async logout() {
         localStorage.clear();
         this.props.history.push('/');
     }
     render() {
-        const { user, isDropdownShown } = this.state;
+        const { user } = this.state;
+        const { isDropdownShown, toggleDropdown, hiddenDropdown } = this.props;
         return (
             <nav className="nav">
                 <div className="container">
                     <div className="user-menu">
                         <div
-                            onClick={this.toggleDropdown}
+                            onClick={toggleDropdown}
                             style={
                                 isDropdownShown
                                     ? {
@@ -81,7 +74,7 @@ class NavBar extends React.Component {
                         </div>
                         <span className="username">{user.name}</span>
                         <img
-                            onClick={this.toggleDropdown}
+                            onClick={toggleDropdown}
                             className="menu-arrow"
                             src="/images/user-menu-arrow.png"
                         />
@@ -116,23 +109,25 @@ class NavBar extends React.Component {
                             <div onClick={this.logout} className="item">Выйти</div>
                         </div>
                     </div>
-                    <ul className="links">
-                        <NavLink to="/dashboard/FAQ">
-                            <img className="icon" src="/images/Folder.svg" />
-                            FAQ
-                        </NavLink>
-                        <NavLink to={`/dashboard/${user.name}/subscriptions`}>
-                            <img className="icon" src="/images/Path.svg" />
-                            Управление подписками
-                        </NavLink>
-                        <NavLink to="/dashboard/products">
-                            <img className="icon" src="/images/Category.svg" />
-                            Продукты
-                        </NavLink>
-                        <NavLink exact to={`/dashboard/${user.name}`}>
-                            <img className="icon" src="/images/Home.svg" />
-                            Лобби
-                        </NavLink>
+                    <ul className="links" onClick={hiddenDropdown}>
+                        <div className="links-wrap">
+                            <NavLink to="/dashboard/FAQ">
+                                <img className="icon" src="/images/Folder.svg" />
+                                FAQ
+                            </NavLink>
+                            <NavLink to={`/dashboard/${user.name}/subscriptions`}>
+                                <img className="icon" src="/images/Path.svg" />
+                                Управление подписками
+                            </NavLink>
+                            <NavLink to="/dashboard/products">
+                                <img className="icon" src="/images/Category.svg" />
+                                Продукты
+                            </NavLink>
+                            <NavLink exact to={`/dashboard/${user.name}`}>
+                                <img className="icon" src="/images/Home.svg" />
+                                Лобби
+                            </NavLink>
+                        </div>
                         <Link to={`/dashboard/${user.name}`}>
                             <img className="logo" src="/images/zeer-logo.png" />
                         </Link>
@@ -192,7 +187,24 @@ class Dashboard extends React.Component {
                 all: [],
                 active: [],
                 overdue: []
-            }
+            },
+            isDropdownShown: false
+        }
+        this.toggleDropdown = this.toggleDropdown.bind(this);
+        this.hiddenDropdown = this.hiddenDropdown.bind(this);
+    }
+    componentDidUpdate() {
+        if (this.state.isDropdownShown) {
+            window.onkeydown = function(e) {
+                if (e.keyCode == 27) {
+                    this.setState({isDropdownShown: false});
+                }
+            }.bind(this);
+        } else {
+            window.onkeydown = function() {}
+        }
+        window.onkeydown = function(e) {
+            console.log(e.keyCode);
         }
     }
     async componentDidMount() {
@@ -253,14 +265,26 @@ class Dashboard extends React.Component {
         `, {name: user.name});
         this.setState({subscriptions: result.getSubscriptions});
     }
+    toggleDropdown(e) {
+        this.setState({isDropdownShown: !this.state.isDropdownShown});
+    }
+    hiddenDropdown() {
+        this.setState({isDropdownShown: false});
+    }
     render() {
-        const { user, subscriptions, deviceWidth } = this.state;
+        const { user, subscriptions } = this.state;
         return (
             <div className="dashboard">
                 <header className="header">
-                    <NavBar user={user} history={this.props.history} />
+                    <NavBar
+                        toggleDropdown={this.toggleDropdown}
+                        isDropdownShown={this.state.isDropdownShown}
+                        hiddenDropdown={this.hiddenDropdown}
+                        user={user}
+                        history={this.props.history}
+                    />
                 </header>
-                <main className="main">
+                <main className="main" onClick={this.hiddenDropdown}>
                     <Switch>
                         <Route exact path="/dashboard/products" component={Products} />
                         <Route path="/dashboard/FAQ" component={FAQ} />
@@ -270,7 +294,7 @@ class Dashboard extends React.Component {
                         <Route exact path="/dashboard/:username" component={() => <Lobby user={user} subscriptions={subscriptions} />} />
                     </Switch>
                 </main>
-                <Footer />
+                <Footer onClick={this.hiddenDropdown} />
             </div>
         )
     }
