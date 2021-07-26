@@ -56,6 +56,7 @@ fieldset {
     height: 40vw;
     width: 100%;
     z-index: 2;
+    position: relative;
 }
 
 .home .header .nav .nav-BG {
