@@ -9,7 +9,8 @@ export default class FAQ extends React.Component {
             answersCopy: [],
             searchValue: '',
             categoriesToSearch: [],
-            currentCategory: 'Все категории'
+            currentCategory: 'Все категории',
+            hiddenSearchCategories: true
         };
         this.renderAnswers = this.renderAnswers.bind(this);
         this.addElement = this.addElement.bind(this);
@@ -227,18 +228,40 @@ export default class FAQ extends React.Component {
         this.filterAnswers(e.target.value);
     }
     render() {
-        const { searchValue, categoriesToSearch } = this.state;
+        const { searchValue, hiddenSearchCategories } = this.state;
+        const categoriesToSearch = this.state.categoriesToSearch.map(category => <span onClick={this.handleChangeCategory} key={category}>{category}</span>)
         return (
             <div className="FAQ">
                 <div className="container">
                     <h2>Ответы на вопросы</h2>
                     <div className="search-bar">
-                        {/* <select onChange={this.handleChangeCategory} className="categories" name="categories">
-                        </select> */}
                         <div className="categories">
-                            {categoriesToSearch.map(category => <option key={category}>{category}</option>)}
+                            <div
+                                onClick={
+                                    function() {
+                                        this.setState({ hiddenSearchCategories: !hiddenSearchCategories });
+                                    }.bind(this)
+                                }
+                                className="first-category"
+                            >
+                                {categoriesToSearch[0]}
+                                <img src="/images/categories-arrow-menu.png" className="arrow" />
+                            </div>
+                            <div
+                                style={
+                                    hiddenSearchCategories
+                                        ? {maxHeight: 0, transition: '200ms'}
+                                        : {maxHeight: '550px', transition: '1s'}
+                                }
+                                className="the-rest-categories"
+                            >
+                                {categoriesToSearch.map((category, i) => {
+                                    if (i != 0) return category;
+                                })}
+                            </div>
                         </div>
                         <input placeholder="Ваш вопрос..." className="search" value={searchValue} onChange={this.handleSearch} />
+                        <img className="search-icon" src="/images/search-icon.png" />
                     </div>
                     <div className="answers-wrap">
                         {this.renderAnswers()}
