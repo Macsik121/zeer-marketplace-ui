@@ -49,7 +49,7 @@ class Signin extends React.Component {
         e.preventDefault();
 
         const form = document.forms.signin;
-        const email = form.email.value;
+        const email = form.email.value.toLowerCase();
         const password = form.password.value;
         const rememberMe = form.rememberMe.checked;
 
