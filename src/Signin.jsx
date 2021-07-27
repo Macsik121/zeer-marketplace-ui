@@ -49,9 +49,9 @@ class Signin extends React.Component {
         e.preventDefault();
 
         const form = document.forms.signin;
-        const email = form.email.valueж
+        const email = form.email.value;
         const password = form.password.value;
-        const rememberMe = form.rememberMe.checked;
+        this.setState({rememberMe: form.rememberMe.checked});
 
         if (email == '') {
             this.showError('Пожалуйста, введите имя или адрес эл. почты');
