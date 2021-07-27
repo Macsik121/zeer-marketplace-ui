@@ -223,28 +223,39 @@
 
 .auth-form .form .field-wrap label {
     position: absolute;
-    left: 1rem;
+    left: .5rem;
     display: flex;
     align-items: center;
-    height: 100%;
+    line-height: 40px;
     pointer-events: none;
     background: transparent;
     transition: 300ms;
+    padding: 0 10px;
+    transform: translateX(0) translateY(0);
 }
 
 .auth-form .form .field-wrap .field {
     width: 100%;
     padding: 10px 15px;
-    border: 1px solid silver;
-    background: transparent;
+    background: #292932;
+    border: 1px solid transparent;
     border-radius: 10px;
     color: #fff;
     outline: none;
+    transition: 200ms ease-in-out;
 }
 
-.auth-form .form .field-wrap .field.active {
-    background: #292932;
-    border: none;
+.auth-form .form .field-wrap .field:focus,
+.auth-form .form .field-wrap .field:valid {
+    border: 1px solid #92929D;
+    background: transparent;
+}
+
+.auth-form .form .field-wrap .field:focus + label,
+.auth-form .form .field-wrap .field:valid + label {
+    transform: translateX(5px) translateY(-7px);
+    background-color: #1C1C24;
+    line-height: 16px;
 }
 
 .auth-form .form .remember {
@@ -501,19 +512,18 @@ fieldset {
 
 .home .nav .container .social-media {
     display: flex;
-    align-items: center;
     height: 100%;
 }
 
 .home .nav .social-media .social-media-link {
     display: flex;
     align-items: center;
-    height: 100%;
-    padding: 0 15px;
+    justify-content: center;
+    min-height: 100%;
+    padding: 15px;
     border: 1px solid #3a2d33;
     border-radius: 10px;
     transition: 200ms;
-    padding: 15px;
 }
 
 .home .nav .social-media .social-media-link:hover {
@@ -1505,6 +1515,10 @@ fieldset {
     justify-content: space-between;
 }
 
+.dashboard .main .FAQ .search-bar .categories .first-category .category {
+    user-select: none;
+}
+
 .dashboard .main .FAQ .search-bar .search {
     background: transparent;
     margin-left: 20px;
@@ -1525,6 +1539,22 @@ fieldset {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+}
+
+.dashboard .main .FAQ .search-bar .categories .the-rest-categories .category {
+    background-color: #44444F;
+    padding: 15px;
+    cursor: pointer;
+    transition: 200ms;
+}
+
+.dashboard .main .FAQ .search-bar .categories .the-rest-categories .category:hover {
+    background-color: #3b3b47;
+}
+
+.dashboard .main .FAQ .search-bar .categories .the-rest-categories .category:last-of-type {
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
 }
 
 .dashboard .main .FAQ .search-bar .search-icon {
@@ -1728,6 +1758,16 @@ fieldset {
     }
 }
 
+@media (max-width: 1020px) {
+    .dashboard .main .FAQ .search-bar {
+        width: 60%;
+        margin: 30px auto 0 auto;
+    }
+    .dashboard .main .FAQ .search-bar .search {
+        margin-left: 10px;
+    }
+}
+
 @media (max-width: 1000px) {
     .home .nav {
         height: 100%;
@@ -1810,6 +1850,9 @@ fieldset {
     .dashboard .main .lobby .video .watch {
         width: 175px;
     }
+    .dashboard .main .FAQ .search-bar .search {
+        height: 20px;
+    }
 }
 
 @media (max-width: 900px) {
@@ -1855,6 +1898,15 @@ fieldset {
     }
     .dashboard .nav .user-menu .avatar .first-char {
         font-size: .85rem;
+    }
+}
+
+@media (max-width: 860px) {
+    .dashboard .main .FAQ .search-bar {
+        width: 90%;
+    }
+    .dashboard .main .FAQ .search-bar .search-icon {
+        width: 8%;
     }
 }
 
@@ -1923,6 +1975,21 @@ fieldset {
         margin: 15px 0 0;
         text-align: center;
     }
+    .dashboard .main .FAQ .search-bar {
+        flex-direction: column;
+        padding: 10px 0 0;
+    }
+    .dashboard .main .FAQ .search-bar .categories {
+        width: 95%;
+        position: relative;
+    }
+    .dashboard .main .FAQ .search-bar .search {
+        width: 95%;
+        height: 50px;
+    }
+    .dashboard .main .FAQ .search-bar .search-icon {
+        display: none;
+    }
 }
 
 @media (max-width: 550px) {
@@ -1970,7 +2037,7 @@ fieldset {
         width: 100%;
         left: 0;
         top: 100%;
-    }   
+    }
 }
 
 @media (max-width: 400px) {
@@ -2032,10 +2099,35 @@ fieldset {
     align-items: center;
 }
 
+.dashboard .footer .contacts .soc-media {
+    margin-left: 30px;
+    display: flex;
+}
+
+.dashboard .footer .contacts .soc-media a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    border: 1px solid #292932;
+    border-radius: 10px;
+    transition: 200ms;
+}
+
+.dashboard .footer .contacts .soc-media a + a {
+    margin-left: 10px;
+}
+
+.dashboard .footer .contacts .soc-media a:hover {
+    filter: invert(1);
+    background-color: #000;
+    border: 1px solid #fff;
+}
+
 .dashboard .footer .gray-line {
     height: 100%;
     width: 1px;
-    /* transform: rotate(90deg); */
+    transform: rotate(90deg);
     background-color: gray;
 }
 
@@ -2047,6 +2139,7 @@ fieldset {
     color: #fff;
     border-radius: 10px;
     transition: 200ms;
+    margin-left: 30px;
 }
 
 .dashboard .footer .download-loader:hover {
@@ -2057,9 +2150,22 @@ fieldset {
     .dashboard .footer .container {
         flex-direction: column;
     }
+    .dashboard .footer .zeer {
+        flex-direction: column;
+    }
+    .dashboard .footer .zeer .time-working {
+        margin-top: 15px;
+    }
     .dashboard .footer .contacts {
         flex-direction: column;
         margin-top: 20px;
+        justify-content: center;
+    }
+    .dashboard .footer .contacts .soc-media {
+        margin: 0;
+    }
+    .dashboard .footer .download-loader {
+        margin: 0;
     }
     .dashboard .nav .links .icon {
         margin: 0;

@@ -84,28 +84,39 @@
 
 .auth-form .form .field-wrap label {
     position: absolute;
-    left: 1rem;
+    left: .5rem;
     display: flex;
     align-items: center;
-    height: 100%;
+    line-height: 40px;
     pointer-events: none;
     background: transparent;
     transition: 300ms;
+    padding: 0 10px;
+    transform: translateX(0) translateY(0);
 }
 
 .auth-form .form .field-wrap .field {
     width: 100%;
     padding: 10px 15px;
-    border: 1px solid silver;
-    background: transparent;
+    background: #292932;
+    border: 1px solid transparent;
     border-radius: 10px;
     color: #fff;
     outline: none;
+    transition: 200ms ease-in-out;
 }
 
-.auth-form .form .field-wrap .field.active {
-    background: #292932;
-    border: none;
+.auth-form .form .field-wrap .field:focus,
+.auth-form .form .field-wrap .field:valid {
+    border: 1px solid #92929D;
+    background: transparent;
+}
+
+.auth-form .form .field-wrap .field:focus + label,
+.auth-form .form .field-wrap .field:valid + label {
+    transform: translateX(5px) translateY(-7px);
+    background-color: #1C1C24;
+    line-height: 16px;
 }
 
 .auth-form .form .remember {

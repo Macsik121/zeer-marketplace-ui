@@ -336,10 +336,17 @@ class Footer extends React.Component {
                 from: 2018,
                 to: 2021
             },
+            deviceWidth: 0
         }
     }
+    componentDidMount() {
+        window.onresize = function() {
+            this.setState({ deviceWidth: window.innerWidth });
+        }.bind(this);
+        this.setState({ deviceWidth: window.innerWidth });
+    }
     render() {
-        const { timeWorking } = this.state;
+        const { timeWorking, deviceWidth } = this.state;
         return (
             <footer className="footer">
                 <div className="container">
@@ -350,7 +357,9 @@ class Footer extends React.Component {
                         </div>
                     </div>
                     <div className="contacts">
-                        <span>Мы в социальных сетях</span>
+                        {deviceWidth > 800 &&
+                            <span>Мы в социальных сетях</span>
+                        }
                         <div className="soc-media">
                             <a href="https://t.me/zeer_changer" target="_blank">
                                 <img src="/images/telegram-icon.png" />
@@ -360,8 +369,17 @@ class Footer extends React.Component {
                             </a>
                         </div>
                         <div className="gray-line"></div>
-                        <button className="download-loader">Скачать лоадер</button>
                     </div>
+                    <button
+                            style={
+                                deviceWidth > 700
+                                    ? {marginTop: 0}
+                                    : {marginTop: '20px'}
+                            }
+                            className="download-loader"
+                        >
+                            Скачать лоадер
+                    </button>
                 </div>
             </footer>
         )

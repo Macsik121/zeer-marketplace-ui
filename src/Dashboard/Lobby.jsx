@@ -123,7 +123,7 @@ export default class Lobby extends React.Component {
                                     </div>
                                 </Link>
                                 <Link className="subscription" to={`/dashboard/${user.name}/subscriptions`}>
-                                    <div className="overdue">
+                                    <div className="overdue subs">
                                         <div className="amount">{subscriptions.overdue.length}</div>
                                         <div className="type">Просроченные</div>
                                     </div>

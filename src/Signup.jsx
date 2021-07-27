@@ -145,28 +145,28 @@ class Signup extends React.Component {
                     </label>
                     <form name="signup" onSubmit={this.handleSubmit} className="signup-form form">
                         <div className="field-wrap">
+                            <input required="required" onFocus={this.handleFieldFocus} name="name" className="field" />
                             <label>
                                 Имя пользователя
                             </label>
-                            <input onFocus={this.handleFieldFocus} name="name" className="field" />
                         </div>
                         <div className="field-wrap">
+                            <input required="required" onFocus={this.handleFieldFocus} name="email" className="field" />
                             <label>
                                 Эл. почта
                             </label>
-                            <input onFocus={this.handleFieldFocus} name="email" className="field" />
                         </div>
                         <div className="field-wrap">
+                            <input required="required" onFocus={this.handleFieldFocus} name="password" className="field" />
                             <label>
                                 Придумайте пароль
                             </label>
-                            <input onFocus={this.handleFieldFocus} name="password" className="field" />
                         </div>
                         <div className="field-wrap">
+                            <input required="required" onFocus={this.handleFieldFocus} name="confirmPassword" className="field" />
                             <label>
                                 Пароль ещё раз
                             </label>
-                            <input onFocus={this.handleFieldFocus} name="confirmPassword" className="field" />
                         </div>
                         <button type="submit" className="submit-button">
                             Создать аккаунт

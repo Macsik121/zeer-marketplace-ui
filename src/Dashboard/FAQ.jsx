@@ -221,15 +221,28 @@ export default class FAQ extends React.Component {
             </>
         )
     }
-    handleChangeCategory(e) {
-        this.setState({currentCategory: e.target.value });
+    handleChangeCategory() {
+        this.setState({ currentCategory: this.state.currentCategory });
     }
     handleSearch(e) {
         this.filterAnswers(e.target.value);
     }
     render() {
         const { searchValue, hiddenSearchCategories } = this.state;
-        const categoriesToSearch = this.state.categoriesToSearch.map(category => <span onClick={this.handleChangeCategory} key={category}>{category}</span>)
+        const categoriesToSearch = this.state.categoriesToSearch.map(category => (
+            <span
+                className="category"
+                onClick={
+                    function() {
+                        this.handleChangeCategory();
+                        this.setState({ hiddenSearchCategories: true });
+                    }.bind(this)
+                }
+                key={category}
+            >
+                {category}
+            </span>)
+        )
         return (
             <div className="FAQ">
                 <div className="container">
@@ -237,11 +250,6 @@ export default class FAQ extends React.Component {
                     <div className="search-bar">
                         <div className="categories">
                             <div
-                                onClick={
-                                    function() {
-                                        this.setState({ hiddenSearchCategories: !hiddenSearchCategories });
-                                    }.bind(this)
-                                }
                                 className="first-category"
                             >
                                 {categoriesToSearch[0]}
@@ -251,7 +259,7 @@ export default class FAQ extends React.Component {
                                 style={
                                     hiddenSearchCategories
                                         ? {maxHeight: 0, transition: '200ms'}
-                                        : {maxHeight: '550px', transition: '1s'}
+                                        : {maxHeight: '550px', transition: '500ms'}
                                 }
                                 className="the-rest-categories"
                             >

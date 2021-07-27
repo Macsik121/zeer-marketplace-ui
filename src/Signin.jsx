@@ -130,16 +130,26 @@ class Signin extends React.Component {
                     <form name="signin" className="signin-form form" onSubmit={this.handleSubmit}>
                         <fieldset disabled={this.state.isDisabled}>
                             <div className="email field-wrap">
-                                <label
-                                    style={this.state.labelStyles}
-                                >
+                                <input
+                                    onFocus={this.handleFocusInput}
+                                    name="email"
+                                    className="field"
+                                    onChange={this.handleChange}
+                                    required="required"
+                                />
+                                <label>
                                     Имя пользователя / Эл. почта
                                 </label>
-                                <input onFocus={this.handleFocusInput} name="email" className={this.state.isEmailFocused ?  'field' : 'field active'} onChange={this.handleChange} />
                             </div>
                             <div className="password field-wrap">
-                                <label style={this.state.labelStyles}>Пароль</label>
-                                <input onFocus={this.handleFocusInput} name="password" className={this.state.isNameFocused ?  'field' : 'field active'} onChange={this.handleChange} />
+                                <input
+                                    required="required"
+                                    onFocus={this.handleFocusInput}
+                                    name="password"
+                                    className="field"
+                                    onChange={this.handleChange}
+                                />
+                                <label>Пароль</label>
                             </div>
                             <div onClick={this.handleRememberMeClick} className="remember">
                                 <input checked={rememberMe} onChange={this.changeRememberMe} className="check" type="checkbox" name="rememberMe" />
