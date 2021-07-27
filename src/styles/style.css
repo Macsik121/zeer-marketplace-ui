@@ -1154,6 +1154,7 @@ fieldset {
     border-radius: 7px;
     font-size: .85rem;
     justify-content: space-between;
+    user-select: none;
 }
 
 .dashboard .main .FAQ .search-bar .categories .first-category .category {
@@ -1180,6 +1181,7 @@ fieldset {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    user-select: none;
 }
 
 .dashboard .main .FAQ .search-bar .categories .the-rest-categories .category {
@@ -1678,6 +1680,9 @@ fieldset {
         width: 100%;
         left: 0;
         top: 100%;
+    }
+    .dashboard .main .FAQ .search-bar .categories .the-rest-categories {
+        left: 0;
     }
 }
 

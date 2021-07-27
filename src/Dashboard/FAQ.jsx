@@ -10,13 +10,16 @@ export default class FAQ extends React.Component {
             searchValue: '',
             categoriesToSearch: [],
             currentCategory: 'Все категории',
-            hiddenSearchCategories: true
+            hiddenSearchCategories: true,
+            deviceWidth: 0
         };
         this.renderAnswers = this.renderAnswers.bind(this);
         this.addElement = this.addElement.bind(this);
         this.handleChangeCategory = this.handleChangeCategory.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
         this.filterAnswers = this.filterAnswers.bind(this);
+        this.toggleCategoryMenu = this.toggleCategoryMenu.bind(this);
+        this.hiddenCategoryMenu = this.hiddenCategoryMenu.bind(this);
     }
     componentDidUpdate(_, prevState) {
         const { currentCategory, answersCopy, searchValue } = this.state; 
@@ -34,6 +37,9 @@ export default class FAQ extends React.Component {
         }
     }
     async componentDidMount() {
+        window.onresize = function(e) {
+            this.setState({ deviceWidth: window.innerWidth });
+        }.bind(this);
         const query = `
             query {
                 getAnswers {
@@ -57,7 +63,7 @@ export default class FAQ extends React.Component {
         this.setState({answers: modifiedStateAnswers, answersCopy: modifiedStateAnswers});
         const categoriesToSearch = ['Все категории'];
         this.state.answers.map(answer => categoriesToSearch.push(answer.sort));
-        this.setState({categoriesToSearch});
+        this.setState({categoriesToSearch, deviceWidth: window.innerWidth});
     }
     filterAnswers(search) {
         const { answers, answersCopy, currentCategory } = this.state;
@@ -163,7 +169,7 @@ export default class FAQ extends React.Component {
                 let answersHeight = 350;
                 for(let i = 0; i < answer.answers.length; i++) {
                     if (i % 4 == 0) {
-                        answersHeight += 350;
+                        answersHeight += 500;
                     }
                 }
                 return (
@@ -221,20 +227,28 @@ export default class FAQ extends React.Component {
             </>
         )
     }
-    handleChangeCategory() {
-        this.setState({ currentCategory: this.state.currentCategory });
+    handleChangeCategory(e) {
+        console.log(e.target);
+        this.setState({ currentCategory: e.target.textContent });
     }
     handleSearch(e) {
         this.filterAnswers(e.target.value);
     }
+    hiddenCategoryMenu() {
+        this.setState({ hiddenSearchCategories: true });
+    }
+    toggleCategoryMenu() {
+        this.setState({ hiddenSearchCategories: !this.state.hiddenSearchCategories });
+    }
     render() {
-        const { searchValue, hiddenSearchCategories } = this.state;
+        const { searchValue, hiddenSearchCategories, currentCategory, deviceWidth } = this.state;
+        let categoryToRender = '';
         const categoriesToSearch = this.state.categoriesToSearch.map(category => (
             <span
                 className="category"
                 onClick={
-                    function() {
-                        this.handleChangeCategory();
+                    function(e) {
+                        this.handleChangeCategory(e);
                         this.setState({ hiddenSearchCategories: true });
                     }.bind(this)
                 }
@@ -243,6 +257,25 @@ export default class FAQ extends React.Component {
                 {category}
             </span>)
         )
+        if (deviceWidth > 600) {
+            for (let i = 0; i < currentCategory.length; i++) {
+                if (i < 11 && currentCategory[i]) {
+                    categoryToRender += currentCategory[i];
+                } else {
+                    categoryToRender += '...';
+                    break;
+                }
+            }
+        } else {
+            for (let i = 0; i < currentCategory.length; i++) {
+                if (i < 22 && currentCategory[i]) {
+                    categoryToRender += currentCategory[i];
+                } else {
+                    categoryToRender += '...';
+                    break;
+                }
+            }
+        }
         return (
             <div className="FAQ">
                 <div className="container">
@@ -251,8 +284,9 @@ export default class FAQ extends React.Component {
                         <div className="categories">
                             <div
                                 className="first-category"
+                                onClick={this.toggleCategoryMenu}
                             >
-                                {categoriesToSearch[0]}
+                                {categoryToRender}
                                 <img src="/images/categories-arrow-menu.png" className="arrow" />
                             </div>
                             <div
@@ -263,12 +297,10 @@ export default class FAQ extends React.Component {
                                 }
                                 className="the-rest-categories"
                             >
-                                {categoriesToSearch.map((category, i) => {
-                                    if (i != 0) return category;
-                                })}
+                                {categoriesToSearch.map((category, i) => category)}
                             </div>
                         </div>
-                        <input placeholder="Ваш вопрос..." className="search" value={searchValue} onChange={this.handleSearch} />
+                        <input onClick={this.hiddenCategoryMenu} placeholder="Ваш вопрос..." className="search" value={searchValue} onChange={this.handleSearch} />
                         <img className="search-icon" src="/images/search-icon.png" />
                     </div>
                     <div className="answers-wrap">
