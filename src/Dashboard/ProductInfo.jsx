@@ -275,8 +275,9 @@ export default class ProductInfo extends React.Component {
                                 </span>
                                 {' * '}
                                 <span className="current-version">
-                                    {this.state.changes[0] &&
-                                        this.state.changes[0].version
+                                    {this.state.changes[0]
+                                        ? this.state.changes[0].version
+                                        : '1,00'
                                     } версия
                                 </span>
                             </span>

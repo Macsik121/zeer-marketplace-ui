@@ -582,6 +582,25 @@ fieldset {
     font-size: 1.7rem;
 }
 
+.home .slider-wrap .pop-products {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.home .slider-wrap .pop-products .pop-product {
+    flex-basis: 45%;
+    max-width: 45%;
+    background-position: center center;
+    background-size: cover;
+}
+
+.home .slider-wrap .pop-products .pop-product + .pop-product {
+    margin-top: 20px;
+}
+
 .home .slider .pop-product {
     padding: 1rem;
     width: 18vw;
@@ -2180,6 +2199,8 @@ fieldset {
     }
     .dashboard .nav .three-dots .menu-dropdown .link-item span {
         margin-top: 15px;
+        text-align: center;
+        max-height: 15px;
     }
 }
 

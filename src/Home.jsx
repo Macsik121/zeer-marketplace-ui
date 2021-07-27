@@ -57,11 +57,7 @@ export default class Home extends React.Component {
                     над врагом растет, а игра упрощается!`
                 }
             ],
-            instruction: [
-                {
-                    content: ''
-                }
-            ]
+            deviceWidth: 0
         };
     }
     async componentDidMount() {
@@ -86,10 +82,10 @@ export default class Home extends React.Component {
                 popProducts[i] = allProducts.products[i];
             }
         }
-        this.setState({products: popProducts});
+        this.setState({products: popProducts, deviceWidth: window.innerWidth});
     }
     render() {
-        const { products } = this.state;
+        const { products, deviceWidth } = this.state;
         const sliderSettings = {
             infinite: true,
             speed: 500,
@@ -113,11 +109,11 @@ export default class Home extends React.Component {
                 <div className="background"></div>
             </div>
         ));
+        console.log(popProducts);
         return (
             <div className="home">
                 <div className="header">
                     <nav className="nav">
-                        {/* <div className="black"></div> */}
                         <div className="nav-BG"></div>
                         <div className="container">
                             <div className="container">
@@ -170,10 +166,20 @@ export default class Home extends React.Component {
                                 }
                             </span>
                         </div>
-                        <SlickSlider className="slider" {...sliderSettings}>
-                            {popProducts}
-                            {popProducts[1]}
-                        </SlickSlider>
+                        {
+                            deviceWidth > 650
+                                ? (
+                                    <SlickSlider className="slider" {...sliderSettings}>
+                                        {popProducts}
+                                        {popProducts[1]}
+                                    </SlickSlider>
+                                )
+                                : (
+                                    <div className="pop-products">
+                                        {popProducts}
+                                    </div>
+                                )
+                        }
                     </div>
                 </div>
                 <div className="advantages">
