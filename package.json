@@ -1,0 +1,66 @@
+{
+  "name": "zeer-online-store-ui",
+  "version": "1.0.0",
+  "description": "UI for zeer online-store",
+  "main": "uiserver.js",
+  "engines": {
+    "node": "10.x",
+    "npm": "6.x"
+  },
+  "scripts": {
+    "start": "nodemon dist/server",
+    "compile": "npx webpack --mode production",
+    "heroku-postbuild": "npm run compile"
+  },
+  "keywords": [
+    "ReactJS",
+    "Babel",
+    "Webpack",
+    "Express"
+  ],
+  "author": "Max <akmaksa65@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.14.5",
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "@babel/preset-react": "^7.14.5",
+    "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^4.0.0-alpha.0",
+    "css-loader": "^5.2.6",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.3.2",
+    "mini-css-extract-plugin": "^2.1.0",
+    "sass": "^1.35.2",
+    "sass-loader": "^12.1.0",
+    "style-loader": "^3.0.0",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.44.0",
+    "webpack-cli": "^4.7.2",
+    "webpack-node-externals": "^3.0.0"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.12.1",
+    "@material-ui/icons": "^4.11.2",
+    "apollo-server-express": "^2.25.2",
+    "babel-polyfill": "^6.26.0",
+    "body-parser": "^1.19.0",
+    "bootstrap": "^4.6.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "graphql": "^15.5.1",
+    "isomorphic-fetch": "^3.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^3.1.2",
+    "node-localstorage": "^2.2.1",
+    "nodemon": "^2.0.10",
+    "react": "^17.0.2",
+    "react-bootstrap": "^1.6.1",
+    "react-dom": "^17.0.2",
+    "react-file-base64": "^1.0.3",
+    "react-google-recaptcha": "^2.1.0",
+    "react-router-dom": "^5.2.0",
+    "react-slick": "^0.28.1",
+    "slick-carousel": "^1.8.1"
+  }
+}
