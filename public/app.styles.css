@@ -95,7 +95,6 @@
 }
 
 .popular-products-slider .popular-product {
-    width: 25vw !important;
     display: flex !important;
     flex-direction: column;
 }
@@ -843,7 +842,7 @@ fieldset {
 
 .dashboard .nav .user-menu .menu-arrow {
     margin-left: 80px;
-    width: calc(1.2vw - .5vh);
+    width: 11px;
     cursor: pointer;
 }
 
@@ -888,7 +887,8 @@ fieldset {
 .dashboard .main {
     min-height: 85vh;
     background: #13131A;
-    margin-top: calc(3vw - 1vh);
+    margin-top: 30px;
+    margin-top: 30px;
 }
 
 .dashboard .main .lobby a {
@@ -906,10 +906,15 @@ fieldset {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    width: 34%;
 }
 
 .dashboard .main .lobby .info .user {
-    width: 30vw;
+    width: 100%;
+}
+
+.dashboard .main .lobby .info .user {
+    width: 100%;
     display: flex;
     flex-direction: column;
     padding: 20px;
@@ -1163,7 +1168,7 @@ fieldset {
 
 .dashboard .main .products .product .cover {
     width: 100%;
-    height: 25vw;
+    height: 300px;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -1814,6 +1819,9 @@ fieldset {
     .home .footer {
         display: flex;
         flex-direction: column-reverse;
+    }
+    .dashboard .main .lobby .info {
+        width: 100%;
     }
     .dashboard .nav .container {
         flex-direction: row-reverse;
