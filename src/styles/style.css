@@ -529,10 +529,7 @@ fieldset {
 .dashboard .main {
     min-height: 85vh;
     background: #13131A;
-<<<<<<< HEAD
     margin-top: 30px;
-=======
->>>>>>> 499dbef7a0fe86f489c1cf2e8a07602ee35301a3
     margin-top: calc(3vw - 1vh);
 }
 
@@ -551,14 +548,11 @@ fieldset {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-<<<<<<< HEAD
     width: 34%;
 }
 
 .dashboard .main .lobby .info .user {
     width: 100%;
-=======
->>>>>>> 499dbef7a0fe86f489c1cf2e8a07602ee35301a3
 }
 
 .dashboard .main .lobby .info .user {
@@ -816,10 +810,7 @@ fieldset {
 
 .dashboard .main .products .product .cover {
     width: 100%;
-<<<<<<< HEAD
     height: 300px;
-=======
->>>>>>> 499dbef7a0fe86f489c1cf2e8a07602ee35301a3
     height: 25vw;
     background-position: center center;
     background-repeat: no-repeat;
@@ -1472,12 +1463,9 @@ fieldset {
         display: flex;
         flex-direction: column-reverse;
     }
-<<<<<<< HEAD
     .dashboard .main .lobby .info {
         width: 100%;
     }
-=======
->>>>>>> 499dbef7a0fe86f489c1cf2e8a07602ee35301a3
     .dashboard .nav .container {
         flex-direction: row-reverse;
     }
