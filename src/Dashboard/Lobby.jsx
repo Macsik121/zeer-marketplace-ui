@@ -109,8 +109,8 @@ export default class Lobby extends React.Component {
                                         </span>
                                     </div>
                                     <div className="data">
-                                        <span>{user.name}</span>
-                                        <span>{user.email}</span>
+                                        <span className="user-name">{user.name}</span>
+                                        <span className="user-email">{user.email}</span>
                                     </div>
                                 </div>
                                 <div className="buttons">
