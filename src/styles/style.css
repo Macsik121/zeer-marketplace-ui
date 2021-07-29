@@ -916,20 +916,24 @@ fieldset {
 
 .dashboard .main .products .product .product-title {
     margin-top: 20px;
+    font-size: 16px;
 }
 
 .dashboard .main .products .product .description {
     margin-top: 5px;
-    color: rgba(255, 255, 255, .7);
-    font-size: .8rem;
+    color: #B5B5BE;
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: .1px;
 }
 
 .dashboard .main .products .product .buttons {
     margin-top: 30px;
     display: flex;
     justify-content: space-between;
-    font-size: .8rem;
+    font-size: 12px;
     font-weight: 600;
+    color: #FAFAFB;
 }
 
 .dashboard .main .products .product .buttons a:first-of-type {
@@ -941,10 +945,10 @@ fieldset {
     width: 45%;
     padding: 10px 0;
     background-color: #292932;
-    color: #fff;
     text-decoration: none;
     display: flex;
     justify-content: center;
+    color: #FAFAFB;
 }
 
 .dashboard .main .product-info {
