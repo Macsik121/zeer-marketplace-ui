@@ -542,7 +542,7 @@ fieldset {
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
-    height: 300px;
+    height: 350px;
 }
 
 .dashboard .main .lobby .info {
@@ -746,7 +746,7 @@ fieldset {
     justify-content: center;
     padding: 10px;
     border-radius: 10px;
-    margin-top: 20px;
+    margin-top: 30px;
     font-weight: 600;
     font-size: .65rem;
 }
@@ -759,7 +759,7 @@ fieldset {
     min-height: 46%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .dashboard .main .lobby .opportunities .opportunity .content {
