@@ -737,7 +737,9 @@ fieldset {
     color: #FAFAFB;
     line-height: 24px;
     font-weight: 600;
-    letter-spacing: .1px;
+    font-style: normal;
+    font-family: Poppins, sans-serif;
+    letter-spacing: 0.1px;
 }
 
 .dashboard .main .lobby .opportunities .opportunity {
@@ -1022,6 +1024,9 @@ fieldset {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .1px;
 }
 
 .dashboard .main .product-info .info .general .cost .dropdown .items .item .cost-selected {

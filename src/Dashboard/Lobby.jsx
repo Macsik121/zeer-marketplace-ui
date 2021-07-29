@@ -4,6 +4,30 @@ import SlickSlider from 'react-slick';
 import fetchData from '../fetchData.js';
 import { fetchPopularProducts } from '../PopularProducts.jsx';
 
+function NextArrow(props) {
+    const { onClick, className, style } = props;
+    console.log(style);
+    return (
+        <div
+            onClick={onClick}
+            style={{...style, display: 'flex', background: 'green'}}
+            className={{...className}}
+        />
+    )
+}
+
+function PrevArrow(props) {
+    const { onClick, className, style } = props;
+    console.log(style)
+    return (
+        <div
+            onClick={onClick}
+            style={{...style, display: 'flex', background: 'red'}}
+            className={{...className}}
+        />
+    )
+}
+
 export default class Lobby extends React.Component {
     constructor() {
         super();
@@ -66,8 +90,11 @@ export default class Lobby extends React.Component {
             infinite: true,
             speed: 500,
             slidesToShow: 3,
-            autoplay: true,
+            // autoplay: true,
             autoplaySpeed: 7500,
+            variableWidth: true,
+            // prevArrow: <PrevArrow />,
+            // nextArrow: <NextArrow />,
             responsive: [
                 {
                     breakpoint: 1180,
@@ -80,17 +107,19 @@ export default class Lobby extends React.Component {
         let popularProducts;
         if (this.state.popularProducts.length > 0) {
             popularProducts = this.state.popularProducts.map(product => {
-                return <div className="popular-product" key={product.id}>
-                    <img className="cover" src={product.imageURLdashboard} />
-                    <div className="title">
-                        <h3 className="product-title">{product.title}{' | '}<span className="product-for">{product.productFor}</span></h3>
+                return (
+                    <div className="popular-product" style={{width: '400px'}} key={product.id}>
+                        <img className="cover" src={product.imageURLdashboard} />
+                        <div className="title">
+                            <h3 className="product-title">{product.title}{' | '}<span className="product-for">{product.productFor}</span></h3>
+                        </div>
+                        <span className="description">{product.description}</span>
+                        <div className="buttons">
+                            <Link to="/dashboard/">Купить</Link>
+                            <Link to={`/dashboard/products/${product.title}`}>Подробнее</Link>
+                        </div>
                     </div>
-                    <span className="description">{product.description}</span>
-                    <div className="buttons">
-                        <Link to="/dashboard/">Купить</Link>
-                        <Link to={`/dashboard/products/${product.title}`}>Подробнее</Link>
-                    </div>
-                </div>
+                )
             });
         }
         return (

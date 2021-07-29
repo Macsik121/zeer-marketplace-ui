@@ -27,9 +27,7 @@
 }
 
 .slider .slick-arrow::before {
-    content: none;
-    display: flex;
-    justify-content: center;
+    position: absolute;
 }
 
 .slider .slick-arrow.slick-prev {
@@ -51,6 +49,8 @@
 .slider .slick-slide {
     display: flex !important;
     justify-content: center;
+    /* width: 200px; */
+    margin: 0 auto;
 }
 
 .popular-products-slider {
@@ -79,10 +79,14 @@
 
 .popular-products-slider .slick-arrow.slick-prev {
     background-image: url(/images/arrow-left-slider.png);
+    background-position: 49% center;
+    margin-left: -25px;
 }
 
 .popular-products-slider .slick-arrow.slick-next {
     background-image: url(/images/arrow-right-slider.png);
+    background-position: 55% center;
+    margin-right: -25px;
 }
 
 .popular-products-slider .slick-track {
@@ -97,6 +101,11 @@
 .popular-products-slider .popular-product {
     display: flex !important;
     flex-direction: column;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #1C1C24;
+    width: 50%;
+    margin: 0 auto;
 }
 
 .popular-products-slider .popular-product .title {
@@ -1095,7 +1104,9 @@ fieldset {
     color: #FAFAFB;
     line-height: 24px;
     font-weight: 600;
-    letter-spacing: .1px;
+    font-style: normal;
+    font-family: Poppins, sans-serif;
+    letter-spacing: 0.1px;
 }
 
 .dashboard .main .lobby .opportunities .opportunity {
@@ -1380,6 +1391,9 @@ fieldset {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .1px;
 }
 
 .dashboard .main .product-info .info .general .cost .dropdown .items .item .cost-selected {
