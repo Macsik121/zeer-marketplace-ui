@@ -121,23 +121,29 @@ export default class Lobby extends React.Component {
                                 </div>
                             </div>
                             <div className="subscriptions">
-                                <Link className="subscription" to={`/dashboard/${user.name}/subscriptions`}>
+                                <Link className="subscription all" to={`/dashboard/${user.name}/subscriptions`}>
                                     <div className="all subs">
                                         <div className="amount">{subscriptions.all.length}</div>
                                         <div className="type">Всего</div>
                                     </div>
+                                    <div className="linear-gradient-bg all" />
+                                    <img src="/images/all.png" className="subscription-character" />
                                 </Link>
-                                <Link className="subscription" to={`/dashboard/${user.name}/subscriptions`}>
+                                <Link className="subscription active" to={`/dashboard/${user.name}/subscriptions`}>
                                     <div className="active subs">
                                         <div className="amount">{subscriptions.active.length}</div>
                                         <div className="type">Активные</div>
                                     </div>
+                                    <div className="linear-gradient-bg active" />
+                                    <img src="/images/active.png" className="subscription-character" />
                                 </Link>
-                                <Link className="subscription" to={`/dashboard/${user.name}/subscriptions`}>
+                                <Link className="subscription overdue" to={`/dashboard/${user.name}/subscriptions`}>
                                     <div className="overdue subs">
                                         <div className="amount">{subscriptions.overdue.length}</div>
                                         <div className="type">Просроченные</div>
                                     </div>
+                                    <div className="linear-gradient-bg overdue" />
+                                    <img src="/images/overdue.png" className="subscription-character" />
                                 </Link>
                             </div>
                         </div>
@@ -170,7 +176,7 @@ export default class Lobby extends React.Component {
                     </div>
                     <h2 className="popular-products">Популярные продукты</h2>
                     {
-                        deviceWidth > 800
+                        deviceWidth > 1080
                             ? (
                                 <SlickSlider className="popular-products-slider" {...sliderSettings}>
                                     {popularProducts}

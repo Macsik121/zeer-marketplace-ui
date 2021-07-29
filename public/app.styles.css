@@ -958,7 +958,7 @@ fieldset {
 }
 
 .dashboard .main .lobby .info .buttons button {
-    padding: 10px 30px;
+    padding: 10px 0;
     background-color: #292932;
     cursor: pointer;
     color: #fff;
@@ -966,10 +966,11 @@ fieldset {
     border-radius: 10px;
     font-weight: 600;
     font-size: .9rem;
+    width: 50%;
 }
 
 .dashboard .main .lobby .info .buttons a {
-    padding: 10px 30px;
+    padding: 10px 0;
     background-color: #292932;
     cursor: pointer;
     color: #fff;
@@ -977,6 +978,9 @@ fieldset {
     border-radius: 10px;
     font-weight: 600;
     font-size: .85rem;
+    width: 45%;
+    display: flex;
+    justify-content: center;
 }
 
 .dashboard .main .lobby .subscriptions {
@@ -988,17 +992,78 @@ fieldset {
 
 .dashboard .main .lobby .subscriptions .subscription {
     background-color: #1C1C24;
-    border-radius: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     padding: 20px 10px 30px 20px;
     position: relative;
     width: 30%;
+    z-index: 2;
+}
+
+.dashboard .main .lobby .subscriptions .subscription.all {
+    border-bottom: 2px solid #1E75FF;
+}
+
+.dashboard .main .lobby .subscriptions .subscription.active {
+    border-bottom: 2px solid #82C43C;
+}
+
+.dashboard .main .lobby .subscriptions .subscription.overdue {
+    border-bottom: 2px solid #FC5A5A;
+}
+
+.dashboard .main .lobby .subscriptions .subscription .linear-gradient-bg {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.dashboard .main .lobby .subscriptions .subscription .subscription-character {
+    position: absolute;
+    bottom: 0;
+    left: -10px;
+    min-height: 65%;
+    width: 65%;
+}
+
+.dashboard .main .lobby .subscriptions .subscription .linear-gradient-bg.all {
+    background-image: linear-gradient(transparent 30%, rgba(30, 117, 255, .2));
+}
+
+.dashboard .main .lobby .subscriptions .subscription .linear-gradient-bg.active {
+    background-image: linear-gradient(transparent 30%, rgba(130, 196, 60, .2));
+}
+
+.dashboard .main .lobby .subscriptions .subscription .linear-gradient-bg.overdue {
+    background-image: linear-gradient(transparent 30%, rgba(252, 90, 90, .2));
+}
+
+.dashboard .main .lobby .subscriptions .subscription .subs .amount {
+    font-weight: 600;
+}
+
+.dashboard .main .lobby .subscriptions .subscription .subs.all .amount {
+    color: #1e75ff;
+}
+
+.dashboard .main .lobby .subscriptions .subscription .subs.active .amount {
+    color: #82c43c;
+}
+
+.dashboard .main .lobby .subscriptions .subscription .subs.overdue .amount {
+    color: #fc5a5a;
 }
 
 .dashboard .main .lobby .subscriptions .subscription .type {
     /* transform: rotate(-90deg); */
     position: absolute;
-    bottom: 0;
-    left: 0;
+    top: 0;
+    right: 0;
+    color: #B5B5BE;
 }
 
 .dashboard .main .lobby .opportunities {
@@ -1773,14 +1838,14 @@ fieldset {
     margin-top: 5vw;
 }
 
-@media (min-width: 1001px) and (max-width: 1200px) {
-    .dashboard .main .lobby .info .buttons {
-        flex-direction: column;
-    }
-    .dashboard .main .lobby .info .buttons .subs {
-        margin-top: 1vw;
+@media (max-width: 1080px) {
+    .dashboard .main .lobby .popular-products-slides .popular-product {
         display: flex;
-        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+    .dashboard .main .lobby .popular-products-slides .popular-product .buttons {
+        width: 100%;
     }
 }
 
@@ -1842,6 +1907,23 @@ fieldset {
     }
     .dashboard .main .lobby .general-info {
         flex-direction: column;
+    }
+    .dashboard .main .lobby .info .buttons button {
+        padding: 10px 30px;
+        width: auto;
+    }
+    .dashboard .main .lobby .info .buttons a {
+        width: auto;
+        padding: 10px 30px;
+    }
+    .dashboard .main .lobby .subscriptions .subscription {
+        height: 20vw;
+        width: 25%;
+    }
+    .dashboard .main .lobby .subscriptions .subscription .subscription-character {
+        width: 30%;
+        height: 30%;
+        left: -3px;
     }
     .dashboard .main .lobby .info .user {
         width: 100%;
