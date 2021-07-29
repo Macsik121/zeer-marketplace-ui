@@ -9,14 +9,17 @@ export default class ProductInfo extends React.Component {
         this.state = {
             product: {},
             popularProducts: [],
-            choosenDropdown: 'annually',
+            choosenDropdown: 'Ежемесячно',
+            calculatedCosts: ['Ежемесячно', 'Ежеквартально', 'Ежегодно'],
             changes: [],
-            showAllChanges: false
+            showAllChanges: false,
+            showDropdown: false
         };
         this.loadProduct = this.loadProduct.bind(this);
         this.loadPopProducts = this.loadPopProducts.bind(this);
         this.showAllChanges = this.showAllChanges.bind(this);
         this.renderChanges = this.renderChanges.bind(this);
+        this.calculateCost = this.calculateCost.bind(this);
     }
     async componentDidUpdate(prevProps, prevState) {
         if (prevProps.match.params.title != this.props.match.params.title) {
@@ -166,9 +169,18 @@ export default class ProductInfo extends React.Component {
         });
         return changes;
     }
+    calculateCost(e) {
+        console.log(e.target.textContent);
+        this.setState({ choosenDropdown: e.target.textContent });
+    }
     render() {
-        const { product, choosenDropdown } = this.state;
+        const { product, choosenDropdown, calculatedCosts } = this.state;
         const info = [];
+        const costDropdown = calculatedCosts.map(costTime => (
+            <div className="item" key={costTime} onClick={this.calculateCost}>
+                {costTime}
+            </div>
+        ));
         const changes = this.renderChanges();
         const popularProducts = this.state.popularProducts.map(popProduct => {
             if (popProduct.key) return popProduct;
@@ -243,11 +255,11 @@ export default class ProductInfo extends React.Component {
             </span>
         );
         if (choosenDropdown) {
-            if (choosenDropdown == 'daily') {
+            if (choosenDropdown == 'Ежедневно') {
                 productCost = <span className="cost">{product.costPerDay && product.costPerDay} &#8381; / День</span>;
-            } else if (choosenDropdown == 'monthly') {
+            } else if (choosenDropdown == 'Ежеквартально') {
                 productCost = <span className="cost">{product.costPerDay && product.costPerDay * 30} &#8381; / Мес.</span>
-            } else if (choosenDropdown == 'annually') {
+            } else if (choosenDropdown == 'Ежегодно') {
                 productCost = <span className="cost">{product.costPerDay && product.costPerDay * 30 * 12} &#8381; / Год</span>
             }
         }
@@ -273,7 +285,7 @@ export default class ProductInfo extends React.Component {
                                         : 'Ни разу не обновлялся'
                                     }
                                 </span>
-                                {' * '}
+                                <div className="circle" />
                                 <span className="current-version">
                                     {this.state.changes[0]
                                         ? this.state.changes[0].version
@@ -282,9 +294,6 @@ export default class ProductInfo extends React.Component {
                                 </span>
                             </span>
                         </div>
-                    </div>
-                    <div className="info">
-
                     </div>
                     <div className="general">
                         <div className="description">
@@ -363,29 +372,34 @@ export default class ProductInfo extends React.Component {
                             </ul>
                         </div>
                         <div className="cost">
-                            <div className="dropdown">
+                            <div className="calc-cost">
                                 <div
-                                    onClick={() => this.setState({choosenDropdown: 'monthly'})}
-                                    className="item"
+                                    className="dropdown"
+                                    onClick={
+                                        function() {
+                                            this.setState({ showDropdown: !this.state.showDropdown })
+                                        }.bind(this)
+                                    }
                                 >
-                                        Ежемесячно
+                                    <div className="calculated-time">
+                                        {choosenDropdown}
+                                        <img className="dropdown-arrow" src="/images/categories-arrow-menu.png" />
+                                    </div>
+                                    <div
+                                        className="items"
+                                        style={
+                                            this.state.showDropdown
+                                                ? {maxHeight: '550px', transition: '400ms'}
+                                                : {maxHeight: '0', transition: '150ms'}
+                                        }
+                                    >
+                                        {costDropdown}
+                                    </div>
                                 </div>
-                                <div
-                                    onClick={() => this.setState({choosenDropdown: 'daily'})}
-                                    className="item"
-                                >
-                                    Ежеквартально
+                                <div className="gray-line"></div>
+                                <div className="calculated-cost">
+                                    {productCost}
                                 </div>
-                                <div
-                                    onClick={() => this.setState({choosenDropdown: 'annually'})}
-                                    className="item"
-                                >
-                                    Ежегодно
-                                </div>
-                            </div>
-                            <div className="gray-line"></div>
-                            <div className="calculated-cost">
-                                {productCost}
                             </div>
                             <div className="button">
                                 <Link to="/dashboard/" className="buy-button">
@@ -397,7 +411,6 @@ export default class ProductInfo extends React.Component {
                 </div>
             </div>
         );
-        console.log(product.avatar)
         return (
             <div className="product-info">
                 <div className="container">
