@@ -5,8 +5,6 @@ import routes from './routes';
 class Routing extends React.Component {
     constructor() {
         super();
-        this.state = {
-        }
     }
     render() {
         return (
