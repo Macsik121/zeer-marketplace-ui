@@ -171,7 +171,7 @@ export default class Lobby extends React.Component {
                         </div>
                         <div className="video">
                             <div className="watch"></div>
-                            <div className="play"></div>
+                            <img src="/images/play-button.svg" className="play" />
                         </div>
                     </div>
                     <h2 className="popular-products">Популярные продукты</h2>
