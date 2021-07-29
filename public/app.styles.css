@@ -900,6 +900,7 @@ fieldset {
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
+    height: 300px;
 }
 
 .dashboard .main .lobby .info {
@@ -920,6 +921,8 @@ fieldset {
     padding: 20px;
     background-color: #1C1C24;
     border-radius: 10px;
+    height: 50%;
+    justify-content: space-around;
 }
 
 .dashboard .main .lobby .info .user .general {
@@ -941,7 +944,7 @@ fieldset {
 }
 
 .dashboard .main .lobby .info .user .general .data {
-    margin-left: 10px;
+    margin-left: 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -951,6 +954,7 @@ fieldset {
     display: flex;
     justify-content: space-between;
     margin-top: 15px;
+    font-size: .7rem;
 }
 
 .dashboard .main .lobby .info .buttons button:first-of-type {
@@ -965,7 +969,6 @@ fieldset {
     border: none;
     border-radius: 10px;
     font-weight: 600;
-    font-size: .9rem;
     width: 50%;
 }
 
@@ -977,7 +980,6 @@ fieldset {
     border: none;
     border-radius: 10px;
     font-weight: 600;
-    font-size: .85rem;
     width: 45%;
     display: flex;
     justify-content: center;
@@ -1026,7 +1028,7 @@ fieldset {
     position: absolute;
     bottom: 0;
     left: -10px;
-    min-height: 65%;
+    height: 70%;
     width: 65%;
 }
 
@@ -1076,7 +1078,7 @@ fieldset {
 }
 
 .dashboard .main .lobby .opportunities h2 {
-    font-size: 1.25rem;
+    font-size: 1rem;
     color: #fff;    
 }
 
@@ -1092,10 +1094,11 @@ fieldset {
     background-position: right center;
     background-repeat: no-repeat;
     background-color: #1C1C24;
+    height: 50%;
 }
 
 .dashboard .main .lobby .opportunities .opportunity.questions .explore {
-    width: 45%;
+    width: 48.5%;
     background-color: #1E75FF;
     display: flex;
     justify-content: center;
@@ -1103,7 +1106,7 @@ fieldset {
     border-radius: 10px;
     margin-top: 20px;
     font-weight: 600;
-    font-size: .8rem;
+    font-size: .65rem;
 }
 
 .dashboard .main .lobby .opportunities .opportunity.reset {
@@ -1111,6 +1114,10 @@ fieldset {
     background-position: right center;
     background-repeat: no-repeat;
     background-color: #1C1C24;
+    min-height: 46%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .dashboard .main .lobby .opportunities .opportunity .content {
@@ -1132,10 +1139,10 @@ fieldset {
     border-radius: 10px;
     background-color: #292932;
     padding: 10px 0;
-    width: 45%;
+    width: 48.5%;
     display: flex;
     justify-content: center;
-    font-size: .8rem;
+    font-size: .65rem;
     font-weight: 600;
 }
 
@@ -1152,11 +1159,21 @@ fieldset {
 }
 
 .dashboard .main .lobby .video .watch {
-    width: 125px;
-    height: 35%;
+    width: 100px;
+    height: 100px;
     background-color: #fff;
     border-radius: 50%;
     position: relative;
+}
+
+.dashboard .main .lobby .video .play {
+    border-color: transparent transparent transparent #202020;
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    left: 0;
+    top: 0;
+    /* background-color: #fff; */
 }
 
 .dashboard .main .lobby .dashboard-slider {
@@ -1907,6 +1924,11 @@ fieldset {
     }
     .dashboard .main .lobby .general-info {
         flex-direction: column;
+        height: auto;
+    }
+    .dashboard .main .lobby .video .watch {
+        width: 125px;
+        height: 125px;
     }
     .dashboard .main .lobby .info .buttons button {
         padding: 10px 30px;
@@ -1957,9 +1979,6 @@ fieldset {
         top: 100%;
         width: 250%;
         box-shadow: none;
-    }
-    .dashboard .main .lobby .video .watch {
-        width: 175px;
     }
     .dashboard .main .FAQ .search-bar .search {
         height: 20px;
