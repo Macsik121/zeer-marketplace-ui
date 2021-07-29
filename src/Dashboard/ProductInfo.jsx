@@ -397,6 +397,7 @@ export default class ProductInfo extends React.Component {
                 </div>
             </div>
         );
+        console.log(product.avatar)
         return (
             <div className="product-info">
                 <div className="container">

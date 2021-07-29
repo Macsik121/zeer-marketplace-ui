@@ -17,7 +17,8 @@ class NavBar extends React.Component {
             navLinks: [],
             menuDropdownShown: false,
             userDropdownShown: false,
-            deviceWidth: 0
+            deviceWidth: 0,
+            userAvatar: {}
         };
         this.toggleMenuDropdown = this.toggleMenuDropdown.bind(this);
         this.hiddenMenuDropdown = this.hiddenMenuDropdown.bind(this);
@@ -26,8 +27,20 @@ class NavBar extends React.Component {
         this.logout = this.logout.bind(this);
     }
     componentDidUpdate(prevProps) {
+        const { user } = this.state;
         if (prevProps.user != this.props.user) {
             this.setState({user: this.props.user});
+            if (Object.keys(this.props.user).length > 0) {
+                if (user.avatar && user.avatar.length > 100) {
+                    this.setState({userAvatar: {
+                        background: `url("${user.avatar}") center/cover no-repeat`,
+                    }})
+                } else {
+                    this.setState({userAvatar: {
+                        background: user.avatar
+                    }})
+                }
+            }
         }
     }
     componentDidMount() {
@@ -39,13 +52,11 @@ class NavBar extends React.Component {
                 });
             }
         }.bind(this);
-        if (Object.keys(this.props.user).length > 0) {
-            if (user.avatar && user.avatar.length < 500) {
+        const user = jwtDecode(localStorage.getItem('token'));
+        if (Object.keys(user).length > 0) {
+            if (user.avatar && user.avatar.length > 100) {
                 this.setState({userAvatar: {
-                    background: `url(${user.avatar})`,
-                    backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'center center',
-                    backgroundSize: 'cover'
+                    background: `url("${this.props.selectedImage}") center/cover no-repeat`
                 }})
             } else {
                 this.setState({userAvatar: {
@@ -146,7 +157,14 @@ class NavBar extends React.Component {
         this.props.history.push('/');
     }
     render() {
-        const { user, navLinks, menuDropdownShown, deviceWidth, userDropdownShown } = this.state;
+        const {
+            user,
+            navLinks,
+            menuDropdownShown,
+            deviceWidth,
+            userDropdownShown,
+            userAvatar
+        } = this.state;
         const nav = navLinks.map(link => {
             return (
                 <NavLink
@@ -249,12 +267,12 @@ class NavBar extends React.Component {
                             style={
                                 userDropdownShown
                                     ? {
-                                        background: `${user.avatar}`,
+                                        background: userAvatar.background,
                                         border: '2px solid #fff',
                                         padding: '20px'
                                     }
                                     : {
-                                        background: `${user.avatar}`,
+                                        background: userAvatar.background,
                                         border: 'none',
                                         padding: '22px'
                                     }
@@ -464,6 +482,7 @@ class Dashboard extends React.Component {
                     <NavBar
                         user={user}
                         history={this.props.history}
+                        selectedImage={this.props.selectedImage}
                     />
                 </header>
                 <main className="main">

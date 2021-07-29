@@ -1,5 +1,4 @@
 import React from 'react';
-import FileBase from 'react-file-base64';
 import jwtDecode from 'jwt-decode';
 import fetchData from '../fetchData';
 
@@ -13,6 +12,7 @@ export default class SetNewAvatar extends React.Component {
         };
         this.showError = this.showError.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.changeAvatar = this.changeAvatar.bind(this);
     }
     showError(message) {
         this.setState({
@@ -22,8 +22,7 @@ export default class SetNewAvatar extends React.Component {
     }
     async handleSubmit(e) {
         e.preventDefault();
-        const token = await fetchData(`query { token }`);
-        const user = jwtDecode(token.token);
+        const user = jwtDecode(localStorage.getItem('token'));
         const newAvatar = this.state.selectedImage;
         const newAvatarType = this.state.selectedImage.type;
         let isTypeCorrect = false;
@@ -39,14 +38,23 @@ export default class SetNewAvatar extends React.Component {
         //     return;
         // }
 
-        const userWithNewAvatar = await fetchData(`mutation changeAvatar($name: String!, $avatar: String!) {
-            changeAvatar(name: $name, avatar: $avatar) {
-                email
-                name
-                avatar
+        const userWithNewAvatar = await fetchData(`
+            mutation changeAvatar($name: String!, $avatar: String!) {
+                changeAvatar(name: $name, avatar: $avatar) {
+                    email
+                    name
+                    avatar
+                }
             }
-        }`, {name: user.name, avatar: newAvatar});
+        `, {name: user.name, avatar: newAvatar});
         this.props.history.push(`/dashboard/${user.name}`);
+    }
+    changeAvatar(e) {
+        const reader = new FileReader();
+        reader.readAsDataURL(e.target.files[0]);
+        reader.onload = function() {
+            this.setState({ selectedImage: reader.result });
+        }.bind(this);
     }
     render() {
         const { selectedImage, isErrorShown, errorMessage } = this.state;
@@ -62,7 +70,7 @@ export default class SetNewAvatar extends React.Component {
                     </label>
                     <form onSubmit={this.handleSubmit} className="changeavatar">
                         <img className="uploaded-img" src={selectedImage} />
-                        <FileBase
+                        {/* <FileBase
                             type="file"
                             accept="
                                 image/png
@@ -78,6 +86,16 @@ export default class SetNewAvatar extends React.Component {
                                     this.setState({selectedImage: base64.base64, isErrorShown: false})
                                 }
                             }
+                        /> */}
+                        <input
+                            type="file"
+                            accept="
+                                image/png,
+                                image/jpeg,
+                                image/jpg,
+                                images/svg
+                            "
+                            onChange={this.changeAvatar}
                         />
                         <button type="submit" className="confirm">Поменять аватар</button>
                     </form>

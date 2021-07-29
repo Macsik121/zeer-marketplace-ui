@@ -9,7 +9,8 @@ export default class Lobby extends React.Component {
         super();
         this.state = {
             popularProducts: [],
-            deviceWidth: 801
+            deviceWidth: 801,
+            userAvatar: {}
         };
     }
     async componentDidMount() {
@@ -48,7 +49,15 @@ export default class Lobby extends React.Component {
             }
             this.setState({popularProducts: Object.assign(popularProducts, productsToAdd)})
         }
-        this.setState({popularProducts, deviceWidth: innerWidth});
+        const { user } = this.props;
+        const userAvatar = {};
+        if (user.avatar.includes('#')) {
+            userAvatar.background = user.avatar;
+        } else {
+            userAvatar.background = `url("${user.avatar}") center/cover no-repeat`;
+        }
+        this.setState({popularProducts, deviceWidth: innerWidth, userAvatar});
+        console.log(this.state.userAvatar)
     }
     render() {
         const { deviceWidth } = this.state;
@@ -92,9 +101,11 @@ export default class Lobby extends React.Component {
                         <div className="info">
                             <div className="user">
                                 <div className="general">
-                                    <div className="avatar" style={{background: user.avatar}}>
+                                    <div className="avatar" style={this.state.userAvatar}>
                                         <span className="first-char">
-                                            {user.nameFirstChar}
+                                            {
+                                                user.nameFirstChar
+                                            }
                                         </span>
                                     </div>
                                     <div className="data">
