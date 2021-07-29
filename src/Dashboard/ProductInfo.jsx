@@ -179,6 +179,7 @@ export default class ProductInfo extends React.Component {
         const costDropdown = calculatedCosts.map(costTime => (
             <div className="item" key={costTime} onClick={this.calculateCost}>
                 {costTime}
+                {costTime == choosenDropdown && <img className="cost-selected" src="/images/selected-cost.png" />}
             </div>
         ));
         const changes = this.renderChanges();
@@ -380,6 +381,19 @@ export default class ProductInfo extends React.Component {
                                             this.setState({ showDropdown: !this.state.showDropdown })
                                         }.bind(this)
                                     }
+                                    style={
+                                        this.state.showDropdown
+                                            ? {
+                                                borderBottomLeftRadius: 0,
+                                                borderBottomRightRadius: 0,
+                                                padding: '0 -1px'
+                                            }
+                                            : {
+                                                borderBottomLeftRadius: '10px',
+                                                borderBottomRightRadius: '10px',
+                                                padding: '0 -1px'
+                                            }
+                                    }
                                 >
                                     <div className="calculated-time">
                                         {choosenDropdown}
@@ -389,8 +403,14 @@ export default class ProductInfo extends React.Component {
                                         className="items"
                                         style={
                                             this.state.showDropdown
-                                                ? {maxHeight: '550px', transition: '400ms'}
-                                                : {maxHeight: '0', transition: '150ms'}
+                                                ? {
+                                                    maxHeight: '550px',
+                                                    transition: '350ms',
+                                                }
+                                                : {
+                                                    maxHeight: '0',
+                                                    transition: '200ms',
+                                                }
                                         }
                                     >
                                         {costDropdown}

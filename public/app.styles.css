@@ -1344,17 +1344,22 @@ fieldset {
     position: relative;
     user-select: none;
     border: 1px solid #1E75FF;
-    border-radius: 10px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
     padding: 15px 20px;
 }
 
 .dashboard .main .product-info .info .general .cost .calc-cost .calculated-time {
     display: flex;
     justify-content: space-between;
+    width: 100%;
+    align-items: center;
 }
 
 .dashboard .main .product-info .info .general .cost .calc-cost .calculated-time .dropdown-arrow {
-    height: 10px;
+    height: 7px;
     width: 10px;
 }
 
@@ -1362,15 +1367,30 @@ fieldset {
     overflow: hidden;
     position: absolute;
     top: 50px;
-    left: 0;
+    left: -1px;
     user-select: none;
-    width: 100%;
+    width: calc(100% + 2px);
 }
 
 .dashboard .main .product-info .info .general .cost .dropdown .items .item {
     border: 1px solid #1E75FF;
-    border-radius: 10px;
+    border-top: none;
+    border-bottom: none;
     padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dashboard .main .product-info .info .general .cost .dropdown .items .item .cost-selected {
+    height: 5px;
+    width: 8px;
+}
+
+.dashboard .main .product-info .info .general .cost .dropdown .items .item:last-of-type {
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom: 1px solid #1E75FF;
 }
 
 .dashboard .main .product-info .info .general .cost .gray-line {
@@ -2213,9 +2233,6 @@ fieldset {
     .dashboard .main .products .product .cover {
         height: 50vw;
     }
-    .dashboard .main .product-info .product .general .cost {
-        flex-direction: column;
-    }
     .dashboard .main .product-info .product .general .cost .button {
         margin-top: 15px;
     }
@@ -2410,6 +2427,15 @@ fieldset {
 }
 
 @media (max-width: 700px) {
+    .dashboard .main .product-info .product .general .cost {
+        flex-direction: column;
+    }
+    .dashboard .main .product-info .product .general .cost .calc-cost {
+        flex-direction: column;
+    }
+    .dashboard .main .product-info .info .general .cost .gray-line {
+        display: none;
+    }
     .dashboard .footer .container {
         flex-direction: column;
     }
