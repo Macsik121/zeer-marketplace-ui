@@ -823,6 +823,7 @@ fieldset {
     background-color: #fff;
     border-radius: 50%;
     position: relative;
+    cursor: pointer;
 }
 
 .dashboard .main .lobby .video .play {
