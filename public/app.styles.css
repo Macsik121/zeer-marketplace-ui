@@ -79,13 +79,13 @@
 
 .popular-products-slider .slick-arrow.slick-prev {
     background-image: url(/images/arrow-left-slider.png);
-    background-position: 49% center;
+    background-position: 49.96% center;
     margin-left: -25px;
 }
 
 .popular-products-slider .slick-arrow.slick-next {
     background-image: url(/images/arrow-right-slider.png);
-    background-position: 58.5% center;
+    background-position: 54.7% center;
     margin-right: -25px;
 }
 
