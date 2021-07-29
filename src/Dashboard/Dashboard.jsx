@@ -368,25 +368,27 @@ class Footer extends React.Component {
         return (
             <footer className="footer">
                 <div className="container">
-                    <div className="zeer">
-                        <img className="logo" src="/images/zeer-logo.png" />
-                        <div className="time-working">
-                            ZEER - <span>{timeWorking.from}</span>/<span>{timeWorking.to}</span>
+                    <div className="footer-wrap">
+                        <div className="zeer">
+                            <img className="logo" src="/images/zeer-logo.png" />
+                            <div className="time-working">
+                                ZEER - <span>{timeWorking.from}</span>/<span>{timeWorking.to}</span>
+                            </div>
                         </div>
-                    </div>
-                    <div className="contacts">
-                        {deviceWidth > 800 &&
-                            <span>Мы в социальных сетях</span>
-                        }
-                        <div className="soc-media">
-                            <a href="https://t.me/zeer_changer" target="_blank">
-                                <img src="/images/telegram-icon.png" />
-                            </a>
-                            <a href="https://vk.com/zeer_csgo" target="_blank">
-                                <img src="/images/vk-icon.png" />
-                            </a>
+                        <div className="contacts">
+                            {deviceWidth > 800 &&
+                                <span>Мы в социальных сетях</span>
+                            }
+                            <div className="soc-media">
+                                <a href="https://t.me/zeer_changer" target="_blank">
+                                    <img src="/images/telegram-icon.png" />
+                                </a>
+                                <a href="https://vk.com/zeer_csgo" target="_blank">
+                                    <img src="/images/vk-icon.png" />
+                                </a>
+                            </div>
+                            <div className="gray-line"></div>
                         </div>
-                        <div className="gray-line"></div>
                     </div>
                     <button
                             style={

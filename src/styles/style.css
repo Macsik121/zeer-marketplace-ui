@@ -736,6 +736,8 @@ fieldset {
     font-size: 16px;
     color: #FAFAFB;
     line-height: 24px;
+    font-weight: 600;
+    letter-spacing: .1px;
 }
 
 .dashboard .main .lobby .opportunities .opportunity {
@@ -1874,7 +1876,14 @@ fieldset {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    color: rgba(255, 255, 255, .7);
+    color: #92929D;
+    font-size: 14px;
+}
+
+.dashboard .footer .footer-wrap {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .dashboard .footer .zeer {
@@ -1917,10 +1926,10 @@ fieldset {
 }
 
 .dashboard .footer .gray-line {
-    height: 100%;
+    height: 60%;
     width: 1px;
-    transform: rotate(90deg);
-    background-color: gray;
+    background-color: #292932;
+    margin-left: 30px;
 }
 
 .dashboard .footer .download-loader {
@@ -1932,6 +1941,7 @@ fieldset {
     border-radius: 10px;
     transition: 200ms;
     margin-left: 30px;
+    width: 160px;
 }
 
 .dashboard .footer .download-loader:hover {
@@ -1942,15 +1952,8 @@ fieldset {
     .dashboard .footer .container {
         flex-direction: column;
     }
-    .dashboard .footer .zeer {
-        flex-direction: column;
-    }
-    .dashboard .footer .zeer .time-working {
-        margin-top: 15px;
-    }
     .dashboard .footer .contacts {
         flex-direction: column;
-        margin-top: 20px;
         justify-content: center;
     }
     .dashboard .footer .contacts .soc-media {
@@ -1961,6 +1964,9 @@ fieldset {
     }
     .dashboard .nav .links .icon {
         margin: 0;
+    }
+    .dashboard .footer .gray-line {
+        display: none;
     }
     .dashboard .nav .three-dots .menu-dropdown .link-item .icon {
         width: 30px;
