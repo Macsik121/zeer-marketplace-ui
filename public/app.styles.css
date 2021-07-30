@@ -49,13 +49,18 @@
 .slider .slick-slide {
     display: flex !important;
     justify-content: center;
-    /* width: 200px; */
     margin: 0 auto;
 }
 
 .popular-products-slider {
     margin-top: 30px;
     padding-bottom: 60px;
+}
+
+.popular-products-slider .slick-list {
+    cursor: grab;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .popular-products-slider .slick-arrow {
@@ -65,27 +70,34 @@
     border: 1px solid #1E75FF;
     border-radius: 10px;
     z-index: 1;
+    transition: 200ms;
 }
 
-.popular-products-slider .slick-arrow:hover,
+.popular-products-slider .slick-arrow:hover {
+    background-repeat: no-repeat;
+}
+
 .popular-products-slider .slick-arrow:focus {
     background-repeat: no-repeat;
-    background-position: center center;
 }
 
 .popular-products-slider .slick-arrow::before {
     content: none;
 }
 
+.popular-products-slider .slick-slide {
+    padding-top: 150px;
+}
+
 .popular-products-slider .slick-arrow.slick-prev {
     background-image: url(/images/arrow-left-slider.png);
-    background-position: 49.96% center;
+    background-position: 49% center;
     margin-left: -25px;
 }
 
 .popular-products-slider .slick-arrow.slick-next {
     background-image: url(/images/arrow-right-slider.png);
-    background-position: 54.7% center;
+    background-position: 55% center;
     margin-right: -25px;
 }
 
@@ -98,6 +110,14 @@
     justify-content: center;
 }
 
+.popular-products-slider .slick-slide .cover {
+    bottom: 150px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    height: 300px;
+}
+
 .popular-products-slider .popular-product {
     display: flex !important;
     flex-direction: column;
@@ -106,6 +126,10 @@
     background-color: #1C1C24;
     width: 50%;
     margin: 0 auto;
+    max-height: 370px;
+    height: 300px;
+    justify-content: flex-end;
+    position: relative;
 }
 
 .popular-products-slider .popular-product .title {
@@ -117,6 +141,7 @@
     color: rgba(255, 255, 255, .8);
     font-size: .8rem;
     margin-top: 5px;
+    width: 300px;
 }
 
 .popular-products-slider .popular-product .buttons {
@@ -1367,6 +1392,9 @@ fieldset {
     justify-content: space-between;
     width: 100%;
     align-items: center;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .1px;
 }
 
 .dashboard .main .product-info .info .general .cost .calc-cost .calculated-time .dropdown-arrow {
@@ -1377,7 +1405,7 @@ fieldset {
 .dashboard .main .product-info .info .general .cost .dropdown .items {
     overflow: hidden;
     position: absolute;
-    top: 50px;
+    top: 45px;
     left: -1px;
     user-select: none;
     width: calc(100% + 2px);

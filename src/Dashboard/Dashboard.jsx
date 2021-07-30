@@ -18,7 +18,9 @@ class NavBar extends React.Component {
             menuDropdownShown: false,
             userDropdownShown: false,
             deviceWidth: 0,
-            userAvatar: {}
+            userAvatar: {},
+            currentLink: 'Лобби',
+            currentPath: ''
         };
         this.toggleMenuDropdown = this.toggleMenuDropdown.bind(this);
         this.hiddenMenuDropdown = this.hiddenMenuDropdown.bind(this);
@@ -66,6 +68,7 @@ class NavBar extends React.Component {
         }
         const navLinks = [
             {
+                name: 'Лобби',
                 path: '',
                 isExact: true,
                 userpage: true,
@@ -84,6 +87,7 @@ class NavBar extends React.Component {
                 ]
             },
             {
+                name: 'Продукты',
                 path: 'products',
                 isExact: false,
                 userpage: false,
@@ -102,6 +106,7 @@ class NavBar extends React.Component {
                 ]
             },
             {
+                name: 'Управление подписками',
                 path: 'subscriptions',
                 isExact: false,
                 userpage: true,
@@ -120,6 +125,7 @@ class NavBar extends React.Component {
                 ]
             },
             {
+                name: 'FAQ',
                 path: 'FAQ',
                 isExact: false,
                 userpage: false,
@@ -176,6 +182,7 @@ class NavBar extends React.Component {
                     className="link-item"
                     onClick={
                         function() {
+                            console.log(this.props);
                             this.setState({
                                 userDropdownShown: false,
                                 menuDropdownShown: false
@@ -202,9 +209,12 @@ class NavBar extends React.Component {
                             }
                         })
                     }
+                    {link.name &&
+                        <div className="active-border"></div>
+                    }
                 </NavLink>
             )
-        });
+        })
         const navMenu = (
             deviceWidth >= 700
                 ? (
@@ -484,6 +494,7 @@ class Dashboard extends React.Component {
                     <NavBar
                         user={user}
                         history={this.props.history}
+                        match={this.props.match}
                         selectedImage={this.props.selectedImage}
                     />
                 </header>

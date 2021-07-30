@@ -1000,6 +1000,9 @@ fieldset {
     justify-content: space-between;
     width: 100%;
     align-items: center;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .1px;
 }
 
 .dashboard .main .product-info .info .general .cost .calc-cost .calculated-time .dropdown-arrow {
@@ -1010,7 +1013,7 @@ fieldset {
 .dashboard .main .product-info .info .general .cost .dropdown .items {
     overflow: hidden;
     position: absolute;
-    top: 50px;
+    top: 45px;
     left: -1px;
     user-select: none;
     width: calc(100% + 2px);

@@ -6,7 +6,6 @@ import { fetchPopularProducts } from '../PopularProducts.jsx';
 
 function NextArrow(props) {
     const { onClick, className, style } = props;
-    console.log(style);
     return (
         <div
             onClick={onClick}
@@ -18,7 +17,6 @@ function NextArrow(props) {
 
 function PrevArrow(props) {
     const { onClick, className, style } = props;
-    console.log(style)
     return (
         <div
             onClick={onClick}
@@ -75,13 +73,12 @@ export default class Lobby extends React.Component {
         }
         const { user } = this.props;
         const userAvatar = {};
-        if (user.avatar.includes('#')) {
-            userAvatar.background = user.avatar;
-        } else {
-            userAvatar.background = `url("${user.avatar}") center/cover no-repeat`;
-        }
+        // if (user.avatar.includes('#')) {
+        //     userAvatar.background = user.avatar;
+        // } else {
+        userAvatar.background = `url("${user.avatar}") center/cover no-repeat`;
+        // }
         this.setState({popularProducts, deviceWidth: innerWidth, userAvatar});
-        console.log(this.state.userAvatar)
     }
     render() {
         const { deviceWidth } = this.state;
@@ -90,11 +87,10 @@ export default class Lobby extends React.Component {
             infinite: true,
             speed: 500,
             slidesToShow: 3,
-            // autoplay: true,
+            slidesToScroll: 3,
             autoplaySpeed: 7500,
             variableWidth: true,
-            // prevArrow: <PrevArrow />,
-            // nextArrow: <NextArrow />,
+            adaptiveHeight: true,
             responsive: [
                 {
                     breakpoint: 1180,
@@ -114,6 +110,11 @@ export default class Lobby extends React.Component {
                             <h3 className="product-title">{product.title}{' | '}<span className="product-for">{product.productFor}</span></h3>
                         </div>
                         <span className="description">{product.description}</span>
+                        {/* <div className="people-bought">
+                            <span className="person">Person 1</span>
+                            <span className="person">Person 2</span>
+                            <span className="person">Person 3</span>
+                        </div> */}
                         <div className="buttons">
                             <Link to="/dashboard/">Купить</Link>
                             <Link to={`/dashboard/products/${product.title}`}>Подробнее</Link>
