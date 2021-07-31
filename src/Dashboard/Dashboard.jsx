@@ -1,7 +1,6 @@
 import React from 'react';
 import { NavLink, Link, Switch, Route } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
-import Button from '@material-ui/core/Button';
 import fetchData from '../fetchData';
 import Lobby from './Lobby.jsx';
 import Products from './Products.jsx';
@@ -9,6 +8,7 @@ import Subscriptions from './Subscriptions.jsx';
 import FAQ from './FAQ.jsx';
 import SetNewAvatar from './SetNewAvatar.jsx';
 import ProductInfo from './ProductInfo.jsx';
+import ChangePassword from './ChangePasswordModal.jsx';
 
 class NavBar extends React.Component {
     constructor() {
@@ -53,6 +53,7 @@ class NavBar extends React.Component {
                     userDropdownShown: false,
                     menuDropdownShown: false
                 });
+                this.props.hideModal();
             }
         }.bind(this);
         const user = jwtDecode(localStorage.getItem('token'));
@@ -172,6 +173,7 @@ class NavBar extends React.Component {
             userDropdownShown,
             userAvatar
         } = this.state;
+        const { toggleModal, hideModal } = this.props;
         const nav = navLinks.map(link => {
             return (
                 <NavLink
@@ -314,21 +316,30 @@ class NavBar extends React.Component {
                             }
                         >
                             <NavLink
-                                onClick={this.hiddenUserDropdown}
+                                onClick={
+                                    function() {
+                                        this.hiddenUserDropdown();
+                                    }.bind(this)
+                                }
                                 to={`/dashboard/${user.name}/changeavatar`}
                             >
                                 <div className="item">
                                     Установить новый аватар
                                 </div>
                             </NavLink>
-                            <NavLink
-                                onClick={this.hiddenUserDropdown}
-                                to={`/dashboard/${user.name}`}
+                            <button
+                                className="show-modal-change-password"
+                                onClick={
+                                    function() {
+                                        this.hiddenUserDropdown();
+                                        toggleModal();
+                                    }.bind(this)
+                                }
                             >
                                 <div className="item">
                                     Сменить пароль
                                 </div>
-                            </NavLink>
+                            </button>
                             <NavLink
                                 onClick={this.hiddenUserDropdown}
                                 to={`/dashboard/${user.name}`}
@@ -436,8 +447,12 @@ class Dashboard extends React.Component {
                 all: [],
                 active: [],
                 overdue: []
-            }
+            },
+            showingChangePassword: false
         }
+        this.showModal = this.showModal.bind(this);
+        this.hideModal = this.hideModal.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
     }
     async componentDidMount() {
         const { match, history } = this.props;
@@ -497,8 +512,17 @@ class Dashboard extends React.Component {
         `, {name: user.name});
         this.setState({subscriptions: result.getSubscriptions, deviceWidth: innerWidth});
     }
+    toggleModal() {
+        this.setState({ showingChangePassword: !this.state.showingChangePassword })
+    }
+    showModal() {
+        this.setState({ showingChangePassword: true });
+    }
+    hideModal() {
+        this.setState({ showingChangePassword: false });
+    }
     render() {
-        const { user, subscriptions } = this.state;
+        const { user, subscriptions, showingChangePassword } = this.state;
         return (
             <div className="dashboard">
                 <header className="header">
@@ -507,9 +531,19 @@ class Dashboard extends React.Component {
                         history={this.props.history}
                         match={this.props.match}
                         selectedImage={this.props.selectedImage}
+                        toggleModal={this.toggleModal}
+                        hideModal={this.hideModal}
+                        showingChangePassword={showingChangePassword}
                     />
                 </header>
                 <main className="main">
+                    <ChangePassword
+                        style={
+                            showingChangePassword
+                                ? {opactiy: 1, transform: 'translateY(0)'}
+                                : {opactiy: 0, transform: 'translateY(-150%)'}
+                        }
+                    />
                     <Switch>
                         <Route exact path="/dashboard/products" component={Products} />
                         <Route path="/dashboard/FAQ" component={FAQ} />

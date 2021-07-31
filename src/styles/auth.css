@@ -22,15 +22,20 @@
     right: 0;
     transition: 500ms;
     width: 450px;
+    z-index: 1;
 }
 
 .home .auth-form .container {
     background: #1C1C24;
     font-size: 2rem;
-    padding: 20px 15px;
+    padding: 30px 20px;
     border-radius: 15px;
     margin: auto;
-    flex-direction: column;
+    box-shadow: 0px 0px 20px 5px #000000;
+}
+
+.auth-form input[type="checkbox"] {
+    cursor: pointer;
 }
 
 .auth-form .heading {
@@ -43,16 +48,16 @@
 .auth-form .heading .authorization {
     font-size: 2rem;
 }
-/* 
+
 .auth-form .heading .close-modal {
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-} */
+    border: none;
+    background: transparent;
+}
 
 .auth-form .heading .close-modal .close-icon {
     fill: #1E75FF;
-    margin-left: 3vw;
+    margin-left: 5px;
+    cursor: pointer;
 }
 
 .auth-form .form {
@@ -102,6 +107,7 @@
     transition: 300ms;
     padding: 0 10px;
     transform: translateX(0) translateY(0);
+    color: #92929D;
 }
 
 .auth-form .form .field-wrap .field {
@@ -131,7 +137,7 @@
 .auth-form .form .remember {
     display: flex;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 .auth-form .form .remember .check {
@@ -154,18 +160,20 @@
     border-radius: 10px;
     cursor: pointer;
     color: #fff;
-    font-size: .9rem;
-    margin-top: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 30px;
+    line-height: 18px;
 }
 
 .auth-form .addition {
-    margin-top: 15px;
-    padding-top: 15px;
+    margin-top: 30px;
+    padding-top: 30px;
     border-top: 1px solid gray;
     display: flex;
     flex-direction: column;
     text-align: center;
-    font-size: .85rem;
+    font-size: 14px;
 }
 
 .auth-form .addition button {
@@ -174,6 +182,21 @@
     border: none;
     background: none;
     cursor: pointer;
+    font-family: Roboto, sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.auth-form .addition button:first-of-type {
+    color: #92929D;
+}
+
+.auth-form .addition button + button {
+    margin-top: 15px;
+}
+
+.signin .addition button:first-of-type {
+    color: #fff;
 }
 
 .signup .close-modal {
@@ -188,6 +211,23 @@
 
 .signup .form .field-wrap .field {
     width: 100%;
+}
+
+.signup .terms-n-policy {
+    display: flex;
+    font-size: 14px;
+    font-family: Roboto, sans-serif;
+    letter-spacing: .1px;
+    margin-top: 30px;
+}
+
+.signup .terms-n-policy .agreement {
+    margin-left: 10px;
+}
+
+.signup .terms-n-policy .agreement .rules {
+    color: #1E75FF;
+    cursor: pointer;
 }
 
 .signup .container .addition {

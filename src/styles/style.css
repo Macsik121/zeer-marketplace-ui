@@ -115,7 +115,7 @@ fieldset {
 
 .home .nav .download-loader {
     border: 1px solid #ff0000;
-    border-radius: 1vw;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -213,6 +213,58 @@ fieldset {
     margin-left: 15px;
 }
 
+.home .privacy-and-policy-agreement {
+    position: absolute;
+    top: 25px;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    transition: 400ms;
+    width: 570px;
+    z-index: 2;
+    padding: 30px;
+    background-color: #1C1C24;
+    border-radius: 20px;
+    box-shadow: 0px 0px 20px 5px #000000;
+}
+
+.home .privacy-and-policy-agreement .heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.home .privacy-and-policy-agreement .heading .close-modal {
+    fill: #1E75FF;
+    cursor: pointer;
+}
+
+.home .privacy-and-policy-agreement .agreement {
+    font-size: 14px;
+    font-family: Roboto, sans-serif;
+    line-height: 30px;
+    letter-spacing: .1px;
+    color: #B5B5BE;
+}
+
+.home .privacy-and-policy-agreement .agreement .advise {
+    margin-top: 25px;
+    display: inline-block;
+}
+
+.home .privacy-and-policy-agreement .agreement .term {
+    margin-top: 15px;
+}
+
+.home .privacy-and-policy-agreement .agreement .term h3 {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.home .privacy-and-policy-agreement .agreement .term .rules {
+    list-style-type: none;
+}
+
 .home .slider-wrap .info {
     display: flex;
     align-items: center;
@@ -249,6 +301,7 @@ fieldset {
     width: 18vw;
     position: relative;
     z-index: -2;
+    font-family: Roboto, sans-serif;
 }
 
 .home .slider .pop-product .pop-product-blackBG {
@@ -262,17 +315,17 @@ fieldset {
 }
 
 .home .slider .pop-product .cost {
-    margin-top: 20vw;
+    margin-top: 225px;
     color: #fa0707;
     font-weight: 500;
-    font-family: Roboto;
+    font-family: Roboto, sans-serif;
 }
 
 .home .slider .pop-product .title {
     text-transform: uppercase;
     font-weight: 700;
     margin-top: 10px;
-    font-family: Roboto;
+    font-family: Roboto, sans-serif;
 }
 
 .home .advantages {
@@ -530,6 +583,20 @@ fieldset {
     padding: 15px;
     border: 1px solid #292932;
     border-bottom: 0;
+    text-align: left;
+}
+
+.dashboard .nav .user-menu .dropdown .show-modal-change-password {
+    width: 100%;
+    border: none;
+    color: rgba(255, 255, 255, .6);
+    cursor: pointer;
+    display: flex;
+    transition: 200ms;
+}
+
+.dashboard .nav .user-menu .dropdown .show-modal-change-password:hover {
+    color: #fff;
 }
 
 .dashboard .nav .user-menu .dropdown .item:last-of-type {
@@ -859,6 +926,16 @@ fieldset {
 
 .dashboard .main .lobby .dashboard-slider {
     margin-top: 30px;
+}
+
+.dashboard .main .change-password {
+    position: absolute;
+    top: 25px;
+    right: 0;
+    left: 0;
+    margin: 0 auto;
+    width: 370px;
+    transition: 200ms;
 }
 
 .dashboard .main .lobby .popular-products {
@@ -1893,10 +1970,12 @@ fieldset {
 }
 
 @media (max-width: 600px) {
+    .home .privacy-and-policy-agreement {
+        width: 95%;
+    }
     .dashboard .nav .user-menu .dropdown .item {
         font-size: 16px;
     }
-    /* .cost */
     .dashboard .main .products .product {
         flex-basis: 70%;
     }

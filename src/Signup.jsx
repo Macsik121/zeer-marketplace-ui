@@ -1,7 +1,6 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import CloseIcon from '@material-ui/icons/Close';
-import jwtDecode from 'jwt-decode';
 import fetchData from './fetchData';
 
 class Signup extends React.Component {
@@ -16,12 +15,6 @@ class Signup extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleFieldFocus = this.handleFieldFocus.bind(this);
         this.showError = this.showError.bind(this);
-    }
-    componentDidMount() {
-        if (localStorage.getItem('token') && localStorage.getItem('token') != '') {
-            const token = jwtDecode(localStorage.getItem('token'));
-            this.props.history.push(`/dashboard/${token.name}`);
-        }
     }
     showError(message) {
         this.setState({
@@ -43,6 +36,7 @@ class Signup extends React.Component {
         const email = form.email.value.trim();
         const password = form.password.value.trim();
         const confirmPassword = form.confirmPassword.value.trim();
+        const agreeWithTerms = form.agreeWithTerms.checked;
 
         if (name == '' || name.length < 3) {
             if (name == '') {
@@ -90,6 +84,11 @@ class Signup extends React.Component {
             return;
         }
 
+        if (!agreeWithTerms) {
+            this.showError('Вы должны согласится с правилами');
+            return;
+        }
+
         const query = `
             mutation signUp($email: String!, $password: String!, $name: String!) {
                 signUp(email: $email, password: $password, name: $name) {
@@ -131,14 +130,18 @@ class Signup extends React.Component {
     }
     render() {
         const { formError, formErrorStyles } = this.state;
-        console.log(this.props.style);
-        const { style, hideSignup, showLogin } = this.props;
+        const {
+            style,
+            hideSignup,
+            showLogin,
+            toggleAgreement
+        } = this.props;
         return (
             <div style={style} className="signup auth-form">
                 <div className="container">
                     <div className="heading">
                         <h2 className="authentication">Регистрация</h2>
-                        <button onClick={hideSignup} className="close-modal" to="/">
+                        <button onClick={hideSignup} className="close-modal">
                             <CloseIcon className="close-icon" />
                         </button>
                     </div>
@@ -169,6 +172,12 @@ class Signup extends React.Component {
                             <label>
                                 Пароль ещё раз
                             </label>
+                        </div>
+                        <div className="terms-n-policy">
+                            <input name="agreeWithTerms" type="checkbox" className="agreed" />
+                            <span className="agreement">
+                                Согласен&nbsp;<span className="rules" onClick={toggleAgreement}>с правилами</span>
+                            </span>
                         </div>
                         <button type="submit" className="submit-button">
                             Создать аккаунт

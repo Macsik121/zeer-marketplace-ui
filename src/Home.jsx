@@ -6,6 +6,7 @@ import { fetchPopularProducts, Product } from './PopularProducts.jsx';
 import fetchData from './fetchData';
 import Signin from './Signin.jsx';
 import Signup from './Signup.jsx';
+import AgreementPrivacyNPolicy from './AgreementModal.jsx';
 
 export default class Home extends React.Component {
     constructor() {
@@ -15,6 +16,7 @@ export default class Home extends React.Component {
             deviceWidth: 0,
             showingLogin: false,
             showingSignup: false,
+            showingAgreement: false,
             advantages: [
                 {
                     imgURL: '/images/-icon.png',
@@ -69,13 +71,18 @@ export default class Home extends React.Component {
         this.showSignup = this.showSignup.bind(this);
         this.hideSignup = this.hideSignup.bind(this);
         this.toggleSignup = this.toggleSignup.bind(this);
+        this.showAgreement = this.showAgreement.bind(this);
+        this.hideAgreement = this.hideAgreement.bind(this);
+        this.toggleAgreement = this.toggleAgreement.bind(this);
     }
     async componentDidMount() {
         window.onkeydown = function(e) {
             if (e.keyCode == 27 && this.state.showingLogin) {
                 this.hideLogin();
             }
-            if (e.keyCode == 27 && this.state.showingSignup) {
+            if (e.keyCode == 27 && this.state.showingAgreement) {
+                this.hideAgreement();
+            } else if (e.keyCode == 27 && this.state.showingSignup) {
                 this.hideSignup();
             }
         }.bind(this);
@@ -103,29 +110,45 @@ export default class Home extends React.Component {
         this.setState({products: popProducts, deviceWidth: window.innerWidth});
     }
     toggleLogin() {
-        this.setState({ showingLogin: !this.state.showingLogin, showingSignup: false });
+        this.setState({ showingLogin: !this.state.showingLogin, showingSignup: false, showingAgreement: false });
     }
     showLogin() {
         this.setState({ showingLogin: true, showingSignup: false });
     }
     hideLogin() {
-        this.setState({ showingLogin: false, showingSignup: false });
+        this.setState({ showingLogin: false, showingSignup: false, showingAgreement: false });
     }
     toggleSignup() {
-        this.setState({ showingSignup: !this.state.showingSignup, showingLogin: false });
+        this.setState({ showingSignup: !this.state.showingSignup, showingLogin: false, showingAgreement: false });
     }
     showSignup() {
         this.setState({ showingSignup: true, showingLogin: false });
     }
     hideSignup() {
-        this.setState({ showingSignup: false, showingLogin: false });
+        this.setState({ showingSignup: false, showingLogin: false, showingAgreement: false });
+    }
+    toggleAgreement() {
+        this.setState({ showingAgreement: !this.state.showingAgreement, showingLogin: false });
+    }
+    showAgreement() {
+        this.setState({ showingAgreement: true });
+    }
+    hideAgreement() {
+        this.setState({ showingAgreement: false });
     }
     render() {
-        const { products, deviceWidth, showingLogin, showingSignup } = this.state;
+        const {
+            products,
+            deviceWidth,
+            showingLogin,
+            showingSignup,
+            showingAgreement
+        } = this.state;
         const sliderSettings = {
             infinite: true,
             speed: 500,
             slidesToShow: 4,
+            slidesToScroll: 4,
             adaptiveHeight: true
         };
         const popProducts = products.map(product => (
@@ -216,12 +239,21 @@ export default class Home extends React.Component {
                     }
                     hideSignup={this.hideSignup}
                     showLogin={this.showLogin}
+                    toggleAgreement={this.toggleAgreement}
+                />
+                <AgreementPrivacyNPolicy
+                    style={
+                        showingAgreement
+                            ? {opacity: 1, transform: 'translateY(0)'}
+                            : {opacity: 0, transform: 'translateY(-120%)'}
+                    }
+                    hideAgreement={this.hideAgreement}
                 />
                 <div
                     style={
-                        showingLogin
-                            ? {opacity: '.5', transition: '500ms'}
-                            : {opacity: '1', transition: '500ms'}
+                        showingLogin || showingSignup
+                            ? {opacity: '.5', transition: '500ms', pointerEvents: 'none', userSelect: 'none'}
+                            : {opacity: '1', transition: '500ms', pointerEvents: 'all', userSelect: 'all'}
                     }
                     className="slider-wrap"
                 >
@@ -245,7 +277,10 @@ export default class Home extends React.Component {
                         {
                             deviceWidth > 650
                                 ? (
-                                    <SlickSlider className="slider" {...sliderSettings}>
+                                    <SlickSlider
+                                        className="slider"
+                                        {...sliderSettings}
+                                    >
                                         {popProducts}
                                         {popProducts[1]}
                                     </SlickSlider>

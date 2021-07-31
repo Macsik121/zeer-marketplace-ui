@@ -8,9 +8,9 @@ function SigninHeader(props) {
     return (
         <div className="heading">
             <h2 className="authorization">Авторизация</h2>
-            <Link className="close-modal" to="/">
+            <button className="close-modal">
                 <CloseIcon className="close-icon" onClick={props.hideLogin} />
-            </Link>
+            </button>
         </div>
     )
 }
@@ -175,6 +175,7 @@ class Signin extends React.Component {
                             </button>
                             <div className="addition">
                                 <button
+                                    type="button"
                                     onClick={
                                         function() {
                                             hideLogin();
@@ -185,6 +186,7 @@ class Signin extends React.Component {
                                     Зарегестрироваться
                                 </button>
                                 <button
+                                    type="button"
                                     onClick={
                                         function() {
                                             hideLogin();

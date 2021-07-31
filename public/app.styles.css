@@ -1,3 +1,84 @@
+/*!***************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./src/styles/notfound.css ***!
+  \***************************************************************************/
+.not-found {
+    background-image: url(/images/not-found.png);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: black;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.not-found h2 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    /* font-size: 36px; */
+    line-height: 36px;
+    text-align: center;
+}
+
+.not-found .content {
+    display: flex;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 1.05vw;
+    line-height: 22px;
+    margin: 18px auto 0 auto;
+    max-width: 350px;
+    text-align: center;
+}
+
+.not-found .error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3vw;
+}
+
+.not-found .error .four {
+    font-size: 20vw;
+    color: #fff;
+    opacity: .1;
+    font-family: 'Roboto', sans-serif;
+}
+
+.not-found .error .four:nth-of-type(1) {
+    margin-right: 5vw;
+}
+
+.not-found .error .four:nth-of-type(2) {
+    margin-left: 5vw;
+}
+
+.not-found .error .logo {
+    width: 20vw;
+}
+
+.not-found .link {
+    display: flex;
+    justify-content: center;
+}
+
+.not-found .link .link-to-home {
+    margin-top: 3vw;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    background-color: #1E75FF;
+    padding: 1vw 3.5vw;
+    border-radius: 1vw;
+    font-size: 1.2vw;
+}
 /*!************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./src/styles/style.css ***!
   \************************************************************************/
@@ -14,6 +95,7 @@
 .slider .slick-track {
     margin-left: auto;
     margin-right: auto;
+    cursor: grab;
 }
 
 .slider .slick-arrow {
@@ -194,15 +276,20 @@
     right: 0;
     transition: 500ms;
     width: 450px;
+    z-index: 1;
 }
 
 .home .auth-form .container {
     background: #1C1C24;
     font-size: 2rem;
-    padding: 20px 15px;
+    padding: 30px 20px;
     border-radius: 15px;
     margin: auto;
-    flex-direction: column;
+    box-shadow: 0px 0px 20px 5px #000000;
+}
+
+.auth-form input[type="checkbox"] {
+    cursor: pointer;
 }
 
 .auth-form .heading {
@@ -215,16 +302,16 @@
 .auth-form .heading .authorization {
     font-size: 2rem;
 }
-/* 
+
 .auth-form .heading .close-modal {
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-} */
+    border: none;
+    background: transparent;
+}
 
 .auth-form .heading .close-modal .close-icon {
     fill: #1E75FF;
-    margin-left: 3vw;
+    margin-left: 5px;
+    cursor: pointer;
 }
 
 .auth-form .form {
@@ -274,6 +361,7 @@
     transition: 300ms;
     padding: 0 10px;
     transform: translateX(0) translateY(0);
+    color: #92929D;
 }
 
 .auth-form .form .field-wrap .field {
@@ -303,7 +391,7 @@
 .auth-form .form .remember {
     display: flex;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 .auth-form .form .remember .check {
@@ -326,18 +414,20 @@
     border-radius: 10px;
     cursor: pointer;
     color: #fff;
-    font-size: .9rem;
-    margin-top: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 30px;
+    line-height: 18px;
 }
 
 .auth-form .addition {
-    margin-top: 15px;
-    padding-top: 15px;
+    margin-top: 30px;
+    padding-top: 30px;
     border-top: 1px solid gray;
     display: flex;
     flex-direction: column;
     text-align: center;
-    font-size: .85rem;
+    font-size: 14px;
 }
 
 .auth-form .addition button {
@@ -346,6 +436,21 @@
     border: none;
     background: none;
     cursor: pointer;
+    font-family: Roboto, sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.auth-form .addition button:first-of-type {
+    color: #92929D;
+}
+
+.auth-form .addition button + button {
+    margin-top: 15px;
+}
+
+.signin .addition button:first-of-type {
+    color: #fff;
 }
 
 .signup .close-modal {
@@ -360,6 +465,23 @@
 
 .signup .form .field-wrap .field {
     width: 100%;
+}
+
+.signup .terms-n-policy {
+    display: flex;
+    font-size: 14px;
+    font-family: Roboto, sans-serif;
+    letter-spacing: .1px;
+    margin-top: 30px;
+}
+
+.signup .terms-n-policy .agreement {
+    margin-left: 10px;
+}
+
+.signup .terms-n-policy .agreement .rules {
+    color: #1E75FF;
+    cursor: pointer;
 }
 
 .signup .container .addition {
@@ -527,7 +649,7 @@ fieldset {
 
 .home .nav .download-loader {
     border: 1px solid #ff0000;
-    border-radius: 1vw;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -625,6 +747,58 @@ fieldset {
     margin-left: 15px;
 }
 
+.home .privacy-and-policy-agreement {
+    position: absolute;
+    top: 25px;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    transition: 400ms;
+    width: 570px;
+    z-index: 2;
+    padding: 30px;
+    background-color: #1C1C24;
+    border-radius: 20px;
+    box-shadow: 0px 0px 20px 5px #000000;
+}
+
+.home .privacy-and-policy-agreement .heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.home .privacy-and-policy-agreement .heading .close-modal {
+    fill: #1E75FF;
+    cursor: pointer;
+}
+
+.home .privacy-and-policy-agreement .agreement {
+    font-size: 14px;
+    font-family: Roboto, sans-serif;
+    line-height: 30px;
+    letter-spacing: .1px;
+    color: #B5B5BE;
+}
+
+.home .privacy-and-policy-agreement .agreement .advise {
+    margin-top: 25px;
+    display: inline-block;
+}
+
+.home .privacy-and-policy-agreement .agreement .term {
+    margin-top: 15px;
+}
+
+.home .privacy-and-policy-agreement .agreement .term h3 {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.home .privacy-and-policy-agreement .agreement .term .rules {
+    list-style-type: none;
+}
+
 .home .slider-wrap .info {
     display: flex;
     align-items: center;
@@ -661,6 +835,7 @@ fieldset {
     width: 18vw;
     position: relative;
     z-index: -2;
+    font-family: Roboto, sans-serif;
 }
 
 .home .slider .pop-product .pop-product-blackBG {
@@ -674,17 +849,17 @@ fieldset {
 }
 
 .home .slider .pop-product .cost {
-    margin-top: 20vw;
+    margin-top: 225px;
     color: #fa0707;
     font-weight: 500;
-    font-family: Roboto;
+    font-family: Roboto, sans-serif;
 }
 
 .home .slider .pop-product .title {
     text-transform: uppercase;
     font-weight: 700;
     margin-top: 10px;
-    font-family: Roboto;
+    font-family: Roboto, sans-serif;
 }
 
 .home .advantages {
@@ -942,6 +1117,20 @@ fieldset {
     padding: 15px;
     border: 1px solid #292932;
     border-bottom: 0;
+    text-align: left;
+}
+
+.dashboard .nav .user-menu .dropdown .show-modal-change-password {
+    width: 100%;
+    border: none;
+    color: rgba(255, 255, 255, .6);
+    cursor: pointer;
+    display: flex;
+    transition: 200ms;
+}
+
+.dashboard .nav .user-menu .dropdown .show-modal-change-password:hover {
+    color: #fff;
 }
 
 .dashboard .nav .user-menu .dropdown .item:last-of-type {
@@ -1271,6 +1460,16 @@ fieldset {
 
 .dashboard .main .lobby .dashboard-slider {
     margin-top: 30px;
+}
+
+.dashboard .main .change-password {
+    position: absolute;
+    top: 25px;
+    right: 0;
+    left: 0;
+    margin: 0 auto;
+    width: 370px;
+    transition: 200ms;
 }
 
 .dashboard .main .lobby .popular-products {
@@ -2305,10 +2504,12 @@ fieldset {
 }
 
 @media (max-width: 600px) {
+    .home .privacy-and-policy-agreement {
+        width: 95%;
+    }
     .dashboard .nav .user-menu .dropdown .item {
         font-size: 16px;
     }
-    /* .cost */
     .dashboard .main .products .product {
         flex-basis: 70%;
     }
