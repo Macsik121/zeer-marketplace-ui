@@ -1,8 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import CloseIcon from '@material-ui/icons/Close';
 import fetchData from './fetchData';
+
+function SigninHeader(props) {
+    return (
+        <div className="heading">
+            <h2 className="authorization">Авторизация</h2>
+            <Link className="close-modal" to="/">
+                <CloseIcon className="close-icon" onClick={props.hideLogin} />
+            </Link>
+        </div>
+    )
+}
 
 class Signin extends React.Component {
     constructor() {
@@ -117,15 +128,11 @@ class Signin extends React.Component {
     }
     render() {
         const { rememberMe, formError, formErrorStyles } = this.state;
+        const { style, hideLogin, showSignup } = this.props;
         return (
-            <div className="signin auth-form">
+            <div style={this.props.style} className="signin auth-form">
                 <div className="container">
-                    <div className="heading">
-                        <h2 className="authorization">Авторизация</h2>
-                        <Link className="close-modal" to="/">
-                            <CloseIcon className="close-icon" />
-                        </Link>
-                    </div>
+                    <SigninHeader hideLogin={hideLogin} />
                     <label style={formErrorStyles} className="error">{formError.message}</label>
                     <form name="signin" className="signin-form form" onSubmit={this.handleSubmit}>
                         <fieldset disabled={this.state.isDisabled}>
@@ -167,12 +174,26 @@ class Signin extends React.Component {
                                 Войти
                             </button>
                             <div className="addition">
-                                <Link to="/signup" >
+                                <button
+                                    onClick={
+                                        function() {
+                                            hideLogin();
+                                            showSignup();
+                                        }.bind(this)
+                                    }
+                                >
                                     Зарегестрироваться
-                                </Link>
-                                <Link to="/reset">
+                                </button>
+                                <button
+                                    onClick={
+                                        function() {
+                                            hideLogin();
+                                            showSignup();
+                                        }.bind(this)
+                                    }
+                                >
                                     Забыл пароль
-                                </Link>
+                                </button>
                             </div>
                         </fieldset>
                     </form>
@@ -182,4 +203,4 @@ class Signin extends React.Component {
     }
 }
 
-export default Signin;
+export default withRouter(Signin);

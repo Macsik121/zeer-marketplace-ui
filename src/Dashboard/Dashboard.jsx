@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink, Link, Switch, Route } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
+import Button from '@material-ui/core/Button';
 import fetchData from '../fetchData';
 import Lobby from './Lobby.jsx';
 import Products from './Products.jsx';
@@ -209,9 +210,7 @@ class NavBar extends React.Component {
                             }
                         })
                     }
-                    {link.name &&
-                        <div className="active-border"></div>
-                    }
+                    <div className="border-bottom" />
                 </NavLink>
             )
         })
@@ -314,22 +313,34 @@ class NavBar extends React.Component {
                                     : {maxHeight: 0, transition: '200ms'}
                             }
                         >
-                            <NavLink onClick={this.hiddenUserDropdown} to={`/dashboard/${user.name}/changeavatar`}>
+                            <NavLink
+                                onClick={this.hiddenUserDropdown}
+                                to={`/dashboard/${user.name}/changeavatar`}
+                            >
                                 <div className="item">
                                     Установить новый аватар
                                 </div>
                             </NavLink>
-                            <NavLink onClick={this.hiddenUserDropdown} to={`/dashboard/${user.name}`}>
+                            <NavLink
+                                onClick={this.hiddenUserDropdown}
+                                to={`/dashboard/${user.name}`}
+                            >
                                 <div className="item">
                                     Сменить пароль
                                 </div>
                             </NavLink>
-                            <NavLink onClick={this.hiddenUserDropdown} to={`/dashboard/${user.name}`}>
+                            <NavLink
+                                onClick={this.hiddenUserDropdown}
+                                to={`/dashboard/${user.name}`}
+                            >
                                 <div className="item">
                                     Сбросить привязку
                                 </div>
                             </NavLink>
-                            <NavLink onClick={this.hiddenUserDropdown} to={`/dashboard/${user.name}`}>
+                            <NavLink
+                                onClick={this.hiddenUserDropdown}
+                                to={`/dashboard/${user.name}`}
+                            >
                                 <div className="item">
                                     Админ-панель
                                 </div>
@@ -401,14 +412,14 @@ class Footer extends React.Component {
                         </div>
                     </div>
                     <button
-                            style={
-                                deviceWidth > 700
-                                    ? {marginTop: 0}
-                                    : {marginTop: '20px'}
-                            }
-                            className="download-loader"
-                        >
-                            Скачать лоадер
+                        style={
+                            deviceWidth > 700
+                                ? {marginTop: 0}
+                                : {marginTop: '20px'}
+                        }
+                        className="download-loader"
+                    >
+                        Скачать лоадер
                     </button>
                 </div>
             </footer>

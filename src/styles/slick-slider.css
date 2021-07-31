@@ -20,7 +20,7 @@
 }
 
 .slider .slick-arrow::before {
-    position: absolute;
+    content: none;
 }
 
 .slider .slick-arrow.slick-prev {

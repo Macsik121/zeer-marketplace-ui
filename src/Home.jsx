@@ -1,15 +1,20 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import SlickSlider from 'react-slick';
 import jwtDecode from 'jwt-decode';
 import { fetchPopularProducts, Product } from './PopularProducts.jsx';
 import fetchData from './fetchData';
+import Signin from './Signin.jsx';
+import Signup from './Signup.jsx';
 
 export default class Home extends React.Component {
     constructor() {
         super();
         this.state = {
             products: [],
+            deviceWidth: 0,
+            showingLogin: false,
+            showingSignup: false,
             advantages: [
                 {
                     imgURL: '/images/-icon.png',
@@ -56,11 +61,24 @@ export default class Home extends React.Component {
                     content: `Почувствуй, как твое преимущество
                     над врагом растет, а игра упрощается!`
                 }
-            ],
-            deviceWidth: 0
+            ]
         };
+        this.showLogin = this.showLogin.bind(this);
+        this.hideLogin = this.hideLogin.bind(this);
+        this.toggleLogin = this.toggleLogin.bind(this);
+        this.showSignup = this.showSignup.bind(this);
+        this.hideSignup = this.hideSignup.bind(this);
+        this.toggleSignup = this.toggleSignup.bind(this);
     }
     async componentDidMount() {
+        window.onkeydown = function(e) {
+            if (e.keyCode == 27 && this.state.showingLogin) {
+                this.hideLogin();
+            }
+            if (e.keyCode == 27 && this.state.showingSignup) {
+                this.hideSignup();
+            }
+        }.bind(this);
         const token = localStorage.getItem('token');
         if (token && token != '') {
             this.props.history.push(`/dashboard/${jwtDecode(token).name}`);
@@ -84,8 +102,26 @@ export default class Home extends React.Component {
         }
         this.setState({products: popProducts, deviceWidth: window.innerWidth});
     }
+    toggleLogin() {
+        this.setState({ showingLogin: !this.state.showingLogin, showingSignup: false });
+    }
+    showLogin() {
+        this.setState({ showingLogin: true, showingSignup: false });
+    }
+    hideLogin() {
+        this.setState({ showingLogin: false, showingSignup: false });
+    }
+    toggleSignup() {
+        this.setState({ showingSignup: !this.state.showingSignup, showingLogin: false });
+    }
+    showSignup() {
+        this.setState({ showingSignup: true, showingLogin: false });
+    }
+    hideSignup() {
+        this.setState({ showingSignup: false, showingLogin: false });
+    }
     render() {
-        const { products, deviceWidth } = this.state;
+        const { products, deviceWidth, showingLogin, showingSignup } = this.state;
         const sliderSettings = {
             infinite: true,
             speed: 500,
@@ -109,13 +145,28 @@ export default class Home extends React.Component {
                 <div className="background"></div>
             </div>
         ));
-        console.log(popProducts);
         return (
-            <div className="home">
-                <div className="header">
+            <div
+                className="home"
+                style={
+                    showingLogin || showingSignup
+                        ? {overflow: 'hidden', height: '100vh'}
+                        : {overflow: 'inherit', height: 'auto'}
+                }
+            >
+                <div
+                    className="header"
+                    style={
+                        showingLogin || showingSignup
+                            ? {opacity: '.5', transition: '500ms'}
+                            : {opacity: '1', transition: '500ms'}
+                    }
+                >
                     <nav className="nav">
-                        <div className="nav-BG"></div>
-                        <div className="container">
+                        <div className="nav-BG" />
+                        <div
+                            className="container"
+                        >
                             <div className="container">
                                 <div>
                                     <Link to="/" className="logo">
@@ -137,18 +188,43 @@ export default class Home extends React.Component {
                                     </a>
                                 </div>
                                 <div className="auth-buttons">
-                                    <Link className="button" to="/signin">
+                                    <button onClick={this.toggleLogin} className="button" to="/signin">
                                         Войти
-                                    </Link>
-                                    <Link className="button" to="/signup">
+                                    </button>
+                                    <button onClick={this.toggleSignup} className="button" to="/signup">
                                         Регистрация
-                                    </Link>
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </nav>
                 </div>
-                <div className="slider-wrap">
+                <Signin
+                    style={
+                        showingLogin
+                            ? {opacity: 1, transform: 'translateY(0)'}
+                            : {opacity: 0, transform: 'translateY(-120%)'}
+                    }
+                    hideLogin={this.hideLogin}
+                    showSignup={this.showSignup}
+                />
+                <Signup
+                    style={
+                        showingSignup
+                            ? {opacity: 1, transform: 'translateY(0)'}
+                            : {opacity: 0, transform: 'translateY(-120%)'}
+                    }
+                    hideSignup={this.hideSignup}
+                    showLogin={this.showLogin}
+                />
+                <div
+                    style={
+                        showingLogin
+                            ? {opacity: '.5', transition: '500ms'}
+                            : {opacity: '1', transition: '500ms'}
+                    }
+                    className="slider-wrap"
+                >
                     <div className="container">
                         <div className="info">
                             <h3 className="popular-products">Популярные продукты</h3>
@@ -182,12 +258,26 @@ export default class Home extends React.Component {
                         }
                     </div>
                 </div>
-                <div className="advantages">
+                <div
+                    style={
+                        showingLogin
+                            ? {opacity: '.5', transition: '500ms'}
+                            : {opacity: '1', transition: '500ms'}
+                    }
+                    className="advantages"
+                >
                     <div className="container">
                         {advantages}
                     </div>
                 </div>
-                <footer className="footer">
+                <footer
+                    className="footer"
+                    style={
+                        showingLogin
+                            ? {opacity: '.5', transition: '500ms'}
+                            : {opacity: '1', transition: '500ms'}
+                    }
+                >
                     <div className="container">
                         <div className="steps">
                             <div className="step1">
@@ -222,12 +312,12 @@ export default class Home extends React.Component {
                                         </a>
                                     </div>
                                     <div className="auth-buttons">
-                                        <Link className="button" to="/signin">
+                                        <button onClick={this.showLogin} className="button" to="/signin">
                                             Войти
-                                        </Link>
-                                        <Link className="button" to="/signup">
+                                        </button>
+                                        <button onClick={this.showSignup} className="button" to="/signup">
                                             Регистрация
-                                        </Link>
+                                        </button>
                                     </div>
                                 </div>
                             </div>

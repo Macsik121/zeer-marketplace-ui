@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import CloseIcon from '@material-ui/icons/Close';
 import jwtDecode from 'jwt-decode';
 import fetchData from './fetchData';
@@ -131,14 +131,16 @@ class Signup extends React.Component {
     }
     render() {
         const { formError, formErrorStyles } = this.state;
+        console.log(this.props.style);
+        const { style, hideSignup, showLogin } = this.props;
         return (
-            <div className="signup auth-form">
+            <div style={style} className="signup auth-form">
                 <div className="container">
                     <div className="heading">
                         <h2 className="authentication">Регистрация</h2>
-                        <Link className="close-modal" to="/">
+                        <button onClick={hideSignup} className="close-modal" to="/">
                             <CloseIcon className="close-icon" />
-                        </Link>
+                        </button>
                     </div>
                     <label style={formErrorStyles} className="error">
                         {formError.message}
@@ -173,12 +175,27 @@ class Signup extends React.Component {
                         </button>
                     </form>
                     <div className="addition">
-                        <Link to="/signin">
+                        <button
+                            onClick={
+                                function() {
+                                    hideSignup();
+                                    showLogin();
+                                }.bind(this)
+                            }
+                        >
                             У меня есть аккаунт
-                        </Link>
-                        <Link className="bold" to="/signin">
+                        </button>
+                        <button
+                            className="bold"
+                            onClick={
+                                function() {
+                                    hideSignup();
+                                    showLogin();
+                                }.bind(this)
+                            }
+                        >
                             Войти
-                        </Link>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -186,4 +203,4 @@ class Signup extends React.Component {
     }
 }
 
-export default Signup;
+export default withRouter(Signup);

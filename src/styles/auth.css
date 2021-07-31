@@ -1,4 +1,4 @@
-.auth-form {
+/* .auth-form {
     width: 100vw;
     height: 100vh;
     position: absolute;
@@ -12,32 +12,43 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+} */
+
+.auth-form {
+    position: absolute;
+    top: 25px;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    transition: 500ms;
+    width: 450px;
 }
 
-.auth-form .container {
-    max-width: 90%;
+.home .auth-form .container {
     background: #1C1C24;
-    padding: 1.25rem 1rem;
     font-size: 2rem;
+    padding: 20px 15px;
     border-radius: 15px;
     margin: auto;
+    flex-direction: column;
 }
 
 .auth-form .heading {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
 }
 
 .auth-form .heading .authorization {
     font-size: 2rem;
 }
-
+/* 
 .auth-form .heading .close-modal {
     text-decoration: none;
     display: flex;
     align-items: center;
-}
+} */
 
 .auth-form .heading .close-modal .close-icon {
     fill: #1E75FF;
@@ -47,8 +58,6 @@
 .auth-form .form {
     display: flex;
     flex-direction: column;
-    width: 30vw;
-    min-width: 100%;
 }
 
 .auth-form .error {
@@ -159,13 +168,18 @@
     font-size: .85rem;
 }
 
-.auth-form .addition a {
+.auth-form .addition button {
     color: #fff;
     text-decoration: none;
+    border: none;
+    background: none;
+    cursor: pointer;
 }
 
 .signup .close-modal {
-    margin-left: 3vw;
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 
 .signup .form {
@@ -180,12 +194,18 @@
     flex-direction: row;
     justify-content: space-between;
 }
-
+/* 
 @media (max-width: 800px) {
     .auth-form  .signin-form {
         width: 70vw;
     }
     .auth-form .signin-form fieldset {
         width: 100%;
+    }
+} */
+
+@media (max-width: 500px) {
+    .auth-form {
+        width: 95%;
     }
 }

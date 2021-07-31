@@ -11,12 +11,12 @@
 }
 
 :root {
-    font-size: 15vw - 1vh;
+    /* font-size: 15vw - 1vh; */
+    color: #fff !important;
 }
 
 html {
     background-color: #020100;
-    color: #fff;
     width: 100%;
     height: 100%;
 }
@@ -201,6 +201,8 @@ fieldset {
     transition: 200ms;
     text-decoration: none;
     text-transform: uppercase;
+    background: transparent;
+    cursor: pointer;
 }
 
 .home .nav .auth-buttons .button:hover {
@@ -388,6 +390,7 @@ fieldset {
 .dashboard .nav .links .links-wrap {
     display: flex;
     height: 100%;
+    position: relative;
 }
 
 .dashboard .nav .links .icon {
@@ -402,6 +405,11 @@ fieldset {
     height: 100%;
     padding: 10px;
     border-bottom: 3px solid transparent;
+    position: relative;
+}
+
+.dashboard .nav .links .link-item {
+    position: relative;
 }
 
 .dashboard .nav .links a + a {
@@ -410,7 +418,19 @@ fieldset {
 
 .dashboard .nav .links a.active {
     color: #1E75FF;
-    border-bottom: 3px solid #1E75FF;
+    position: relative;
+}
+
+.dashboard .nav .links-wrap .link-item.active .border-bottom {
+    transition: 200ms;
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 100%;
+    height: 3px;
+    background-color: #1E75FF;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
 }
 
 .dashboard .nav .three-dots {
