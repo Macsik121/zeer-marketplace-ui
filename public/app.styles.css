@@ -83,6 +83,10 @@
   !*** css ./node_modules/css-loader/dist/cjs.js!./src/styles/style.css ***!
   \************************************************************************/
 @import url(https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap);
+/*!****************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./src/styles/style.css (1) ***!
+  \****************************************************************************/
+@import url(https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap);
 /*!*******************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./src/styles/slick-slider.css ***!
   \*******************************************************************************/
@@ -103,9 +107,22 @@
     top: 50%;
     z-index: 10;
     display: flex;
-    padding: 15px;
+    padding: 20px;
     justify-content: center;
-    border-radius: 3px;
+    border-radius: 7px;
+    transition: 200ms;
+}
+
+.slider .slick-arrow:hover {
+    padding: 21px;
+}
+
+.slider .slick-arrow.slick-prev:hover {
+    background-position: 49% center;
+}
+
+.slider .slick-arrow.slick-next:hover {
+    background-position: 60% center;
 }
 
 .slider .slick-arrow::before {
@@ -117,7 +134,8 @@
     background-color: rgba(255, 0, 0, .1);
     background-image: url(/images/arrow-left.png);
     background-repeat: no-repeat;
-    background-position: center center;
+    background-position: 51% center;
+    margin-left: -3vw;
 }
 
 .slider .slick-arrow.slick-next {
@@ -125,7 +143,8 @@
     background-color: rgba(255, 0, 0, .1);
     background-image: url(/images/arrow-right.png);
     background-repeat: no-repeat;
-    background-position: center center;
+    background-position: 57% center;
+    margin-right: -3vw;
 }
 
 .slider .slick-slide {
@@ -535,7 +554,7 @@
 }
 
 /*!****************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js!./src/styles/style.css (1) ***!
+  !*** css ./node_modules/css-loader/dist/cjs.js!./src/styles/style.css (2) ***!
   \****************************************************************************/
 * {
     margin: 0;
@@ -644,6 +663,12 @@ fieldset {
 
 .home .nav .logo h1 {
     margin-left: 10px;
+    font-size: 38px;
+    letter-spacing: 4px;
+    line-height: 13px;
+    color: #ffffff;
+    font-weight: 600;
+    font-family: "Montserrat", sans-serif;
     text-transform: uppercase;
 }
 
@@ -737,6 +762,9 @@ fieldset {
     text-transform: uppercase;
     background: transparent;
     cursor: pointer;
+    width: 170px;
+    display: flex;
+    justify-content: center;
 }
 
 .home .nav .auth-buttons .button:hover {
@@ -864,6 +892,7 @@ fieldset {
 
 .home .advantages {
     max-width: 100%;
+    padding-bottom: 150px;
 }
 
 .home .advantages .container {
@@ -932,10 +961,130 @@ fieldset {
     opacity: .1;
 }
 
-.home .footer {
+.home .footer-wrap {
     background-image: url(/images/footer.jpg);
     background-position: center center;
     background-size: cover;
+}
+
+.home .footer-wrap .instruction {
+    text-align: center;
+}
+
+.home .steps .container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 60px;
+    padding-top: 150px;
+    border-top: 1px solid #1b1b1b;
+}
+
+.home .steps .red-line {
+    width: 50px;
+    height: 1px;
+    background-color: #fa0707;
+    margin-top: 100px;
+}
+
+.home .steps .rules {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.home .steps .step {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.home .steps .icon {
+    width: 180px;
+    height: 180px;
+    background-size: cover;
+    background-position: center center;
+    margin: 0 auto;
+    border-radius: 50%;
+    opacity: .3;
+    background-image: linear-gradient(rgb(6, 6, 6), #491011);
+}
+
+.home .steps .instruction-num {
+    font-weight: 600;
+    letter-spacing: 1px;
+    line-height: 72px;
+    color: #fa0707;
+    font-weight: 500;
+    font-family: "Roboto", sans-serif;
+    margin-top: 40px;
+}
+
+.home .steps .to-do {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    font-family: 'Roboto', sans-serif;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 30px;
+    width: 100%;
+}
+
+@media (max-width: 950px) {
+    .home .steps .container {
+        margin-top: 0;
+    }
+    .home .steps .step {
+        flex-basis: 45%;
+        margin-top: 150px;
+    }
+    .home .steps .red-line {
+        margin-top: 250px;
+    }
+    .home .steps .red-line2 {
+        display: none;
+    }
+}
+
+@media (max-width: 530px) {
+    .home .steps .step {
+        flex-basis: 90%;
+        margin: 100px auto 0 auto;
+    }
+    .home .steps .red-line2 {
+        display: block;
+    }
+    .home .steps .red-line {
+        display: block;
+        margin: 100px auto 0 auto;
+        transform: rotate(90deg);
+    }
+}
+
+/* .home .steps .step1 .icon {
+    background-image: url('../images/step1-icon.png');
+}
+
+.home .steps .step2 .icon {
+    background-image: url('../images/step2-icon.png');
+    width: 230px;
+}
+
+.home .steps .step3 .icon {
+    background-image: url('../images/step3-icon.png');
+    width: 210px;
+}
+
+.home .steps .step4 .icon {
+    background-image: url('../images/step4-icon.png');
+    width: 210px;
+} */
+
+.home .footer {
     margin-top: 150px;
 }
 
@@ -2268,28 +2417,7 @@ fieldset {
     margin-top: 5vw;
 }
 
-@media (max-width: 1080px) {
-    .dashboard .main .lobby .popular-products-slides .popular-product {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    .dashboard .main .lobby .popular-products-slides .popular-product .buttons {
-        width: 100%;
-    }
-}
-
-@media (max-width: 1020px) {
-    .dashboard .main .FAQ .search-bar {
-        width: 60%;
-        margin: 30px auto 0 auto;
-    }
-    .dashboard .main .FAQ .search-bar .search {
-        margin-left: 10px;
-    }
-}
-
-@media (max-width: 1000px) {
+@media (max-width: 1100px) {
     .home .nav {
         height: 100%;
     }
@@ -2315,6 +2443,30 @@ fieldset {
         display: flex;
         flex-direction: column-reverse;
     }
+}
+
+@media (max-width: 1080px) {
+    .dashboard .main .lobby .popular-products-slides .popular-product {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .dashboard .main .lobby .popular-products-slides .popular-product .buttons {
+        width: 100%;
+    }
+}
+
+@media (max-width: 1020px) {
+    .dashboard .main .FAQ .search-bar {
+        width: 60%;
+        margin: 30px auto 0 auto;
+    }
+    .dashboard .main .FAQ .search-bar .search {
+        margin-left: 10px;
+    }
+}
+
+@media (max-width: 1000px) {
     .dashboard .main .lobby .info {
         width: 100%;
     }
@@ -2459,6 +2611,7 @@ fieldset {
 @media (max-width: 800px) {
     .home .advantages .advantage {
         flex-basis: 50%;
+        max-width: 45%;
     }
     .dashboard .main .product-info .popular-products .popular-product {
         width: 100%;
@@ -2506,6 +2659,10 @@ fieldset {
 @media (max-width: 600px) {
     .home .privacy-and-policy-agreement {
         width: 95%;
+    }
+    .home .advantages .advantage {
+        flex-basis: 90%;
+        max-width: 90%;
     }
     .dashboard .nav .user-menu .dropdown .item {
         font-size: 16px;

@@ -34,11 +34,11 @@ export default class AgreementPrivacyNPolicy extends React.Component {
     render() {
         const { style, hideAgreement } = this.props;
         const rules = this.state.agreement.map((term, termIndex) => (
-            <div className="term">
+            <div className="term" key={term.title}>
                 <h3 className="term-title">{term.title}:</h3>
                 <ul className="rules">
                     {term.rules.map((rule, ruleIndex) => (
-                        <li className="rule">
+                        <li key={rule} className="rule">
                             {termIndex + 1}.{ruleIndex + 1}
                             &nbsp;&nbsp;{rule}.
                         </li>

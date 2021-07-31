@@ -305,60 +305,108 @@ export default class Home extends React.Component {
                         {advantages}
                     </div>
                 </div>
-                <footer
-                    className="footer"
-                    style={
-                        showingLogin
-                            ? {opacity: '.5', transition: '500ms'}
-                            : {opacity: '1', transition: '500ms'}
-                    }
-                >
-                    <div className="container">
-                        <div className="steps">
-                            <div className="step1">
-                                <img src="/images/step1-icon.png" />
-                                <span>Пройти регистрацию</span>
-                                <label>01</label>
-                            </div>
-                            <div className="step"></div>
-                        </div>
+                <div className="wrap footer-wrap">
+                    <div className="steps">
                         <h2 className="instruction">Инструкцию как купить</h2>
-                        <nav className="nav">
-                            <div className="black"></div>
-                            <div className="container">
+                        <div className="container">
+                        {/* <div className="images">
+                                <div className="icon" />
+                                <div className="red-line" />
+                                <div className="icon" />
+                                <div className="red-line" />
+                                <div className="icon" />
+                                <div className="red-line" />
+                                <div className="icon" />
+                            </div>
+                            <div className="rules">
+                                <div className="step1 step">
+                                    <label>01</label>
+                                    <span className="to-do">пройти регистрацию</span>
+                                </div>
+                                <div className="step2 step">
+                                    <label>02</label>
+                                    <span className="to-do">выбрать продукт в личном кабинете</span>
+                                </div>
+                                <div className="step3 step">
+                                    <label>03</label>
+                                    <span className="to-do">пройти регистрацию</span>
+                                </div>
+                                <div className="step4 step">
+                                    <label>04</label>
+                                    <span className="to-do">пройти регистрацию</span>
+                                </div>
+                            </div> */}
+                            <div className="step1 step">
+                                <div className="icon" />
+                                <label className="instruction-num">01</label>
+                                <span className="to-do">пройти регистрацию</span>
+                            </div>
+                            <div className="red-line" />
+                            <div className="step2 step">
+                                <div className="icon" />
+                                <label className="instruction-num">02</label>
+                                <span className="to-do">выбрать продукт в личном кабинете</span>
+                            </div>
+                            <div className="red-line red-line2" />
+                            <div className="step3 step">
+                                <div className="icon" />
+                                <label className="instruction-num">03</label>
+                                <span className="to-do">пройти регистрацию</span>
+                            </div>
+                            <div className="red-line" />
+                            <div className="step4 step">
+                                <div className="icon" />
+                                <label className="instruction-num">04</label>
+                                <span className="to-do">пройти регистрацию</span>
+                            </div>
+                        </div>
+                    </div>
+                    <footer
+                        className="footer"
+                        style={
+                            showingLogin
+                                ? {opacity: '.5', transition: '500ms'}
+                                : {opacity: '1', transition: '500ms'}
+                        }
+                    >
+                        <div className="container">
+                            <nav className="nav">
+                                <div className="black"></div>
                                 <div className="container">
-                                    <div>
-                                        <Link to="/" className="logo">
-                                            <img src="/images/zeer-logo.png" />
-                                            <h1>zeer</h1>
-                                        </Link>
-                                    </div>
-                                    <div className="download-loader">
-                                        <img src="/images/download-loader.png" />
-                                        <span className="text-content">скачать zeer loader</span>
-                                    </div>
-                                    <div className="gray-line"></div>
-                                    <div className="social-media">
-                                        <a className="social-media-link" target="_blank" href="https://t.me/zeer_changer">
-                                            <img src="/images/telegram-icon.png" />
-                                        </a>
-                                        <a className="social-media-link" target="_blank" href="https://vk.com/zeer_csgo">
-                                            <img src="/images/vk-icon.png" />
-                                        </a>
-                                    </div>
-                                    <div className="auth-buttons">
-                                        <button onClick={this.showLogin} className="button" to="/signin">
-                                            Войти
-                                        </button>
-                                        <button onClick={this.showSignup} className="button" to="/signup">
-                                            Регистрация
-                                        </button>
+                                    <div className="container">
+                                        <div>
+                                            <Link to="/" className="logo">
+                                                <img src="/images/zeer-logo.png" />
+                                                <h1>zeer</h1>
+                                            </Link>
+                                        </div>
+                                        <div className="download-loader">
+                                            <img src="/images/download-loader.png" />
+                                            <span className="text-content">скачать zeer loader</span>
+                                        </div>
+                                        <div className="gray-line"></div>
+                                        <div className="social-media">
+                                            <a className="social-media-link" target="_blank" href="https://t.me/zeer_changer">
+                                                <img src="/images/telegram-icon.png" />
+                                            </a>
+                                            <a className="social-media-link" target="_blank" href="https://vk.com/zeer_csgo">
+                                                <img src="/images/vk-icon.png" />
+                                            </a>
+                                        </div>
+                                        <div className="auth-buttons">
+                                            <button onClick={this.showLogin} className="button" to="/signin">
+                                                Войти
+                                            </button>
+                                            <button onClick={this.showSignup} className="button" to="/signup">
+                                                Регистрация
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </nav>
-                    </div>
-                </footer>
+                            </nav>
+                        </div>
+                    </footer>
+                </div>
             </div>
         )
     }
