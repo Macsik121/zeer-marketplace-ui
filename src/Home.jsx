@@ -351,13 +351,13 @@ export default class Home extends React.Component {
                             <div className="step3 step">
                                 <div className="icon" />
                                 <label className="instruction-num">03</label>
-                                <span className="to-do">пройти регистрацию</span>
+                                <span className="to-do">Произвести оплату</span>
                             </div>
                             <div className="red-line" />
                             <div className="step4 step">
                                 <div className="icon" />
                                 <label className="instruction-num">04</label>
-                                <span className="to-do">пройти регистрацию</span>
+                                <span className="to-do">Скачать лоадер</span>
                             </div>
                         </div>
                     </div>
