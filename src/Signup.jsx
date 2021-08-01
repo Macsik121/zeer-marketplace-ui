@@ -134,7 +134,8 @@ class Signup extends React.Component {
             style,
             hideSignup,
             showLogin,
-            toggleAgreement
+            toggleAgreement,
+            hideAgreement
         } = this.props;
         return (
             <div style={style} className="signup auth-form">
@@ -187,6 +188,7 @@ class Signup extends React.Component {
                         <button
                             onClick={
                                 function() {
+                                    hideAgreement();
                                     hideSignup();
                                     showLogin();
                                 }.bind(this)
@@ -198,6 +200,7 @@ class Signup extends React.Component {
                             className="bold"
                             onClick={
                                 function() {
+                                    hideAgreement();
                                     hideSignup();
                                     showLogin();
                                 }.bind(this)

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import CloseIcon from '@material-ui/icons/Close';
 import fetchData from './fetchData';
@@ -128,7 +128,13 @@ class Signin extends React.Component {
     }
     render() {
         const { rememberMe, formError, formErrorStyles } = this.state;
-        const { style, hideLogin, showSignup } = this.props;
+        const {
+            style,
+            hideLogin,
+            showSignup,
+            toggleForgotPassword,
+            hideForgotPassword
+        } = this.props;
         return (
             <div style={this.props.style} className="signin auth-form">
                 <div className="container">
@@ -178,6 +184,7 @@ class Signin extends React.Component {
                                     type="button"
                                     onClick={
                                         function() {
+                                            hideForgotPassword();
                                             hideLogin();
                                             showSignup();
                                         }.bind(this)
@@ -187,12 +194,7 @@ class Signin extends React.Component {
                                 </button>
                                 <button
                                     type="button"
-                                    onClick={
-                                        function() {
-                                            hideLogin();
-                                            showSignup();
-                                        }.bind(this)
-                                    }
+                                    onClick={toggleForgotPassword}
                                 >
                                     Забыл пароль
                                 </button>

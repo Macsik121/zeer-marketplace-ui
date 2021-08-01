@@ -7,6 +7,7 @@ import fetchData from './fetchData';
 import Signin from './Signin.jsx';
 import Signup from './Signup.jsx';
 import AgreementPrivacyNPolicy from './AgreementModal.jsx';
+import ForgotPassword from './ForgotPasswordModal.jsx';
 
 export default class Home extends React.Component {
     constructor() {
@@ -17,6 +18,7 @@ export default class Home extends React.Component {
             showingLogin: false,
             showingSignup: false,
             showingAgreement: false,
+            showingForgotPassword: false,
             advantages: [
                 {
                     imgURL: '/images/advantage1-icon.png',
@@ -80,15 +82,26 @@ export default class Home extends React.Component {
         this.showAgreement = this.showAgreement.bind(this);
         this.hideAgreement = this.hideAgreement.bind(this);
         this.toggleAgreement = this.toggleAgreement.bind(this);
+        this.showForgotPassword = this.showForgotPassword.bind(this);
+        this.hideForgotPassword = this.hideForgotPassword.bind(this);
+        this.toggleForgotPassword = this.toggleForgotPassword.bind(this);
     }
     async componentDidMount() {
         window.onkeydown = function(e) {
-            if (e.keyCode == 27 && this.state.showingLogin) {
+            const {
+                showingLogin,
+                showingForgotPassword,
+                showingAgreement,
+                showingSignup
+            } = this.state;
+            if (e.keyCode == 27 && showingLogin && !showingForgotPassword) {
                 this.hideLogin();
+            } else if (e.keyCode == 27 && showingForgotPassword) {
+                this.hideForgotPassword();
             }
-            if (e.keyCode == 27 && this.state.showingAgreement) {
+            if (e.keyCode == 27 && showingAgreement) {
                 this.hideAgreement();
-            } else if (e.keyCode == 27 && this.state.showingSignup) {
+            } else if (e.keyCode == 27 && showingSignup) {
                 this.hideSignup();
             }
         }.bind(this);
@@ -116,7 +129,12 @@ export default class Home extends React.Component {
         this.setState({products: popProducts, deviceWidth: window.innerWidth});
     }
     toggleLogin() {
-        this.setState({ showingLogin: !this.state.showingLogin, showingSignup: false, showingAgreement: false });
+        this.setState({
+            showingLogin: !this.state.showingLogin,
+            showingSignup: false,
+            showingAgreement: false,
+            showingForgotPassword: false
+        });
     }
     showLogin() {
         this.setState({ showingLogin: true, showingSignup: false });
@@ -125,7 +143,12 @@ export default class Home extends React.Component {
         this.setState({ showingLogin: false, showingSignup: false, showingAgreement: false });
     }
     toggleSignup() {
-        this.setState({ showingSignup: !this.state.showingSignup, showingLogin: false, showingAgreement: false });
+        this.setState({
+            showingSignup: !this.state.showingSignup,
+            showingLogin: false,
+            showingAgreement: false,
+            showingForgotPassword: false
+        });
     }
     showSignup() {
         this.setState({ showingSignup: true, showingLogin: false });
@@ -142,13 +165,23 @@ export default class Home extends React.Component {
     hideAgreement() {
         this.setState({ showingAgreement: false });
     }
+    toggleForgotPassword() {
+        this.setState({ showingForgotPassword: !this.state.showingForgotPassword });
+    }
+    showForgotPassword() {
+        this.setState({ showingForgotPassword: true });
+    }
+    hideForgotPassword() {
+        this.setState({ showingForgotPassword: false });
+    }
     render() {
         const {
             products,
             deviceWidth,
             showingLogin,
             showingSignup,
-            showingAgreement
+            showingAgreement,
+            showingForgotPassword
         } = this.state;
         const sliderSettings = {
             infinite: true,
@@ -239,6 +272,8 @@ export default class Home extends React.Component {
                             : {opacity: 0, transform: 'translateY(-120%)'}
                     }
                     hideLogin={this.hideLogin}
+                    hideForgotPassword={this.hideForgotPassword}
+                    toggleForgotPassword={this.toggleForgotPassword}
                     showSignup={this.showSignup}
                 />
                 <Signup
@@ -250,6 +285,7 @@ export default class Home extends React.Component {
                     hideSignup={this.hideSignup}
                     showLogin={this.showLogin}
                     toggleAgreement={this.toggleAgreement}
+                    hideAgreement={this.hideAgreement}
                 />
                 <AgreementPrivacyNPolicy
                     style={
@@ -258,6 +294,15 @@ export default class Home extends React.Component {
                             : {opacity: 0, transform: 'translateY(-120%)'}
                     }
                     hideAgreement={this.hideAgreement}
+                />
+                <ForgotPassword
+                    style={
+                        showingForgotPassword
+                            ? {opacity: 1, transform: 'translateY(0)'}
+                            : {opacity: 0, transform: 'translateY(-150%)'}
+                    }
+                    hideForgotPassword={this.hideForgotPassword}
+                    showLogin={this.showLogin}
                 />
                 <div
                     style={
