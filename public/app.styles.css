@@ -732,7 +732,7 @@ fieldset {
 }
 
 .home .forgot-password-modal {
-    transition: 200ms;
+    transition: 500ms;
     position: absolute;
     top: 25px;
     right: 0;
