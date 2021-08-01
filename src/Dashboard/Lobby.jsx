@@ -32,13 +32,15 @@ export default class Lobby extends React.Component {
         this.state = {
             popularProducts: [],
             deviceWidth: 801,
-            userAvatar: {}
+            userAvatar: {},
+            user: {}
         };
     }
     async componentDidMount() {
         const popularProducts = await fetchPopularProducts();
         let allProducts;
         let productsToAdd = [];
+        const { user } = this.props;
         if (popularProducts.length < 4) {
             const result = await fetchData(`
                 query {
@@ -69,9 +71,11 @@ export default class Lobby extends React.Component {
             for (let i = 0; i < 3; i++) {
                 productsToAdd.push(allProducts[i]);
             }
-            this.setState({popularProducts: Object.assign(popularProducts, productsToAdd)})
+            this.setState({
+                popularProducts: Object.assign(popularProducts, productsToAdd),
+                user
+            });
         }
-        const { user } = this.props;
         const userAvatar = {};
         if (user.avatar && user.avatar.includes('#')) {
             userAvatar.background = user.avatar;
@@ -83,14 +87,15 @@ export default class Lobby extends React.Component {
     }
     render() {
         const { deviceWidth } = this.state;
-        const { user, subscriptions } = this.props;
+        const { subscriptions } = this.props;
+        const { user, userAvatar } = this.state;
         const sliderSettings = {
             infinite: true,
             speed: 500,
             slidesToShow: 3,
             slidesToScroll: 3,
             autoplaySpeed: 7500,
-            variableWidth: true,
+            // variableWidth: true,
             adaptiveHeight: true,
             responsive: [
                 {
@@ -105,7 +110,7 @@ export default class Lobby extends React.Component {
         if (this.state.popularProducts.length > 0) {
             popularProducts = this.state.popularProducts.map(product => {
                 return (
-                    <div className="popular-product" style={{width: '400px'}} key={product.id}>
+                    <div className="popular-product" key={product.id}>
                         <img className="cover" src={product.imageURLdashboard} />
                         <div className="title">
                             <h3 className="product-title">{product.title}{' | '}<span className="product-for">{product.productFor}</span></h3>
@@ -127,7 +132,7 @@ export default class Lobby extends React.Component {
                         <div className="info">
                             <div className="user">
                                 <div className="general">
-                                    <div className="avatar" style={this.state.userAvatar}>
+                                    <div className="avatar" style={userAvatar}>
                                         <span className="first-char">
                                             {
                                                 user.nameFirstChar

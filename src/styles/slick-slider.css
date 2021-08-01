@@ -96,6 +96,7 @@
 
 .popular-products-slider .slick-slide {
     padding-top: 150px;
+    width: 370px;
 }
 
 .popular-products-slider .slick-arrow.slick-prev {
@@ -108,10 +109,6 @@
     background-image: url('../images/arrow-right-slider.png');
     background-position: 55% center;
     margin-right: -25px;
-}
-
-.popular-products-slider .slick-track {
-    display: flex !important;
 }
 
 .popular-products-slider .slick-slide {
@@ -133,10 +130,9 @@
     padding: 15px;
     border-radius: 10px;
     background-color: #1C1C24;
-    width: 50%;
+    width: 370px;
     margin: 0 auto;
     max-height: 370px;
-    height: 300px;
     justify-content: flex-end;
     position: relative;
 }

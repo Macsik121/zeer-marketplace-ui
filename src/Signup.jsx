@@ -10,11 +10,12 @@ class Signup extends React.Component {
             formError: {message: '.'},
             formErrorStyles: {opacity: '0'},
             signUpAttempt: {},
-            isInputFocused: false
+            agreed: false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleFieldFocus = this.handleFieldFocus.bind(this);
         this.showError = this.showError.bind(this);
+        this.toggleAgree = this.toggleAgree.bind(this);
     }
     showError(message) {
         this.setState({
@@ -36,7 +37,7 @@ class Signup extends React.Component {
         const email = form.email.value.trim();
         const password = form.password.value.trim();
         const confirmPassword = form.confirmPassword.value.trim();
-        const agreeWithTerms = form.agreeWithTerms.checked;
+        const agreeWithTerms = this.state.agreed;
 
         if (name == '' || name.length < 3) {
             if (name == '') {
@@ -128,8 +129,11 @@ class Signup extends React.Component {
             formErrorStyles: {opacity: 0}
         })
     }
+    toggleAgree() {
+        this.setState({ agreed: !this.state.agreed });
+    }
     render() {
-        const { formError, formErrorStyles } = this.state;
+        const { formError, formErrorStyles, agreed } = this.state;
         const {
             style,
             hideSignup,
@@ -175,7 +179,20 @@ class Signup extends React.Component {
                             </label>
                         </div>
                         <div className="terms-n-policy">
-                            <input name="agreeWithTerms" type="checkbox" className="agreed" />
+                            <div className="checkbox" onClick={this.toggleAgree}>
+                                <input
+                                    checked={agreed}
+                                    onChange={
+                                        function() {
+                                            console.log(agreed);
+                                            this.toggleAgree();
+                                        }.bind(this)
+                                    }
+                                    className="check"
+                                    type="checkbox"
+                                />
+                                <div className="checkmark" />
+                            </div>
                             <span className="agreement">
                                 Согласен&nbsp;<span className="rules" onClick={toggleAgreement}>с правилами</span>
                             </span>

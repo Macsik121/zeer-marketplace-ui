@@ -165,7 +165,10 @@ class Signin extends React.Component {
                                 <label>Пароль</label>
                             </div>
                             <div onClick={this.handleRememberMeClick} className="remember">
-                                <input checked={rememberMe} onChange={this.changeRememberMe} className="check" type="checkbox" name="rememberMe" />
+                                <div className="checkbox">
+                                    <input checked={rememberMe} onChange={this.changeRememberMe} className="check" type="checkbox" name="rememberMe" />
+                                    <div className="checkmark" />
+                                </div>
                                 <label onClick={this.handleRememberMeClick} className="remember-me">Запомнить</label>
                             </div>
                             {/* <ReCAPTCHA

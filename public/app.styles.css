@@ -82,11 +82,7 @@
 /*!************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./src/styles/style.css ***!
   \************************************************************************/
-@import url(https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap);
-/*!****************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js!./src/styles/style.css (1) ***!
-  \****************************************************************************/
-@import url(https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&family=Roboto:wght@400;500;700&display=swap);
 /*!*******************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./src/styles/slick-slider.css ***!
   \*******************************************************************************/
@@ -188,6 +184,7 @@
 
 .popular-products-slider .slick-slide {
     padding-top: 150px;
+    width: 370px;
 }
 
 .popular-products-slider .slick-arrow.slick-prev {
@@ -200,10 +197,6 @@
     background-image: url(/images/arrow-right-slider.png);
     background-position: 55% center;
     margin-right: -25px;
-}
-
-.popular-products-slider .slick-track {
-    display: flex !important;
 }
 
 .popular-products-slider .slick-slide {
@@ -225,10 +218,9 @@
     padding: 15px;
     border-radius: 10px;
     background-color: #1C1C24;
-    width: 50%;
+    width: 370px;
     margin: 0 auto;
     max-height: 370px;
-    height: 300px;
     justify-content: flex-end;
     position: relative;
 }
@@ -271,22 +263,6 @@
 /*!***********************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./src/styles/auth.css ***!
   \***********************************************************************/
-/* .auth-form {
-    width: 100vw;
-    height: 100vh;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-image: url('../images/backgrounds/not-found.png');
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-} */
-
 .auth-form {
     position: absolute;
     top: 25px;
@@ -294,7 +270,7 @@
     left: 0;
     right: 0;
     transition: 500ms;
-    width: 450px;
+    width: 370px;
     z-index: 1;
 }
 
@@ -303,11 +279,62 @@
     padding: 30px 20px;
     border-radius: 15px;
     margin: auto;
-    box-shadow: 0px 0px 20px 5px #000000;
+    box-shadow: 0px 0px 20px 5px #141313;
 }
 
-.auth-form input[type="checkbox"] {
+.auth-form .form .checkbox {
+    position: relative;
+    width: 16px;
+    height: 16px;
+}
+
+.auth-form .form .checkbox .check {
     cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 0;
+    width: 0;
+    opacity: 0;
+}
+
+.auth-form .form .checkbox .checkmark {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    background-color: #eee;
+    border-radius: 3px;
+    z-index: 1;
+}
+
+.auth-form .form .checkbox input:checked ~ .checkmark {
+    background-color: #50B5FF;
+}
+
+.auth-form .form .checkbox input:checked ~ .checkmark::after {
+    display: block;
+}
+
+.auth-form .form .checkbox .checkmark:hover {
+    background-color: #aaa;
+}
+
+.auth-form .form .checkbox .checkmark::after {
+    position: absolute;
+    display: none;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    content: '';
+    background-image: url(/images/check-mark.png);
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .auth-form .heading {
@@ -346,7 +373,7 @@
 }
 
 .auth-form .form label {
-    font-size: .85rem;
+    font-size: 14px;
 }
 
 .auth-form .form .field-wrap {
@@ -411,10 +438,12 @@
 
 .auth-form .form .remember .check {
     margin-right: 10px;
+    z-index: 2;
 }
 
 .auth-form .form .remember .remember-me {
     user-select: none;
+    margin-left: 10px;
 }
 
 .auth-form .form .re-captcha {
@@ -520,7 +549,7 @@
 }
 
 /*!****************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js!./src/styles/style.css (2) ***!
+  !*** css ./node_modules/css-loader/dist/cjs.js!./src/styles/style.css (1) ***!
   \****************************************************************************/
 * {
     margin: 0;
@@ -731,6 +760,20 @@ fieldset {
     margin-left: 15px;
 }
 
+.home .nav .nav-wrap {
+    position: relative;
+}
+
+.home .nav .nav-gray-line {
+    width: 100%;
+    height: 1px;
+    background-color: #232020;
+    opacity: .9;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
 .home .forgot-password-modal {
     transition: 500ms;
     position: absolute;
@@ -939,7 +982,7 @@ fieldset {
 
 .home .slider .pop-product {
     padding: 1rem;
-    width: 18vw;
+    width: 240px;
     position: relative;
     z-index: -2;
     font-family: Roboto, sans-serif;
@@ -985,7 +1028,7 @@ fieldset {
 }
 
 .home .advantages .advantage {
-    flex-basis: 30%;
+    flex-basis: 32%;
     margin: 30px auto 0 auto;
     position: relative;
     padding: 40px 30px 50px 30px;
@@ -1070,9 +1113,19 @@ fieldset {
 }
 
 .home .footer-wrap {
+    position: relative;
+}
+
+.home .footer-wrap .footer-bg {
     background-image: url(/images/footer.jpg);
-    background-position: top center;
+    background-position: center bottom;
     background-size: cover;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
 }
 
 .home .footer-wrap .instruction {
@@ -1202,6 +1255,13 @@ fieldset {
         margin: 100px auto 0 auto;
         transform: rotate(90deg);
     }
+}
+
+.home .footer-wrap .footer-gray-line {
+    width: 100%;
+    height: 1px;
+    background-color: #232020;
+    opacity: .9;
 }
 
 .home .footer {
@@ -1414,6 +1474,16 @@ fieldset {
 
 .dashboard .nav .user-menu .dropdown a:hover {
     color: #fff;
+}
+
+.dashboard .change-password {
+    max-width: 370px;
+    position: absolute;
+    right: 0;
+    left: 0;
+    margin: 0 auto;
+    top: 25px;
+    transition: 200ms;
 }
 
 .dashboard .main {
@@ -1729,16 +1799,6 @@ fieldset {
 
 .dashboard .main .lobby .dashboard-slider {
     margin-top: 30px;
-}
-
-.dashboard .main .change-password {
-    position: absolute;
-    top: 25px;
-    right: 0;
-    left: 0;
-    margin: 0 auto;
-    width: 370px;
-    transition: 200ms;
 }
 
 .dashboard .main .lobby .popular-products {
@@ -2554,7 +2614,6 @@ fieldset {
     }
     .home .nav .container .container {
         flex-direction: column;
-        padding-bottom: 100px;
     }
     .home .nav .gray-line {
         height: 0;

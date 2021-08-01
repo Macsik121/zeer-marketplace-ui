@@ -185,7 +185,6 @@ class NavBar extends React.Component {
                     className="link-item"
                     onClick={
                         function() {
-                            console.log(this.props);
                             this.setState({
                                 userDropdownShown: false,
                                 menuDropdownShown: false
@@ -525,7 +524,14 @@ class Dashboard extends React.Component {
         const { user, subscriptions, showingChangePassword } = this.state;
         return (
             <div className="dashboard">
-                <header className="header">
+                <header
+                    style={
+                        showingChangePassword
+                            ? {opacity: '.5', transition: '500ms'}
+                            : {opactiy: 1, transition: '500ms'}
+                    }
+                    className="header"
+                >
                     <NavBar
                         user={user}
                         history={this.props.history}
@@ -536,14 +542,21 @@ class Dashboard extends React.Component {
                         showingChangePassword={showingChangePassword}
                     />
                 </header>
-                <main className="main">
-                    <ChangePassword
-                        style={
-                            showingChangePassword
-                                ? {opactiy: 1, transform: 'translateY(0)'}
-                                : {opactiy: 0, transform: 'translateY(-150%)'}
-                        }
-                    />
+                <ChangePassword
+                    style={
+                        showingChangePassword
+                            ? {opactiy: 1, transform: 'translateY(0)'}
+                            : {opactiy: 0, transform: 'translateY(-300%)'}
+                    }
+                />
+                <main
+                    style={
+                        showingChangePassword
+                            ? {opacity: '.5', transition: '500ms'}
+                            : {opactiy: 1, transition: '500ms'}
+                    }
+                    className="main"
+                >
                     <Switch>
                         <Route exact path="/dashboard/products" component={Products} />
                         <Route path="/dashboard/FAQ" component={FAQ} />

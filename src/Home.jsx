@@ -193,7 +193,7 @@ export default class Home extends React.Component {
         const popProducts = products.map(product => (
             <Product
                 className={this.props.className}
-                styles={{background: product.imageURL}}
+                styles={{ background: product.imageURL }}
                 product={product}
                 key={product.id}
             />
@@ -224,42 +224,45 @@ export default class Home extends React.Component {
                     className="header"
                     style={
                         showingLogin || showingSignup
-                            ? {opacity: '.5', transition: '500ms'}
+                            ? {opacity: '0.5', transition: '500ms'}
                             : {opacity: '1', transition: '500ms'}
                     }
                 >
                     <nav className="nav">
                         <div className="nav-BG" />
-                        <div
-                            className="container"
-                        >
-                            <div className="container">
-                                <div>
-                                    <Link to="/" className="logo">
-                                        <img src="/images/zeer-logo.png" />
-                                        <h1>zeer</h1>
-                                    </Link>
-                                </div>
-                                <div className="download-loader">
-                                    <img src="/images/download-loader.png" />
-                                    <span className="text-content">скачать zeer loader</span>
-                                </div>
-                                <div className="gray-line"></div>
-                                <div className="social-media">
-                                    <a className="social-media-link" target="_blank" href="https://t.me/zeer_changer">
-                                        <img src="/images/telegram-icon.png" />
-                                    </a>
-                                    <a className="social-media-link" target="_blank" href="https://vk.com/zeer_csgo">
-                                        <img src="/images/vk-icon.png" />
-                                    </a>
-                                </div>
-                                <div className="auth-buttons">
-                                    <button onClick={this.toggleLogin} className="button" to="/signin">
-                                        Войти
-                                    </button>
-                                    <button onClick={this.toggleSignup} className="button" to="/signup">
-                                        Регистрация
-                                    </button>
+                        <div className="nav-wrap">
+                            <div className="nav-gray-line" />
+                            <div
+                                className="container"
+                            >
+                                <div className="container">
+                                    <div>
+                                        <Link to="/" className="logo">
+                                            <img src="/images/zeer-logo.png" />
+                                            <h1>zeer</h1>
+                                        </Link>
+                                    </div>
+                                    <div className="download-loader">
+                                        <img src="/images/download-loader.png" />
+                                        <span className="text-content">скачать zeer loader</span>
+                                    </div>
+                                    <div className="gray-line"></div>
+                                    <div className="social-media">
+                                        <a className="social-media-link" target="_blank" href="https://t.me/zeer_changer">
+                                            <img src="/images/telegram-icon.png" />
+                                        </a>
+                                        <a className="social-media-link" target="_blank" href="https://vk.com/zeer_csgo">
+                                            <img src="/images/vk-icon.png" />
+                                        </a>
+                                    </div>
+                                    <div className="auth-buttons">
+                                        <button onClick={this.toggleLogin} className="button" to="/signin">
+                                            Войти
+                                        </button>
+                                        <button onClick={this.toggleSignup} className="button" to="/signup">
+                                            Регистрация
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -299,7 +302,7 @@ export default class Home extends React.Component {
                     style={
                         showingForgotPassword
                             ? {opacity: 1, transform: 'translateY(0)'}
-                            : {opacity: 0, transform: 'translateY(-150%)'}
+                            : {opacity: 0, transform: 'translateY(-110%)'}
                     }
                     hideForgotPassword={this.hideForgotPassword}
                     showLogin={this.showLogin}
@@ -361,6 +364,7 @@ export default class Home extends React.Component {
                     </div>
                 </div>
                 <div className="wrap footer-wrap">
+                    <div className="footer-bg" />
                     <div className="steps">
                         <div className="container">
                             <h2 className="instruction">Инструкцию как купить</h2>
@@ -415,6 +419,7 @@ export default class Home extends React.Component {
                                 : {opacity: '1', transition: '500ms'}
                         }
                     >
+                        <div className="footer-gray-line" />
                         <div className="container">
                             <nav className="nav">
                                 <div className="black"></div>
