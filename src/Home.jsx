@@ -19,7 +19,8 @@ export default class Home extends React.Component {
             showingAgreement: false,
             advantages: [
                 {
-                    imgURL: '/images/-icon.png',
+                    imgURL: '/images/advantage1-icon.png',
+                    characterURL: '/images/advantage1-character.png',
                     title: 'защита',
                     content: `Внедрение чита в игру происходит
                     совершенно незаметно для античита.
@@ -27,7 +28,8 @@ export default class Home extends React.Component {
                     не получил блокировок`
                 },
                 {
-                    imgURL: '/images/-icon.png',
+                    imgURL: '/images/advantage2-icon.png',
+                    characterURL: '/images/advantage2-character.png',
                     title: 'функционал',
                     content: `Команда наших профессиональных
                     разработчиков подготовила для вас 
@@ -35,7 +37,8 @@ export default class Home extends React.Component {
                     Спеши опробовать!`
                 },
                 {
-                    imgURL: '/images/-icon.png',
+                    imgURL: '/images/advantage3-icon.png',
+                    characterURL: '/images/advantage3-character.png',
                     title: 'оптимизация',
                     content: `Мы все время заняты улучшением
                     скорости работы и производительности, 
@@ -43,7 +46,8 @@ export default class Home extends React.Component {
                     а Ваш FPS не падал!`
                 },
                 {
-                    imgURL: '/images/-icon.png',
+                    imgURL: '/images/advantage4-icon.png',
+                    characterURL: '/images/advantage4-character.png',
                     title: 'поддержка',
                     content: `Круглосуточная поддержка,
                     которая окажет Вам помощь
@@ -51,14 +55,16 @@ export default class Home extends React.Component {
                     по использованию.`
                 },
                 {
-                    imgURL: '/images/-icon.png',
+                    imgURL: '/images/advantage5-icon.png',
+                    characterURL: '/images/advantage5-character.png',
                     title: 'скорость обновлений',
                     content: `Мы всегда следим за обновлениями
                     игры и наш софт обновляется так быстро, 
                     что Вы даже не узнаете об этом!`
                 },
                 {
-                    imgURL: '/images/-icon.png',
+                    imgURL: '/images/advantage6-icon.png',
+                    characterURL: '/images/advantage6-character.png',
                     title: 'приемущество',
                     content: `Почувствуй, как твое преимущество
                     над врагом растет, а игра упрощается!`
@@ -159,13 +165,17 @@ export default class Home extends React.Component {
                 key={product.id}
             />
         ))
-        const advantages = this.state.advantages.map(advantage => (
-            <div key={advantage.title} className="advantage">
+        const advantages = this.state.advantages.map((advantage, i) => (
+            <div key={advantage.title} className={`advantage advantage${++i}`}>
                 <img className="img" src={advantage.imgURL} />
                 <h2 className="advantage-title">{advantage.title}</h2>
                 <span className="content">{advantage.content}</span>
-                <div className="bottom-line"></div>
-                <div className="background"></div>
+                <img className="character" src={advantage.characterURL} />
+                <div className="bottom-line" />
+                {++i % 2 == 1 &&
+                    <div className="even-bg" />
+                }
+                <div className="background" />
             </div>
         ));
         return (
@@ -307,57 +317,48 @@ export default class Home extends React.Component {
                 </div>
                 <div className="wrap footer-wrap">
                     <div className="steps">
-                        <h2 className="instruction">Инструкцию как купить</h2>
                         <div className="container">
-                        {/* <div className="images">
-                                <div className="icon" />
-                                <div className="red-line" />
-                                <div className="icon" />
-                                <div className="red-line" />
-                                <div className="icon" />
-                                <div className="red-line" />
-                                <div className="icon" />
-                            </div>
-                            <div className="rules">
+                            <h2 className="instruction">Инструкцию как купить</h2>
+                            <div className="container">
                                 <div className="step1 step">
-                                    <label>01</label>
+                                    <div className="step-bg">
+                                        <div className="bg" />
+                                        <img className="character" src="/images/step1-character.png" />
+                                        <img className="icon" src="/images/step1-icon.png" />
+                                    </div>
+                                    <label className="instruction-num">01</label>
                                     <span className="to-do">пройти регистрацию</span>
                                 </div>
+                                <div className="red-line" />
                                 <div className="step2 step">
-                                    <label>02</label>
+                                    <div className="step-bg">
+                                        <div className="bg" />
+                                        <img className="character" src="/images/step2-character.png" />
+                                        <img className="icon" src="/images/step2-icon.png" />
+                                    </div>
+                                    <label className="instruction-num">02</label>
                                     <span className="to-do">выбрать продукт в личном кабинете</span>
                                 </div>
+                                <div className="red-line red-line2" />
                                 <div className="step3 step">
-                                    <label>03</label>
-                                    <span className="to-do">пройти регистрацию</span>
+                                    <div className="step-bg">
+                                        <div className="bg" />
+                                        <img className="character" src="/images/step3-character.png" />
+                                        <img className="icon" src="/images/step3-icon.png" />
+                                    </div>
+                                    <label className="instruction-num">03</label>
+                                    <span className="to-do">Произвести оплату</span>
                                 </div>
+                                <div className="red-line" />
                                 <div className="step4 step">
-                                    <label>04</label>
-                                    <span className="to-do">пройти регистрацию</span>
+                                    <div className="step-bg">
+                                        <div className="bg" />
+                                        <img className="character" src="/images/step4-character.png" />
+                                        <img className="icon" src="/images/step4-icon.png" />
+                                    </div>
+                                    <label className="instruction-num">04</label>
+                                    <span className="to-do">Скачать лоадер</span>
                                 </div>
-                            </div> */}
-                            <div className="step1 step">
-                                <div className="icon" />
-                                <label className="instruction-num">01</label>
-                                <span className="to-do">пройти регистрацию</span>
-                            </div>
-                            <div className="red-line" />
-                            <div className="step2 step">
-                                <div className="icon" />
-                                <label className="instruction-num">02</label>
-                                <span className="to-do">выбрать продукт в личном кабинете</span>
-                            </div>
-                            <div className="red-line red-line2" />
-                            <div className="step3 step">
-                                <div className="icon" />
-                                <label className="instruction-num">03</label>
-                                <span className="to-do">Произвести оплату</span>
-                            </div>
-                            <div className="red-line" />
-                            <div className="step4 step">
-                                <div className="icon" />
-                                <label className="instruction-num">04</label>
-                                <span className="to-do">Скачать лоадер</span>
                             </div>
                         </div>
                     </div>
