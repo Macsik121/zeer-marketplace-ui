@@ -361,7 +361,6 @@ fieldset {
     display: flex;
     flex-wrap: wrap;
     margin: 150px auto 0 auto;
-    max-width: 100%;
 }
 
 .home .advantages .advantage {
