@@ -169,8 +169,8 @@ class Dashboard extends React.Component {
                 <header
                     style={
                         showingChangePassword
-                            ? {opacity: '.5', transition: '500ms'}
-                            : {opactiy: 1, transition: '500ms'}
+                            ? {opacity: '.5', transition: '500ms', pointerEvents: 'none', userSelect: 'none'}
+                            : {opactiy: 1, transition: '500ms', pointerEvents: 'all', userSelect: 'all'}
                     }
                     className="header"
                 >
@@ -195,8 +195,8 @@ class Dashboard extends React.Component {
                 <main
                     style={
                         showingChangePassword
-                            ? {opacity: '.5', transition: '500ms'}
-                            : {opactiy: 1, transition: '500ms'}
+                            ? {opacity: '.5', transition: '500ms', pointerEvents: 'none', userSelect: 'none'}
+                            : {opactiy: 1, transition: '500ms', pointerEvents: 'all', userSelect: 'all'}
                     }
                     className="main"
                 >
@@ -223,7 +223,13 @@ class Dashboard extends React.Component {
                         />
                     </Switch>
                 </main>
-                <Footer />
+                <Footer
+                    style={
+                        showingChangePassword
+                            ? {opacity: '.5', transition: '500ms', pointerEvents: 'none', userSelect: 'none'}
+                            : {opactiy: 1, transition: '500ms', pointerEvents: 'all', userSelect: 'all'}
+                    }
+                />
             </div>
         )
     }

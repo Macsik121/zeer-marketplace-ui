@@ -1,13 +1,16 @@
 .slider {
     position: relative;
-    max-width: 1080px;
-    margin: 50px auto 0 auto;
+    margin-top: 50px;
 }
 
 .slider .slick-track {
     margin-left: auto;
     margin-right: auto;
     cursor: grab;
+}
+
+.slider .slick-list {
+    width: 1170px;
 }
 
 .slider .slick-arrow {
@@ -55,11 +58,11 @@
     margin-right: -3vw;
 }
 
-.slider .slick-slide {
+/* .slider .slick-slide {
     display: flex !important;
     justify-content: center;
     margin: 0 auto;
-}
+} */
 
 .popular-products-slider {
     margin-top: 30px;
