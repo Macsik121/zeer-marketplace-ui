@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, Link, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import fetchData from '../fetchData';
 import Lobby from './Lobby.jsx';
@@ -9,433 +9,9 @@ import FAQ from './FAQ.jsx';
 import SetNewAvatar from './SetNewAvatar.jsx';
 import ProductInfo from './ProductInfo.jsx';
 import ChangePassword from './ChangePasswordModal.jsx';
-
-class NavBar extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            user: {},
-            navLinks: [],
-            menuDropdownShown: false,
-            userDropdownShown: false,
-            deviceWidth: 0,
-            userAvatar: {},
-            currentLink: 'Лобби',
-            currentPath: ''
-        };
-        this.toggleMenuDropdown = this.toggleMenuDropdown.bind(this);
-        this.hiddenMenuDropdown = this.hiddenMenuDropdown.bind(this);
-        this.toggleUserDropdown = this.toggleUserDropdown.bind(this);
-        this.hiddenUserDropdown = this.hiddenUserDropdown.bind(this);
-        this.logout = this.logout.bind(this);
-    }
-    componentDidUpdate(prevProps) {
-        const { user } = this.state;
-        if (prevProps.user != this.props.user) {
-            this.setState({user: this.props.user});
-            if (Object.keys(this.props.user).length > 0) {
-                if (user.avatar && user.avatar.length > 100) {
-                    this.setState({userAvatar: {
-                        background: `url("${user.avatar}") center/cover no-repeat`,
-                    }})
-                } else {
-                    this.setState({userAvatar: {
-                        background: user.avatar
-                    }})
-                }
-            }
-        }
-    }
-    componentDidMount() {
-        window.onkeydown = function(e) {
-            if (e.keyCode == 27) {
-                this.setState({
-                    userDropdownShown: false,
-                    menuDropdownShown: false
-                });
-                this.props.hideModal();
-            }
-        }.bind(this);
-        const user = jwtDecode(localStorage.getItem('token'));
-        if (Object.keys(user).length > 0) {
-            if (user.avatar && user.avatar.length > 100) {
-                this.setState({userAvatar: {
-                    background: `url("${this.props.selectedImage}") center/cover no-repeat`
-                }})
-            } else {
-                this.setState({userAvatar: {
-                    background: user.avatar
-                }})
-            }
-        }
-        const navLinks = [
-            {
-                name: 'Лобби',
-                path: '',
-                isExact: true,
-                userpage: true,
-                content: [
-                    {
-                        tag: 'img',
-                        class: 'icon',
-                        content: 'self-closing tag',
-                        src: "/images/Home.svg"
-                    },
-                    {
-                        tag: 'span',
-                        class: '',
-                        content: 'Лобби'
-                    }
-                ]
-            },
-            {
-                name: 'Продукты',
-                path: 'products',
-                isExact: false,
-                userpage: false,
-                content: [
-                    {
-                        tag: 'img',
-                        class: 'icon',
-                        content: 'self-closing tag',
-                        src: "/images/Category.svg"
-                    },
-                    {
-                        tag: 'span',
-                        class: '',
-                        content: 'Продукты'
-                    }
-                ]
-            },
-            {
-                name: 'Управление подписками',
-                path: 'subscriptions',
-                isExact: false,
-                userpage: true,
-                content: [
-                    {
-                        tag: 'img',
-                        class: 'icon',
-                        content: 'self-closing tag',
-                        src: "/images/Path.svg"
-                    },
-                    {
-                        tag: 'span',
-                        class: '',
-                        content: 'Управление подписками'
-                    }
-                ]
-            },
-            {
-                name: 'FAQ',
-                path: 'FAQ',
-                isExact: false,
-                userpage: false,
-                content: [
-                    {
-                        tag: 'img',
-                        class: 'icon',
-                        content: 'self-closing tag',
-                        src: '/images/Folder.svg'
-                    },
-                    {
-                        tag: 'span',
-                        class: '',
-                        content: 'FAQ'
-                    }
-                ]
-            }
-        ]
-        this.setState({navLinks, deviceWidth: window.innerWidth});
-    }
-    toggleMenuDropdown(e) {
-        this.setState({menuDropdownShown: !this.state.menuDropdownShown});
-    }
-    hiddenMenuDropdown() {
-        this.setState({menuDropdownShown: false});
-    }
-    toggleUserDropdown(e) {
-        this.setState({userDropdownShown: !this.state.userDropdownShown});
-    }
-    hiddenUserDropdown() {
-        this.setState({userDropdownShown: false});
-    }
-    async logout() {
-        localStorage.clear();
-        this.props.history.push('/');
-    }
-    render() {
-        const {
-            user,
-            navLinks,
-            menuDropdownShown,
-            deviceWidth,
-            userDropdownShown,
-            userAvatar
-        } = this.state;
-        const { toggleModal, hideModal } = this.props;
-        const nav = navLinks.map(link => {
-            return (
-                <NavLink
-                    key={link.path}
-                    to={
-                        `/dashboard/${link.userpage ? `${user.name}/` : ''}${link.path}`
-                    }
-                    exact={link.isExact}
-                    className="link-item"
-                    onClick={
-                        function() {
-                            this.setState({
-                                userDropdownShown: false,
-                                menuDropdownShown: false
-                            })
-                        }.bind(this)
-                    }
-                >
-                    {
-                        link.content.map((contentElement, i) => {
-                            if (contentElement.content != 'self-closing tag') {
-                                return (
-                                    <contentElement.tag key={contentElement.content} className={contentElement.class}>
-                                        {contentElement.content}
-                                    </contentElement.tag>
-                                )
-                            } else {
-                                return (
-                                    <contentElement.tag
-                                        src={contentElement.src ? contentElement.src : ''}
-                                        key={i}
-                                        className={contentElement.class}
-                                    />
-                                )
-                            }
-                        })
-                    }
-                    <div className="border-bottom" />
-                </NavLink>
-            )
-        })
-        const navMenu = (
-            deviceWidth >= 700
-                ? (
-                    <div className="links-wrap">
-                        {nav}
-                    </div>
-                )
-                : (
-                    <div className="three-dots">
-                        <div
-                            className="open-menu"
-                            onClick={
-                                function(e) {
-                                    this.hiddenUserDropdown();
-                                    this.toggleMenuDropdown(e);
-                                }.bind(this)
-                            }
-                        >
-                            <div
-                                className="line-1 menu-line"
-                                style={
-                                    menuDropdownShown
-                                        ? {backgroundColor: '#1E75FF'}
-                                        : {backgroundColor: '#92929D'}
-                                }
-                            />
-                            <div
-                                className="line-2 menu-line"
-                                style={
-                                    menuDropdownShown
-                                        ? {backgroundColor: '#1E75FF'}
-                                        : {backgroundColor: '#92929D'}
-                                }
-                            />
-                        </div>
-                        <div
-                            style={
-                                menuDropdownShown
-                                    ? {maxHeight: '550px', transition: '350ms'}
-                                    : {maxHeight: 0, transition: '200ms'}
-                            }
-                            className="menu-dropdown"
-                        >
-                            {nav}
-                        </div>
-                    </div>
-                )
-        );
-        return (
-            <nav className="nav">
-                <div className="container">
-                    <div className="user-menu">
-                        <div
-                            onClick={
-                                function() {
-                                    this.hiddenMenuDropdown();
-                                    this.toggleUserDropdown();
-                                }.bind(this)
-                            }
-                            style={
-                                userDropdownShown
-                                    ? {
-                                        background: userAvatar.background,
-                                        border: '2px solid #fff',
-                                        padding: '20px'
-                                    }
-                                    : {
-                                        background: userAvatar.background,
-                                        border: 'none',
-                                        padding: '22px'
-                                    }
-                            }
-                            className="avatar"
-                        >
-                            <span className="first-char">
-                                {user.avatar && user.avatar.length < 500 &&
-                                    user.nameFirstChar
-                                }
-                            </span>
-                        </div>
-                        <span className="username">{user.name}</span>
-                        <img
-                            onClick={
-                                function() {
-                                    this.hiddenMenuDropdown();
-                                    this.toggleUserDropdown();
-                                }.bind(this)
-                            }
-                            className="menu-arrow"
-                            src="/images/user-menu-arrow.png"
-                        />
-                        <div
-                            className="dropdown"
-                            style={
-                                userDropdownShown
-                                    ? {maxHeight: '550px', transition: '350ms'}
-                                    : {maxHeight: 0, transition: '200ms'}
-                            }
-                        >
-                            <NavLink
-                                onClick={
-                                    function() {
-                                        this.hiddenUserDropdown();
-                                    }.bind(this)
-                                }
-                                to={`/dashboard/${user.name}/changeavatar`}
-                            >
-                                <div className="item">
-                                    Установить новый аватар
-                                </div>
-                            </NavLink>
-                            <button
-                                className="show-modal-change-password"
-                                onClick={
-                                    function() {
-                                        this.hiddenUserDropdown();
-                                        toggleModal();
-                                    }.bind(this)
-                                }
-                            >
-                                <div className="item">
-                                    Сменить пароль
-                                </div>
-                            </button>
-                            <NavLink
-                                onClick={this.hiddenUserDropdown}
-                                to={`/dashboard/${user.name}`}
-                            >
-                                <div className="item">
-                                    Сбросить привязку
-                                </div>
-                            </NavLink>
-                            <NavLink
-                                onClick={this.hiddenUserDropdown}
-                                to={`/dashboard/${user.name}`}
-                            >
-                                <div className="item">
-                                    Админ-панель
-                                </div>
-                            </NavLink>
-                            <div onClick={this.logout} className="item">Выйти</div>
-                        </div>
-                    </div>
-                    <ul className="links">
-                        {navMenu}
-                        <Link
-                            onClick={
-                                function(e) {
-                                    this.hiddenMenuDropdown();
-                                    this.hiddenUserDropdown();
-                                }.bind(this)
-                            } to={`/dashboard/${user.name}`}
-                        >
-                            <img className="logo" src="/images/zeer-logo.png" />
-                        </Link>
-                    </ul>
-                </div>
-            </nav>
-        )
-    }
-}
-
-class Footer extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            timeWorking: {
-                from: 2018,
-                to: 2021
-            },
-            deviceWidth: 0
-        }
-    }
-    componentDidMount() {
-        window.onresize = function() {
-            this.setState({ deviceWidth: window.innerWidth });
-        }.bind(this);
-        this.setState({ deviceWidth: window.innerWidth });
-    }
-    render() {
-        const { timeWorking, deviceWidth } = this.state;
-        return (
-            <footer className="footer">
-                <div className="container">
-                    <div className="footer-wrap">
-                        <div className="zeer">
-                            <img className="logo" src="/images/zeer-logo.png" />
-                            <div className="time-working">
-                                ZEER - <span>{timeWorking.from}</span>/<span>{timeWorking.to}</span>
-                            </div>
-                        </div>
-                        <div className="contacts">
-                            {deviceWidth > 800 &&
-                                <span>Мы в социальных сетях</span>
-                            }
-                            <div className="soc-media">
-                                <a href="https://t.me/zeer_changer" target="_blank">
-                                    <img src="/images/telegram-icon.png" />
-                                </a>
-                                <a href="https://vk.com/zeer_csgo" target="_blank">
-                                    <img src="/images/vk-icon.png" />
-                                </a>
-                            </div>
-                            <div className="gray-line"></div>
-                        </div>
-                    </div>
-                    <button
-                        style={
-                            deviceWidth > 700
-                                ? {marginTop: 0}
-                                : {marginTop: '20px'}
-                        }
-                        className="download-loader"
-                    >
-                        Скачать лоадер
-                    </button>
-                </div>
-            </footer>
-        )
-    }
-}
+import Footer from './Footer.jsx';
+import NavBar from './NavBar.jsx';
+import { fetchPopularProducts } from '../PopularProducts.js';
 
 class Dashboard extends React.Component {
     constructor() {
@@ -447,7 +23,10 @@ class Dashboard extends React.Component {
                 active: [],
                 overdue: []
             },
-            showingChangePassword: false
+            showingChangePassword: false,
+            popularProducts: [],
+            userAvatar: {},
+            deviceWidth: 0
         }
         this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
@@ -475,8 +54,7 @@ class Dashboard extends React.Component {
             return;
         }
         this.setState({user: jwtDecode(localStorage.getItem("token"))});
-        this.setState({user: {...user, nameFirstChar: user.name.charAt(0)}});
-        const result = await fetchData(`
+        const resultSubs = await fetchData(`
             query getSubscriptions($name: String!) {
                 getSubscriptions(name: $name) {
                     all {
@@ -509,7 +87,57 @@ class Dashboard extends React.Component {
                 }
             }
         `, {name: user.name});
-        this.setState({subscriptions: result.getSubscriptions, deviceWidth: innerWidth});
+        const popularProducts = await fetchPopularProducts();
+        let allProducts;
+        let productsToAdd = [];
+        if (popularProducts.length < 4) {
+            const result = await fetchData(`
+                query {
+                    products {
+                        title
+                        costPerDay
+                        id
+                        productFor
+                        viewedToday
+                        buyings {
+                          email
+                        }
+                        imageURLdashboard
+                        workingTime
+                        description
+                        characteristics {
+                          version
+                          osSupport
+                          cpuSupport
+                          gameMode
+                          developer
+                          supportedAntiCheats
+                        }
+                    }
+                }
+            `);
+            allProducts = result.products;
+            for (let i = 0; i < 3; i++) {
+                productsToAdd.push(allProducts[i]);
+            }
+            this.setState({ popularProducts: Object.assign(popularProducts, productsToAdd) });
+        }
+        const userAvatar = {};
+        if (user.avatar && user.avatar.includes('#')) {
+            userAvatar.background = user.avatar;
+            user.nameFirstChar = user.name.substring(0, 2);
+        } else {
+            userAvatar.background = `url("${user.avatar}") center/cover no-repeat`;
+            user.nameFirstChar = '';
+        }
+        this.setState({
+            subscriptions: resultSubs.getSubscriptions,
+            deviceWidth: window.innerWidth,
+            popularProducts,
+            userAvatar,
+            user,
+            deviceWidth: window.innerWidth
+        });
     }
     toggleModal() {
         this.setState({ showingChangePassword: !this.state.showingChangePassword })
@@ -521,9 +149,23 @@ class Dashboard extends React.Component {
         this.setState({ showingChangePassword: false });
     }
     render() {
-        const { user, subscriptions, showingChangePassword } = this.state;
+        const {
+            user,
+            subscriptions,
+            showingChangePassword,
+            popularProducts,
+            userAvatar,
+            deviceWidth
+        } = this.state;
         return (
-            <div className="dashboard">
+            <div
+                className="dashboard"
+                style={
+                    showingChangePassword
+                        ? {overflow: 'hidden'}
+                        : {overflow: 'inherit'}
+                }
+            >
                 <header
                     style={
                         showingChangePassword
@@ -548,6 +190,7 @@ class Dashboard extends React.Component {
                             ? {opactiy: 1, transform: 'translateY(0)'}
                             : {opactiy: 0, transform: 'translateY(-300%)'}
                     }
+                    hideModal={this.hideModal}
                 />
                 <main
                     style={
@@ -563,7 +206,21 @@ class Dashboard extends React.Component {
                         <Route path="/dashboard/products/:title" component={ProductInfo} />
                         <Route path="/dashboard/:username/subscriptions" component={() => <Subscriptions subscriptions={subscriptions} />} />
                         <Route path="/dashboard/:username/changeavatar" component={SetNewAvatar} />
-                        <Route exact path="/dashboard/:username" component={() => <Lobby user={user} subscriptions={subscriptions} />} />
+                        <Route
+                            exact
+                            path="/dashboard/:username"
+                            component={
+                                () => (
+                                    <Lobby
+                                        user={user}
+                                        userAvatar={userAvatar}
+                                        subscriptions={subscriptions}
+                                        popularProducts={popularProducts}
+                                        deviceWidth={deviceWidth}
+                                    />
+                                )
+                            }
+                        />
                     </Switch>
                 </main>
                 <Footer />

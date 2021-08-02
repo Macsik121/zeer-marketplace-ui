@@ -228,7 +228,6 @@ export default class FAQ extends React.Component {
         )
     }
     handleChangeCategory(e) {
-        console.log(e.target);
         this.setState({ currentCategory: e.target.textContent });
     }
     handleSearch(e) {
@@ -241,21 +240,34 @@ export default class FAQ extends React.Component {
         this.setState({ hiddenSearchCategories: !this.state.hiddenSearchCategories });
     }
     render() {
-        const { searchValue, hiddenSearchCategories, currentCategory, deviceWidth } = this.state;
+        const {
+            searchValue,
+            hiddenSearchCategories,
+            currentCategory,
+            deviceWidth
+        } = this.state;
         let categoryToRender = '';
-        const categoriesToSearch = this.state.categoriesToSearch.map(category => (
-            <span
-                className="category"
-                onClick={
-                    function(e) {
-                        this.handleChangeCategory(e);
-                        this.setState({ hiddenSearchCategories: true });
-                    }.bind(this)
-                }
-                key={category}
-            >
-                {category}
-            </span>)
+        const categoriesToSearch = this.state.categoriesToSearch.map(category => {
+            return (
+                    <span
+                        className="category"
+                        onClick={
+                            function(e) {
+                                this.handleChangeCategory(e);
+                                this.setState({ hiddenSearchCategories: true });
+                            }.bind(this)
+                        }
+                        key={category}
+                        style={
+                            category == currentCategory
+                                ? {backgroundColor: '#2d2d36'}
+                                : {}
+                        }
+                    >
+                        {category}
+                    </span>
+                )
+            }
         )
         if (deviceWidth > 600) {
             for (let i = 0; i < currentCategory.length; i++) {

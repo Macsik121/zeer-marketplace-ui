@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import fetchData from '../fetchData';
-import { fetchPopularProducts } from '../PopularProducts.jsx';
+import { fetchPopularProducts } from '../PopularProducts.js';
 
 export default class ProductInfo extends React.Component {
     constructor() {
@@ -179,7 +179,9 @@ export default class ProductInfo extends React.Component {
         const costDropdown = calculatedCosts.map(costTime => (
             <div className="item" key={costTime} onClick={this.calculateCost}>
                 {costTime}
-                {costTime == choosenDropdown && <img className="cost-selected" src="/images/selected-cost.png" />}
+                {costTime == choosenDropdown &&
+                    <img className="cost-selected" src="/images/selected-cost.png" />
+                }
             </div>
         ));
         const changes = this.renderChanges();
@@ -191,6 +193,7 @@ export default class ProductInfo extends React.Component {
         let days = new Date().getDate() - productWorkingTime.getDate();
         let months = new Date().getMonth() + 1 - productWorkingTime.getMonth() + 1;
         let years = new Date().getFullYear() - productWorkingTime.getFullYear();
+        console.log(days);
         if (days == 0) {
             let hoursDifference = new Date().getHours() - productWorkingTime.getHours();
             if (hoursDifference == 0) {
@@ -256,9 +259,9 @@ export default class ProductInfo extends React.Component {
             </span>
         );
         if (choosenDropdown) {
-            if (choosenDropdown == 'Ежедневно') {
+            if (choosenDropdown == 'Ежеквартально') {
                 productCost = <span className="cost">{product.costPerDay && product.costPerDay} &#8381; / День</span>;
-            } else if (choosenDropdown == 'Ежеквартально') {
+            } else if (choosenDropdown == 'Ежемесячно') {
                 productCost = <span className="cost">{product.costPerDay && product.costPerDay * 30} &#8381; / Мес.</span>
             } else if (choosenDropdown == 'Ежегодно') {
                 productCost = <span className="cost">{product.costPerDay && product.costPerDay * 30 * 12} &#8381; / Год</span>

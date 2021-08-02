@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import SlickSlider from 'react-slick';
-import fetchData from '../fetchData.js';
-import { fetchPopularProducts } from '../PopularProducts.jsx';
 
 function NextArrow(props) {
     const { onClick, className, style } = props;
@@ -29,73 +27,20 @@ function PrevArrow(props) {
 export default class Lobby extends React.Component {
     constructor() {
         super();
-        this.state = {
-            popularProducts: [],
-            deviceWidth: 801,
-            userAvatar: {},
-            user: {}
-        };
-    }
-    async componentDidMount() {
-        const popularProducts = await fetchPopularProducts();
-        let allProducts;
-        let productsToAdd = [];
-        const { user } = this.props;
-        if (popularProducts.length < 4) {
-            const result = await fetchData(`
-                query {
-                    products {
-                        title
-                        costPerDay
-                        id
-                        productFor
-                        viewedToday
-                        buyings {
-                          email
-                        }
-                        imageURLdashboard
-                        workingTime
-                        description
-                        characteristics {
-                          version
-                          osSupport
-                          cpuSupport
-                          gameMode
-                          developer
-                          supportedAntiCheats
-                        }
-                    }
-                }
-            `);
-            allProducts = result.products;
-            for (let i = 0; i < 3; i++) {
-                productsToAdd.push(allProducts[i]);
-            }
-            this.setState({
-                popularProducts: Object.assign(popularProducts, productsToAdd),
-                user
-            });
-        }
-        const userAvatar = {};
-        if (user.avatar && user.avatar.includes('#')) {
-            userAvatar.background = user.avatar;
-        } else {
-            userAvatar.background = `url("${user.avatar}") center/cover no-repeat`;
-            user.nameFirstChar = '';
-        }
-        this.setState({popularProducts, deviceWidth: innerWidth, userAvatar});
     }
     render() {
-        const { deviceWidth } = this.state;
-        const { subscriptions } = this.props;
-        const { user, userAvatar } = this.state;
+        const {
+            user,
+            userAvatar,
+            subscriptions,
+            deviceWidth
+        } = this.props;
         const sliderSettings = {
             infinite: true,
             speed: 500,
             slidesToShow: 3,
             slidesToScroll: 3,
             autoplaySpeed: 7500,
-            // variableWidth: true,
             adaptiveHeight: true,
             responsive: [
                 {
@@ -107,10 +52,10 @@ export default class Lobby extends React.Component {
             ]
         };
         let popularProducts;
-        if (this.state.popularProducts.length > 0) {
-            popularProducts = this.state.popularProducts.map(product => {
+        if (this.props.popularProducts.length > 0) {
+            popularProducts = this.props.popularProducts.map(product => {
                 return (
-                    <div className="popular-product" key={product.id}>
+                    <div className="popular-product" style={{width: '370px'}} key={product.id}>
                         <img className="cover" src={product.imageURLdashboard} />
                         <div className="title">
                             <h3 className="product-title">{product.title}{' | '}<span className="product-for">{product.productFor}</span></h3>
@@ -211,7 +156,7 @@ export default class Lobby extends React.Component {
                             ? (
                                 <SlickSlider className="popular-products-slider" {...sliderSettings}>
                                     {popularProducts}
-                                    {popularProducts ? popularProducts[1] : ''}
+                                    {popularProducts}
                                 </SlickSlider>
                             )
                             : (

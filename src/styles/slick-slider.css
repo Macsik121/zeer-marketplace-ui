@@ -68,8 +68,6 @@
 
 .popular-products-slider .slick-list {
     cursor: grab;
-    overflow-x: hidden;
-    overflow-y: auto;
 }
 
 .popular-products-slider .slick-arrow {
@@ -95,7 +93,7 @@
 }
 
 .popular-products-slider .slick-slide {
-    padding-top: 150px;
+    padding-top: 100px;
     width: 370px;
 }
 
@@ -137,6 +135,10 @@
     position: relative;
 }
 
+.popular-products-slider .slick-slide {
+    width: 370px;
+}
+
 .popular-products-slider .popular-product .title {
     display: flex;
     margin-top: 20px;
@@ -157,8 +159,9 @@
 .popular-products-slider .popular-product .buttons a {
     display: flex;
     justify-content: center;
-    font-size: .8rem;
+    font-size: 12px;
     width: 45%;
+    line-height: 18px;
     margin-top: 30px;
     border-radius: 10px;
     background-color: #292932;
@@ -171,3 +174,7 @@
 .popular-products-slider .popular-product .buttons a:first-of-type {
     background-color: #1E75FF;
 }
+
+/* .popular-products-slider .popular-product .buttons a + a {
+    margin-left: 10px;
+} */

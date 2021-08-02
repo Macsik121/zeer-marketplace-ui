@@ -208,6 +208,7 @@ class Signup extends React.Component {
                                         ? {display: 'none'}
                                         : {display: 'block'}
                                 }
+                                onClick={this.toggleShowingPassword}
                                 src="/images/closed-eye.png"
                                 className="hidden-password"
                             />
@@ -238,6 +239,7 @@ class Signup extends React.Component {
                                         ? {display: 'none'}
                                         : {display: 'block'}
                                 }
+                                onClick={this.toggleShowingRepeatedPassword}
                                 src="/images/closed-eye.png"
                                 className="hidden-password"
                             />

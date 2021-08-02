@@ -189,6 +189,7 @@ class Signin extends React.Component {
                                             ? {display: 'none'}
                                             : {display: 'block'}
                                     }
+                                    onClick={this.toggleShowingPassword}
                                     src="/images/closed-eye.png"
                                     className="hidden-password"
                                 />

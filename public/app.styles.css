@@ -156,8 +156,6 @@
 
 .popular-products-slider .slick-list {
     cursor: grab;
-    overflow-x: hidden;
-    overflow-y: auto;
 }
 
 .popular-products-slider .slick-arrow {
@@ -183,7 +181,7 @@
 }
 
 .popular-products-slider .slick-slide {
-    padding-top: 150px;
+    padding-top: 100px;
     width: 370px;
 }
 
@@ -225,6 +223,10 @@
     position: relative;
 }
 
+.popular-products-slider .slick-slide {
+    width: 370px;
+}
+
 .popular-products-slider .popular-product .title {
     display: flex;
     margin-top: 20px;
@@ -245,8 +247,9 @@
 .popular-products-slider .popular-product .buttons a {
     display: flex;
     justify-content: center;
-    font-size: .8rem;
+    font-size: 12px;
     width: 45%;
+    line-height: 18px;
     margin-top: 30px;
     border-radius: 10px;
     background-color: #292932;
@@ -259,6 +262,10 @@
 .popular-products-slider .popular-product .buttons a:first-of-type {
     background-color: #1E75FF;
 }
+
+/* .popular-products-slider .popular-product .buttons a + a {
+    margin-left: 10px;
+} */
 
 /*!***********************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./src/styles/auth.css ***!
@@ -1819,6 +1826,7 @@ fieldset {
     margin: auto;
     left: 8px;
     right: 0;
+    cursor: pointer;
 }
 
 .dashboard .main .lobby .dashboard-slider {
@@ -1874,7 +1882,7 @@ fieldset {
 }
 
 .dashboard .main .products {
-    margin-top: 30px;
+    margin-top: 60px;
     padding-bottom: 60px;
 }
 
@@ -1885,19 +1893,33 @@ fieldset {
 }
 
 .dashboard .main .products .product {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     flex-basis: 30%;
     background-color: #1C1C24;
-    padding: 20px;
+    padding: 150px 20px 20px;
     border-radius: 10px;
-    margin: 30px auto 0 auto;
+    margin: 150px auto 60px auto;
+    position: relative;
+    flex-basis: 32%;
+}
+
+.dashboard .main .products .product:nth-last-child(-n+3) {
+    margin: 150px auto 0 auto;
 }
 
 .dashboard .main .products .product .cover {
-    width: 100%;
+    width: 90%;
     height: 300px;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
+    position: absolute;
+    margin: 0 auto;
+    right: 0;
+    left: 0;
+    top: -150px;
 }
 
 .dashboard .main .products .product .product-title {

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import SlickSlider from 'react-slick';
 import jwtDecode from 'jwt-decode';
-import { fetchPopularProducts, Product } from './PopularProducts.jsx';
+import { fetchPopularProducts, Product } from './PopularProducts.js';
 import fetchData from './fetchData';
 import Signin from './Signin.jsx';
 import Signup from './Signup.jsx';
@@ -340,7 +340,7 @@ export default class Home extends React.Component {
                                         {...sliderSettings}
                                     >
                                         {popProducts}
-                                        {popProducts[1]}
+                                        {popProducts}
                                     </SlickSlider>
                                 )
                                 : (
