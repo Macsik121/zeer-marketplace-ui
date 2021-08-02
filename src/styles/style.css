@@ -433,7 +433,7 @@ fieldset {
 
 .home .slider .pop-product {
     padding: 1rem;
-    width: 240px;
+    width: 255px;
     position: relative;
     z-index: -2;
     font-family: Roboto, sans-serif;
@@ -568,7 +568,7 @@ fieldset {
 }
 
 .home .footer-wrap .footer-bg {
-    background-image: url('../images/backgrounds/footer.jpg');
+    background-image: url('../images/backgrounds/footer.png');
     background-position: center bottom;
     background-size: cover;
     width: 100%;
@@ -576,6 +576,7 @@ fieldset {
     position: absolute;
     top: 0;
     left: 0;
+    opacity: .25;
     z-index: -1;
 }
 
@@ -1322,7 +1323,7 @@ fieldset {
     border-radius: 10px;
     margin: 150px auto 60px auto;
     position: relative;
-    flex-basis: 32%;
+    flex-basis: 31.5%;
 }
 
 .dashboard .main .products .product:nth-last-child(-n+3) {
@@ -2090,6 +2091,12 @@ fieldset {
     .home .footer {
         display: flex;
         flex-direction: column-reverse;
+        position: relative;
+    }
+    .home .footer-wrap .footer .footer-gray-line {
+        position: absolute;
+        top: 0;
+        left: 0;
     }
 }
 
@@ -2520,7 +2527,7 @@ fieldset {
     border-radius: 10px;
     transition: 200ms;
     margin-left: 30px;
-    width: 160px;
+    width: 175px;
 }
 
 .dashboard .footer .download-loader:hover {
