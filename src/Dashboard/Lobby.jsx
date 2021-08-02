@@ -126,6 +126,7 @@ export default class Lobby extends React.Component {
                         <div className="opportunities">
                             <div className="reset opportunity">
                                 <h2>Сброс привязки</h2>
+                                <img src="/images/reset.png" className="character" />
                                 <span className="content">
                                     Убедитесь, что вы не "нарушаете правила"
                                 </span>
@@ -140,6 +141,7 @@ export default class Lobby extends React.Component {
                             </div>
                             <div className="questions opportunity">
                                 <h2>Собрали наиболее актуальные ответы на вопросы</h2>
+                                <img src="/images/answers_to_questions.png" className="character" />
                                 <Link className="explore" to="/dashboard/FAQ">
                                     Изучить
                                 </Link>

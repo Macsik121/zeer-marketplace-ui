@@ -647,6 +647,7 @@ fieldset {
     right: 0;
     bottom: 0;
     opacity: .15;
+    filter: grayscale(100%);
 }
 
 .home .steps .step2 .step-bg .character {
@@ -1158,13 +1159,21 @@ fieldset {
     border-radius: 10px;
     padding: 25px 20px 30px;
     position: relative;
+    z-index: 2;
+}
+
+.dashboard .main .lobby .opportunities .character {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    z-index: -1;
+    filter: grayscale(100%);
 }
 
 .dashboard .main .lobby .opportunities .opportunity.questions {
     margin-top: 30px;
-    background-image: url('../images/backgrounds/answers_to_questions.png');
-    background-position: right center;
-    background-repeat: no-repeat;
     background-color: #1C1C24;
     height: 46%;
 }
@@ -1182,9 +1191,6 @@ fieldset {
 }
 
 .dashboard .main .lobby .opportunities .opportunity.reset {
-    background-image: url('../images/backgrounds/reset.png');
-    background-position: right center;
-    background-repeat: no-repeat;
     background-color: #1C1C24;
     min-height: 46%;
     display: flex;
