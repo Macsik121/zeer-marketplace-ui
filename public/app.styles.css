@@ -1063,11 +1063,12 @@ fieldset {
     margin: 30px auto 0 auto;
     position: relative;
     padding: 40px 30px 50px 30px;
+    z-index: 2;
 }
 
 .home .advantages .advantage .advantage-title {
     letter-spacing: 1px;
-    font-size: 1.3rem;
+    font-size: 18px;
     margin-top: 20px;
     color: #ffffff;
     font-weight: 700;
@@ -1089,14 +1090,11 @@ fieldset {
     position: absolute;
     top: 35px;
     right: 10px;
+    z-index: -1;
 }
 
 .home .advantages .advantage3 .character {
     right: -15px;
-}
-
-.home .advantages .advantage4 .character {
-    right: 50px;
 }
 
 .home .advantages .advantage5 .character {
@@ -1127,7 +1125,7 @@ fieldset {
     background-size: cover;
     background-image: url(/images/advantages-odd.jpg);
     opacity: .05;
-    z-index: -2;
+    z-index: -3;
 }
 
 .home .advantages .advantage .even-bg {
@@ -1140,7 +1138,7 @@ fieldset {
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
-    z-index: -1;
+    z-index: -2;
 }
 
 .home .footer-wrap {
