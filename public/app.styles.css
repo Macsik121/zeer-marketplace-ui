@@ -1079,7 +1079,7 @@ fieldset {
 .home .advantages .advantage .content {
     font-size: 14px;
     line-height: 24px;
-    color: rgba(255, 255, 255, .4);
+    color: rgba(255, 255, 255, 0.4);
     font-weight: 400;
     font-family: "Roboto", sans-serif;
     display: inline-block;
@@ -2803,7 +2803,8 @@ fieldset {
         flex-basis: 40%;
     }
     .dashboard .main .products .product .cover {
-        height: 30vw;
+        bottom: 60%;
+        top: none;
     }
     .dashboard .nav .user-menu .dropdown {
         left: -133%;
@@ -2930,12 +2931,6 @@ fieldset {
     .dashboard .nav .user-menu .dropdown .item {
         font-size: 16px;
     }
-    .dashboard .main .products .product {
-        flex-basis: 70%;
-    }
-    .dashboard .main .products .product .cover {
-        height: 50vw;
-    }
     .dashboard .main .product-info .product .general .cost .button {
         margin-top: 15px;
     }
@@ -2987,6 +2982,10 @@ fieldset {
     .dashboard .nav .user-menu {
         position: static;
     }
+    .dashboard .main .products .product .cover {
+        height: 300px;
+        width: 90%;
+    }
     .dashboard .main .FAQ .answers .answer {
         flex-basis: 90%;
     }
@@ -2998,9 +2997,6 @@ fieldset {
     }
     .dashboard .main .products .product {
         flex-basis: 85%;
-    }
-    .dashboard .main .products .product .cover {
-        height: 60vw;
     }
     .dashboard .main .product-info .popular-products .products {
         width: 100%;
