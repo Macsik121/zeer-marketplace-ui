@@ -25,7 +25,8 @@ class Signin extends React.Component {
             formError: {message: '.'},
             formErrorStyles: {opacity: 0},
             signInAttempt: {},
-            isDisabled: false
+            isDisabled: false,
+            isPasswordShown: false
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -34,6 +35,7 @@ class Signin extends React.Component {
         this.handleFocusInput = this.handleFocusInput.bind(this);
         this.enableSubmitButton = this.enableSubmitButton.bind(this);
         this.changeRememberMe = this.changeRememberMe.bind(this);
+        this.toggleShowingPassword = this.toggleShowingPassword.bind(this);
     }
     componentDidMount() {
         if (localStorage.getItem('token') && localStorage.getItem('token') != '') {
@@ -126,8 +128,16 @@ class Signin extends React.Component {
         const { value, name } = e.target;
         this.setState({user: {...this.state.user, [name]: value}});
     }
+    toggleShowingPassword() {
+        this.setState({ isPasswordShown: !this.state.isPasswordShown });
+    }
     render() {
-        const { rememberMe, formError, formErrorStyles } = this.state;
+        const {
+            rememberMe,
+            formError,
+            formErrorStyles,
+            isPasswordShown
+        } = this.state;
         const {
             style,
             hideLogin,
@@ -161,8 +171,27 @@ class Signin extends React.Component {
                                     name="password"
                                     className="field"
                                     onChange={this.handleChange}
+                                    type={
+                                        isPasswordShown
+                                            ? 'text'
+                                            : 'password'
+                                    }
                                 />
                                 <label>Пароль</label>
+                                <img
+                                    onClick={this.toggleShowingPassword}
+                                    src="/images/field-shown.png"
+                                    className="eye"
+                                />
+                                <img
+                                    style={
+                                        isPasswordShown
+                                            ? {display: 'none'}
+                                            : {display: 'block'}
+                                    }
+                                    src="/images/closed-eye.png"
+                                    className="hidden-password"
+                                />
                             </div>
                             <div onClick={this.handleRememberMeClick} className="remember">
                                 <div className="checkbox">

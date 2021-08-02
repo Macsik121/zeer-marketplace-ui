@@ -10,12 +10,16 @@ class Signup extends React.Component {
             formError: {message: '.'},
             formErrorStyles: {opacity: '0'},
             signUpAttempt: {},
-            agreed: false
+            agreed: false,
+            isPasswordShown: false,
+            isRepeatedPasswordShown: false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleFieldFocus = this.handleFieldFocus.bind(this);
         this.showError = this.showError.bind(this);
         this.toggleAgree = this.toggleAgree.bind(this);
+        this.toggleShowingPassword = this.toggleShowingPassword.bind(this);
+        this.toggleShowingRepeatedPassword = this.toggleShowingRepeatedPassword.bind(this);
     }
     showError(message) {
         this.setState({
@@ -132,8 +136,20 @@ class Signup extends React.Component {
     toggleAgree() {
         this.setState({ agreed: !this.state.agreed });
     }
+    toggleShowingPassword() {
+        this.setState({ isPasswordShown: !this.state.isPasswordShown });
+    }
+    toggleShowingRepeatedPassword() {
+        this.setState({ isRepeatedPasswordShown: !this.state.isRepeatedPasswordShown });
+    }
     render() {
-        const { formError, formErrorStyles, agreed } = this.state;
+        const {
+            formError,
+            formErrorStyles,
+            agreed,
+            isPasswordShown,
+            isRepeatedPasswordShown
+        } = this.state;
         const {
             style,
             hideSignup,
@@ -167,16 +183,64 @@ class Signup extends React.Component {
                             </label>
                         </div>
                         <div className="field-wrap">
-                            <input required="required" onFocus={this.handleFieldFocus} name="password" className="field" />
+                            <input
+                                required="required"
+                                onFocus={this.handleFieldFocus}
+                                name="password"
+                                className="field"
+                                type={
+                                    isPasswordShown
+                                        ? 'text'
+                                        : 'password'
+                                }
+                            />
                             <label>
                                 Придумайте пароль
                             </label>
+                            <img
+                                onClick={this.toggleShowingPassword}
+                                src="/images/field-shown.png"
+                                className="eye"
+                            />
+                            <img
+                                style={
+                                    isPasswordShown
+                                        ? {display: 'none'}
+                                        : {display: 'block'}
+                                }
+                                src="/images/closed-eye.png"
+                                className="hidden-password"
+                            />
                         </div>
                         <div className="field-wrap">
-                            <input required="required" onFocus={this.handleFieldFocus} name="confirmPassword" className="field" />
+                            <input
+                                required="required"
+                                onFocus={this.handleFieldFocus}
+                                name="confirmPassword"
+                                className="field"
+                                type={
+                                    isRepeatedPasswordShown
+                                        ? 'text'
+                                        : 'password'
+                                }
+                            />
                             <label>
                                 Пароль ещё раз
                             </label>
+                            <img
+                                onClick={this.toggleShowingRepeatedPassword}
+                                src="/images/field-shown.png"
+                                className="eye"
+                            />
+                            <img
+                                style={
+                                    isRepeatedPasswordShown
+                                        ? {display: 'none'}
+                                        : {display: 'block'}
+                                }
+                                src="/images/closed-eye.png"
+                                className="hidden-password"
+                            />
                         </div>
                         <div className="terms-n-policy">
                             <div className="checkbox" onClick={this.toggleAgree}>

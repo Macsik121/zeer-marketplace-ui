@@ -430,6 +430,25 @@
     line-height: 16px;
 }
 
+.auth-form .form .eye {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    bottom: 0;
+    margin: auto 0;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.auth-form .form .hidden-password {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    bottom: 0;
+    margin: auto 0;
+    cursor: pointer;
+}
+
 .auth-form .form .remember {
     display: flex;
     align-items: center;
@@ -532,6 +551,11 @@
     flex-direction: row;
     justify-content: space-between;
 }
+
+.signup .addition button + button {
+    margin: 0;
+}
+
 /* 
 @media (max-width: 800px) {
     .auth-form  .signin-form {
