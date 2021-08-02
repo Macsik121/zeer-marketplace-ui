@@ -365,6 +365,7 @@ export default class Home extends React.Component {
                 </div>
                 <div className="wrap footer-wrap">
                     <div className="footer-bg" />
+                    <div className="footer-bottom-bg" />
                     <div className="steps">
                         <div className="container">
                             <h2 className="instruction">Инструкцию как купить</h2>
