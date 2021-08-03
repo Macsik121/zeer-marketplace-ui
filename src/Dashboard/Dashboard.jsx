@@ -12,6 +12,7 @@ import ChangePassword from './ChangePasswordModal.jsx';
 import Footer from './Footer.jsx';
 import NavBar from './NavBar.jsx';
 import { fetchPopularProducts } from '../PopularProducts.jsx';
+import PasswordChangedNotification from './PasswordChangedNotif.jsx';
 
 class Dashboard extends React.Component {
     constructor() {
@@ -28,11 +29,15 @@ class Dashboard extends React.Component {
             userAvatar: {},
             deviceWidth: 0,
             products: [],
-            answersFAQ: []
+            answersFAQ: [],
+            passwordChangedNotification: '',
+            passwordChangedNotificationShown: false
         }
         this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
+        this.setNotificationMessage = this.setNotificationMessage.bind(this);
+        this.hideNotificationMessage = this.hideNotificationMessage.bind(this);
     }
     async componentDidMount() {
         const { match, history } = this.props;
@@ -190,6 +195,15 @@ class Dashboard extends React.Component {
     hideModal() {
         this.setState({ showingChangePassword: false });
     }
+    setNotificationMessage(message) {
+        this.setState({
+            passwordChangedNotification: message,
+            passwordChangedNotificationShown: true
+        });
+    }
+    hideNotificationMessage() {
+        this.setState({ passwordChangedNotificationShown: false });
+    }
     render() {
         const {
             user,
@@ -199,7 +213,9 @@ class Dashboard extends React.Component {
             userAvatar,
             deviceWidth,
             products,
-            answersFAQ
+            answersFAQ,
+            passwordChangedNotification,
+            passwordChangedNotificationShown
         } = this.state;
         return (
             <div
@@ -214,7 +230,7 @@ class Dashboard extends React.Component {
                     style={
                         showingChangePassword
                             ? {opacity: '.5', transition: '500ms', pointerEvents: 'none', userSelect: 'none'}
-                            : {opactiy: 1, transition: '500ms', pointerEvents: 'all', userSelect: 'all'}
+                            : {opactiy: 1, transition: '500ms', pointerEvents: 'all', userSelect: 'text'}
                     }
                     className="header"
                 >
@@ -226,21 +242,28 @@ class Dashboard extends React.Component {
                         toggleModal={this.toggleModal}
                         hideModal={this.hideModal}
                         showingChangePassword={showingChangePassword}
+                        hideChangedPasswordNotification={this.hideNotificationMessage}
                     />
                 </header>
                 <ChangePassword
                     style={
                         showingChangePassword
                             ? {opactiy: 1, transform: 'translateY(0)'}
-                            : {opactiy: 0, transform: 'translateY(-300%)'}
+                            : {opactiy: 0, transform: 'translateY(-170%)'}
                     }
                     hideModal={this.hideModal}
+                    setNotificationMessage={this.setNotificationMessage}
+                />
+                <PasswordChangedNotification
+                    passwordChangedNotification={passwordChangedNotification}
+                    passwordChangedNotificationShown={passwordChangedNotificationShown}
+                    hideNotificationMessage={this.hideNotificationMessage}
                 />
                 <main
                     style={
                         showingChangePassword
                             ? {opacity: '.5', transition: '500ms', pointerEvents: 'none', userSelect: 'none'}
-                            : {opactiy: 1, transition: '500ms', pointerEvents: 'all', userSelect: 'all'}
+                            : {opactiy: 1, transition: '500ms', pointerEvents: 'all', userSelect: 'text'}
                     }
                     className="main"
                 >
@@ -271,7 +294,7 @@ class Dashboard extends React.Component {
                     style={
                         showingChangePassword
                             ? {opacity: '.5', transition: '500ms', pointerEvents: 'none', userSelect: 'none'}
-                            : {opactiy: 1, transition: '500ms', pointerEvents: 'all', userSelect: 'all'}
+                            : {opactiy: 1, transition: '500ms', pointerEvents: 'all', userSelect: 'text'}
                     }
                 />
             </div>

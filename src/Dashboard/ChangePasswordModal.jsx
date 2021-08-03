@@ -10,7 +10,7 @@ export default class ChangePassword extends React.Component {
             errorMessage: '.',
             errorMessageStyles: {opacity: 0},
             newPasswordShown: false,
-            repeatedPasswordShown: false
+            repeatedPasswordShown: false,
         };
         this.showError = this.showError.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -50,6 +50,9 @@ export default class ChangePassword extends React.Component {
         const result = await fetchData(query, vars);
         if (result.changePassword == 'You successfully changed the password') {
             this.props.hideModal();
+            this.props.setNotificationMessage(result.changePassword);
+        } else {
+            this.showError(result.changePassword);
         }
         console.log(result.changePassword);
     }
@@ -68,7 +71,8 @@ export default class ChangePassword extends React.Component {
             errorMessage,
             errorMessageStyles,
             newPasswordShown,
-            repeatedPasswordShown
+            repeatedPasswordShown,
+            passwordChangedNotification
         } = this.state;
         return (
             <div style={style} className="change-password modal-form">

@@ -259,7 +259,7 @@ export default class Home extends React.Component {
                                         style={
                                             showingLogin || showingSignup
                                                 ? {pointerEvents: 'none', userSelect: 'none'}
-                                                : {pointerEvents: 'all', userSelect: 'all'}
+                                                : {pointerEvents: 'all', userSelect: 'text'}
                                         }
                                         className="download-loader"
                                     >
@@ -296,8 +296,8 @@ export default class Home extends React.Component {
                             ? {
                                 opacity: `${showingForgotPassword ? '0.85' : '1'}`,
                                 transition: '500ms',
-                                pointerEvents: `${showingForgotPassword ? 'none' : 'all'}`,
-                                userSelect: `${showingForgotPassword ? 'none' : 'all'}`
+                                // pointerEvents: `${showingForgotPassword ? 'none' : 'all'}`,
+                                // userSelect: `${showingForgotPassword ? 'none' : 'all'}`
                             }
                             : {
                                 opacity: 0,
@@ -347,12 +347,15 @@ export default class Home extends React.Component {
                                             ? '0.25'
                                             : '0.5'
                                     }
+
                                 `,
                                 transition: '500ms',
                                 pointerEvents: 'none',
                                 userSelect: 'none'
                             }
-                            : {opacity: '1', transition: '500ms', pointerEvents: 'all', userSelect: 'all'}
+                            : {opacity: '1', transition: '500ms', 
+                            pointerEvents: 'text', userSelect: 'text'
+                        }
                     }
                     className="slider-wrap"
                 >

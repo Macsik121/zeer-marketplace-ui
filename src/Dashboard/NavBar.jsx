@@ -323,6 +323,7 @@ export default class NavBar extends React.Component {
                                 onClick={
                                     function() {
                                         this.hiddenUserDropdown();
+                                        this.props.hideChangedPasswordNotification();
                                         toggleModal();
                                     }.bind(this)
                                 }
