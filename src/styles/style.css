@@ -508,19 +508,19 @@ fieldset {
 }
 
 .home .advantages .advantage2 .content {
-    max-width: 270px;
+    width: 280px;
 }
 
 .home .advantages .advantage3 .content {
-    max-width: 270px;
+    min-width: 100%;
 }
 
 .home .advantages .advantage4 .content {
-    max-width: 250px;
+    max-width: 275px;
 }
 
 .home .advantages .advantage5 .content {
-    max-width: 280px;
+    min-width: 316px;
 }
 
 .home .advantages .advantage .character {
@@ -608,6 +608,7 @@ fieldset {
 .home .footer-wrap .instruction {
     text-align: center;
     width: 100%;
+    font-family: Roboto, sans-serif;
 }
 
 .home .steps .container:first-child {
@@ -718,6 +719,10 @@ fieldset {
     text-transform: uppercase;
     margin-top: 30px;
     width: 100%;
+}
+
+.home .steps .step2 .to-do {
+    width: 300px;
 }
 
 .home .steps .step3 .to-do {

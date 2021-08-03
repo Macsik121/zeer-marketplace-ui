@@ -26,7 +26,7 @@ export default class Home extends React.Component {
                     title: 'защита',
                     content: `Внедрение чита в игру происходит
                     совершенно незаметно для античита.
-                    Еще ни один наш пользователь
+                    Еще ни один наш пользователь<br />
                     не получил блокировок`
                 },
                 {
@@ -360,7 +360,84 @@ export default class Home extends React.Component {
                     className="advantages"
                 >
                     <div className="container">
-                        {advantages}
+                        {/* {advantages} */}
+                        <div className="advantage advantage1">
+                            <img className="img" src="/images/advantage1-icon.png" />
+                            <h2 className="advantage-title">защита</h2>
+                            <span className="content">
+                                Внедрение чита в игру происходит
+                                совершенно незаметно для античита.
+                                Еще ни один наш пользователь
+                                <br />не получил блокировок
+                            </span>
+                            <img className="character" src="/images/advantage1-character.png" />
+                            <div className="bottom-line" />
+                            <div className="background" />
+                        </div>
+                        <div className="advantage advantage2">
+                            <img className="img" src="/images/advantage2-icon.png" />
+                            <h2 className="advantage-title">функционал</h2>
+                            <span className="content">
+                                Команда наших профессиональных
+                                разработчиков подготовила для вас 
+                                более сотни разных функций.<br />
+                                Спеши опробовать!
+                            </span>
+                            <img className="character" src="/images/advantage2-character.png" />
+                            <div className="bottom-line" />
+                            <div className="even-bg" />
+                            <div className="background" />
+                        </div>
+                        <div className="advantage advantage3">
+                            <img className="img" src="/images/advantage3-icon.png" />
+                            <h2 className="advantage-title">оптимизация</h2>
+                            <span className="content">
+                                Мы все время заняты улучшением
+                                скорости работы и производительности, 
+                                чтобы читы работали быстро,<br />
+                                а Ваш FPS не падал!
+                            </span>
+                            <img className="character" src="/images/advantage3-character.png" />
+                            <div className="bottom-line" />
+                            <div className="background" />
+                        </div>
+                        <div className="advantage advantage4">
+                            <img className="img" src="/images/advantage4-icon.png" />
+                            <h2 className="advantage-title">поддержка</h2>
+                            <span className="content">
+                                Круглосуточная поддержка,
+                                которая окажет Вам помощь<br />
+                                при установке и ответит на вопросы
+                                по использованию.
+                            </span>
+                            <img className="character" src="/images/advantage4-character.png" />
+                            <div className="bottom-line" />
+                            <div className="even-bg" />
+                            <div className="background" />
+                        </div>
+                        <div className="advantage advantage5">
+                            <img className="img" src="/images/advantage5-icon.png" />
+                            <h2 className="advantage-title">скорость обновлений</h2>
+                            <span className="content">
+                                Мы всегда следим за обновлениями<br />
+                                игры и наш софт обновляется так быстро,
+                                что Вы даже не узнаете об этом!
+                            </span>
+                            <img className="character" src="/images/advantage5-character.png" />
+                            <div className="bottom-line" />
+                            <div className="background" />
+                        </div>
+                        <div className="advantage advantage6">
+                            <img className="img" src="/images/advantage6-icon.png" />
+                            <h2 className="advantage-title">приемущество</h2>
+                            <span className="content">
+                                Почувствуй, как твое преимущество над врагом растет, а игра упрощается!
+                            </span>
+                            <img className="character" src="/images/advantage6-character.png" />
+                            <div className="bottom-line" />
+                            <div className="even-bg" />
+                            <div className="background" />
+                        </div>
                     </div>
                 </div>
                 <div className="wrap footer-wrap">
@@ -387,7 +464,7 @@ export default class Home extends React.Component {
                                         <img className="icon" src="/images/step2-icon.png" />
                                     </div>
                                     <label className="instruction-num">02</label>
-                                    <span className="to-do">выбрать продукт в личном кабинете</span>
+                                    <span className="to-do">выбрать продукт<br /> в личном кабинете</span>
                                 </div>
                                 <div className="red-line red-line2" />
                                 <div className="step3 step">
