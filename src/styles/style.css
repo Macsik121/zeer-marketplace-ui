@@ -1578,7 +1578,7 @@ fieldset {
 }
 
 .dashboard .main .product-info .info {
-    width: 70%;
+    width: 770px;
 }
 
 .dashboard .main .product-info .info .general {
@@ -1912,7 +1912,7 @@ fieldset {
 }
 
 .dashboard .main .product-info .popular-products .popular-product {
-    width: 85%;
+    width: 330px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1997,7 +1997,7 @@ fieldset {
 }
 
 .dashboard .main .FAQ .search-bar .categories {
-    min-width: 30%;
+    width: 330px;
 }
 
 .dashboard .main .FAQ .search-bar .categories .first-category {
