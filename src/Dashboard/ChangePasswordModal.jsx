@@ -109,6 +109,16 @@ export default class ChangePassword extends React.Component {
                             src="/images/field-shown.png"
                             className="field-shown"
                         />
+                        <img
+                            src="/images/closed-eye.png"
+                            className="field-hidden"
+                            onClick={this.toggleNewPassword}
+                            style={
+                                newPasswordShown
+                                    ? {display: 'none'}
+                                    : {display: 'block'}
+                            }
+                        />
                     </div>
                     <div className="field-wrap">
                         <input
@@ -129,6 +139,16 @@ export default class ChangePassword extends React.Component {
                             onClick={this.toggleRepeatedPassword}
                             src="/images/field-shown.png"
                             className="field-shown"
+                        />
+                        <img
+                            src="/images/closed-eye.png"
+                            className="field-hidden"
+                            onClick={this.toggleRepeatedPassword}
+                            style={
+                                repeatedPasswordShown
+                                    ? {display: 'none'}
+                                    : {display: 'block'}
+                            }
                         />
                     </div>
                     <button className="change-password-submit" type="submit">

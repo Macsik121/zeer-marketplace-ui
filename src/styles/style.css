@@ -1050,6 +1050,15 @@ fieldset {
     cursor: pointer;
 }
 
+.dashboard .change-password .form .field-wrap .field-hidden {
+    position: absolute;
+    top: 0;
+    right: 15px;
+    bottom: 0;
+    margin: auto 0;
+    cursor: pointer;
+}
+
 .dashboard .change-password .form .field-wrap label {
     color: #92929D;
     font-family: Roboto, sans-serif;
