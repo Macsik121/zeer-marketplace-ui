@@ -963,13 +963,16 @@ fieldset {
     position: absolute;
     right: 0;
     left: 0;
-    margin: 0 auto;
-    top: 25px;
-    transition: 400ms;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    transition: 500ms;
     padding: 30px 30px 40px;
     background-color: #1C1C24;
     border-radius: 20px;
     z-index: 1;
+    max-height: 350px;
+    box-shadow: 0px 0px 20px 5px #141313;
 }
 
 .dashboard .change-password .heading {
@@ -1409,7 +1412,7 @@ fieldset {
     border-radius: 10px;
     margin: 150px auto 60px auto;
     position: relative;
-    flex-basis: 31.5%;
+    flex-basis: 32%;
 }
 
 .dashboard .main .products .product:nth-last-child(-n+3) {
@@ -1432,6 +1435,9 @@ fieldset {
 .dashboard .main .products .product .product-title {
     margin-top: 20px;
     font-size: 16px;
+    line-height: 24px;
+    font-weight: 600;
+    letter-spacing: .1px;
 }
 
 .dashboard .main .products .product .description {
@@ -1464,6 +1470,7 @@ fieldset {
     display: flex;
     justify-content: center;
     color: #FAFAFB;
+    line-height: 18px;
 }
 
 .dashboard .main .product-info {
@@ -1646,6 +1653,7 @@ fieldset {
     letter-spacing: .1px;
     color: #B5B5BE;
     margin-top: 10px;
+    font-family: Roboto, sans-serif;
 }
 
 .dashboard .main .product-info .product .general .characteristics h4 {

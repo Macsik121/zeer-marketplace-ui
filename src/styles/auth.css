@@ -137,7 +137,7 @@
     align-items: center;
     line-height: 40px;
     pointer-events: none;
-    background: transparent;
+    background: none;
     transition: 300ms;
     padding: 0;
     transform: translateX(0) translateY(0);
