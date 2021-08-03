@@ -14,11 +14,13 @@ function Product({product, styles, className}) {
         >
             <div className="pop-product-blackBG"></div>
             <img src="/images/red-dot.png" />
-            <div className="cost">
-                от {product.costPerDay} / в день
-            </div>
-            <div className="title">
-                {product.title}
+            <div className="general" style={{position: 'absolute', bottom: 0, left: 0, marginLeft: '40px', marginBottom: '40px'}}>
+                <div className="cost">
+                    от {product.costPerDay} / в день
+                </div>
+                <div className="title">
+                    {product.title}
+                </div>
             </div>
         </div>
     )
