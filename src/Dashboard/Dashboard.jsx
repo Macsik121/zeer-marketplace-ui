@@ -26,7 +26,9 @@ class Dashboard extends React.Component {
             showingChangePassword: false,
             popularProducts: [],
             userAvatar: {},
-            deviceWidth: 0
+            deviceWidth: 0,
+            products: [],
+            answersFAQ: []
         }
         this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
@@ -130,13 +132,53 @@ class Dashboard extends React.Component {
             userAvatar.background = `url("${user.avatar}") center/cover no-repeat`;
             user.nameFirstChar = '';
         }
+        const resultProducts = await fetchData(`
+            query {
+                products {
+                    title
+                    costPerDay
+                    id
+                    productFor
+                    viewedToday
+                    imageURLdashboard
+                    buyings {
+                        email
+                    }
+                    workingTime
+                    description
+                    characteristics {
+                        version
+                        osSupport
+                        cpuSupport
+                        gameMode
+                        developer
+                        supportedAntiCheats
+                    }
+                }
+            }
+        `);
+        const resultFAQ = await fetchData(`
+            query {
+                getAnswers {
+                    sort
+                    answers {
+                        title
+                        answer
+                        rateCount
+                        usefulRate
+                    }
+                }
+            }
+        `);
         this.setState({
             subscriptions: resultSubs.getSubscriptions,
             deviceWidth: window.innerWidth,
             popularProducts,
             userAvatar,
             user,
-            deviceWidth: window.innerWidth
+            deviceWidth: window.innerWidth,
+            products: resultProducts.products,
+            answersFAQ: resultFAQ.getAnswers
         });
     }
     toggleModal() {
@@ -155,7 +197,9 @@ class Dashboard extends React.Component {
             showingChangePassword,
             popularProducts,
             userAvatar,
-            deviceWidth
+            deviceWidth,
+            products,
+            answersFAQ
         } = this.state;
         return (
             <div
@@ -201,8 +245,8 @@ class Dashboard extends React.Component {
                     className="main"
                 >
                     <Switch>
-                        <Route exact path="/dashboard/products" component={Products} />
-                        <Route path="/dashboard/FAQ" component={FAQ} />
+                        <Route exact path="/dashboard/products" component={() => <Products products={products} />} />
+                        <Route path="/dashboard/FAQ" component={() => <FAQ answers={answersFAQ} />} />
                         <Route path="/dashboard/products/:title" component={ProductInfo} />
                         <Route path="/dashboard/:username/subscriptions" component={() => <Subscriptions subscriptions={subscriptions} />} />
                         <Route path="/dashboard/:username/changeavatar" component={SetNewAvatar} />

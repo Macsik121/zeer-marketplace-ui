@@ -1,7 +1,7 @@
 import React from 'react';
-import fetchData from '../fetchData';
 
 export default class FAQ extends React.Component {
+    _isMounted = false;
     constructor() {
         super();
         this.state = {
@@ -36,34 +36,21 @@ export default class FAQ extends React.Component {
             }
         }
     }
-    async componentDidMount() {
-        window.onresize = function(e) {
-            this.setState({ deviceWidth: window.innerWidth });
-        }.bind(this);
-        const query = `
-            query {
-                getAnswers {
-                    sort
-                    answers {
-                        title
-                        answer
-                        rateCount
-                        usefulRate
-                    }
-                }
-            }
-        `;
-        const result = await fetchData(query);
-        this.setState({answers: result.getAnswers});
-        let modifiedStateAnswers = this.state.answers;
+    componentDidMount() {
+        this._isMounted = true;
+        const { answers } = this.props;
+        this.setState({answers});
+        let modifiedStateAnswers = answers;
         modifiedStateAnswers = modifiedStateAnswers.map(answer => {
             answer.isShown = false;
             return answer;
         });
-        this.setState({answers: modifiedStateAnswers, answersCopy: modifiedStateAnswers});
         const categoriesToSearch = ['Все категории'];
-        this.state.answers.map(answer => categoriesToSearch.push(answer.sort));
-        this.setState({categoriesToSearch, deviceWidth: window.innerWidth});
+        modifiedStateAnswers.map(answer => categoriesToSearch.push(answer.sort));
+        this.setState({categoriesToSearch, deviceWidth: window.innerWidth, answersCopy: modifiedStateAnswers});
+    }
+    componentWillUnmount() {
+        this._isMounted = false;
     }
     filterAnswers(search) {
         const { answers, answersCopy, currentCategory } = this.state;
@@ -292,7 +279,14 @@ export default class FAQ extends React.Component {
             <div className="FAQ">
                 <div className="container">
                     <h2>Ответы на вопросы</h2>
-                    <div className="search-bar">
+                    <div
+                        style={
+                            this._isMounted
+                                ? {transform: 'translateY(0)', opacity: 1}
+                                : {transform: 'translateY(-500%)', opacity: 0}
+                        }
+                        className="search-bar"
+                    >
                         <div className="categories">
                             <div
                                 className="first-category"

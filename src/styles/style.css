@@ -992,20 +992,81 @@ fieldset {
     cursor: pointer;
 }
 
+.dashboard .change-password .error {
+    color: #f00;
+    display: flex;
+    justify-content: center;
+    transition: 100ms;
+    text-align: center;
+    font-size: .9rem;
+    margin-top: 10px;
+    transition: 300ms;
+}
+
 .dashboard .change-password .form {
-    margin-top: 30px;
+    margin-top: 10px;
     display: flex;
     flex-direction: column;
+}
+
+.dashboard .change-password .form .field-wrap {
+    position: relative;
 }
 
 .dashboard .change-password .form .field-wrap + .field-wrap {
     margin-top: 20px;
 }
 
+.dashboard .change-password .form .field-wrap .field {
+    border-radius: 10px;
+    background-color: #292932;
+    padding: 10px 15px;
+    width: 100%;
+    color: #FAFAFB;
+    border: 1px solid transparent;
+    transition: 300ms;
+}
+
+.dashboard .change-password .form .field-wrap .field:focus,
+.dashboard .change-password .form .field-wrap .field:valid {
+    border: 1px solid #92929D;
+    background: transparent;
+}
+
+.dashboard .change-password .form .field-wrap .field:focus + label,
+.dashboard .change-password .form .field-wrap .field:valid + label {
+    transform: translateY(-17px);
+    padding: 0 10px;
+    background-color: #1C1C24;
+    height: 17px;
+}
+
+.dashboard .change-password .form .field-wrap .field-shown {
+    position: absolute;
+    right: 15px;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    cursor: pointer;
+}
+
 .dashboard .change-password .form .field-wrap label {
     color: #92929D;
     font-family: Roboto, sans-serif;
     letter-spacing: .1px;
+    position: absolute;
+    display: block;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    display: flex;
+    align-items: center;
+    left: 15px;
+    pointer-events: none;
+    user-select: none;
+    font-size: 14px;
+    transition: 300ms;
+    background: transparent;
 }
 
 .dashboard .change-password .form .change-password-submit {
@@ -1907,6 +1968,7 @@ fieldset {
     border-radius: 15px;
     padding: 10px;
     align-items: center;
+    transition: 400ms;
 }
 
 .dashboard .main .FAQ .search-bar .categories {
