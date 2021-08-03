@@ -11,7 +11,26 @@ export default class ChangePassword extends React.Component {
                     <CloseIcon onClick={hideModal} className="close-modal" />
                 </div>
                 <form className="form">
-                    <input />
+                    <div className="field-wrap">
+                        <input name="oldPassword" className="old-password" />
+                        <label>
+                            Старый пароль
+                        </label>
+                    </div>
+                    <div className="field-wrap">
+                        <input name="newPassword" className="new-password" />
+                        <img src="/images/field-shown.png" />
+                        <label>
+                            Придумайте новый пароль
+                        </label>
+                    </div>
+                    <div className="field-wrap">
+                        <input name="repeatNewPassword" className="repeat-new-password" />
+                        <img src="/images/field-shown.png" />
+                        <label>
+                            Новый пароль ещё раз
+                        </label>
+                    </div>
                     <button className="change-password-submit" type="submit">
                         Сменить пароль
                     </button>

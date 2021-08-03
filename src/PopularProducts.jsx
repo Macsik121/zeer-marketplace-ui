@@ -1,30 +1,27 @@
 import React from 'react';
 import fetchData from './fetchData';
 
-class Product extends React.Component {
-    render() {
-        const {product, styles, className} = this.props;
-        return (
-            <div
-                className={`pop-product ${className}`}
-                style={{
-                    backgroundImage: `url(${styles.background})`,
-                    backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'center center',
-                    backgroundSize: 'cover'
-                }}
-            >
-                <div className="pop-product-blackBG"></div>
-                <img src="/images/red-dot.png" />
-                <div className="cost">
-                    от {product.costPerDay} / в день
-                </div>
-                <div className="title">
-                    {product.title}
-                </div>
+function Product({product, styles, className}) {
+    return (
+        <div
+            className={`pop-product ${className}`}
+            style={{
+                backgroundImage: `url(${styles.background})`,
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center center',
+                backgroundSize: 'cover'
+            }}
+        >
+            <div className="pop-product-blackBG"></div>
+            <img src="/images/red-dot.png" />
+            <div className="cost">
+                от {product.costPerDay} / в день
             </div>
-        )
-    }
+            <div className="title">
+                {product.title}
+            </div>
+        </div>
+    )
 }
 
 async function fetchPopularProducts() {

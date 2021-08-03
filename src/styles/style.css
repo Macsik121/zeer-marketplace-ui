@@ -434,6 +434,7 @@ fieldset {
 .home .slider .pop-product {
     padding: 1rem;
     width: 270px;
+    height: 360px;
     position: relative;
     z-index: -2;
     font-family: Roboto, sans-serif;
@@ -504,19 +505,6 @@ fieldset {
     font-family: "Roboto", sans-serif;
     display: inline-block;
     margin-top: 25px;
-    max-width: 300px;
-}
-
-.home .advantages .advantage2 .content {
-    width: 280px;
-}
-
-.home .advantages .advantage3 .content {
-    min-width: 100%;
-}
-
-.home .advantages .advantage4 .content {
-    max-width: 275px;
 }
 
 .home .advantages .advantage5 .content {
@@ -708,7 +696,6 @@ fieldset {
     line-height: 72px;
     color: #fa0707;
     font-family: "Roboto", sans-serif;
-    margin-top: 40px;
 }
 
 .home .steps .to-do {
@@ -718,7 +705,6 @@ fieldset {
     font-family: 'Roboto', sans-serif;
     letter-spacing: 1px;
     text-transform: uppercase;
-    margin-top: 30px;
     width: 100%;
 }
 
@@ -975,7 +961,7 @@ fieldset {
     left: 0;
     margin: 0 auto;
     top: 25px;
-    transition: 200ms;
+    transition: 400ms;
     padding: 30px 30px 40px;
     background-color: #1C1C24;
     border-radius: 20px;
@@ -1003,6 +989,29 @@ fieldset {
     margin-top: 30px;
     display: flex;
     flex-direction: column;
+}
+
+.dashboard .change-password .form .field-wrap + .field-wrap {
+    margin-top: 20px;
+}
+
+.dashboard .change-password .form .field-wrap label {
+    color: #92929D;
+    font-family: Roboto, sans-serif;
+    letter-spacing: .1px;
+}
+
+.dashboard .change-password .form .change-password-submit {
+    border: none;
+    border-radius: 10px;
+    background-color: #1E75FF;
+    font-size: 12px;
+    color: #FAFAFB;
+    line-height: 18px;
+    font-weight: 600;
+    margin-top: 20px;
+    padding: 15px 0;
+    cursor: pointer;
 }
 
 .dashboard .main {

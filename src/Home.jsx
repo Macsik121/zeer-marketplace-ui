@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import SlickSlider from 'react-slick';
 import jwtDecode from 'jwt-decode';
-import { fetchPopularProducts, Product } from './PopularProducts.js';
+import { fetchPopularProducts, Product } from './PopularProducts.jsx';
 import fetchData from './fetchData';
 import Signin from './Signin.jsx';
 import Signup from './Signup.jsx';
@@ -365,10 +365,10 @@ export default class Home extends React.Component {
                             <img className="img" src="/images/advantage1-icon.png" />
                             <h2 className="advantage-title">защита</h2>
                             <span className="content">
-                                Внедрение чита в игру происходит
-                                совершенно незаметно для античита.
-                                Еще ни один наш пользователь
-                                <br />не получил блокировок
+                                Внедрение чита в игру происходит<br />
+                                совершенно незаметно для античита.<br />
+                                Еще ни один наш пользователь<br />
+                                не получил блокировок
                             </span>
                             <img className="character" src="/images/advantage1-character.png" />
                             <div className="bottom-line" />
@@ -378,8 +378,8 @@ export default class Home extends React.Component {
                             <img className="img" src="/images/advantage2-icon.png" />
                             <h2 className="advantage-title">функционал</h2>
                             <span className="content">
-                                Команда наших профессиональных
-                                разработчиков подготовила для вас 
+                                Команда наших профессиональных<br />
+                                разработчиков подготовила для вас<br />
                                 более сотни разных функций.<br />
                                 Спеши опробовать!
                             </span>
@@ -392,8 +392,8 @@ export default class Home extends React.Component {
                             <img className="img" src="/images/advantage3-icon.png" />
                             <h2 className="advantage-title">оптимизация</h2>
                             <span className="content">
-                                Мы все время заняты улучшением
-                                скорости работы и производительности, 
+                                Мы все время заняты улучшением<br />
+                                скорости работы и производительности,<br /> 
                                 чтобы читы работали быстро,<br />
                                 а Ваш FPS не падал!
                             </span>
@@ -405,9 +405,9 @@ export default class Home extends React.Component {
                             <img className="img" src="/images/advantage4-icon.png" />
                             <h2 className="advantage-title">поддержка</h2>
                             <span className="content">
-                                Круглосуточная поддержка,
+                                Круглосуточная поддержка,<br />
                                 которая окажет Вам помощь<br />
-                                при установке и ответит на вопросы
+                                при установке и ответит на вопросы<br />
                                 по использованию.
                             </span>
                             <img className="character" src="/images/advantage4-character.png" />
@@ -420,7 +420,7 @@ export default class Home extends React.Component {
                             <h2 className="advantage-title">скорость обновлений</h2>
                             <span className="content">
                                 Мы всегда следим за обновлениями<br />
-                                игры и наш софт обновляется так быстро,
+                                игры и наш софт обновляется так быстро,<br />
                                 что Вы даже не узнаете об этом!
                             </span>
                             <img className="character" src="/images/advantage5-character.png" />
@@ -431,7 +431,8 @@ export default class Home extends React.Component {
                             <img className="img" src="/images/advantage6-icon.png" />
                             <h2 className="advantage-title">приемущество</h2>
                             <span className="content">
-                                Почувствуй, как твое преимущество над врагом растет, а игра упрощается!
+                                Почувствуй, как твое преимущество<br />
+                                над врагом растет, а игра упрощается!
                             </span>
                             <img className="character" src="/images/advantage6-character.png" />
                             <div className="bottom-line" />

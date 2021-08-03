@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import fetchData from '../fetchData';
-import { fetchPopularProducts } from '../PopularProducts.js';
+import { fetchPopularProducts } from '../PopularProducts.jsx';
 
 export default class ProductInfo extends React.Component {
     constructor() {

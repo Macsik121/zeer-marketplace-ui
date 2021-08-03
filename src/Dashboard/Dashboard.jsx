@@ -11,7 +11,7 @@ import ProductInfo from './ProductInfo.jsx';
 import ChangePassword from './ChangePasswordModal.jsx';
 import Footer from './Footer.jsx';
 import NavBar from './NavBar.jsx';
-import { fetchPopularProducts } from '../PopularProducts.js';
+import { fetchPopularProducts } from '../PopularProducts.jsx';
 
 class Dashboard extends React.Component {
     constructor() {
