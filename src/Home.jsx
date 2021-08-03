@@ -224,9 +224,22 @@ export default class Home extends React.Component {
                     className="header"
                     style={
                         showingLogin || showingSignup
-                            ? {opacity: '0.5', transition: '500ms'}
+                            ? {
+                                opacity: `
+                                    ${
+                                        showingForgotPassword || showingAgreement
+                                            ? '0.25'
+                                            : '0.5'
+                                    }
+                                `,
+                                transition: '500ms'
+                            }
                             : {opacity: '1', transition: '500ms'}
+                        
                     }
+                    // showingForgotPassword
+                    //         ? {opacity: '0.25'}
+                    //         : {opacity: '1'}
                 >
                     <nav className="nav">
                         <div className="nav-BG" />
@@ -242,9 +255,18 @@ export default class Home extends React.Component {
                                             <h1>zeer</h1>
                                         </Link>
                                     </div>
-                                    <div className="download-loader">
+                                    <div
+                                        style={
+                                            showingLogin || showingSignup
+                                                ? {pointerEvents: 'none', userSelect: 'none'}
+                                                : {pointerEvents: 'all', userSelect: 'all'}
+                                        }
+                                        className="download-loader"
+                                    >
                                         <img src="/images/download-loader.png" />
-                                        <span className="text-content">скачать zeer loader</span>
+                                        <span className="text-content">
+                                            скачать zeer loader
+                                        </span>
                                     </div>
                                     <div className="gray-line"></div>
                                     <div className="social-media">
@@ -271,8 +293,16 @@ export default class Home extends React.Component {
                 <Signin
                     style={
                         showingLogin
-                            ? {opacity: 1, transform: 'translateY(0)'}
-                            : {opacity: 0, transform: 'translateY(-120%)'}
+                            ? {
+                                opacity: `${showingForgotPassword ? '0.85' : '1'}`,
+                                transition: '500ms',
+                                pointerEvents: `${showingForgotPassword ? 'none' : 'all'}`,
+                                userSelect: `${showingForgotPassword ? 'none' : 'all'}`
+                            }
+                            : {
+                                opacity: 0,
+                                transform: 'translateY(-120%)'
+                            }
                     }
                     hideLogin={this.hideLogin}
                     hideForgotPassword={this.hideForgotPassword}
@@ -302,7 +332,7 @@ export default class Home extends React.Component {
                     style={
                         showingForgotPassword
                             ? {opacity: 1, transform: 'translateY(0)'}
-                            : {opacity: 0, transform: 'translateY(-110%)'}
+                            : {opacity: 0, transform: 'translateY(-180%)'}
                     }
                     hideForgotPassword={this.hideForgotPassword}
                     showLogin={this.showLogin}
@@ -310,7 +340,18 @@ export default class Home extends React.Component {
                 <div
                     style={
                         showingLogin || showingSignup
-                            ? {opacity: '.5', transition: '500ms', pointerEvents: 'none', userSelect: 'none'}
+                            ? {
+                                opacity: `
+                                    ${
+                                        showingForgotPassword || showingAgreement
+                                            ? '0.25'
+                                            : '0.5'
+                                    }
+                                `,
+                                transition: '500ms',
+                                pointerEvents: 'none',
+                                userSelect: 'none'
+                            }
                             : {opacity: '1', transition: '500ms', pointerEvents: 'all', userSelect: 'all'}
                     }
                     className="slider-wrap"

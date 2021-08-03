@@ -23,6 +23,8 @@ body {
     height: 100%;
     font-weight: 400;
     background-color: #020100;
+    scrollbar-width: thin;
+    scrollbar-color: blue orange;
 }
 
 fieldset {
@@ -228,10 +230,12 @@ fieldset {
 .home .forgot-password-modal {
     transition: 500ms;
     position: absolute;
-    top: 25px;
+    top: 0;
     right: 0;
     left: 0;
-    margin: 0 auto;
+    bottom: 0;
+    max-height: 320px;
+    margin: auto;
     z-index: 1;
     max-width: 370px;
     padding: 30px 30px 35px;
