@@ -134,7 +134,7 @@
     background-image: url(/images/arrow-left.png);
     background-repeat: no-repeat;
     background-position: 51% center;
-    margin-left: -3vw;
+    margin-left: -50px;
 }
 
 .slider .slick-arrow.slick-next {
@@ -143,7 +143,7 @@
     background-image: url(/images/arrow-right.png);
     background-repeat: no-repeat;
     background-position: 57% center;
-    margin-right: -3vw;
+    margin-right: -60px;
 }
 
 /* .slider .slick-slide {
