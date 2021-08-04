@@ -1,14 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import fetchData from '../fetchData';
-import { fetchPopularProducts } from '../PopularProducts.jsx';
+import BoughtPeople from '../RenderBoughtPeople.jsx';
 
-export default class ProductInfo extends React.Component {
+class ProductInfo extends React.Component {
     constructor() {
         super();
         this.state = {
             product: {},
-            popularProducts: [],
             choosenDropdown: 'Ежемесячно',
             calculatedCosts: ['Ежемесячно', 'Ежеквартально', 'Ежегодно'],
             changes: [],
@@ -16,20 +15,12 @@ export default class ProductInfo extends React.Component {
             showDropdown: false
         };
         this.loadProduct = this.loadProduct.bind(this);
-        this.loadPopProducts = this.loadPopProducts.bind(this);
         this.showAllChanges = this.showAllChanges.bind(this);
         this.renderChanges = this.renderChanges.bind(this);
         this.calculateCost = this.calculateCost.bind(this);
     }
-    async componentDidUpdate(prevProps, prevState) {
-        if (prevProps.match.params.title != this.props.match.params.title) {
-            await this.loadProduct();
-            await this.loadPopProducts();
-        }
-    }
     async componentDidMount() {
         await this.loadProduct();
-        await this.loadPopProducts();
     }
     async loadProduct() {
         const title = this.props.match.params.title;
@@ -50,6 +41,11 @@ export default class ProductInfo extends React.Component {
                     reloading
                     costPerDay
                     description
+                    peopleBought {
+                        name
+                        email
+                        avatar
+                    }
                     characteristics {
                         version
                         osSupport
@@ -67,72 +63,9 @@ export default class ProductInfo extends React.Component {
         let changes = getProduct.changes;
 
         this.setState({
-            popularProducts: await fetchPopularProducts(),
             product: getProduct,
             changes
         });
-    }
-    async loadPopProducts() {
-        const resultPopularProducts = await fetchPopularProducts();
-        if (resultPopularProducts.length < 3) {
-            const resultProducts = await fetchData(`
-                query {
-                    products {
-                        title
-                        costPerDay
-                        id
-                        productFor
-                        viewedToday
-                        imageURLdashboard
-                        buyings {
-                            email
-                        }
-                        workingTime
-                        description
-                        characteristics {
-                            version
-                            osSupport
-                            cpuSupport
-                            gameMode
-                            developer
-                            supportedAntiCheats
-                        }
-                    }
-                }
-            `);
-
-            const products = resultProducts.products;
-
-            for(let i = 0; i < products.length; i++) {
-                if (i < 3) {
-                    if (products[i].title != resultPopularProducts[0].title || products[i].title != resultPopularProducts[0].title) {
-                        resultPopularProducts.push(products[i]);
-                    }
-                } else {
-                    break;
-                }
-            }
-        }
-
-        const popularProducts = resultPopularProducts.map(popProduct => {
-            return (
-                <div key={popProduct.id} className="popular-product">
-                    <img className="cover" src={popProduct.imageURLdashboard} />
-                    <h3>{popProduct.title}{' | '}{popProduct.productFor}</h3>
-                    <span className="description">{popProduct.description}</span>
-                    <div className="buttons">
-                        <Link className="buy" to="/dashboard/">
-                            Купить
-                        </Link>
-                        <Link to={`/dashboard/products/${popProduct.title}`} className="detailed">
-                            Подробнее
-                        </Link>
-                    </div>
-                </div>
-            )
-        });
-
-        this.setState({popularProducts});
     }
     showAllChanges() {
         this.setState({showAllChanges: !this.state.showAllChanges});
@@ -170,11 +103,11 @@ export default class ProductInfo extends React.Component {
         return changes;
     }
     calculateCost(e) {
-        console.log(e.target.textContent);
         this.setState({ choosenDropdown: e.target.textContent });
     }
     render() {
         const { product, choosenDropdown, calculatedCosts } = this.state;
+        const { buyProduct } = this.props;
         const info = [];
         const costDropdown = calculatedCosts.map(costTime => (
             <div className="item" key={costTime} onClick={this.calculateCost}>
@@ -185,15 +118,11 @@ export default class ProductInfo extends React.Component {
             </div>
         ));
         const changes = this.renderChanges();
-        const popularProducts = this.state.popularProducts.map(popProduct => {
-            if (popProduct.key) return popProduct;
-        });
         const productWorkingTime = new Date(product.workingTime);
         let createdDate;
         let days = new Date().getDate() - productWorkingTime.getDate();
         let months = new Date().getMonth() + 1 - productWorkingTime.getMonth() + 1;
-        let years = new Date().getFullYear() - productWorkingTime.getFullYear();
-        console.log(days);
+        let years = new Date().getFullYear() - productWorkingTime.getFullYear(); 
         if (days == 0) {
             let hoursDifference = new Date().getHours() - productWorkingTime.getHours();
             if (hoursDifference == 0) {
@@ -267,6 +196,27 @@ export default class ProductInfo extends React.Component {
                 productCost = <span className="cost">{product.costPerDay && product.costPerDay * 30 * 12} &#8381; / Год</span>
             }
         }
+        const renderedPopularProducts = this.props.popularProducts.map(popProduct => {
+            return (
+                <div key={popProduct.id} className="popular-product">
+                    <img className="cover" src={popProduct.imageURLdashboard} />
+                    <h3>{popProduct.title}{' | '}{popProduct.productFor}</h3>
+                    <span className="description">{popProduct.description}</span>
+                    <BoughtPeople people={popProduct.peopleBought} />
+                    <div className="buttons">
+                        <button className="buy button" onClick={() => buyProduct(popProduct.title)}>
+                            Купить
+                        </button>
+                        <Link to={`/dashboard/products/${popProduct.title}`} className="detailed button">
+                            Подробнее
+                        </Link>
+                    </div>
+                </div>
+            )
+        });
+        const popularProducts = renderedPopularProducts.map(popProduct => {
+            if (popProduct.key) return popProduct;
+        });
         const productInfo = (
             <div className="product">
                 <div className="cover" style={{backgroundImage: `url(${product.imageURLdashboard})`}}></div>
@@ -276,6 +226,7 @@ export default class ProductInfo extends React.Component {
                             <h3 className="title">
                                 {product.title}{' | '}{product.productFor}
                             </h3>
+                            <BoughtPeople renderPeopleLimit={5} people={product.peopleBought} />
                         </div>
                         <div className="actions">
                             <button className="undetect">
@@ -425,9 +376,9 @@ export default class ProductInfo extends React.Component {
                                 </div>
                             </div>
                             <div className="button">
-                                <Link to="/dashboard/" className="buy-button">
+                                <button onClick={() => buyProduct(product.title)} className="buy-button">
                                     Купить
-                                </Link>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -479,3 +430,5 @@ export default class ProductInfo extends React.Component {
         )
     }
 }
+
+export default withRouter(ProductInfo);

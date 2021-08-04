@@ -237,9 +237,6 @@ export default class Home extends React.Component {
                             : {opacity: '1', transition: '500ms'}
                         
                     }
-                    // showingForgotPassword
-                    //         ? {opacity: '0.25'}
-                    //         : {opacity: '1'}
                 >
                     <nav className="nav">
                         <div className="nav-BG" />

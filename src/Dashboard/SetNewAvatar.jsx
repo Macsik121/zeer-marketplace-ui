@@ -1,8 +1,8 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
-import fetchData from '../fetchData';
 
-export default class SetNewAvatar extends React.Component {
+class SetNewAvatar extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -33,20 +33,8 @@ export default class SetNewAvatar extends React.Component {
                 break;
             }
         }
-        // if (!isTypeCorrect) {
-        //     this.showError('Вы можете выбрать только тип файла .jpeg, .jpg, .svg, .png');
-        //     return;
-        // }
 
-        const userWithNewAvatar = await fetchData(`
-            mutation changeAvatar($name: String!, $avatar: String!) {
-                changeAvatar(name: $name, avatar: $avatar) {
-                    email
-                    name
-                    avatar
-                }
-            }
-        `, {name: user.name, avatar: newAvatar});
+        this.props.setNewAvatar(newAvatar);
         this.props.history.push(`/dashboard/${user.name}`);
     }
     changeAvatar(e) {
@@ -70,23 +58,6 @@ export default class SetNewAvatar extends React.Component {
                     </label>
                     <form onSubmit={this.handleSubmit} className="changeavatar">
                         <img className="uploaded-img" src={selectedImage} />
-                        {/* <FileBase
-                            type="file"
-                            accept="
-                                image/png
-                                image/jpeg
-                                image/jpg
-                                image/svg
-                            "
-                            multiple={false}
-                            className="upload"
-                            onDone={
-                                base64 => {
-                                    console.log(base64);
-                                    this.setState({selectedImage: base64.base64, isErrorShown: false})
-                                }
-                            }
-                        /> */}
                         <input
                             type="file"
                             accept="
@@ -104,3 +75,5 @@ export default class SetNewAvatar extends React.Component {
         )
     }
 }
+
+export default withRouter(SetNewAvatar);

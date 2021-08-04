@@ -29,19 +29,20 @@ function Product({product, styles, className}) {
 async function fetchPopularProducts() {
     const query = `
         query {
-            popularProducts(viewedToday: 2) {
+            popularProducts {
                 title
                 costPerDay
                 id
                 productFor
-                viewedToday
-                buyings {
-                    email
-                }
                 workingTime
                 description
                 imageURL
                 imageURLdashboard
+                peopleBought {
+                    name
+                    email
+                    avatar
+                }
                 characteristics {
                     version
                     osSupport
@@ -54,40 +55,6 @@ async function fetchPopularProducts() {
         }
     `;
 
-    // let allProducts;
-    // let productsToAdd = [];
-    // if (popularProducts.length < 4) {
-    //     const result = await fetchData(`
-    //         query {
-    //             products {
-    //                 title
-    //                 costPerDay
-    //                 id
-    //                 productFor
-    //                 viewedToday
-    //                 buyings {
-    //                     email
-    //                 }
-    //                 imageURLdashboard
-    //                 workingTime
-    //                 description
-    //                 characteristics {
-    //                     version
-    //                     osSupport
-    //                     cpuSupport
-    //                     gameMode
-    //                     developer
-    //                     supportedAntiCheats
-    //                 }
-    //             }
-    //         }
-    //     `);
-    //     allProducts = result.products;
-    //     for (let i = 0; i < 3; i++) {
-    //         productsToAdd.push(allProducts[i]);
-    //     }
-    //     this.setState({popularProducts: Object.assign(popularProducts, productsToAdd)})
-    // }
     const result = await fetchData(query);
     const products = result.popularProducts;
     return products;

@@ -7,7 +7,6 @@ export default class PasswordChangedNotification extends React.Component {
             hideNotificationMessage
         } = this.props;
         if (passwordChangedNotificationShown) {
-            console.log('Hello wirld');
             setTimeout(hideNotificationMessage, 15 * 1000);
         }
     }
@@ -17,7 +16,6 @@ export default class PasswordChangedNotification extends React.Component {
             passwordChangedNotificationShown,
             hideNotificationMessage
         } = this.props;
-        console.log(passwordChangedNotificationShown);
         return (
             <label
                 style={

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import SlickSlider from 'react-slick';
+import BoughtPeople from '../RenderBoughtPeople.jsx';
 
 function NextArrow(props) {
     const { onClick, className, style } = props;
@@ -33,7 +34,8 @@ export default class Lobby extends React.Component {
             user,
             userAvatar,
             subscriptions,
-            deviceWidth
+            deviceWidth,
+            buyProduct
         } = this.props;
         const sliderSettings = {
             infinite: true,
@@ -61,9 +63,10 @@ export default class Lobby extends React.Component {
                             <h3 className="product-title">{product.title}{' | '}<span className="product-for">{product.productFor}</span></h3>
                         </div>
                         <span className="description">{product.description}</span>
+                        <BoughtPeople people={product.peopleBought} />
                         <div className="buttons">
-                            <Link to="/dashboard/">Купить</Link>
-                            <Link to={`/dashboard/products/${product.title}`}>Подробнее</Link>
+                            <button className="button" onClick={() => buyProduct(product.title)}>Купить</button>
+                            <Link className="button" to={`/dashboard/products/${product.title}`}>Подробнее</Link>
                         </div>
                     </div>
                 )
