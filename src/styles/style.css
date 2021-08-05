@@ -1483,6 +1483,7 @@ fieldset {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    padding-top: 30px;
 }
 
 .dashboard .main .products .product {
@@ -1495,12 +1496,12 @@ fieldset {
     border-radius: 10px;
     margin: 150px auto 60px auto;
     position: relative;
-    flex-basis: 32%;
+    flex-basis: 31.5%;
 }
 
 .dashboard .main .products .product .cover {
-    width: 90%;
-    height: 300px;
+    width: 330px;
+    height: 330px;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -1508,7 +1509,7 @@ fieldset {
     margin: 0 auto;
     right: 0;
     left: 0;
-    top: -150px;
+    top: -180px;
 }
 
 .dashboard .main .products .product .product-title {
