@@ -110,22 +110,6 @@ export default class Home extends React.Component {
             this.props.history.push(`/dashboard/${jwtDecode(token).name}`);
         }
         const popProducts = await fetchPopularProducts();
-        const allProducts = await fetchData(`
-                query {
-                    products {
-                        id
-                        title
-                        productFor
-                        costPerDay
-                        imageURL
-                    }
-                }
-            `);
-        if (popProducts.length < 4) {
-            for (let i = 0; i < 4; i++) {
-                popProducts[i] = allProducts.products[i];
-            }
-        }
         this.setState({products: popProducts, deviceWidth: window.innerWidth});
     }
     toggleLogin() {

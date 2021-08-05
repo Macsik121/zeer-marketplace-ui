@@ -31,7 +31,8 @@ class Dashboard extends React.Component {
             products: [],
             answersFAQ: [],
             passwordChangedNotification: '',
-            passwordChangedNotificationShown: false
+            passwordChangedNotificationShown: false,
+            agreementShown: false
         }
         this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
@@ -43,8 +44,16 @@ class Dashboard extends React.Component {
         this.getProducts = this.getProducts.bind(this);
         this.buyProduct = this.buyProduct.bind(this);
         this.setNewAvatar = this.setNewAvatar.bind(this);
+        this.hideAgreement = this.hideAgreement.bind(this);
+        this.toggleAgreement = this.toggleAgreement.bind(this);
     }
     async componentDidMount() {
+        window.onkeypress = function(e) {
+            if (e.keyCode == 13) {
+                this.hideModal();
+                this.hideAgreement();
+            }
+        }.bind(this);
         const { match, history } = this.props;
         const token = localStorage.getItem('token');
         const user = jwtDecode(token);
@@ -97,7 +106,6 @@ class Dashboard extends React.Component {
             deviceWidth: window.innerWidth,
             userAvatar,
             user,
-            deviceWidth: window.innerWidth,
             answersFAQ: resultFAQ.getAnswers
         });
     }
@@ -172,7 +180,6 @@ class Dashboard extends React.Component {
                 break;
             }
         }
-        console.log(popularProducts);
         this.setState({ popularProducts });
     }
     async getSubscriptions() {
@@ -187,6 +194,8 @@ class Dashboard extends React.Component {
                         }
                         activelyUntil
                         title
+                        imageURL
+                        productFor
                     }
                     active {
                         status {
@@ -196,6 +205,8 @@ class Dashboard extends React.Component {
                         }
                         activelyUntil
                         title
+                        imageURL
+                        productFor
                     }
                     overdue {
                         status {
@@ -205,6 +216,8 @@ class Dashboard extends React.Component {
                         }
                         activelyUntil
                         title
+                        imageURL
+                        productFor
                     }
                 }
             }
@@ -267,6 +280,15 @@ class Dashboard extends React.Component {
     hideNotificationMessage() {
         this.setState({ passwordChangedNotificationShown: false });
     }
+    toggleAgreement() {
+        this.setState({ agreementShown: !this.state.agreementShown });
+    }
+    showAgreement() {
+        this.setState({ agreementShown: true });
+    }
+    hideAgreement() {
+        this.setState({ agreementShown: false });
+    }
     render() {
         const {
             user,
@@ -278,20 +300,21 @@ class Dashboard extends React.Component {
             products,
             answersFAQ,
             passwordChangedNotification,
-            passwordChangedNotificationShown
+            passwordChangedNotificationShown,
+            agreementShown
         } = this.state;
         return (
             <div
                 className="dashboard"
                 style={
-                    showingChangePassword
+                    showingChangePassword || agreementShown
                         ? {overflow: 'hidden'}
                         : {overflow: 'inherit'}
                 }
             >
                 <header
                     style={
-                        showingChangePassword
+                        showingChangePassword || agreementShown
                             ? {opacity: '.5', transition: '500ms', pointerEvents: 'none', userSelect: 'none'}
                             : {opactiy: 1, transition: '500ms', pointerEvents: 'all', userSelect: 'text'}
                     }
@@ -360,7 +383,12 @@ class Dashboard extends React.Component {
                             path="/dashboard/:username/subscriptions"
                             component={
                                 () => (
-                                    <Subscriptions subscriptions={subscriptions} />
+                                    <Subscriptions
+                                        subscriptions={subscriptions}
+                                        toggleAgreement={this.toggleAgreement}
+                                        hideAgreement={this.hideAgreement}
+                                        agreementShown={agreementShown}
+                                    />
                                 )
                             }
                         />
@@ -382,6 +410,7 @@ class Dashboard extends React.Component {
                                         userAvatar={userAvatar}
                                         subscriptions={subscriptions}
                                         popularProducts={popularProducts}
+                                        getPopularProducts={this.getPopularProducts}
                                         deviceWidth={deviceWidth}
                                         buyProduct={this.buyProduct}
                                     />
@@ -392,7 +421,7 @@ class Dashboard extends React.Component {
                 </main>
                 <Footer
                     style={
-                        showingChangePassword
+                        showingChangePassword || agreementShown
                             ? {opacity: '.5', transition: '500ms', pointerEvents: 'none', userSelect: 'none'}
                             : {opactiy: 1, transition: '500ms', pointerEvents: 'all', userSelect: 'text'}
                     }

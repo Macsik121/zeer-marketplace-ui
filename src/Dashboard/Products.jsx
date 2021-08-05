@@ -33,7 +33,6 @@ export default class Products extends React.Component {
             <div className="products">
                 <div className="container">
                     {products}
-                    {products[1]}
                 </div>
             </div>
         )

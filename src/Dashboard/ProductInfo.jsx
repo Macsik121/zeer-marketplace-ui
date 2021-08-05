@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import fetchData from '../fetchData';
+import { fetchPopularProducts } from '../PopularProducts.jsx';
 import BoughtPeople from '../RenderBoughtPeople.jsx';
 
 class ProductInfo extends React.Component {
@@ -12,15 +13,23 @@ class ProductInfo extends React.Component {
             calculatedCosts: ['Ежемесячно', 'Ежеквартально', 'Ежегодно'],
             changes: [],
             showAllChanges: false,
-            showDropdown: false
+            showDropdown: false,
+            popularProducts: []
         };
         this.loadProduct = this.loadProduct.bind(this);
         this.showAllChanges = this.showAllChanges.bind(this);
         this.renderChanges = this.renderChanges.bind(this);
         this.calculateCost = this.calculateCost.bind(this);
     }
+    async componentDidUpdate(prevProps, prevState) {
+        if (prevProps.popularProducts != prevState.popularProducts) {
+            await this;
+        }
+    }
     async componentDidMount() {
         await this.loadProduct();
+        const popularProducts = await fetchPopularProducts();
+        this.setState({ popularProducts });
     }
     async loadProduct() {
         const title = this.props.match.params.title;
@@ -196,24 +205,30 @@ class ProductInfo extends React.Component {
                 productCost = <span className="cost">{product.costPerDay && product.costPerDay * 30 * 12} &#8381; / Год</span>
             }
         }
-        const renderedPopularProducts = this.props.popularProducts.map(popProduct => {
-            return (
-                <div key={popProduct.id} className="popular-product">
-                    <img className="cover" src={popProduct.imageURLdashboard} />
-                    <h3>{popProduct.title}{' | '}{popProduct.productFor}</h3>
-                    <span className="description">{popProduct.description}</span>
-                    <BoughtPeople people={popProduct.peopleBought} />
-                    <div className="buttons">
-                        <button className="buy button" onClick={() => buyProduct(popProduct.title)}>
-                            Купить
-                        </button>
-                        <Link to={`/dashboard/products/${popProduct.title}`} className="detailed button">
-                            Подробнее
-                        </Link>
+        let renderedPopularProducts = [];
+        for (let i = 0; i < this.state.popularProducts.length; i++) {
+            const popProduct = this.state.popularProducts[i];
+            if (i < 3) {
+                renderedPopularProducts.push(
+                    <div key={popProduct.id} className="popular-product">
+                        <img className="cover" src={popProduct.imageURLdashboard} />
+                        <h3>{popProduct.title}{' | '}{popProduct.productFor}</h3>
+                        <span className="description">{popProduct.description}</span>
+                        <BoughtPeople people={popProduct.peopleBought} />
+                        <div className="buttons">
+                            <button className="buy button" onClick={() => buyProduct(popProduct.title)}>
+                                Купить
+                            </button>
+                            <Link to={`/dashboard/products/${popProduct.title}`} className="detailed button">
+                                Подробнее
+                            </Link>
+                        </div>
                     </div>
-                </div>
-            )
-        });
+                )
+            } else {
+                break;
+            }
+        }
         const popularProducts = renderedPopularProducts.map(popProduct => {
             if (popProduct.key) return popProduct;
         });

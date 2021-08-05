@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import SlickSlider from 'react-slick';
+import { fetchPopularProducts } from '../PopularProducts.jsx';
 import BoughtPeople from '../RenderBoughtPeople.jsx';
 
 function NextArrow(props) {
