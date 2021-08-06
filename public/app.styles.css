@@ -952,7 +952,7 @@ template {
 }
 
 ::-webkit-scrollbar {
-    width: 30px;
+    width: 13px;
 }
 
 ::-webkit-scrollbar-track {
@@ -962,7 +962,7 @@ template {
 ::-webkit-scrollbar-thumb {
     background-color: #1C1C24;
     border-radius: 15px;
-    border: 10px solid #13131A;
+    border: 3px solid #13131A;
 }
 
 ::-webkit-scrollbar-thumb:hover {
