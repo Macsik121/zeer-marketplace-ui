@@ -150,6 +150,7 @@ class Dashboard extends React.Component {
                     imageURLdashboard
                     workingTime
                     description
+                    currentDate
                     peopleBought {
                         name
                         email
@@ -388,6 +389,9 @@ class Dashboard extends React.Component {
                                         toggleAgreement={this.toggleAgreement}
                                         hideAgreement={this.hideAgreement}
                                         agreementShown={agreementShown}
+                                        getSubscriptions={this.getSubscriptions}
+                                        user={user}
+                                        buyProduct={this.buyProduct}
                                     />
                                 )
                             }

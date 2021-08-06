@@ -57,7 +57,6 @@ export default class Lobby extends React.Component {
         let popularProducts;
         if (this.props.popularProducts.length > 0) {
             popularProducts = this.props.popularProducts.map(product => {
-                console.log(product);
                 return (
                     <div className="popular-product" style={{width: '370px'}} key={product.id}>
                         <img className="cover" src={product.imageURLdashboard} />

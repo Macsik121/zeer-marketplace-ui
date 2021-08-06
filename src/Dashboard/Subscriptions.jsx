@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import fetchData from '../fetchData';
 import AgreementPrivacyNPolicy from '../AgreementModal.jsx';
 
 export default class Subscriptions extends React.Component {
@@ -7,30 +8,100 @@ export default class Subscriptions extends React.Component {
         super();
         this.state = {
             subscriptions: {},
-            overdue: [],
-            showAll: false
+            showAll: false,
+            user: {},
+            isRequestSent: false
         };
+        this.freezeSubscription = this.freezeSubscription.bind(this);
+        this.unfreezeSubscription = this.unfreezeSubscription.bind(this);
     }
     componentDidMount() {
-        this.setState({ subscriptions: this.props.subscriptions });
+        const { subscriptions, user } = this.props;
+        this.setState({
+            subscriptions,
+            user
+        });
+    }
+    async unfreezeSubscription(e) {
+        this.setState({ isRequestSent: true });
+        console.log(this.state.isRequestSent);
+        const divContent = e.target.parentNode.parentNode.parentNode.parentNode;
+        const title = divContent.childNodes[0].childNodes[0].textContent;
+
+        const query = `
+            mutation unfreezeSubscription($name: String!, $title: String!) {
+                unfreezeSubscription(name: $name, title: $title) {
+                    subscriptions {
+                        title
+                        productFor
+                        activelyUntil
+                        status {
+                            isExpired
+                            isActive
+                            isFreezed
+                        }
+                    }
+                }
+            }
+        `;
+        const vars = {
+            name: this.state.user.name,
+            title
+        };
+        await fetchData(query, vars);
+        await this.props.getSubscriptions();
+        this.setState({ isRequestSent: true });
+    }
+    async freezeSubscription(e) {
+        this.setState({ isRequestSent: true });
+        const divContent = e.target.parentNode.parentNode.parentNode.parentNode;
+        const title = divContent.childNodes[0].childNodes[0].textContent;
+        const query = `
+            mutation freezeSubscription($name: String!, $title: String!) {
+                freezeSubscription(name: $name, title: $title) {
+                    subscriptions {
+                        title
+                        productFor
+                        activelyUntil
+                        status {
+                            isExpired
+                            isActive
+                            isFreezed
+                        }
+                    }
+                }
+            }
+        `;
+        const vars = {
+            name: this.state.user.name,
+            title
+        };
+        await fetchData(query, vars);
+        await this.props.getSubscriptions();
+        this.setState({ isRequestSent: true });
     }
     handleSubmit(e) {
         e.preventDefault();
     }
     render() {
-        const { subscriptions } = this.state;
-        const { hideAgreement, toggleAgreement, agreementShown } = this.props;
+        const { subscriptions, isRequestSent } = this.state;
+        const {
+            hideAgreement,
+            toggleAgreement,
+            agreementShown,
+            buyProduct
+        } = this.props;
         const activeSubs = [];
         const expiredSubs = [];
         subscriptions.all ? subscriptions.all.map(sub => {
-            console.log(sub);
             if (!sub.status.isExpired) {
                 activeSubs.push(
                     <div key={sub.title} className="subscription">
                         <img
                             style={
-                                sub.status.isFreezed &&
-                                    { filter: 'grayscale(100%)' }
+                                sub.status.isFreezed
+                                    ? { mixBlendMode: 'luminosity' }
+                                    : { mixBlendMode: 'inherit' }
                             }
                             src={sub.imageURL ? sub.imageURL : ""}
                             className="subscription-icon"
@@ -50,7 +121,12 @@ export default class Subscriptions extends React.Component {
                                     <div className="buttons-wrap">
                                         <div className="buttons">
                                             <button className="button extend">Продлить</button>
-                                            <button className="button freeze">Заморозить</button>
+                                            <button
+                                                className="button freeze"
+                                                onClick={this.freezeSubscription}
+                                            >
+                                                Заморозить
+                                            </button>
                                         </div>
                                         <Link
                                             to={`/dashboard/products/${sub.title}`}
@@ -67,7 +143,10 @@ export default class Subscriptions extends React.Component {
                                     <div className="buttons-wrap">
                                         <div className="buttons">
                                             <button className="button extend">Продлить</button>
-                                            <button className="button unfreeze">
+                                            <button
+                                                onClick={this.unfreezeSubscription}
+                                                className="button unfreeze"
+                                            >
                                                 Разморозить
                                             </button>
                                         </div>
@@ -85,14 +164,14 @@ export default class Subscriptions extends React.Component {
                 )
             } else {
                 expiredSubs.push(
-                    <div className="subscription">
+                    <div key={sub.title} className="subscription">
                         <img
                             src={sub.imageURL || ''}
                             style={{ border: '3px solid #FC5A5A' }}
                             className="subscription-icon"
                         />
                         <div className="content">
-                            <h3 className="sub-title">{sub.title}</h3>
+                            <h3 className="sub-title">{sub.title}{' | '}{sub.productFor}</h3>
                             <span className="overdue">Просроченo</span>
                             <div className="status-content expired">
                                 <label className="status payment-required">
@@ -100,7 +179,7 @@ export default class Subscriptions extends React.Component {
                                 </label>
                                 <div className="buttons-wrap">
                                     <div className="buttons">
-                                        <button className="button">
+                                        <button onClick={buyProduct} className="button">
                                             Оплатить
                                         </button>
                                         <button className="button">
@@ -131,12 +210,22 @@ export default class Subscriptions extends React.Component {
                     hideAgreement={hideAgreement}
                 />
                 <div className="container">
-                    <div className="all-subscriptions">
+                    <div
+                        className="all-subscriptions"
+                        style={
+                            isRequestSent
+                                ? {pointerEvents: 'none'}
+                                : {pointerEvents: 'all'}
+                        }
+                    >
                         <h2 className="active-subs-title">Активные подписки</h2>
                         {activeSubs}
                         <div className="show-all">
-                            {subscriptions.active && subscriptions.active.length > 6
-                                ? (
+                            {/* {
+                                subscriptions.all
+                                &&
+                                subscriptions.all.length - subscriptions.overdue.length > 6
+                                ? ( */}
                                     <div className="show-all-wrap">
                                         <button className="show">Показать ещё</button>
                                         <label>
@@ -144,26 +233,24 @@ export default class Subscriptions extends React.Component {
                                             &nbsp;
                                             подписок из
                                             &nbsp;
-                                            {subscriptions.active && subscriptions.active.length}
+                                            {subscriptions.all && subscriptions.all.length - subscriptions.overdue.length}
                                         </label>
                                     </div>
-                                )
+                                {/* )
                                 : (
                                     <div className="show-all-wrap">
                                         <label>
                                             Показано {activeSubs.length}
-                                            &nbsp;
-                                            подписок из
-                                            &nbsp;
-                                            {subscriptions.active && subscriptions.active.length}
+                                            &nbsp;подписок из
+                                            &nbsp;{subscriptions.all && subscriptions.all.length - subscriptions.overdue.length}
                                         </label>
                                     </div>
                                 )
-                            }
+                            } */}
                         </div>
-                        {subscriptions.overdue && subscriptions.overdue.length > 0 &&
+                        {/* {subscriptions.overdue && subscriptions.overdue.length > 0 && */}
                             <h2 className="overdue-sub-title">Просроченные подписки</h2>
-                        }
+                        {/* } */}
                         {expiredSubs}
                     </div>
                     <form onSubmit={this.handleSubmit} className="activate-product">
