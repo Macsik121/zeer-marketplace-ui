@@ -617,10 +617,19 @@ template {
     color: #fff;
     font-weight: 600;
     cursor: pointer;
+    transition: 200ms;
 }
 
-.popular-products-slider .popular-product .buttons button:first-of-type {
+.popular-products-slider .popular-product .buttons .button:last-child:hover {
+    background-color: #1F1F26;
+}
+
+.popular-products-slider .popular-product .buttons .button:first-child {
     background-color: #1E75FF;
+}
+
+.popular-products-slider .popular-product .buttons .button:first-child:hover {
+    background-color: #1C6FF2;
 }
 
 /*!***********************************************************************!*\
@@ -2175,7 +2184,11 @@ fieldset {
     background-color: #1E75FF;
 }
 
-.dashboard .main .lobby .info .buttons button {
+.dashboard .main .lobby .info .buttons button:first-of-type:hover {
+    background-color: #1C6FF2;
+}
+
+.dashboard .main .lobby .info .buttons .button {
     padding: 10px 0;
     background-color: #292932;
     cursor: pointer;
@@ -2185,10 +2198,17 @@ fieldset {
     font-weight: 600;
     font-size: 12px;
     line-height: 18px;
-    width: 50%;
+    width: 45%;
+    transition: 200ms;
+    display: flex;
+    justify-content: center;
 }
 
-.dashboard .main .lobby .info .buttons a {
+.dashboard .main .lobby .info .buttons .subs:last-child:hover {
+    background-color: #1F1F26;
+}
+
+/* .dashboard .main .lobby .info .buttons a {
     padding: 10px 0;
     background-color: #292932;
     cursor: pointer;
@@ -2199,7 +2219,7 @@ fieldset {
     width: 45%;
     display: flex;
     justify-content: center;
-}
+} */
 
 .dashboard .main .lobby .subscriptions {
     display: flex;
@@ -2341,6 +2361,11 @@ fieldset {
     margin-top: 30px;
     font-weight: 600;
     font-size: 12px;
+    transition: 200ms;
+}
+
+.dashboard .main .lobby .opportunities .opportunity.questions .explore:hover {
+    background-color: #1C6FF2;
 }
 
 .dashboard .main .lobby .opportunities .opportunity.reset {
@@ -2363,10 +2388,6 @@ fieldset {
     margin-top: 20px;
 }
 
-.dashboard .main .lobby .opportunities .opportunity .links a:first-of-type {
-    background-color: #1E75FF;
-}
-
 .dashboard .main .lobby .opportunities .opportunity .links a {
     border-radius: 10px;
     background-color: #292932;
@@ -2376,6 +2397,19 @@ fieldset {
     justify-content: center;
     font-size: 12px;
     font-weight: 600;
+    transition: 200ms;
+}
+
+.dashboard .main .lobby .opportunities .opportunity .links a:hover {
+    background-color: #1F1F26;
+}
+
+.dashboard .main .lobby .opportunities .opportunity .links a:first-of-type {
+    background-color: #1E75FF;
+}
+
+.dashboard .main .lobby .opportunities .opportunity .links a:first-of-type:hover {
+    background-color: #1C6FF2;
 }
 
 .dashboard .main .lobby .video {
@@ -2596,6 +2630,11 @@ fieldset {
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
     padding: 15px 20px;
+    transition: 200ms;
+}
+
+.dashboard .main .product-info .info .general .cost .dropdown:hover {
+    background-color: #1E75FF;
 }
 
 .dashboard .main .product-info .info .general .cost .calc-cost .calculated-time {
@@ -2920,6 +2959,11 @@ fieldset {
     border-radius: 10px;
     border: none;
     cursor: pointer;
+    transition: 200ms;
+}
+
+.dashboard .main .product-info .product .general .cost .button .buy-button:hover {
+    background-color: #1C6FF2;
 }
 
 .dashboard .main .product-info .info .magazine {
@@ -3084,6 +3128,15 @@ fieldset {
     font-size: 12px;
     border: none;
     cursor: pointer;
+    transition: 200ms;
+}
+
+.dashboard .main .product-info .popular-products .popular-product .buttons .button.buy:hover {
+    background-color: #1C6FF2;
+}
+
+.dashboard .main .product-info .popular-products .popular-product .buttons .button.detailed:hover {
+    background-color: #1F1F26;
 }
 
 .dashboard .main .product-info .popular-products .popular-product .buttons button:first-of-type {
@@ -3125,6 +3178,7 @@ fieldset {
 
 .dashboard .main .subscriptions .all-subscriptions .subscription .subscription-icon {
     min-width: 175px;
+    max-width: 175px;
     height: 175px;
     border-radius: 10px;
     border: 3px solid #44444f;
@@ -3208,6 +3262,25 @@ fieldset {
     color: #FAFAFB;
     border: 1px solid rgba(255, 255, 255, .1);
     background: transparent;
+    transition: 200ms;
+}
+
+.dashboard .main .subscriptions .all-subscriptions .subscription .content .status-content .buttons .button.extend:hover {
+    background-color: #1C6FF2;
+}
+
+.dashboard .main .subscriptions .all-subscriptions .subscription .content .status-content .buttons .button.freeze:hover {
+    background-color: rgba(255, 255, 255, .1);
+    border: 1px solid transparent;
+}
+
+.dashboard .main .subscriptions .all-subscriptions .subscription .content .status-content.freezed .buttons .button.extend:hover {
+    background-color: #13489e;
+}
+
+.dashboard .main .subscriptions .all-subscriptions .subscription .content .status-content.freezed .buttons .button.unfreeze:hover {
+    background-color: #1E75FF;
+    color: #FAFAFB;
 }
 
 .dashboard .main .subscriptions .all-subscriptions .subscription .content .status-content .buttons .button + .button {
@@ -4165,7 +4238,7 @@ fieldset {
     border-radius: 10px;
     transition: 200ms;
     margin-left: 30px;
-    width: 175px;
+    width: 206px;
 }
 
 .dashboard .footer .download-loader:hover {

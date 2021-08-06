@@ -176,8 +176,17 @@
     color: #fff;
     font-weight: 600;
     cursor: pointer;
+    transition: 200ms;
 }
 
-.popular-products-slider .popular-product .buttons button:first-of-type {
+.popular-products-slider .popular-product .buttons .button:last-child:hover {
+    background-color: #1F1F26;
+}
+
+.popular-products-slider .popular-product .buttons .button:first-child {
     background-color: #1E75FF;
+}
+
+.popular-products-slider .popular-product .buttons .button:first-child:hover {
+    background-color: #1C6FF2;
 }

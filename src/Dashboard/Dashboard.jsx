@@ -68,16 +68,16 @@ class Dashboard extends React.Component {
             query verifyToken($token: String!) {
                 verifyToken(token: $token)
             }
-        `, {token});
+        `, { token });
         if (verifyToken.verifyToken == 'jwt expired') {
             localStorage.clear();
             this.props.history.push('/');
             return;
         }
         this.setState({ user: jwtDecode(token) });
-        await this.getSubscriptions();
-        await this.getPopularProducts();
-        await this.getProducts();
+        this.getProducts();
+        this.getPopularProducts();
+        this.getSubscriptions();
 
         const userAvatar = {};
         if (user.avatar && user.avatar.includes('#')) {

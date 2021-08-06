@@ -94,8 +94,8 @@ export default class Lobby extends React.Component {
                                     </div>
                                 </div>
                                 <div className="buttons">
-                                    <button className="download-loader">Скачать лоадер</button>
-                                    <Link className="subs" to={`/dashboard/${user.name}/subscriptions`}>
+                                    <button className="download-loader button">Скачать лоадер</button>
+                                    <Link className="subs button" to={`/dashboard/${user.name}/subscriptions`}>
                                         Подписки
                                     </Link>
                                 </div>
