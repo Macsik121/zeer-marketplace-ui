@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-fetch';
 
 const serverEndpoint = (
-    // 'https://zeer-marketplace-api-macsik121.herokuapp.com/graphql' ||
+    'https://zeer-marketplace-api-macsik121.herokuapp.com/graphql' ||
     'http://localhost:3000/graphql'
 );
 

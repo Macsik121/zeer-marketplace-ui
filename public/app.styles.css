@@ -2116,6 +2116,7 @@ fieldset {
     font-size: 14px;
     line-height: 24px;
     letter-spacing: .1px;
+    font-family: Roboto, sans-serif;
 }
 
 .dashboard .main .products .product .buttons {
