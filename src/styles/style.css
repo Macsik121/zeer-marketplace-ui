@@ -9,25 +9,29 @@
     outline: none;
 }
 
+::-webkit-scrollbar {
+    width: 30px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #13131A;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #1C1C24;
+    border-radius: 15px;
+    border: 10px solid #13131A;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #31313f;
+}
+
 html {
     background-color: #020100;
     color: #fff;
-    scrollbar-width: 10px;
+    scrollbar-width: auto;
     scrollbar-color: #1C1C24 #13131A;
-}
-
-html::-webkit-scrollbar {
-    width: 10px;
-}
-
-html::-webkit-scrollbar-track {
-    background-color: #13131A;
-    width: 10px;
-}
-
-html::-webkit-scrollbar {
-    background-color: #1C1C24;
-    border-radius: 15px;
 }
 
 body {
