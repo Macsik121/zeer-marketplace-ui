@@ -67,6 +67,7 @@
 .popular-products-slider .slick-list {
     margin-left: -15px;
     width: 1170px;
+    min-height: 589px;
 }
 
 .popular-products-slider .slick-list {
@@ -98,7 +99,7 @@
 .popular-products-slider .slick-slide {
     padding-top: 125px;
     min-height: 550px;
-    margin-top: 50px;
+    margin-top: 70px;
 }
 
 .popular-products-slider .slick-arrow.slick-prev {
@@ -120,7 +121,7 @@
 
 .popular-products-slider .slick-slide .cover {
     margin: 0 auto;
-    height: 330px;
+    min-height: 330px;
     width: 330px;
     border-radius: 10px;
     border: 3px solid #44444F;

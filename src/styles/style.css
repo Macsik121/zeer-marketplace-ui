@@ -12,6 +12,8 @@
 html {
     background-color: #020100;
     color: #fff;
+    scrollbar-width: 10px;
+    scrollbar-color: #1C1C24 #13131A;
 }
 
 body {
@@ -19,8 +21,6 @@ body {
     line-height: inherit;
     font-weight: 400;
     background-color: #020100;
-    scrollbar-width: thin;
-    scrollbar-color: blue orange;
 }
 
 fieldset {
@@ -786,6 +786,7 @@ fieldset {
     display: flex;
     height: 100%;
     position: relative;
+    margin-left: 40px;
 }
 
 .dashboard .nav .links .icon {
@@ -801,6 +802,15 @@ fieldset {
     padding: 10px;
     border-bottom: 3px solid transparent;
     position: relative;
+}
+
+.dashboard .nav .links a:first-of-type {
+    height: 80px;
+}
+
+.dashboard .nav .links a .logo {
+    width: 50px;
+    height: 50px;
 }
 
 .dashboard .nav .links .link-item {
@@ -1118,7 +1128,7 @@ fieldset {
 .dashboard .main .lobby .general-info {
     display: flex;
     justify-content: space-between;
-    margin-top: 20px;
+    margin-top: 30px;
     height: 370px;
 }
 
@@ -1171,12 +1181,18 @@ fieldset {
 
 .dashboard .main .lobby .info .user .general .data .user-name {
     font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: .1px;
 }
 
 .dashboard .main .lobby .info .user .general .data .user-email {
     color: #B5B5BE;
     font-size: 14px;
     margin-top: 10px;
+    font-family: Roboto, sans-serif;
+    line-height: 24px;
+    letter-spacing: .1px;
 }
 
 .dashboard .main .lobby .info .buttons {
@@ -1194,10 +1210,12 @@ fieldset {
     padding: 10px 0;
     background-color: #292932;
     cursor: pointer;
-    color: #fff;
+    color: #FAFAFB;
     border: none;
     border-radius: 10px;
     font-weight: 600;
+    font-size: 12px;
+    line-height: 18px;
     width: 50%;
 }
 
@@ -1489,13 +1507,13 @@ fieldset {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    flex-basis: 30%;
     background-color: #1C1C24;
     padding: 150px 20px 20px;
     border-radius: 10px;
     margin: 150px auto 60px auto;
     position: relative;
     flex-basis: 31.5%;
+    height: 424px;
 }
 
 .dashboard .main .products .product .cover {
@@ -1558,6 +1576,15 @@ fieldset {
     border: none;
     font-weight: 600;
     font-size: 12px;
+    transition: 200ms;
+}
+
+.dashboard .main .products .product .buttons button:hover {
+    background-color: #1C6FF2;
+}
+
+.dashboard .main .products .container .product .buttons a:hover {
+    background-color: #1F1F26;
 }
 
 .dashboard .main .product-info {
@@ -3095,7 +3122,7 @@ fieldset {
 }
 
 .dashboard .footer .container {
-    padding: 10px;
+    padding: 15px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -3115,7 +3142,12 @@ fieldset {
 }
 
 .dashboard .footer .zeer .logo {
-    margin-right: 1.5vw;
+    width: 50px;
+    height: 50px;
+}
+
+.dashboard .footer .zeer .time-working {
+    margin-left: 20px;
 }
 
 .dashboard .footer .contacts {
