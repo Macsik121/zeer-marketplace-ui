@@ -23,6 +23,7 @@ export default class Subscriptions extends React.Component {
         const activeSubs = [];
         const expiredSubs = [];
         subscriptions.all ? subscriptions.all.map(sub => {
+            console.log(sub);
             if (!sub.status.isExpired) {
                 activeSubs.push(
                     <div key={sub.title} className="subscription">
@@ -31,7 +32,7 @@ export default class Subscriptions extends React.Component {
                                 sub.status.isFreezed &&
                                     { filter: 'grayscale(100%)' }
                             }
-                            src={sub.imageURL || ''}
+                            src={sub.imageURL ? sub.imageURL : ""}
                             className="subscription-icon"
                         />
                         <div className="content">

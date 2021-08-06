@@ -122,6 +122,8 @@
     margin: 0 auto;
     height: 330px;
     width: 330px;
+    border-radius: 10px;
+    border: 3px solid #44444F;
 }
 
 .popular-products-slider .popular-product {
@@ -130,11 +132,12 @@
     padding: 15px;
     border-radius: 10px;
     background-color: #1C1C24;
-    min-width: 370px;
     margin: 0 auto;
     max-height: 370px;
     justify-content: flex-end;
     position: relative;
+    min-width: 370px;
+    max-width: 370px;
 }
 
 .popular-products-slider .slick-slide {

@@ -1510,6 +1510,8 @@ fieldset {
     right: 0;
     left: 0;
     top: -180px;
+    border-radius: 10px;
+    border: 3px solid #44444f;
 }
 
 .dashboard .main .products .product .product-title {
@@ -1577,7 +1579,7 @@ fieldset {
 }
 
 .dashboard .main .product-info .info {
-    width: 770px;
+    width: calc(770px - 15px);
 }
 
 .dashboard .main .product-info .info .general {
@@ -1983,13 +1985,13 @@ fieldset {
 }
 
 .dashboard .main .product-info .popular-products .popular-product {
-    width: 330px;
+    width: 370px;
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: #1C1C24;
     position: relative;
-    margin-bottom: 130px;
+    margin-bottom: 155px;
     padding: 150px 0 20px;
     border-radius: 10px;
 }
@@ -1999,13 +2001,15 @@ fieldset {
 }
 
 .dashboard .main .product-info .popular-products .popular-product .cover {
-    width: 90%;
+    width: 330px;
     position: absolute;
-    top: -40%;
+    top: -170px;
     left: 0;
     right: 0;
     margin: 0 auto;
-    height: 300px;
+    height: 330px;
+    border: 3px solid #44444f;
+    border-radius: 10px;
 }
 
 .dashboard .main .product-info .popular-products .popular-product h3 {
@@ -2089,7 +2093,7 @@ fieldset {
     min-width: 175px;
     height: 175px;
     border-radius: 10px;
-    border: 3px solid #44f;
+    border: 3px solid #44444f;
 }
 
 .dashboard .main .subscriptions .all-subscriptions .subscription .content {
