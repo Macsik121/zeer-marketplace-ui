@@ -605,6 +605,19 @@ html {
     scrollbar-color: #1C1C24 #13131A;
 }
 
+html::-webkit-scrollbar {
+    width: 10px;
+}
+
+html::-webkit-scrollbar-track {
+    background-color: #13131A;
+}
+
+html::-webkit-scrollbar {
+    background-color: #1C1C24;
+    border-radius: 15px;
+}
+
 body {
     font-family: 'Poppins', sans-serif;
     line-height: inherit;
