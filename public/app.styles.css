@@ -537,12 +537,6 @@ template {
     content: none;
 }
 
-.popular-products-slider .slick-slide {
-    padding-top: 125px;
-    min-height: 550px;
-    margin-top: 70px;
-}
-
 .popular-products-slider .slick-arrow.slick-prev {
     background-image: url(/images/arrow-left-slider.png);
     background-position: 49% center;
@@ -558,6 +552,10 @@ template {
 .popular-products-slider .slick-slide {
     display: flex !important;
     justify-content: center;
+    align-items: flex-end;
+    padding-top: 125px;
+    min-height: 550px;
+    margin-top: 30px;
 }
 
 .popular-products-slider .slick-slide .cover {
@@ -575,7 +573,7 @@ template {
     border-radius: 10px;
     background-color: #1C1C24;
     margin: 0 auto;
-    max-height: 370px;
+    height: 370px;
     justify-content: flex-end;
     position: relative;
     min-width: 370px;
@@ -591,11 +589,20 @@ template {
     margin-top: 20px;
 }
 
+.popular-products-slider .popular-product .title .product-title {
+    font-weight: 600;
+    letter-spacing: .1px;
+    line-height: 24px;
+}
+
 .popular-products-slider .popular-product .description {
-    color: rgba(255, 255, 255, .8);
-    font-size: .8rem;
+    color: #B5B5BE;
+    font-size: 14px;
     margin-top: 5px;
-    width: 300px;
+    letter-spacing: .1px;
+    line-height: 24px;
+    font-family: Roboto, sans-serif;
+    width: 330px;
 }
 
 .popular-products-slider .popular-product .buttons {
@@ -607,7 +614,7 @@ template {
     display: flex;
     justify-content: center;
     font-size: 12px;
-    width: 45%;
+    width: 160px;
     line-height: 18px;
     margin-top: 30px;
     border-radius: 10px;
@@ -999,6 +1006,7 @@ body {
     line-height: inherit;
     font-weight: 400;
     background-color: #020100;
+    font-size: 16px;
 }
 
 form input {
@@ -2213,7 +2221,7 @@ fieldset {
     font-weight: 600;
     font-size: 12px;
     line-height: 18px;
-    width: 45%;
+    width: 160px;
     transition: 200ms;
     display: flex;
     justify-content: center;
@@ -2885,7 +2893,6 @@ fieldset {
     font-size: 14px;
     letter-spacing: .1px;
     font-family: Roboto, sans-serif;
-    width: 230px;
     text-align: center;
 }
 
@@ -2903,7 +2910,6 @@ fieldset {
     font-size: 14px;
     line-height: 16px;
     letter-spacing: .1px;
-    width: 100px;
     text-align: center;
 }
 
@@ -3124,8 +3130,10 @@ fieldset {
     background-color: #1C1C24;
     position: relative;
     margin-bottom: 155px;
-    padding: 150px 0 20px;
+    padding: 150px 20px 20px;
     border-radius: 10px;
+    height: 424px;
+    justify-content: space-between;
 }
 
 .dashboard .main .product-info .popular-products .popular-product + .popular-product {
@@ -3150,11 +3158,10 @@ fieldset {
     line-height: 24px;
     font-weight: 600;
     color: #FAFAFB;
-    width: 90%;
+    width: 100%;
 }
 
 .dashboard .main .product-info .popular-products .popular-product .description {
-    width: 90%;
     font-size: 14px;
     letter-spacing: .1px;
     line-height: 24px;
@@ -3164,17 +3171,17 @@ fieldset {
 }
 
 .dashboard .main .product-info .popular-products .popular-product .buttons {
-    width: 90%;
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
+    width: 100%;
 }
 
 .dashboard .main .product-info .popular-products .popular-product .buttons .button {
     color: #FAFAFB;
     text-decoration: none;
     background-color: #292932;
-    width: 45%;
+    width: 160px;
     display: flex;
     justify-content: center;
     border-radius: 10px;

@@ -39,6 +39,7 @@ body {
     line-height: inherit;
     font-weight: 400;
     background-color: #020100;
+    font-size: 16px;
 }
 
 form input {
@@ -1253,7 +1254,7 @@ fieldset {
     font-weight: 600;
     font-size: 12px;
     line-height: 18px;
-    width: 45%;
+    width: 160px;
     transition: 200ms;
     display: flex;
     justify-content: center;
@@ -1925,7 +1926,6 @@ fieldset {
     font-size: 14px;
     letter-spacing: .1px;
     font-family: Roboto, sans-serif;
-    width: 230px;
     text-align: center;
 }
 
@@ -1943,7 +1943,6 @@ fieldset {
     font-size: 14px;
     line-height: 16px;
     letter-spacing: .1px;
-    width: 100px;
     text-align: center;
 }
 
@@ -2164,8 +2163,10 @@ fieldset {
     background-color: #1C1C24;
     position: relative;
     margin-bottom: 155px;
-    padding: 150px 0 20px;
+    padding: 150px 20px 20px;
     border-radius: 10px;
+    height: 424px;
+    justify-content: space-between;
 }
 
 .dashboard .main .product-info .popular-products .popular-product + .popular-product {
@@ -2190,11 +2191,10 @@ fieldset {
     line-height: 24px;
     font-weight: 600;
     color: #FAFAFB;
-    width: 90%;
+    width: 100%;
 }
 
 .dashboard .main .product-info .popular-products .popular-product .description {
-    width: 90%;
     font-size: 14px;
     letter-spacing: .1px;
     line-height: 24px;
@@ -2204,17 +2204,17 @@ fieldset {
 }
 
 .dashboard .main .product-info .popular-products .popular-product .buttons {
-    width: 90%;
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
+    width: 100%;
 }
 
 .dashboard .main .product-info .popular-products .popular-product .buttons .button {
     color: #FAFAFB;
     text-decoration: none;
     background-color: #292932;
-    width: 45%;
+    width: 160px;
     display: flex;
     justify-content: center;
     border-radius: 10px;
