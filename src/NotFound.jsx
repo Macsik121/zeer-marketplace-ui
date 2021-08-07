@@ -8,11 +8,6 @@ export default class NotFound extends React.Component {
             notFoundContent: 'Возможно вы неверно указали адрес страницы, либо страница не существует'
         };
     }
-    componentDidMount() {
-        if (localStorage.getItem('token') && localStorage.getItem('token') != '') {
-            this.props.history.push('/');
-        }
-    }
     render() {
         const {notFoundContent} = this.state;
         return (

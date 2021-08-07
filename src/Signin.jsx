@@ -105,6 +105,7 @@ class Signin extends React.Component {
 
         if (signInAttempt.token != '' && localStorage.getItem('token') != '') {
             const token = jwtDecode(localStorage.getItem('token'));
+            this.props.getUser();
             this.props.history.replace(`/dashboard/${token.name}`);
             this.enableSubmitButton();
             return;

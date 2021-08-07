@@ -3,13 +3,15 @@ import NotFound from './NotFound.jsx';
 import ResetPassword from './ResetPassword.jsx';
 import SetNewAvatar from './Dashboard/SetNewAvatar.jsx';
 import Dashboard from './Dashboard/Dashboard.jsx';
+import AdminPanel from './AdminPanel.jsx';
 
 const routes = [
-    {path: '/reset', component: ResetPassword},
-    {path: '/dashboard/:username', component: Dashboard},
-    {path: '/dashboard/:username/changeavatar', SetNewAvatar},
-    {path: '/', component: Home, exact: true},
-    {path: '/', component: NotFound}
+    { path: '/reset', component: ResetPassword },
+    { path: '/dashboard/:username', component: Dashboard },
+    { path: '/dashboard/:username/changeavatar', SetNewAvatar },
+    { path: '/admin/:username', component: AdminPanel },
+    { path: '/', component: Home, exact: true },
+    { path: '/', component: NotFound }
 ];
 
 export default routes;

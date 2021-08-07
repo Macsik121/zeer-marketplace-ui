@@ -1,15 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import SlickSlider from 'react-slick';
 import jwtDecode from 'jwt-decode';
 import { fetchPopularProducts, Product } from './PopularProducts.jsx';
-import fetchData from './fetchData';
 import Signin from './Signin.jsx';
 import Signup from './Signup.jsx';
 import AgreementPrivacyNPolicy from './AgreementModal.jsx';
 import ForgotPassword from './ForgotPasswordModal.jsx';
 
-export default class Home extends React.Component {
+class Home extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -105,10 +104,7 @@ export default class Home extends React.Component {
                 this.hideSignup();
             }
         }.bind(this);
-        const token = localStorage.getItem('token');
-        if (token && token != '') {
-            this.props.history.push(`/dashboard/${jwtDecode(token).name}`);
-        }
+        this.props.getUser();
         const popProducts = await fetchPopularProducts();
         this.setState({products: popProducts, deviceWidth: window.innerWidth});
     }
@@ -285,6 +281,7 @@ export default class Home extends React.Component {
                                 transform: 'translateY(-120%)',
                             }
                     }
+                    getUser={this.props.getUser}
                     hideLogin={this.hideLogin}
                     hideForgotPassword={this.hideForgotPassword}
                     toggleForgotPassword={this.toggleForgotPassword}
@@ -296,6 +293,7 @@ export default class Home extends React.Component {
                             ? {opacity: 1, transform: 'translateY(0)'}
                             : {opacity: 0, transform: 'translateY(-120%)'}
                     }
+                    getUser={this.props.getUser}
                     hideSignup={this.hideSignup}
                     showLogin={this.showLogin}
                     toggleAgreement={this.toggleAgreement}
@@ -566,3 +564,5 @@ export default class Home extends React.Component {
         )
     }
 }
+
+export default withRouter(Home);

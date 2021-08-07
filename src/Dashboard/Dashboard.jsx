@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import fetchData from '../fetchData';
 import Lobby from './Lobby.jsx';
@@ -49,16 +49,18 @@ class Dashboard extends React.Component {
         this.toggleAgreement = this.toggleAgreement.bind(this);
     }
     async componentDidMount() {
+        // console.log(this.props);
+        const { match, history, getUser } = this.props;
+        const token = localStorage.getItem('token');
+        const user = jwtDecode(token);
+        console.log(this.props.user);
+        if (this.props.user && this.props.user.email != user.email) getUser();
         window.onkeypress = function(e) {
             if (e.keyCode == 13) {
                 this.hideModal();
                 this.hideAgreement();
-                console.log(this.state);
             }
         }.bind(this);
-        const { match, history } = this.props;
-        const token = localStorage.getItem('token');
-        const user = jwtDecode(token);
         if (!token || token && token == '') {
             history.push('/');
             return;
@@ -77,10 +79,12 @@ class Dashboard extends React.Component {
             return;
         }
         this.setState({ user: jwtDecode(token) });
-        this.getProducts();
-        this.getPopularProducts();
-        this.getSubscriptions();
-
+        if (this.props.user) {
+            console.log(this.props.user.email);
+            this.getProducts();
+            this.getPopularProducts();
+            this.getSubscriptions();    
+        }
         const userAvatar = {};
         if (user.avatar && user.avatar.includes('#')) {
             userAvatar.background = user.avatar;
@@ -224,7 +228,7 @@ class Dashboard extends React.Component {
                     }
                 }
             }
-        `, {name: this.state.user.name});
+        `, {name: this.props.user.name});
         this.setState({ subscriptions: result.getSubscriptions });
     }
     async setNewAvatar(avatar) {
@@ -332,6 +336,7 @@ class Dashboard extends React.Component {
                         hideModal={this.hideModal}
                         showingChangePassword={showingChangePassword}
                         hideChangedPasswordNotification={this.hideNotificationMessage}
+                        getUser={this.props.getUser}
                     />
                 </header>
                 <ChangePassword
@@ -445,4 +450,4 @@ class Dashboard extends React.Component {
     }
 }
 
-export default Dashboard;
+export default withRouter(Dashboard);

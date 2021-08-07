@@ -154,6 +154,7 @@ export default class NavBar extends React.Component {
     }
     async logout() {
         localStorage.clear();
+        this.props.getUser();
         this.props.history.push('/');
     }
     render() {
@@ -342,7 +343,7 @@ export default class NavBar extends React.Component {
                             </NavLink>
                             <NavLink
                                 onClick={this.hiddenUserDropdown}
-                                to={`/dashboard/${user.name}`}
+                                to={`/admin/${user.name}`}
                             >
                                 <div className="item">
                                     Админ-панель

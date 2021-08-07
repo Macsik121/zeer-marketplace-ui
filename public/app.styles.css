@@ -3631,6 +3631,14 @@ fieldset {
     user-select: none;
 }
 
+.dashboard .main .FAQ .search-bar .categories .the-rest-categories {
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: .09px;
+    font-family: Roboto, sans-serif;
+    
+}
+
 .dashboard .main .FAQ .search-bar .categories .the-rest-categories .category {
     background-color: #44444F;
     padding: 15px;
