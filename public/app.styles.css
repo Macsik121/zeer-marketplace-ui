@@ -2532,7 +2532,7 @@ fieldset {
     background-color: #1C1C24;
     padding: 150px 20px 20px;
     border-radius: 10px;
-    margin: 150px auto 60px auto;
+    margin: 150px 0 60px 0;
     position: relative;
     flex-basis: 31.5%;
     height: 424px;
@@ -2734,6 +2734,11 @@ fieldset {
     margin-top: 30px;
     background-color: #1C1C24;
     min-height: auto;
+}
+
+.dashboard .main .product-info .product .general-info {
+    display: flex;
+    justify-content: space-between;
 }
 
 .dashboard .main .product-info .product .main .product-title {
@@ -3260,6 +3265,11 @@ fieldset {
 .dashboard .main .subscriptions .all-subscriptions .subscription .content .status-content .product-info {
     color: #FAFAFB;
     text-decoration: none;
+    transition: 300ms;
+}
+
+.dashboard .main .subscriptions .all-subscriptions .subscription .content .status-content .product-info:hover {
+    background-color: #1F1F26;
 }
 
 .dashboard .main .subscriptions .all-subscriptions .subscription .content .status-content .status.freezed {

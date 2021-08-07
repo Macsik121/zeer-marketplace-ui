@@ -50,6 +50,7 @@ class ProductInfo extends React.Component {
                     reloading
                     costPerDay
                     description
+                    locks
                     peopleBought {
                         name
                         email
@@ -232,9 +233,15 @@ class ProductInfo extends React.Component {
         const popularProducts = renderedPopularProducts.map(popProduct => {
             if (popProduct.key) return popProduct;
         });
+        const generalInformation = [
+            product.workingTime && { title: 'Работает', content: new Date(product.workingTime).getDate() },
+            product.locks && { title: 'Блокировок', content: product.locks },
+            product.reloading && { title: 'Обновляется', content: product.reloading },
+            product.costPerDay && { title: 'Стоимость', content: `${product.costPerDay} ₽ / День` }
+        ];
         const productInfo = (
             <div className="product">
-                <div className="cover" style={{backgroundImage: `url(${product.imageURLdashboard})`}}></div>
+                <div className="cover" style={{ backgroundImage: `url(${product.imageURLdashboard})` }} />
                 <div className="container">
                     <div className="main">
                         <div className="product-title">
@@ -264,6 +271,19 @@ class ProductInfo extends React.Component {
                                 </span>
                             </span>
                         </div>
+                    </div>
+                    <div className="general-info">
+                        {
+                            generalInformation.map(information => {
+                                console.log(information)
+                                if (information) {
+                                    return <div key={information.title} className="general-info-wrap">
+                                        <h3 className="info-title">{information.title}</h3>
+                                        <span className="info-content">{information.content}</span>
+                                    </div>
+                                }
+                            })
+                        }
                     </div>
                     <div className="general">
                         <div className="description">
