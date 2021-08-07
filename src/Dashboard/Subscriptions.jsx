@@ -83,11 +83,14 @@ export default class Subscriptions extends React.Component {
         e.preventDefault();
     }
     render() {
-        const { subscriptions, isRequestSent } = this.state;
+        const { subscriptions, isRequestSent, showAll } = this.state;
         const { toggleAgreement, buyProduct } = this.props;
         const activeSubs = [];
         const expiredSubs = [];
-        subscriptions.all ? subscriptions.all.map(sub => {
+        subscriptions.all ? subscriptions.all.map((sub, i) => {
+            if (!showAll && i > 5) {
+                return;
+            }
             if (!sub.status.isExpired) {
                 activeSubs.push(
                     <div key={sub.title} className="subscription">
@@ -207,36 +210,46 @@ export default class Subscriptions extends React.Component {
                         <h2 className="active-subs-title">Активные подписки</h2>
                         {activeSubs}
                         <div className="show-all">
-                            {/* {
+                            {
                                 subscriptions.all
                                 &&
                                 subscriptions.all.length - subscriptions.overdue.length > 6
-                                ? ( */}
+                                ? (
                                     <div className="show-all-wrap">
-                                        <button className="show">Показать ещё</button>
+                                        <button
+                                            onClick={
+                                                function() {
+                                                    this.setState({ showAll: !this.state.showAll })
+                                                }.bind(this)
+                                            }
+                                            className="show"
+                                        >
+                                            Показать ещё
+                                        </button>
                                         <label>
-                                            Показано {activeSubs.length}
-                                            &nbsp;
+                                            Показано {`${activeSubs.length} `}
                                             подписок из
-                                            &nbsp;
-                                            {subscriptions.all && subscriptions.all.length - subscriptions.overdue.length}
+                                            {` ${
+                                                subscriptions.all &&
+                                                    subscriptions.all.length - subscriptions.overdue.length
+                                            }`}
                                         </label>
                                     </div>
-                                {/* )
+                                )
                                 : (
                                     <div className="show-all-wrap">
-                                        <label>
+                                        <label style={{ margin: 0 }}>
                                             Показано {activeSubs.length}
                                             &nbsp;подписок из
                                             &nbsp;{subscriptions.all && subscriptions.all.length - subscriptions.overdue.length}
                                         </label>
                                     </div>
                                 )
-                            } */}
+                            }
                         </div>
-                        {/* {subscriptions.overdue && subscriptions.overdue.length > 0 && */}
+                        {subscriptions.overdue && subscriptions.overdue.length > 0 &&
                             <h2 className="overdue-sub-title">Просроченные подписки</h2>
-                        {/* } */}
+                        }
                         {expiredSubs}
                     </div>
                     <form onSubmit={this.handleSubmit} className="activate-product">
