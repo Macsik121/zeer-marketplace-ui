@@ -313,7 +313,7 @@ export default class NavBar extends React.Component {
                                         this.hiddenUserDropdown();
                                     }.bind(this)
                                 }
-                                to={`/dashboard/${user.name}/changeavatar`}
+                                to={`/${user.name}/changeavatar`}
                             >
                                 <div className="item">
                                     Установить новый аватар

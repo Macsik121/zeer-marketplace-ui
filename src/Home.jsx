@@ -104,7 +104,6 @@ class Home extends React.Component {
                 this.hideSignup();
             }
         }.bind(this);
-        this.props.getUser();
         const popProducts = await fetchPopularProducts();
         this.setState({products: popProducts, deviceWidth: window.innerWidth});
     }
@@ -303,7 +302,7 @@ class Home extends React.Component {
                     style={
                         showingAgreement
                             ? {opacity: 1, transform: 'translateY(0)'}
-                            : {opacity: 0, transform: 'translateY(-120%)'}
+                            : {opacity: 0, transform: 'translateY(-170%)'}
                     }
                     hideAgreement={this.hideAgreement}
                 />

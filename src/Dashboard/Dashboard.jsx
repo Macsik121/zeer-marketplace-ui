@@ -6,7 +6,7 @@ import Lobby from './Lobby.jsx';
 import Products from './Products.jsx';
 import Subscriptions from './Subscriptions.jsx';
 import FAQ from './FAQ.jsx';
-import SetNewAvatar from './SetNewAvatar.jsx';
+import SetNewAvatar from '../SetNewAvatar.jsx';
 import ProductInfo from './ProductInfo.jsx';
 import ChangePassword from './ChangePasswordModal.jsx';
 import Footer from './Footer.jsx';
@@ -49,11 +49,9 @@ class Dashboard extends React.Component {
         this.toggleAgreement = this.toggleAgreement.bind(this);
     }
     async componentDidMount() {
-        // console.log(this.props);
         const { match, history, getUser } = this.props;
         const token = localStorage.getItem('token');
         const user = jwtDecode(token);
-        console.log(this.props.user);
         if (this.props.user && this.props.user.email != user.email) getUser();
         window.onkeypress = function(e) {
             if (e.keyCode == 13) {
@@ -80,7 +78,6 @@ class Dashboard extends React.Component {
         }
         this.setState({ user: jwtDecode(token) });
         if (this.props.user) {
-            console.log(this.props.user.email);
             this.getProducts();
             this.getPopularProducts();
             this.getSubscriptions();    
@@ -139,11 +136,11 @@ class Dashboard extends React.Component {
         };
 
         const result = await fetchData(query, vars);
+        
+        this.props.history.push(`/dashboard/${user.name}/subscriptions`);
         await this.getSubscriptions();
         await this.getPopularProducts();
         await this.getProducts();
-
-        this.props.history.push(`/dashboard/${user.name}/subscriptions`);
     }
     async getProducts() {
         const result = await fetchData(`

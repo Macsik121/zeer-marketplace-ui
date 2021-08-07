@@ -24,20 +24,22 @@ class Routing extends React.Component {
     }
     render() {
         const { user } = this.state;
-        console.log(user);
         return (
             <Switch>
                 {user && !user.isAdmin &&
                     <Redirect from="/admin" to={`/dashboard/${user.name}`} />
-                }
-                {user &&
-                    <Redirect exact from="/" to={`/dashboard/${user.name}`} />
                 }
                 {!user &&
                     <Redirect from="/admin" to="/" />
                 }
                 {!user &&
                     <Redirect from="/dashboard/" to="/" />
+                }
+                {!user &&
+                    <Redirect from="/:username/changeavatar" to="/" />
+                }
+                {user &&
+                    <Redirect exact from="/" to={`/dashboard/${user.name}`} />
                 }
                 {routes.map(route => (
                         <Route

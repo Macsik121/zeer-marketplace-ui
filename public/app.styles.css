@@ -573,7 +573,7 @@ template {
     border-radius: 10px;
     background-color: #1C1C24;
     margin: 0 auto;
-    height: 370px;
+    height: 424px;
     justify-content: flex-end;
     position: relative;
     min-width: 370px;
@@ -1879,7 +1879,7 @@ fieldset {
     max-width: 50%;
 }
 
-.dashboard .nav .user-menu {
+.user-menu {
     display: flex;
     align-items: center;
     border-left: 1px solid #3c3c4d;
@@ -1888,7 +1888,7 @@ fieldset {
     position: relative;
 }
 
-.dashboard .nav .user-menu .avatar {
+.user-menu .avatar {
     border-radius: 50%;
     height: 50%;
     display: flex;
@@ -1899,21 +1899,21 @@ fieldset {
     user-select: none;
 }
 
-.dashboard .nav .user-menu .avatar .first-char {
+.user-menu .avatar .first-char {
     position: absolute;
 }
 
-.dashboard .nav .user-menu .username {
+.user-menu .username {
     margin-left: 10px;
 }
 
-.dashboard .nav .user-menu .menu-arrow {
+.user-menu .menu-arrow {
     margin-left: 80px;
     width: 11px;
     cursor: pointer;
 }
 
-.dashboard .nav .user-menu .dropdown {
+.user-menu .dropdown {
     position: absolute;
     top: 100%;
     left: 0;
@@ -1924,11 +1924,11 @@ fieldset {
     z-index: 1;
 }
 
-.dashboard .nav .user-menu .dropdown {
+.user-menu .dropdown {
     overflow: hidden;
 }
 
-.dashboard .nav .user-menu .dropdown .item {
+.user-menu .dropdown .item {
     width: 100%;
     font-size: .8rem;
     background: #1C1C24;
@@ -1938,7 +1938,7 @@ fieldset {
     text-align: left;
 }
 
-.dashboard .nav .user-menu .dropdown .show-modal-change-password {
+.user-menu .dropdown .show-modal-change-password {
     width: 100%;
     border: none;
     color: rgba(255, 255, 255, .6);
@@ -1947,21 +1947,21 @@ fieldset {
     transition: 200ms;
 }
 
-.dashboard .nav .user-menu .dropdown .show-modal-change-password:hover {
+.user-menu .dropdown .show-modal-change-password:hover {
     color: #fff;
 }
 
-.dashboard .nav .user-menu .dropdown .item:last-of-type {
+.user-menu .dropdown .item:last-of-type {
     border-bottom: 1px solid #292932;
 }
 
-.dashboard .nav .user-menu .dropdown a {
+.user-menu .dropdown a {
     color: rgba(255, 255, 255, .6);
     text-decoration: none;
     transition: 100ms;
 }
 
-.dashboard .nav .user-menu .dropdown a:hover {
+.user-menu .dropdown a:hover {
     color: #fff;
 }
 
@@ -3823,23 +3823,23 @@ fieldset {
     width: 30%;
 }
 
-.dashboard .main .set-new-avatar {
+.set-new-avatar {
     margin-top: 5vw;
     padding-bottom: 5vw;
 }
 
-.dashboard .main .set-new-avatar .change-avatar {
+.set-new-avatar .change-avatar {
     text-align: center;
 }
 
-.dashboard .main .set-new-avatar .changeavatar {
+.set-new-avatar .changeavatar {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
 
-.dashboard .main .set-new-avatar .error {
+.set-new-avatar .error {
     color: #f00;
     display: flex;
     justify-content: center;
@@ -3850,11 +3850,11 @@ fieldset {
     font-size: .9rem;
 }
 
-.dashboard .main .set-new-avatar .changeavatar .uploaded-img {
+.set-new-avatar .changeavatar .uploaded-img {
     height: 20vw;
 }
 
-.dashboard .main .set-new-avatar .changeavatar .confirm {
+.set-new-avatar .changeavatar .confirm {
     margin-top: 5vw;
 }
 
