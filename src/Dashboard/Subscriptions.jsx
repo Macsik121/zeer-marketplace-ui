@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import fetchData from '../fetchData';
-import AgreementPrivacyNPolicy from '../AgreementModal.jsx';
 
 export default class Subscriptions extends React.Component {
     constructor() {
@@ -85,12 +84,7 @@ export default class Subscriptions extends React.Component {
     }
     render() {
         const { subscriptions, isRequestSent } = this.state;
-        const {
-            hideAgreement,
-            toggleAgreement,
-            agreementShown,
-            buyProduct
-        } = this.props;
+        const { toggleAgreement, buyProduct } = this.props;
         const activeSubs = [];
         const expiredSubs = [];
         subscriptions.all ? subscriptions.all.map(sub => {
@@ -201,21 +195,13 @@ export default class Subscriptions extends React.Component {
         }) : '';
         return (
             <div className="subscriptions">
-                <AgreementPrivacyNPolicy
-                    style={
-                        agreementShown
-                            ? { transform: 'translateY(0)', transition: '400ms' }
-                            : { transform: 'translateY(-120%)', transition: '400ms' }
-                    }
-                    hideAgreement={hideAgreement}
-                />
                 <div className="container">
                     <div
                         className="all-subscriptions"
                         style={
                             isRequestSent
-                                ? {pointerEvents: 'none'}
-                                : {pointerEvents: 'all'}
+                                ? { pointerEvents: 'none' }
+                                : { pointerEvents: 'all' }
                         }
                     >
                         <h2 className="active-subs-title">Активные подписки</h2>

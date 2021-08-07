@@ -277,12 +277,12 @@ export default class Home extends React.Component {
                             ? {
                                 opacity: `${showingForgotPassword ? '0.85' : '1'}`,
                                 transition: '500ms',
-                                // pointerEvents: `${showingForgotPassword ? 'none' : 'all'}`,
-                                // userSelect: `${showingForgotPassword ? 'none' : 'all'}`
+                                pointerEvents: `${showingForgotPassword ? 'none' : 'all'}`,
+                                userSelect: `${showingForgotPassword ? 'none' : 'all'}`
                             }
                             : {
                                 opacity: 0,
-                                transform: 'translateY(-120%)'
+                                transform: 'translateY(-120%)',
                             }
                     }
                     hideLogin={this.hideLogin}

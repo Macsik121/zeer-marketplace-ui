@@ -19,8 +19,9 @@ export default class Footer extends React.Component {
     }
     render() {
         const { timeWorking, deviceWidth } = this.state;
+        const { style } = this.props;
         return (
-            <footer className="footer">
+            <footer style={style} className="footer">
                 <div className="container">
                     <div className="footer-wrap">
                         <div className="zeer">

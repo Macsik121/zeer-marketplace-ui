@@ -44,7 +44,6 @@ export default class Lobby extends React.Component {
             slidesToShow: 3,
             slidesToScroll: 3,
             autoplaySpeed: 7500,
-            adaptiveHeight: true,
             responsive: [
                 {
                     breakpoint: 1180,
@@ -152,8 +151,8 @@ export default class Lobby extends React.Component {
                             </div>
                         </div>
                         <div className="video">
-                            <div className="watch"></div>
                             <img src="/images/play-button.svg" className="play" />
+                            <div className="watch" />
                         </div>
                     </div>
                     <h2 className="popular-products">Популярные продукты</h2>

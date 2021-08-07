@@ -13,6 +13,7 @@ import Footer from './Footer.jsx';
 import NavBar from './NavBar.jsx';
 import { fetchPopularProducts } from '../PopularProducts.jsx';
 import PasswordChangedNotification from './PasswordChangedNotif.jsx';
+import AgreementPrivacyNPolicy from '../AgreementModal.jsx';
 
 class Dashboard extends React.Component {
     constructor() {
@@ -52,6 +53,7 @@ class Dashboard extends React.Component {
             if (e.keyCode == 13) {
                 this.hideModal();
                 this.hideAgreement();
+                console.log(this.state);
             }
         }.bind(this);
         const { match, history } = this.props;
@@ -309,8 +311,8 @@ class Dashboard extends React.Component {
                 className="dashboard"
                 style={
                     showingChangePassword || agreementShown
-                        ? {overflow: 'hidden'}
-                        : {overflow: 'inherit'}
+                        ? { overflow: 'hidden', height: '100vh' }
+                        : { overflow: 'inherit', height: 'auto' }
                 }
             >
                 <header
@@ -346,9 +348,17 @@ class Dashboard extends React.Component {
                     passwordChangedNotificationShown={passwordChangedNotificationShown}
                     hideNotificationMessage={this.hideNotificationMessage}
                 />
+                <AgreementPrivacyNPolicy
+                    style={
+                        agreementShown
+                            ? { transform: 'translateY(0)', transition: '400ms' }
+                            : { transform: 'translateY(-170%)', transition: '400ms' }
+                    }
+                    hideAgreement={this.hideAgreement}
+                />
                 <main
                     style={
-                        showingChangePassword
+                        showingChangePassword || agreementShown
                             ? {opacity: '.5', transition: '500ms', pointerEvents: 'none', userSelect: 'none'}
                             : {opactiy: 1, transition: '500ms', pointerEvents: 'all', userSelect: 'text'}
                     }

@@ -31,6 +31,11 @@ export default class AgreementPrivacyNPolicy extends React.Component {
             ]
         };
     }
+    // componentDidMount() {
+    //     window.onkeypress = function(e) {
+    //         if (e.)
+    //     }
+    // }
     render() {
         const { style, hideAgreement } = this.props;
         const rules = this.state.agreement.map((term, termIndex) => (

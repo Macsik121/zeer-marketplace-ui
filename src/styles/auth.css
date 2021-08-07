@@ -219,6 +219,11 @@
     font-weight: 600;
     margin-top: 30px;
     line-height: 18px;
+    transition: 300ms;
+}
+
+.auth-form .form .submit-button:hover {
+    background-color: #1C6FF2;
 }
 
 .auth-form .addition {
@@ -283,6 +288,10 @@
 .signup .terms-n-policy .agreement .rules {
     color: #1E75FF;
     cursor: pointer;
+}
+
+.signup .terms-n-policy .agreement .rules:hover {
+    border-bottom: 1px solid #1E75FF;
 }
 
 .signup .container .addition {
