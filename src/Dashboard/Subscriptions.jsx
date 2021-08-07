@@ -255,7 +255,9 @@ export default class Subscriptions extends React.Component {
                     <form onSubmit={this.handleSubmit} className="activate-product">
                         <h2>Активация</h2>
                         <label className="activate-product-label">
-                            Если есть ключ активации, то вставте его специальное поле
+                            Если есть ключ<br />
+                            активации, то вставте<br />
+                            его специальное поле
                         </label>
                         <div className="field-wrap">
                             <input
@@ -267,7 +269,8 @@ export default class Subscriptions extends React.Component {
                         </div>
                         <button type="submit" className="activate">Активировать продукт</button>
                         <label className="terms">
-                            Нажимая кнопку "Активировать подписку" я соглашаюсь
+                            Нажимая кнопку "Активировать подписку"<br />
+                            я соглашаюсь
                             &nbsp;
                             <button
                                 onClick={toggleAgreement}
