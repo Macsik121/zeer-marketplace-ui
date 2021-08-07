@@ -2885,6 +2885,8 @@ fieldset {
     font-size: 14px;
     letter-spacing: .1px;
     font-family: Roboto, sans-serif;
+    width: 230px;
+    text-align: center;
 }
 
 .dashboard .main .product-info .product .main .actions .last-update .circle {
@@ -2901,6 +2903,8 @@ fieldset {
     font-size: 14px;
     line-height: 16px;
     letter-spacing: .1px;
+    width: 100px;
+    text-align: center;
 }
 
 .dashboard .main .product-info .product .general .description h4 {
