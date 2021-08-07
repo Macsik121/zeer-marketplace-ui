@@ -1,6 +1,6 @@
 import jwtDecode from 'jwt-decode';
 import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import routes from './routes';
 
 class Routing extends React.Component {
@@ -33,7 +33,7 @@ class Routing extends React.Component {
                     <Redirect from="/admin" to="/" />
                 }
                 {!user &&
-                    <Redirect from="/dashboard/" to="/" />
+                    <Redirect from="/dashboard" to="/" />
                 }
                 {!user &&
                     <Redirect from="/:username/changeavatar" to="/" />
@@ -56,4 +56,4 @@ class Routing extends React.Component {
     }
 }
 
-export default Routing;
+export default withRouter(Routing);

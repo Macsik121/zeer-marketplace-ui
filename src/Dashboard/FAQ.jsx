@@ -1,7 +1,6 @@
 import React from 'react';
 
 export default class FAQ extends React.Component {
-    _isMounted = false;
     constructor() {
         super();
         this.state = {
@@ -37,7 +36,6 @@ export default class FAQ extends React.Component {
         }
     }
     componentDidMount() {
-        this._isMounted = true;
         const { answers } = this.props;
         this.setState({answers});
         let modifiedStateAnswers = answers;
@@ -48,9 +46,6 @@ export default class FAQ extends React.Component {
         const categoriesToSearch = ['Все категории'];
         modifiedStateAnswers.map(answer => categoriesToSearch.push(answer.sort));
         this.setState({categoriesToSearch, deviceWidth: window.innerWidth, answersCopy: modifiedStateAnswers});
-    }
-    componentWillUnmount() {
-        this._isMounted = false;
     }
     filterAnswers(search) {
         const { answers, answersCopy, currentCategory } = this.state;
@@ -92,6 +87,8 @@ export default class FAQ extends React.Component {
             answer => {
                 return (
                     <div key={answer.title} className="answer">
+                        <div className="answer-main-bg" />
+                        <div className="answer-additional-bg" />
                         <h4 className="answer-title">
                             {answer.title}?
                         </h4>
@@ -147,6 +144,18 @@ export default class FAQ extends React.Component {
                 )
             }
         );
+        renderedAnswers.unshift(
+            <div className="answer-not-found">
+                <div className="plus-icon">
+                    <img src="/images/answer-not-found.png" />
+                </div>
+                <h3 className="not-found-title">Не нашли ответа</h3>
+                <span className="message">
+                    Свяжитесь с нами через кнопку,
+                    либо по контактам в футере
+                </span>
+            </div>
+        )
         return renderedAnswers;
     }
     renderAnswers() {
@@ -280,11 +289,11 @@ export default class FAQ extends React.Component {
                 <div className="container">
                     <h2>Ответы на вопросы</h2>
                     <div
-                        style={
-                            this._isMounted
-                                ? {transform: 'translateY(0)', opacity: 1}
-                                : {transform: 'translateY(-500%)', opacity: 0}
-                        }
+                        // style={
+                        //     this._isMounted
+                        //         ? {transform: 'translateY(0)', opacity: 1}
+                        //         : {transform: 'translateY(-500%)', opacity: 0}
+                        // }
                         className="search-bar"
                     >
                         <div className="categories">

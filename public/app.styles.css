@@ -2287,8 +2287,8 @@ fieldset {
     position: absolute;
     bottom: 0;
     left: -10px;
-    height: 70%;
-    width: 65%;
+    height: 108px;
+    width: 69px;
 }
 
 .dashboard .main .lobby .subscriptions .subscription .linear-gradient-bg.all {
@@ -2366,6 +2366,14 @@ fieldset {
     filter: grayscale(100%);
     height: 100%;
     user-select: none;
+}
+
+.dashboard .main .lobby .opportunities.reset .character {
+    width: 181px;
+}
+
+.dashboard .main .lobby .opportunities.questions .character {
+    width: 251px;
 }
 
 .dashboard .main .lobby .opportunities .opportunity.questions {
@@ -2944,6 +2952,7 @@ fieldset {
 .dashboard .main .product-info .product .general .characteristics ul {
     margin-top: 30px;
     padding-bottom: 30px;
+    padding-left: 17px;
 }
 
 .dashboard .main .product-info .product .general .characteristics ul .wrap {
@@ -3709,23 +3718,95 @@ fieldset {
 
 .dashboard .main .FAQ .answers {
     display: flex;
-    justify-content: space-between;
     overflow: hidden;
     flex-wrap: wrap;
     max-height: 0;
 }
 
+.dashboard .main .FAQ .answers .answer-not-found {
+    margin-top: 30px;
+    flex-basis: 23%;
+    background-color: #1C1C24;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 48px 24px;
+}
+
+.dashboard .main .FAQ .answers .answer-not-found .plus-icon {
+    padding: 32px;
+    background-color: #FFC542;
+    border-radius: 50%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.dashboard .main .FAQ .answers .answer-not-found .plus-icon img {
+    width: 36px;
+    height: 36px;
+}
+
+.dashboard .main .FAQ .answers .answer-not-found .not-found-title {
+    font-weight: 600;
+    color: #FAFAFB;
+    font-size: 18px;
+    line-height: 27px;
+    margin-top: 30px;
+    text-align: center;
+}
+
+.dashboard .main .FAQ .answers .answer-not-found .message {
+    font-family: Roboto, sans-serif;
+    color: #92929D;
+    letter-spacing: .1px;
+    text-align: center;
+    line-height: 22px;
+    font-size: 14px;
+    margin-top: 2px;
+}
+
 .dashboard .main .FAQ .answers .answer {
-    background-color: #292932;
-    width: 23%;
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     transition: 200ms;
+    margin-left: 25px;
+    position: relative;
+    width: 270px;
+    margin-top: 60px;
+    z-index: 1;
     flex-basis: 23%;
-    margin: 30px auto 0 auto;
+}
+
+.dashboard .main .FAQ .answers .answer:nth-child(4n + 5) {
+    margin-left: 0;
+}
+
+.dashboard .main .FAQ .answers .answer .answer-main-bg {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: #292932;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    border-radius: 20px;
+}
+
+.dashboard .main .FAQ .answers .answer .answer-additional-bg {
+    position: absolute;
+    top: -30px;
+    left: 0;
+    width: 100%;
+    height: 190px;
+    background-color: #1C1C24;
+    border-radius: 20px;
+    z-index: -2;
 }
 
 .dashboard .main .FAQ .answers .answer .answer-to-question {
@@ -3816,11 +3897,6 @@ fieldset {
     font-weight: 500;
     color: #92929D;
     width: 110px;
-}
-
-.dashboard .main .FAQ .answers .answer {
-    flex-basis: 30%;
-    width: 30%;
 }
 
 .set-new-avatar {
@@ -3973,8 +4049,6 @@ fieldset {
         bottom: 150px;
     }
     .dashboard .main .lobby .subscriptions .subscription .subscription-character {
-        width: 30%;
-        height: 30%;
         left: -3px;
     }
     .dashboard .main .lobby .info .user {

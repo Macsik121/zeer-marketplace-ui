@@ -267,7 +267,7 @@ export default class Subscriptions extends React.Component {
                         </div>
                         <button type="submit" className="activate">Активировать продукт</button>
                         <label className="terms">
-                            Нажимая кнопку "Активировать подписку" я соглашаюсь с правилами
+                            Нажимая кнопку "Активировать подписку" я соглашаюсь
                             &nbsp;
                             <button
                                 onClick={toggleAgreement}
