@@ -414,18 +414,30 @@ class ProductInfo extends React.Component {
                                     <div className="changes">
                                         {changes}
                                         <div className="show-all">
-                                            <button onClick={this.showAllChanges} className="show-more">
-                                                {
-                                                    this.state.showAllChanges
-                                                        ? 'Спрятать'
-                                                        : 'Показать ещё'
+                                            {
+                                                changes.length > 3 &&
+                                                <button onClick={this.showAllChanges} className="show-more">
+                                                    {
+                                                        this.state.showAllChanges
+                                                            ? 'Спрятать'
+                                                            : 'Показать ещё'
+                                                    }
+                                                </button>
+                                            }
+                                            <span
+                                                style={
+                                                    changes.length > 3
+                                                        ? {}
+                                                        : { margin: 0 }
                                                 }
-                                            </button>
-                                            <span className="how-many-shown">
+                                                className="how-many-shown"
+                                            >
                                                 Показано последние
-                                                {this.state.showAllChanges
-                                                    ? ` ${changes.length} `
-                                                    : ' 3 '
+                                                {changes.length > 3
+                                                    ? this.state.showAllChanges
+                                                        ? ` ${changes.length} `
+                                                        : ' 3 '
+                                                    : ` ${changes.length} `
                                                 }
                                                 обновлений из {changes.length}
                                             </span>

@@ -3485,6 +3485,11 @@ fieldset {
     font-size: 12px;
     line-height: 18px;
     color: #FAFAFB;
+    transition: 300ms;
+}
+
+.dashboard .main .subscriptions .activate-product .activate:hover {
+    background-color: #1C6FF2;
 }
 
 .dashboard .main .subscriptions .activate-product .terms {

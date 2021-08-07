@@ -351,8 +351,8 @@ class Dashboard extends React.Component {
                 <AgreementPrivacyNPolicy
                     style={
                         agreementShown
-                            ? { transform: 'translateY(0)', transition: '400ms' }
-                            : { transform: 'translateY(-170%)', transition: '400ms' }
+                            ? { transform: 'translateY(0)', transition: '400ms', opacity: 1 }
+                            : { transform: 'translateY(-170%)', transition: '400ms', opacity: 0 }
                     }
                     hideAgreement={this.hideAgreement}
                 />
