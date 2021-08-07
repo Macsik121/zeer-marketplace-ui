@@ -234,8 +234,8 @@ class ProductInfo extends React.Component {
             if (popProduct.key) return popProduct;
         });
         const generalInformation = [
-            product.workingTime && { title: 'Работает', content: new Date(product.workingTime).getDate() },
-            product.locks && { title: 'Блокировок', content: product.locks },
+            product.workingTime && { title: 'Работает', content: 'Больше 1 года'/*new Date(product.workingTime).getDate()*/ },
+            product.locks || product.locks == 0 && { title: 'Блокировок', content: product.locks },
             product.reloading && { title: 'Обновляется', content: product.reloading },
             product.costPerDay && { title: 'Стоимость', content: `${product.costPerDay} ₽ / День` }
         ];
@@ -275,8 +275,8 @@ class ProductInfo extends React.Component {
                     <div className="general-info">
                         {
                             generalInformation.map(information => {
-                                console.log(information)
                                 if (information) {
+                                    console.log(information.title);
                                     return <div key={information.title} className="general-info-wrap">
                                         <h3 className="info-title">{information.title}</h3>
                                         <span className="info-content">{information.content}</span>

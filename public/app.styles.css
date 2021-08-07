@@ -2739,6 +2739,33 @@ fieldset {
 .dashboard .main .product-info .product .general-info {
     display: flex;
     justify-content: space-between;
+    margin-top: 40px;
+}
+
+.dashboard .main .product-info .product .general-info .general-info-wrap {
+    padding: 15px 20px;
+    border: 1px solid #292932;
+    border-radius: 10px;
+    background: transparent;
+    width: 165px;
+}
+
+.dashboard .main .product-info .product .general-info .info-title {
+    font-family: Roboto, sans-serif;
+    font-size: 12px;
+    line-height: 22px;
+    color: #B5B5BE;
+    font-weight: 400;
+}
+
+.dashboard .main .product-info .product .general-info .info-content {
+    font-family: Roboto, sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: .1px;
+    color: #FAFAFB;
+    margin-top: 5px;
 }
 
 .dashboard .main .product-info .product .main .product-title {
