@@ -2754,6 +2754,7 @@ fieldset {
 
 .dashboard .main .product-info .product .container:first-of-type {
     flex-direction: column;
+    padding-top: 70px;
 }
 
 .dashboard .main .product-info .product .logo {
@@ -2765,13 +2766,13 @@ fieldset {
     background-size: cover;
     position: absolute;
     left: 30px;
-    top: 15%;
+    top: 14.8%;
 }
 
 .dashboard .main .product-info .product .main {
     display: flex;
     justify-content: space-between;
-    margin-top: 50px;
+    margin: 0;
     background-color: #1C1C24;
     min-height: auto;
     position: static;
