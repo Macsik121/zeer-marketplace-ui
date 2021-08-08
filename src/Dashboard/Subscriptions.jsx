@@ -256,8 +256,8 @@ export default class Subscriptions extends React.Component {
                         <h2>Активация</h2>
                         <label className="activate-product-label">
                             Если есть ключ<br />
-                            активации, то вставте<br />
-                            его специальное поле
+                            активации, то вставьте<br />
+                            его в специальное поле
                         </label>
                         <div className="field-wrap">
                             <input
