@@ -2025,6 +2025,7 @@ fieldset {
     line-height: 16px;
     letter-spacing: .1px;
     font-family: Roboto, sans-serif;
+    width: 85%;
 }
 
 .dashboard .main .product-info .product .general .cost {
