@@ -11,9 +11,9 @@ import ProductInfo from './ProductInfo.jsx';
 import ChangePassword from './ChangePasswordModal.jsx';
 import Footer from './Footer.jsx';
 import NavBar from './NavBar.jsx';
-import { fetchPopularProducts } from '../PopularProducts.jsx';
 import PasswordChangedNotification from './PasswordChangedNotif.jsx';
 import AgreementPrivacyNPolicy from '../AgreementModal.jsx';
+import { fetchPopularProducts } from '../PopularProducts.jsx';
 
 class Dashboard extends React.Component {
     constructor() {
@@ -49,16 +49,16 @@ class Dashboard extends React.Component {
         this.toggleAgreement = this.toggleAgreement.bind(this);
     }
     async componentDidMount() {
-        const { match, history, getUser } = this.props;
-        const token = localStorage.getItem('token');
-        const user = jwtDecode(token);
-        if (this.props.user && this.props.user.email != user.email) getUser();
         window.onkeypress = function(e) {
             if (e.keyCode == 13) {
                 this.hideModal();
                 this.hideAgreement();
             }
         }.bind(this);
+        const { match, history, getUser } = this.props;
+        const token = localStorage.getItem('token');
+        const user = jwtDecode(token);
+        if (this.props.user && this.props.user.email != user.email) getUser();
         if (!token || token && token == '') {
             history.push('/');
             return;
@@ -76,12 +76,7 @@ class Dashboard extends React.Component {
             this.props.history.push('/');
             return;
         }
-        this.setState({ user: jwtDecode(token) });
-        if (this.props.user) {
-            this.getProducts();
-            this.getPopularProducts();
-            this.getSubscriptions();    
-        }
+
         const userAvatar = {};
         if (user.avatar && user.avatar.includes('#')) {
             userAvatar.background = user.avatar;
@@ -90,6 +85,10 @@ class Dashboard extends React.Component {
             userAvatar.background = `url("${user.avatar}") center/cover no-repeat`;
             user.nameFirstChar = '';
         }
+
+        this.getProducts();
+        this.getPopularProducts();
+        this.getSubscriptions();
 
         const resultFAQ = await fetchData(`
             query {
@@ -107,9 +106,47 @@ class Dashboard extends React.Component {
 
         this.setState({
             deviceWidth: window.innerWidth,
-            userAvatar,
+            answersFAQ: resultFAQ.getAnswers,
             user,
-            answersFAQ: resultFAQ.getAnswers
+            userAvatar
+        });
+    }
+    async setNewAvatar(avatar) {
+        const user = jwtDecode(localStorage.getItem('token'));
+        const userWithNewAvatar = await fetchData(`
+            mutation changeAvatar($name: String!, $avatar: String!) {
+                changeAvatar(name: $name, avatar: $avatar)
+            }
+        `, {name: user.name, avatar});
+        localStorage.setItem('token', userWithNewAvatar.changeAvatar);
+        await fetchData(`
+            mutation updateBoughtIcon($name: String!) {
+                updateBoughtIcon(name: $name) {
+                    title
+                    costPerDay
+                    id
+                    productFor
+                    imageURLdashboard
+                    workingTime
+                    description
+                    peopleBought {
+                        name
+                        avatar
+                    }
+                    characteristics {
+                        version
+                        osSupport
+                        cpuSupport
+                        gameMode
+                        developer
+                        supportedAntiCheats
+                    }
+                }
+            }
+        `, { name: user.name });
+        this.setState({
+            user: jwtDecode(localStorage.getItem('token')),
+            userAvatar: { background: `url(${this.state.user.avatar}) center/cover no-repeat` }
         });
     }
     async buyProduct(title) {
@@ -187,84 +224,50 @@ class Dashboard extends React.Component {
         this.setState({ popularProducts });
     }
     async getSubscriptions() {
-        const result = await fetchData(`
-            query getSubscriptions($name: String!) {
-                getSubscriptions(name: $name) {
-                    all {
-                        status {
-                            isExpired
-                            isActive
-                            isFreezed
+        let user = {};
+        if (localStorage.getItem('token') && localStorage.getItem('token') != '') {
+            user = jwtDecode(localStorage.getItem('token'));
+            const result = await fetchData(`
+                query getSubscriptions($name: String!) {
+                    getSubscriptions(name: $name) {
+                        all {
+                            status {
+                                isExpired
+                                isActive
+                                isFreezed
+                            }
+                            activelyUntil
+                            title
+                            imageURL
+                            productFor
                         }
-                        activelyUntil
-                        title
-                        imageURL
-                        productFor
-                    }
-                    active {
-                        status {
-                            isExpired
-                            isActive
-                            isFreezed
+                        active {
+                            status {
+                                isExpired
+                                isActive
+                                isFreezed
+                            }
+                            activelyUntil
+                            title
+                            imageURL
+                            productFor
                         }
-                        activelyUntil
-                        title
-                        imageURL
-                        productFor
-                    }
-                    overdue {
-                        status {
-                            isExpired
-                            isActive
-                            isFreezed
+                        overdue {
+                            status {
+                                isExpired
+                                isActive
+                                isFreezed
+                            }
+                            activelyUntil
+                            title
+                            imageURL
+                            productFor
                         }
-                        activelyUntil
-                        title
-                        imageURL
-                        productFor
                     }
                 }
-            }
-        `, {name: this.props.user.name});
-        this.setState({ subscriptions: result.getSubscriptions });
-    }
-    async setNewAvatar(avatar) {
-        const user = jwtDecode(localStorage.getItem('token'));
-        const userWithNewAvatar = await fetchData(`
-            mutation changeAvatar($name: String!, $avatar: String!) {
-                changeAvatar(name: $name, avatar: $avatar)
-            }
-        `, {name: user.name, avatar});
-        localStorage.setItem('token', userWithNewAvatar.changeAvatar);
-        await fetchData(`
-            mutation updateBoughtIcon($name: String!) {
-                updateBoughtIcon(name: $name) {
-                    title
-                    costPerDay
-                    id
-                    productFor
-                    imageURLdashboard
-                    workingTime
-                    description
-                    peopleBought {
-                        name
-                        avatar
-                    }
-                    characteristics {
-                        version
-                        osSupport
-                        cpuSupport
-                        gameMode
-                        developer
-                        supportedAntiCheats
-                    }
-                }
-            }
-        `, { name: user.name });
-        this.setState({
-            user: jwtDecode(localStorage.getItem('token')),
-            userAvatar: { background: `url(${this.state.user.avatar}) center/cover no-repeat` }
-        });
+            `, { name: user.name });
+            this.setState({ subscriptions: result.getSubscriptions });
+        }
     }
     toggleModal() {
         this.setState({ showingChangePassword: !this.state.showingChangePassword })
@@ -295,18 +298,20 @@ class Dashboard extends React.Component {
     }
     render() {
         const {
-            user,
-            subscriptions,
             showingChangePassword,
-            popularProducts,
-            userAvatar,
             deviceWidth,
-            products,
             answersFAQ,
             passwordChangedNotification,
             passwordChangedNotificationShown,
-            agreementShown
+            agreementShown,
+            user,
+            userAvatar,
+            subscriptions,
+            popularProducts,
+            products
         } = this.state;
+
+        const { getUser } = this.props;
         return (
             <div
                 className="dashboard"
@@ -333,7 +338,7 @@ class Dashboard extends React.Component {
                         hideModal={this.hideModal}
                         showingChangePassword={showingChangePassword}
                         hideChangedPasswordNotification={this.hideNotificationMessage}
-                        getUser={this.props.getUser}
+                        getUser={getUser}
                     />
                 </header>
                 <ChangePassword
@@ -374,7 +379,6 @@ class Dashboard extends React.Component {
                                 <Products
                                     products={products}
                                     getSubscriptions={this.getSubscriptions}
-                                    getPopularProducts={this.getPopularProducts}
                                     getProducts={this.getProducts}
                                     buyProduct={this.buyProduct}
                                 />
@@ -387,6 +391,7 @@ class Dashboard extends React.Component {
                                 () => (
                                     <ProductInfo
                                         popularProducts={popularProducts}
+                                        getPopularProducts={this.getPopularProducts}
                                         buyProduct={this.buyProduct}
                                     />
                                 )

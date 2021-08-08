@@ -21,15 +21,10 @@ class ProductInfo extends React.Component {
         this.renderChanges = this.renderChanges.bind(this);
         this.calculateCost = this.calculateCost.bind(this);
     }
-    async componentDidUpdate(prevProps, prevState) {
-        if (prevProps.popularProducts != prevState.popularProducts) {
-            await this;
-        }
-    }
     async componentDidMount() {
+        console.log(this.props.popularProducts)
         await this.loadProduct();
-        const popularProducts = await fetchPopularProducts();
-        this.setState({ popularProducts });
+        this.setState({ popularProducts: this.props.popularProducts });
     }
     async loadProduct() {
         const title = this.props.match.params.title;
@@ -66,11 +61,11 @@ class ProductInfo extends React.Component {
                     }
                 }
             }
-        `, {title});
+        `, { title });
 
         const { getProduct } = resultProduct;
 
-        let changes = getProduct.changes;
+        let { changes } = getProduct;
 
         this.setState({
             product: getProduct,
@@ -240,180 +235,182 @@ class ProductInfo extends React.Component {
             product.costPerDay && { title: 'Стоимость', content: `${product.costPerDay} ₽ / День` }
         ];
         const productInfo = (
-            <div className="product">
+            <div className="product-wrap">
                 <div className="cover" style={{ backgroundImage: `url(${product.imageURLdashboard})` }} />
-                <div className="container">
-                    <div className="main">
-                        <div className="product-title">
-                            <h3 className="title">
-                                {product.title}{' | '}{product.productFor}
-                            </h3>
-                            <BoughtPeople renderPeopleLimit={5} people={product.peopleBought} />
-                        </div>
-                        <div className="actions">
-                            <button className="undetect">
-                                Undetect
-                                <img className="ellipse" src="/images/Ellipse 1.png" />
-                            </button>
-                            <span className="last-update">
-                                <span className="createdDate">
-                                    {createdDate
-                                        ? `Обновлён ${createdDate} назад`
-                                        : 'Ни разу не обновлялся'
-                                    }
+                <div className="product">
+                    <div className="container">
+                        <div className="main">
+                            <div className="product-title">
+                                <h3 className="title">
+                                    {product.title}{' | '}{product.productFor}
+                                </h3>
+                                <BoughtPeople renderPeopleLimit={5} people={product.peopleBought} />
+                            </div>
+                            <div className="actions">
+                                <button className="undetect">
+                                    Undetect
+                                    <img className="ellipse" src="/images/Ellipse 1.png" />
+                                </button>
+                                <span className="last-update">
+                                    <span className="createdDate">
+                                        {createdDate
+                                            ? `Обновлён ${createdDate} назад`
+                                            : 'Ни разу не обновлялся'
+                                        }
+                                    </span>
+                                    <div className="circle" />
+                                    <span className="current-version">
+                                        {this.state.changes[0]
+                                            ? this.state.changes[0].version
+                                            : '1,00'
+                                        } версия
+                                    </span>
                                 </span>
-                                <div className="circle" />
-                                <span className="current-version">
-                                    {this.state.changes[0]
-                                        ? this.state.changes[0].version
-                                        : '1,00'
-                                    } версия
-                                </span>
-                            </span>
+                            </div>
                         </div>
-                    </div>
-                    <div className="general-info">
-                        {
-                            generalInformation.map(information => {
-                                if (information) {
-                                    console.log(information.title);
-                                    return <div key={information.title} className="general-info-wrap">
-                                        <h3 className="info-title">{information.title}</h3>
-                                        <span className="info-content">{information.content}</span>
-                                    </div>
-                                }
-                            })
-                        }
-                    </div>
-                    <div className="general">
-                        <div className="description">
-                            <h4>Описание продукта</h4>
-                            <p>{product.description}</p>
-                        </div>
-                        <div className="characteristics">
-                            <h4>Характеристики</h4>
-                            <ul>
-                                <li className="characteristic">
-                                    <div className="wrap">
-                                        <span className="name">Версия игры:</span>
-                                        {' '}
-                                        <span className="value">
-                                            {product.characteristics &&
-                                                product.characteristics.version
-                                            }
-                                        </span>
-                                    </div>
-                                </li>
-                                <li className="characteristic">
-                                    <div className="wrap">
-                                        <span className="name">Поддерживаемые ОС:</span>
-                                        {' '}
-                                        <span className="value">
-                                            {product.characteristics &&
-                                                product.characteristics.osSupport
-                                            }
-                                        </span>
-                                    </div>
-                                </li>
-                                <li className="characteristic">
-                                    <div className="wrap">
-                                        <span className="name">Поддерживаемые процессоры:</span>
-                                        {' '}
-                                        <span className="value">
-                                            {product.characteristics &&
-                                                product.characteristics.cpuSupport
-                                            }
-                                        </span>
-                                    </div>
-                                </li>
-                                <li className="characteristic">
-                                    <div className="wrap">
-                                        <span className="name">Режим игры:</span>
-                                        {' '}
-                                        <span className="value">
-                                            {product.characteristics &&
-                                                product.characteristics.gameMode
-                                            }
-                                        </span>
-                                    </div>
-                                </li>
-                                <li className="characteristic">
-                                    <div className="wrap">
-                                        <span className="name">Разработчик:</span>
-                                        {' '}
-                                        <span className="value">
-                                            {product.characteristics &&
-                                                product.characteristics.developer
-                                            }
-                                        </span>
-                                    </div>
-                                </li>
-                                <li className="characteristic">
-                                    <div className="wrap">
-                                        <span className="name">Поддерживаемые античиты:</span>
-                                        {' '}
-                                        <span className="value">
-                                            {product.characteristics &&
-                                                product.characteristics.supportedAntiCheats
-                                            }
-                                        </span>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="cost">
-                            <div className="calc-cost">
-                                <div
-                                    className="dropdown"
-                                    onClick={
-                                        function() {
-                                            this.setState({ showDropdown: !this.state.showDropdown })
-                                        }.bind(this)
+                        <div className="general-info">
+                            {
+                                generalInformation.map(information => {
+                                    if (information) {
+                                        console.log(information.title);
+                                        return <div key={information.title} className="general-info-wrap">
+                                            <h3 className="info-title">{information.title}</h3>
+                                            <span className="info-content">{information.content}</span>
+                                        </div>
                                     }
-                                    style={
-                                        this.state.showDropdown
-                                            ? {
-                                                borderBottomLeftRadius: 0,
-                                                borderBottomRightRadius: 0,
-                                                padding: '0 -1px'
-                                            }
-                                            : {
-                                                borderBottomLeftRadius: '10px',
-                                                borderBottomRightRadius: '10px',
-                                                padding: '0 -1px'
-                                            }
-                                    }
-                                >
-                                    <div className="calculated-time">
-                                        {choosenDropdown}
-                                        <img className="dropdown-arrow" src="/images/categories-arrow-menu.png" />
-                                    </div>
+                                })
+                            }
+                        </div>
+                        <div className="general">
+                            <div className="description">
+                                <h4>Описание продукта</h4>
+                                <p>{product.description}</p>
+                            </div>
+                            <div className="characteristics">
+                                <h4>Характеристики</h4>
+                                <ul>
+                                    <li className="characteristic">
+                                        <div className="wrap">
+                                            <span className="name">Версия игры:</span>
+                                            {' '}
+                                            <span className="value">
+                                                {product.characteristics &&
+                                                    product.characteristics.version
+                                                }
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li className="characteristic">
+                                        <div className="wrap">
+                                            <span className="name">Поддерживаемые ОС:</span>
+                                            {' '}
+                                            <span className="value">
+                                                {product.characteristics &&
+                                                    product.characteristics.osSupport
+                                                }
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li className="characteristic">
+                                        <div className="wrap">
+                                            <span className="name">Поддерживаемые процессоры:</span>
+                                            {' '}
+                                            <span className="value">
+                                                {product.characteristics &&
+                                                    product.characteristics.cpuSupport
+                                                }
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li className="characteristic">
+                                        <div className="wrap">
+                                            <span className="name">Режим игры:</span>
+                                            {' '}
+                                            <span className="value">
+                                                {product.characteristics &&
+                                                    product.characteristics.gameMode
+                                                }
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li className="characteristic">
+                                        <div className="wrap">
+                                            <span className="name">Разработчик:</span>
+                                            {' '}
+                                            <span className="value">
+                                                {product.characteristics &&
+                                                    product.characteristics.developer
+                                                }
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li className="characteristic">
+                                        <div className="wrap">
+                                            <span className="name">Поддерживаемые античиты:</span>
+                                            {' '}
+                                            <span className="value">
+                                                {product.characteristics &&
+                                                    product.characteristics.supportedAntiCheats
+                                                }
+                                            </span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div className="cost">
+                                <div className="calc-cost">
                                     <div
-                                        className="items"
+                                        className="dropdown"
+                                        onClick={
+                                            function() {
+                                                this.setState({ showDropdown: !this.state.showDropdown })
+                                            }.bind(this)
+                                        }
                                         style={
                                             this.state.showDropdown
                                                 ? {
-                                                    maxHeight: '550px',
-                                                    transition: '350ms',
+                                                    borderBottomLeftRadius: 0,
+                                                    borderBottomRightRadius: 0,
+                                                    padding: '0 -1px'
                                                 }
                                                 : {
-                                                    maxHeight: '0',
-                                                    transition: '200ms',
+                                                    borderBottomLeftRadius: '10px',
+                                                    borderBottomRightRadius: '10px',
+                                                    padding: '0 -1px'
                                                 }
                                         }
                                     >
-                                        {costDropdown}
+                                        <div className="calculated-time">
+                                            {choosenDropdown}
+                                            <img className="dropdown-arrow" src="/images/categories-arrow-menu.png" />
+                                        </div>
+                                        <div
+                                            className="items"
+                                            style={
+                                                this.state.showDropdown
+                                                    ? {
+                                                        maxHeight: '550px',
+                                                        transition: '350ms',
+                                                    }
+                                                    : {
+                                                        maxHeight: '0',
+                                                        transition: '200ms',
+                                                    }
+                                            }
+                                        >
+                                            {costDropdown}
+                                        </div>
+                                    </div>
+                                    <div className="gray-line"></div>
+                                    <div className="calculated-cost">
+                                        {productCost}
                                     </div>
                                 </div>
-                                <div className="gray-line"></div>
-                                <div className="calculated-cost">
-                                    {productCost}
+                                <div className="button">
+                                    <button onClick={() => buyProduct(product.title)} className="buy-button">
+                                        Купить
+                                    </button>
                                 </div>
-                            </div>
-                            <div className="button">
-                                <button onClick={() => buyProduct(product.title)} className="buy-button">
-                                    Купить
-                                </button>
                             </div>
                         </div>
                     </div>
