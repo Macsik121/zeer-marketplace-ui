@@ -3647,6 +3647,7 @@ fieldset {
     flex-direction: column;
     overflow: hidden;
     user-select: none;
+    z-index: 3;
 }
 
 .dashboard .main .FAQ .search-bar .categories .the-rest-categories {
