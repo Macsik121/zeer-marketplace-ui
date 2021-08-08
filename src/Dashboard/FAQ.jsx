@@ -145,7 +145,10 @@ export default class FAQ extends React.Component {
             }
         );
         renderedAnswers.unshift(
-            <div className="answer-not-found">
+            <div
+                key={++renderedAnswers.length}
+                className="answer-not-found"
+            >
                 <div className="plus-icon">
                     <img src="/images/answer-not-found.png" />
                 </div>

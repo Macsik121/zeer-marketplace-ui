@@ -49,23 +49,21 @@ class Dashboard extends React.Component {
         this.toggleAgreement = this.toggleAgreement.bind(this);
     }
     async componentDidMount() {
+        const { match, history, getUser } = this.props;
+        const token = localStorage.getItem('token');
+        let user;
+        if (token && token != '') user = jwtDecode(token);
+        else {
+            history.push('/');
+            return;
+        }
         window.onkeypress = function(e) {
             if (e.keyCode == 13) {
                 this.hideModal();
                 this.hideAgreement();
             }
         }.bind(this);
-        const { match, history, getUser } = this.props;
-        const token = localStorage.getItem('token');
-        const user = jwtDecode(token);
         if (this.props.user && this.props.user.email != user.email) getUser();
-        if (!token || token && token == '') {
-            history.push('/');
-            return;
-        }
-        if (match.params.username != user.name && match.url != '/dashboard/FAQ' && match.url != '/dashboard/products') {
-            history.push(`/dashboard/${user.name}`);
-        }
         const verifyToken = await fetchData(`
             query verifyToken($token: String!) {
                 verifyToken(token: $token)
@@ -339,6 +337,7 @@ class Dashboard extends React.Component {
                         showingChangePassword={showingChangePassword}
                         hideChangedPasswordNotification={this.hideNotificationMessage}
                         getUser={getUser}
+                        userAvatar={userAvatar}
                     />
                 </header>
                 <ChangePassword

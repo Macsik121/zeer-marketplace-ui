@@ -86,6 +86,11 @@ class Home extends React.Component {
         this.toggleForgotPassword = this.toggleForgotPassword.bind(this);
     }
     async componentDidMount() {
+        // const token = localStorage.getItem('token');
+        // if (token && token != '') {
+        //     const user = jwtDecode(token);
+        //     if (this.props.user.name != user.name) this.props.getUser();    
+        // }
         window.onkeydown = function(e) {
             const {
                 showingLogin,
@@ -104,8 +109,10 @@ class Home extends React.Component {
                 this.hideSignup();
             }
         }.bind(this);
-        const popProducts = await fetchPopularProducts();
-        this.setState({products: popProducts, deviceWidth: window.innerWidth});
+        this.setState({
+            products: await fetchPopularProducts(),
+            deviceWidth: window.innerWidth
+        });
     }
     toggleLogin() {
         this.setState({

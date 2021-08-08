@@ -22,21 +22,8 @@ export default class NavBar extends React.Component {
         this.logout = this.logout.bind(this);
     }
     componentDidUpdate(prevProps) {
-        const { user } = this.state;
-        if (prevProps.user != this.props.user) {
-            this.setState({user: this.props.user});
-            if (Object.keys(this.props.user).length > 0) {
-                if (user.avatar && user.avatar.length > 100) {
-                    this.setState({userAvatar: {
-                        background: `url("${user.avatar}") center/cover no-repeat`,
-                    }})
-                } else {
-                    this.setState({userAvatar: {
-                        background: user.avatar
-                    }})
-                }
-            }
-        }
+        const { userAvatar } = this.props;
+        if (prevProps.userAvatar != this.props.userAvatar) this.setState({ userAvatar })
     }
     componentDidMount() {
         window.onkeydown = function(e) {
@@ -48,18 +35,8 @@ export default class NavBar extends React.Component {
                 this.props.hideModal();
             }
         }.bind(this);
+        const { userAvatar } = this.props;
         const user = jwtDecode(localStorage.getItem('token'));
-        if (Object.keys(user).length > 0) {
-            if (user.avatar && user.avatar.length > 100) {
-                this.setState({userAvatar: {
-                    background: `url("${this.props.selectedImage}") center/cover no-repeat`
-                }})
-            } else {
-                this.setState({userAvatar: {
-                    background: user.avatar
-                }})
-            }
-        }
         const navLinks = [
             {
                 name: 'Лобби',
@@ -138,7 +115,12 @@ export default class NavBar extends React.Component {
                 ]
             }
         ]
-        this.setState({navLinks, deviceWidth: window.innerWidth});
+        this.setState({
+            navLinks,
+            deviceWidth: window.innerWidth,
+            userAvatar,
+            user
+        });
     }
     toggleMenuDropdown(e) {
         this.setState({menuDropdownShown: !this.state.menuDropdownShown});
@@ -283,8 +265,8 @@ export default class NavBar extends React.Component {
                             className="avatar"
                         >
                             <span className="first-char">
-                                {user.avatar && user.avatar.length < 500 &&
-                                    user.nameFirstChar
+                                {userAvatar.background && userAvatar.background.includes('#') &&
+                                    user.name.substring(0, 2)
                                 }
                             </span>
                         </div>

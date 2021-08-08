@@ -1,6 +1,6 @@
 import jwtDecode from 'jwt-decode';
 import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import routes from './routes';
 
 class Routing extends React.Component {
@@ -11,6 +11,12 @@ class Routing extends React.Component {
         };
         this.getUser = this.getUser.bind(this);
     }
+    componentDidUpdate() {
+        console.log(this.state.user);
+    }
+    async componentDidMount() {
+        this.getUser();
+    }
     getUser() {
         let user = {};
         if (localStorage.getItem('token') && localStorage.getItem('token') != '') {
@@ -20,32 +26,31 @@ class Routing extends React.Component {
         else this.setState({ user: null });
         return user;
     }
-    async componentDidMount() {
-        const user = this.getUser();
-    }
     render() {
         const {
             user,
         } = this.state;
+        console.log(this.props);
         
         return (
             <Switch>
                 {user && !user.isAdmin &&
                     <Redirect from="/admin" to={`/dashboard/${user.name}`} />
                 }
-                {/*
                 {!user &&
                     <Redirect from="/admin" to="/" />
                 }
-                {!user &&
-                    <Redirect from="/dashboard" to="/" />
-                }
-                {!user &&
-                    <Redirect from="/:username/changeavatar" to="/" />
-                }
                 {user &&
                     <Redirect exact from="/" to={`/dashboard/${user.name}`} />
-                } */}
+                }
+                {!user &&
+                    <Redirect exact from="/dashboard/:username" to="/" />
+                }
+                {/*
+                    {!user &&
+                        <Redirect from="/:username/changeavatar" to="/" />
+                    }
+                */}
                 {routes.map(route => {
                         return (
                             <Route
@@ -63,4 +68,4 @@ class Routing extends React.Component {
     }
 }
 
-export default Routing;
+export default withRouter(Routing);

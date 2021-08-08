@@ -22,7 +22,6 @@ class ProductInfo extends React.Component {
         this.calculateCost = this.calculateCost.bind(this);
     }
     async componentDidMount() {
-        console.log(this.props.popularProducts)
         await this.loadProduct();
         this.setState({ popularProducts: this.props.popularProducts });
     }
@@ -273,7 +272,6 @@ class ProductInfo extends React.Component {
                             {
                                 generalInformation.map(information => {
                                     if (information) {
-                                        console.log(information.title);
                                         return <div key={information.title} className="general-info-wrap">
                                             <h3 className="info-title">{information.title}</h3>
                                             <span className="info-content">{information.content}</span>
