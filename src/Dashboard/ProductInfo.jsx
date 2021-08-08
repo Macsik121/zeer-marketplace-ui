@@ -34,7 +34,7 @@ class ProductInfo extends React.Component {
                     id
                     title
                     productFor
-                    avatar
+                    logo
                     changes {
                         version
                         created
@@ -240,6 +240,7 @@ class ProductInfo extends React.Component {
                 <div className="product">
                     <div className="container">
                         <div className="main">
+                            <div className="logo" style={{ backgroundImage: `url(${product.logo})` }} />
                             <div className="product-title">
                                 <h3 className="title">
                                     {product.title}{' | '}{product.productFor}
