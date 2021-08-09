@@ -3015,7 +3015,7 @@ fieldset {
 }
 
 .reset-binding .reset-binding-form {
-    width: calc(370px - 30px);
+    width: 355px;
 }
 
 .reset-binding .reset-binding-form .new-application {
