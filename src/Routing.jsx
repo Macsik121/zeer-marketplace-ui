@@ -11,9 +11,6 @@ class Routing extends React.Component {
         };
         this.getUser = this.getUser.bind(this);
     }
-    componentDidUpdate() {
-        console.log(this.state.user);
-    }
     async componentDidMount() {
         this.getUser();
     }

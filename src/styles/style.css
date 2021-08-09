@@ -835,6 +835,7 @@ fieldset {
     padding: 10px;
     border-bottom: 3px solid transparent;
     position: relative;
+    user-select: none;
 }
 
 .dashboard .nav .links a:first-of-type {
@@ -3048,7 +3049,7 @@ fieldset {
     height: 100px;
 }
 
-.reset-binding .reset-binding-form .new-application .field-wrap textarea {
+.reset-binding .reset-binding-form .new-application .field-wrap .reset-reason {
     resize: none;
     border: none;
     border-radius: 10px;
@@ -3061,15 +3062,15 @@ fieldset {
     border: 1px solid #1C1C24;
 }
 
-.reset-binding .reset-binding-form .new-application .field-wrap textarea:focus + label,
-.reset-binding .reset-binding-form .new-application .field-wrap textarea:valid + label {
+.reset-binding .reset-binding-form .new-application .field-wrap .reset-reason:focus + label,
+.reset-binding .reset-binding-form .new-application .field-wrap .reset-reason:valid + label {
     transform: translateY(-23px) translateX(5px);
     padding: 0 5px;
     background: transparent;
 }
 
-.reset-binding .reset-binding-form .new-application .field-wrap textarea:focus,
-.reset-binding .reset-binding-form .new-application .field-wrap textarea:valid {
+.reset-binding .reset-binding-form .new-application .field-wrap .reset-reason:focus,
+.reset-binding .reset-binding-form .new-application .field-wrap .reset-reason:valid {
     background: transparent;
     border: 1px solid #92929D;
 }

@@ -34,7 +34,8 @@ class Dashboard extends React.Component {
             answersFAQ: [],
             passwordChangedNotification: '',
             passwordChangedNotificationShown: false,
-            agreementShown: false
+            agreementShown: false,
+            resetRequests: []
         }
         this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
@@ -48,6 +49,8 @@ class Dashboard extends React.Component {
         this.setNewAvatar = this.setNewAvatar.bind(this);
         this.hideAgreement = this.hideAgreement.bind(this);
         this.toggleAgreement = this.toggleAgreement.bind(this);
+        this.getResetRequests = this.getResetRequests.bind(this);
+        this.makeResetRequest = this.makeResetRequest.bind(this);
     }
     async componentDidMount() {
         const { match, history, getUser } = this.props;
@@ -88,6 +91,7 @@ class Dashboard extends React.Component {
         this.getProducts();
         this.getPopularProducts();
         this.getSubscriptions();
+        this.getResetRequests();
 
         const resultFAQ = await fetchData(`
             query {
@@ -268,6 +272,40 @@ class Dashboard extends React.Component {
             this.setState({ subscriptions: result.getSubscriptions });
         }
     }
+    async makeResetRequest(reason) {
+        const query = `
+            mutation makeResetRequest($name: String!, $reason: String!) {
+                makeResetRequest(name: $name, reason: $reason) {
+                    reason
+                    number
+                    status
+                    date
+                }
+            }
+        `;
+        const user = jwtDecode(localStorage.getItem('token'));
+        const { name } = user;
+
+        const result = await fetchData(query, { name, reason });
+        await this.getResetRequests();
+        return result.makeResetRequest;
+    }
+    async getResetRequests() {
+        const user = jwtDecode(localStorage.getItem('token'));
+        const result = await fetchData(`
+            query getResetRequests($name: String!) {
+                getResetRequests(name: $name) {
+                    date
+                    status
+                    reason
+                    number
+                }
+            }
+        `, { name: user.name });
+
+        this.setState({ resetRequests: result.getResetRequests });
+        return result.getResetRequests;
+    }
     toggleModal() {
         this.setState({ showingChangePassword: !this.state.showingChangePassword })
     }
@@ -307,7 +345,8 @@ class Dashboard extends React.Component {
             userAvatar,
             subscriptions,
             popularProducts,
-            products
+            products,
+            resetRequests
         } = this.state;
 
         const { getUser } = this.props;
@@ -415,7 +454,14 @@ class Dashboard extends React.Component {
                         />
                         <Route
                             path="/dashboard/:username/reset-binding"
-                            component={ResetBinding}
+                            component={
+                                () => (
+                                    <ResetBinding
+                                        resetRequests={resetRequests}
+                                        makeResetRequest={this.makeResetRequest}
+                                    />
+                                )
+                            }
                         />
                         <Route
                             path="/dashboard/:username/changeavatar"

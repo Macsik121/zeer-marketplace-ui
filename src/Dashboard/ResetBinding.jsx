@@ -40,8 +40,32 @@ export default class ResetBinding extends React.Component {
                 }
             ]
         };
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    async handleSubmit(e) {
+        e.preventDefault();
+        const form = document.forms.newApplication;
+        const reason = form.reason.value;
+
+        await this.props.makeResetRequest(reason);
     }
     render() {
+        const { resetRequests } = this.props;
+        const resets = resetRequests.map((reset, i) => {
+            if (i < 30) {
+                return (
+                    <div key={reset.number} className="reset">
+                        <div className="number">{reset.number}</div>
+                        <div className="reason-of-reset">{reset.reason}</div>
+                        <div className="date">{new Date(reset.date).toLocaleDateString()}</div>
+                        <div className="status">
+                            <img src={`/images/${reset.status}-status.png`} />
+                        </div>
+                    </div>
+                )
+            }
+        });
+
         const rules = this.state.rules.map(rule => (
             <div key={rule.icon} className="rule">
                 <div className="icon">
@@ -56,7 +80,11 @@ export default class ResetBinding extends React.Component {
                 <div className="container">
                     <div className="reset-binding-form">
                         <h2 className="reset-title">Сброс привязки</h2>
-                        <form className="new-application">
+                        <form
+                            onSubmit={this.handleSubmit}
+                            name="newApplication"
+                            className="new-application"
+                        >
                             <h3>Новая заявка</h3>
                             <span className="last-reset">
                                 Последний сброс&nbsp;
@@ -65,13 +93,21 @@ export default class ResetBinding extends React.Component {
                             <div className="field-wrap">
                                 <textarea
                                     required
+                                    name="reason"
                                     placeholder="Причина сброса"
-                                    name="reset-reason"
+                                    name="reason"
                                     className="reset-reason"
+                                    onKeyDown={
+                                        function(e) {
+                                            if (e.keyCode == 13) {
+                                                this.handleSubmit(e);
+                                            }
+                                        }.bind(this)
+                                    }
                                 />
                                 {/* <label>Причина сброса</label> */}
                             </div>
-                            <button className="send">Отправить</button>
+                            <button type="submit" className="send">Отправить</button>
                         </form>
                         <div className="rules">
                             {rules}
@@ -87,42 +123,7 @@ export default class ResetBinding extends React.Component {
                                 <span className="status">статус</span>
                             </div>
                             <div className="resets">
-                                <div className="reset">
-                                    <div className="number">1</div>
-                                    <div className="reason-of-reset">Какая-то причина сброса</div>
-                                    <div className="date">{new Date().toLocaleDateString()}</div>
-                                    <div className="status">
-                                        <img src="/images/done-status.png" />
-                                    </div>
-                                </div>
-                                <div className="reset">
-                                    <div className="number">2</div>
-                                    <div className="reason-of-reset">
-                                        Какая-то причина сброса
-                                    </div>
-                                    <div className="date">{new Date().toLocaleDateString()}</div>
-                                    <div className="status">
-                                        <img src="/images/waiting-status.png" />
-                                    </div>
-                                </div>
-                                <div className="reset">
-                                    <div className="number">3</div>
-                                    <div className="reason-of-reset">Какая-то причина сброса</div>
-                                    <div className="date">{new Date().toLocaleDateString()}</div>
-                                    <div className="status">
-                                        <img src="/images/unsuccessful-status.png" />
-                                    </div>
-                                </div>
-                                <div className="reset">
-                                    <div className="number">324124213445656316611</div>
-                                    <div className="reason-of-reset">
-                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti deleniti, quas, omnis autem non, consequatur quam dicta beatae voluptas cupiditate sed et asperiores debitis ipsam cumque enim nesciunt. Aperiam, praesentium?
-                                    </div>
-                                    <div className="date">{new Date().toLocaleDateString()}</div>
-                                    <div className="status">
-                                        <img src="/images/done-status.png" />
-                                    </div>
-                                </div>
+                                {resets}
                             </div>
                         </div>
                     </div>
