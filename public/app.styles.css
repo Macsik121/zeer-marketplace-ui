@@ -2836,6 +2836,7 @@ fieldset {
     display: flex;
     justify-content: space-between;
     margin-top: 23px;
+    width: 100%;
 }
 
 .dashboard .main .bought-people .nobody-bought {
@@ -3980,7 +3981,7 @@ fieldset {
 }
 
 .reset-binding .reset-binding-form {
-    width: 370px
+    width: calc(370px - 30px);
 }
 
 .reset-binding .reset-binding-form .new-application {
@@ -4116,7 +4117,7 @@ fieldset {
 }
 
 .reset-binding .history {
-    width: calc(770px - 30px);
+    width: 770px;
 }
 
 .reset-binding .history .last-thirty-resets {
@@ -4153,11 +4154,11 @@ fieldset {
 
 .reset-binding .history .last-thirty-resets .heading .date {
     width: 40px;
-    margin-left: 22px;
+    margin-left: 42px;
 }
 
 .reset-binding .history .last-thirty-resets .heading .status {
-    margin-left: 76px;
+    margin-left: 100px;
 }
 
 .reset-binding .history .last-thirty-resets .resets {
@@ -4197,10 +4198,12 @@ fieldset {
 
 .reset-binding .history .last-thirty-resets .resets .date {
     width: 80px;
+    margin-left: 22px;
 }
 
 .reset-binding .history .last-thirty-resets .resets .status {
     margin: 0 auto;
+    margin-left: 103px;
 }
 
 @media (max-width: 1100px) {

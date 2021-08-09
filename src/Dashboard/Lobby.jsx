@@ -134,7 +134,7 @@ export default class Lobby extends React.Component {
                                     Убедитесь, что вы не "нарушаете правила"
                                 </span>
                                 <div className="links">
-                                    <Link to="/dashboard/FAQ">
+                                    <Link to={`/dashboard/${user.name}/reset-binding`}>
                                         Перейти
                                     </Link>
                                     <Link to="/dashboard/FAQ">
