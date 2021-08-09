@@ -125,20 +125,19 @@ export default class NavBar extends React.Component {
         });
     }
     toggleMenuDropdown(e) {
-        this.setState({menuDropdownShown: !this.state.menuDropdownShown});
+        this.setState({ menuDropdownShown: !this.state.menuDropdownShown });
     }
     hiddenMenuDropdown() {
-        this.setState({menuDropdownShown: false});
+        this.setState({ menuDropdownShown: false });
     }
     toggleUserDropdown(e) {
-        this.setState({userDropdownShown: !this.state.userDropdownShown});
+        this.setState({ userDropdownShown: !this.state.userDropdownShown });
     }
     hiddenUserDropdown() {
-        this.setState({userDropdownShown: false});
+        this.setState({ userDropdownShown: false });
     }
     async logout() {
         localStorage.clear();
-        this.props.getUser();
         this.props.history.push('/');
     }
     render() {

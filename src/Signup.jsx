@@ -124,7 +124,6 @@ class Signup extends React.Component {
 
         if (signUpAttempt.token && signUpAttempt.token != '') {
             localStorage.setItem('token', signUpAttempt.token);
-            this.props.getUser();
             this.props.history.replace(`/dashboard/${signUpAttempt.user.name}`);
             return;
         }

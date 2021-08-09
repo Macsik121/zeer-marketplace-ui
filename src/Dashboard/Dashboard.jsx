@@ -67,6 +67,9 @@ class Dashboard extends React.Component {
             return;
         }
 
+        this.getProducts();
+        this.getPopularProducts();
+
         const user = jwtDecode(token);
         const userAvatar = {};
         if (user.avatar && user.avatar.includes('#')) {
@@ -76,9 +79,6 @@ class Dashboard extends React.Component {
             userAvatar.background = `url("${user.avatar}") center/cover no-repeat`;
             user.nameFirstChar = '';
         }
-
-        this.getPopularProducts();
-        this.getProducts();
 
         this.setState({ userAvatar, user });
 
