@@ -4,28 +4,6 @@ import SlickSlider from 'react-slick';
 import { fetchPopularProducts } from '../PopularProducts.jsx';
 import BoughtPeople from '../RenderBoughtPeople.jsx';
 
-function NextArrow(props) {
-    const { onClick, className, style } = props;
-    return (
-        <div
-            onClick={onClick}
-            style={{...style, display: 'flex', background: 'green'}}
-            className={{...className}}
-        />
-    )
-}
-
-function PrevArrow(props) {
-    const { onClick, className, style } = props;
-    return (
-        <div
-            onClick={onClick}
-            style={{...style, display: 'flex', background: 'red'}}
-            className={{...className}}
-        />
-    )
-}
-
 export default class Lobby extends React.Component {
     constructor() {
         super();
@@ -38,6 +16,7 @@ export default class Lobby extends React.Component {
             deviceWidth,
             buyProduct
         } = this.props;
+
         const sliderSettings = {
             infinite: true,
             speed: 500,
@@ -58,7 +37,11 @@ export default class Lobby extends React.Component {
             popularProducts = this.props.popularProducts.map(product => {
                 return (
                     <div className="popular-product" style={{width: '370px'}} key={product.id}>
-                        <img className="cover" src={product.imageURLdashboard} />
+                        <img
+                            className="cover"
+                            style={{ width: '330px' }}
+                            src={product.imageURLdashboard}
+                        />
                         <div className="title">
                             <h3 className="product-title">{product.title}{' | '}<span className="product-for">{product.productFor}</span></h3>
                         </div>

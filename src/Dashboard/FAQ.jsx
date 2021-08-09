@@ -149,9 +149,9 @@ export default class FAQ extends React.Component {
                 key={++renderedAnswers.length}
                 className="answer-not-found"
             >
-                <div className="plus-icon">
+                <a href="https://vk.com/zeer_csgo" target="_blank" className="plus-icon">
                     <img src="/images/answer-not-found.png" />
-                </div>
+                </a>
                 <h3 className="not-found-title">Не нашли ответа</h3>
                 <span className="message">
                     Свяжитесь с нами через кнопку,
@@ -248,26 +248,25 @@ export default class FAQ extends React.Component {
         let categoryToRender = '';
         const categoriesToSearch = this.state.categoriesToSearch.map(category => {
             return (
-                    <span
-                        className="category"
-                        onClick={
-                            function(e) {
-                                this.handleChangeCategory(e);
-                                this.setState({ hiddenSearchCategories: true });
-                            }.bind(this)
-                        }
-                        key={category}
-                        style={
-                            category == currentCategory
-                                ? {backgroundColor: '#2d2d36'}
-                                : {}
-                        }
-                    >
-                        {category}
-                    </span>
-                )
-            }
-        )
+                <span
+                    className="category"
+                    onClick={
+                        function(e) {
+                            this.handleChangeCategory(e);
+                            this.setState({ hiddenSearchCategories: true });
+                        }.bind(this)
+                    }
+                    key={category}
+                    style={
+                        category == currentCategory
+                            ? {backgroundColor: '#2d2d36'}
+                            : {}
+                    }
+                >
+                    {category}
+                </span>
+            )
+        })
         if (deviceWidth > 600) {
             for (let i = 0; i < currentCategory.length; i++) {
                 if (i < 11 && currentCategory[i]) {

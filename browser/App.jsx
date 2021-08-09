@@ -2,6 +2,7 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
 import 'normalize.css';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import '../src/styles/notfound.css';

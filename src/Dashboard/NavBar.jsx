@@ -35,8 +35,13 @@ export default class NavBar extends React.Component {
                 this.props.hideModal();
             }
         }.bind(this);
-        const { userAvatar } = this.props;
-        const user = jwtDecode(localStorage.getItem('token'));
+        const { userAvatar, user } = this.props;
+        this.setState({
+            user,
+            deviceWidth: window.innerWidth,
+            userAvatar
+        });
+
         const navLinks = [
             {
                 name: 'Лобби',
@@ -116,10 +121,7 @@ export default class NavBar extends React.Component {
             }
         ]
         this.setState({
-            navLinks,
-            deviceWidth: window.innerWidth,
-            userAvatar,
-            user
+            navLinks
         });
     }
     toggleMenuDropdown(e) {
@@ -141,14 +143,19 @@ export default class NavBar extends React.Component {
     }
     render() {
         const {
-            user,
             navLinks,
             menuDropdownShown,
             deviceWidth,
-            userDropdownShown,
-            userAvatar
+            userDropdownShown
         } = this.state;
-        const { toggleModal, hideModal } = this.props;
+
+        const {
+            toggleModal,
+            hideModal,
+            user,
+            userAvatar
+        } = this.props;
+
         const nav = navLinks.map(link => {
             return (
                 <NavLink

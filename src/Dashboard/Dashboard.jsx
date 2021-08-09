@@ -53,32 +53,21 @@ class Dashboard extends React.Component {
         this.makeResetRequest = this.makeResetRequest.bind(this);
     }
     async componentDidMount() {
-        const { match, history, getUser } = this.props;
-        const token = localStorage.getItem('token');
-        let user;
-        if (token && token != '') user = jwtDecode(token);
-        else {
-            history.push('/');
-            return;
-        }
+        const { history } = this.props;
+        this.setState({ deviceWidth: window.innerWidth });
         window.onkeypress = function(e) {
             if (e.keyCode == 13) {
                 this.hideModal();
                 this.hideAgreement();
             }
         }.bind(this);
-        if (this.props.user && this.props.user.email != user.email) getUser();
-        const verifyToken = await fetchData(`
-            query verifyToken($token: String!) {
-                verifyToken(token: $token)
-            }
-        `, { token });
-        if (verifyToken.verifyToken == 'jwt expired') {
-            localStorage.clear();
+        const token = localStorage.getItem('token');
+        if (!token || token == '') {
             this.props.history.push('/');
             return;
         }
 
+        const user = jwtDecode(token);
         const userAvatar = {};
         if (user.avatar && user.avatar.includes('#')) {
             userAvatar.background = user.avatar;
@@ -88,8 +77,23 @@ class Dashboard extends React.Component {
             user.nameFirstChar = '';
         }
 
-        this.getProducts();
         this.getPopularProducts();
+        this.getProducts();
+
+        this.setState({ userAvatar, user });
+
+        const verifyToken = await fetchData(`
+            query verifyToken($token: String!) {
+                verifyToken(token: $token)
+            }
+        `, { token });
+
+        if (verifyToken.verifyToken == 'jwt expired') {
+            localStorage.clear();
+            history.push('/');
+            return;
+        }
+
         this.getSubscriptions();
         this.getResetRequests();
 
@@ -108,9 +112,7 @@ class Dashboard extends React.Component {
         `);
 
         this.setState({
-            deviceWidth: window.innerWidth,
             answersFAQ: resultFAQ.getAnswers,
-            user,
             userAvatar
         });
     }
@@ -337,10 +339,11 @@ class Dashboard extends React.Component {
         const {
             showingChangePassword,
             deviceWidth,
-            answersFAQ,
             passwordChangedNotification,
             passwordChangedNotificationShown,
             agreementShown,
+            getUser,
+            answersFAQ,
             user,
             userAvatar,
             subscriptions,
@@ -349,7 +352,6 @@ class Dashboard extends React.Component {
             resetRequests
         } = this.state;
 
-        const { getUser } = this.props;
         return (
             <div
                 className="dashboard"
