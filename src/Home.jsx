@@ -308,8 +308,8 @@ class Home extends React.Component {
                 <AgreementPrivacyNPolicy
                     style={
                         showingAgreement
-                            ? {opacity: 1, transform: 'translateY(0)'}
-                            : {opacity: 0, transform: 'translateY(-170%)'}
+                            ? {opacity: 1, transform: 'translateY(0)', top: 0}
+                            : {opacity: 0, transform: 'translateY(-170%)', top: '-100%'}
                     }
                     hideAgreement={this.hideAgreement}
                 />
