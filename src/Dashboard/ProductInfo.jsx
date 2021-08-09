@@ -424,7 +424,7 @@ class ProductInfo extends React.Component {
                         <div className="general">
                             {productInfo}
                         </div>
-                            <div className="magazine">
+                            <div className="changes-log">
                                 <h2>Журнал изменений</h2>
                                 {changes.length > 0 &&
                                     <div className="changes">

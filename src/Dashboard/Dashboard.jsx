@@ -14,6 +14,7 @@ import NavBar from './NavBar.jsx';
 import PasswordChangedNotification from './PasswordChangedNotif.jsx';
 import AgreementPrivacyNPolicy from '../AgreementModal.jsx';
 import { fetchPopularProducts } from '../PopularProducts.jsx';
+import ResetBinding from './ResetBinding.jsx';
 
 class Dashboard extends React.Component {
     constructor() {
@@ -411,6 +412,10 @@ class Dashboard extends React.Component {
                                     />
                                 )
                             }
+                        />
+                        <Route
+                            path="/dashboard/:username/reset-binding"
+                            component={ResetBinding}
                         />
                         <Route
                             path="/dashboard/:username/changeavatar"

@@ -317,7 +317,7 @@ export default class NavBar extends React.Component {
                             </button>
                             <NavLink
                                 onClick={this.hiddenUserDropdown}
-                                to={`/dashboard/${user.name}`}
+                                to={`/dashboard/${user.name}/reset-binding`}
                             >
                                 <div className="item">
                                     Сбросить привязку

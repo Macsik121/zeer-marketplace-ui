@@ -1151,6 +1151,7 @@ fieldset {
     min-height: 85vh;
     background: #13131A;
     margin-top: 50px;
+    padding-bottom: 60px;
     position: relative;
 }
 
@@ -1572,6 +1573,7 @@ fieldset {
     flex-wrap: wrap;
     justify-content: space-between;
     padding-top: 30px;
+    margin-bottom: -60px;
 }
 
 .dashboard .main .products .product {
@@ -1806,6 +1808,7 @@ fieldset {
     display: flex;
     justify-content: space-between;
     margin: 0;
+    padding: 0;
     background-color: #1C1C24;
     min-height: auto;
     position: static;
@@ -2096,10 +2099,6 @@ fieldset {
     background-color: #1C6FF2;
 }
 
-.dashboard .main .product-info .info .magazine {
-    padding-bottom: 60px;
-}
-
 .dashboard .main .product-info .info .changes {
     background-color: #1C1C24;
     margin-top: 30px;
@@ -2209,6 +2208,10 @@ fieldset {
     margin-top: 50px;
 }
 
+.dashboard .main .product-info .popular-products .popular-product:last-of-type {
+    margin-bottom: 0;
+}
+
 .dashboard .main .product-info .popular-products .popular-product .cover {
     width: 330px;
     position: absolute;
@@ -2288,7 +2291,6 @@ fieldset {
 .dashboard .main .subscriptions .container {
     display: flex;
     justify-content: space-between;
-    padding-bottom: 60px;
 }
 
 .dashboard .main .subscriptions .all-subscriptions {
@@ -2736,7 +2738,6 @@ fieldset {
 
 .dashboard .main .FAQ .answers-wrap {
     margin-top: 70px;
-    padding-bottom: 60px;
 }
 
 .dashboard .main .FAQ .answer-title {
@@ -2996,6 +2997,243 @@ fieldset {
 
 .set-new-avatar .changeavatar .confirm {
     margin-top: 5vw;
+}
+
+.reset-binding .container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.reset-binding h2 {
+    line-height: 36px;
+    font-size: 24px;
+    letter-spacing: .1px;
+    color: #FAFAFB;
+    font-weight: 600;
+}
+
+.reset-binding .reset-binding-form {
+    width: 370px
+}
+
+.reset-binding .reset-binding-form .new-application {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    padding: 30px 20px;
+    border-radius: 10px;
+    background-color: #1C1C24;
+}
+
+.reset-binding .reset-binding-form .new-application h3 {
+    line-height: 24px;
+    font-size: 16px;
+    color: #FAFAFB;
+    letter-spacing: .1px;
+    font-weight: 600;
+}
+
+.reset-binding .reset-binding-form .new-application .last-reset {
+    font-family: Roboto, sans-serif;
+    letter-spacing: .1px;
+    font-size: 14px;
+    line-height: 24px;
+    margin-top: 5px;
+    color: #B5B5BE;
+}
+
+.reset-binding .reset-binding-form .new-application .field-wrap {
+    width: 100%;
+    position: relative;
+    height: 100px;
+}
+
+.reset-binding .reset-binding-form .new-application .field-wrap textarea {
+    resize: none;
+    border: none;
+    border-radius: 10px;
+    background-color: #292932;
+    padding: 15px;
+    margin-top: 20px;
+    width: 100%;
+    height: 100%;
+    color: #FAFAFB;
+    border: 1px solid #1C1C24;
+}
+
+.reset-binding .reset-binding-form .new-application .field-wrap textarea:focus + label,
+.reset-binding .reset-binding-form .new-application .field-wrap textarea:valid + label {
+    transform: translateY(-23px) translateX(5px);
+    padding: 0 5px;
+    background: transparent;
+}
+
+.reset-binding .reset-binding-form .new-application .field-wrap textarea:focus,
+.reset-binding .reset-binding-form .new-application .field-wrap textarea:valid {
+    background: transparent;
+    border: 1px solid #92929D;
+}
+
+.reset-binding .reset-binding-form .new-application .field-wrap label {
+    color: #92929D;
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: .1px;
+    position: absolute;
+    top: calc(20px + 16px);
+    left: 15px;
+    transition: 300ms;
+    pointer-events: none;
+    user-select: none;
+    background: none;
+}
+
+.reset-binding .reset-binding-form .new-application .send {
+    background-color: #1E75FF;
+    border-radius: 10px;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    margin-top: 40px;
+    color: #FAFAFB;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 18px;
+    transition: 300ms;
+    cursor: pointer;
+}
+
+.reset-binding .reset-binding-form .new-application .send:hover {
+    background-color: #1C6FF2;
+}
+
+.reset-binding .reset-binding-form .rules {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.reset-binding .reset-binding-form .rules .rule {
+    padding: 23px 0 23px 25px;
+    display: flex;
+    background-color: #1C1C24;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.reset-binding .reset-binding-form .rules .rule .icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.reset-binding .reset-binding-form .rules .rule .content {
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: .1px;
+    border-left: 1px solid #292932;
+    padding-left: 20px;
+}
+
+.reset-binding .reset-binding-form .rules .rule .content .additional-link {
+    color: #1E75FF;
+}
+
+.reset-binding .reset-binding-form .rules .rule + .rule {
+    margin-top: 20px;
+}
+
+.reset-binding .history {
+    width: calc(770px - 30px);
+}
+
+.reset-binding .history .last-thirty-resets {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 20px 30px;
+    background-color: #1C1C24;
+    border-radius: 10px;
+}
+
+.reset-binding .history .last-thirty-resets .heading {
+    display: flex;
+    padding: 10px 0;
+    background-color: #292932;
+    color: #92929D;
+    border-radius: 10px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: .8px;
+    line-height: 16.5px;
+    font-size: 11px;
+}
+
+.reset-binding .history .last-thirty-resets .heading .number {
+    width: 80px;
+    text-align: center;
+}
+
+.reset-binding .history .last-thirty-resets .heading .reason-of-reset {
+    width: 350px;
+    margin-left: 20px;
+}
+
+.reset-binding .history .last-thirty-resets .heading .date {
+    width: 40px;
+    margin-left: 22px;
+}
+
+.reset-binding .history .last-thirty-resets .heading .status {
+    margin-left: 76px;
+}
+
+.reset-binding .history .last-thirty-resets .resets {
+    display: flex;
+    flex-direction: column;
+}
+
+.reset-binding .history .last-thirty-resets .resets .reset {
+    display: flex;
+    align-items: center;
+    font-family: Roboto, sans-serif;
+    color: #E2E2EA;
+    font-size: 14px;
+    letter-spacing: .1px;
+    line-height: 16px;
+}
+
+.reset-binding .history .last-thirty-resets .resets .reset:first-of-type {
+    margin-top: 30px;
+}
+
+.reset-binding .history .last-thirty-resets .resets .reset + .reset {
+    margin-top: 50px;
+}
+
+.reset-binding .history .last-thirty-resets .resets .number {
+    width: 80px;
+    text-align: center;
+    word-break: break-word;
+}
+
+.reset-binding .history .last-thirty-resets .resets .reason-of-reset {
+    width: 350px;
+    margin-left: 20px;
+    padding-right: 25px;
+}
+
+.reset-binding .history .last-thirty-resets .resets .date {
+    width: 80px;
+}
+
+.reset-binding .history .last-thirty-resets .resets .status {
+    margin: 0 auto;
 }
 
 @media (max-width: 1100px) {

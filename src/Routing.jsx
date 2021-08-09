@@ -30,7 +30,6 @@ class Routing extends React.Component {
         const {
             user,
         } = this.state;
-        console.log(this.props);
         
         return (
             <Switch>
