@@ -9,7 +9,7 @@ import FAQ from './FAQ.jsx';
 import SetNewAvatar from '../SetNewAvatar.jsx';
 import ProductInfo from './ProductInfo.jsx';
 import ChangePassword from './ChangePasswordModal.jsx';
-import Footer from './Footer.jsx';
+import Footer from '../Footer.jsx';
 import NavBar from './NavBar.jsx';
 import PasswordChangedNotification from './PasswordChangedNotif.jsx';
 import AgreementPrivacyNPolicy from '../AgreementModal.jsx';
@@ -53,7 +53,7 @@ class Dashboard extends React.Component {
         this.makeResetRequest = this.makeResetRequest.bind(this);
     }
     async componentDidMount() {
-        const { history } = this.props;
+        const { history, getUser } = this.props;
         this.setState({ deviceWidth: window.innerWidth });
         window.onkeypress = function(e) {
             if (e.keyCode == 13) {
@@ -66,11 +66,11 @@ class Dashboard extends React.Component {
             this.props.history.push('/');
             return;
         }
+        const user = jwtDecode(token);
 
         this.getProducts();
         this.getPopularProducts();
 
-        const user = jwtDecode(token);
         const userAvatar = {};
         if (user.avatar && user.avatar.includes('#')) {
             userAvatar.background = user.avatar;
@@ -111,10 +111,7 @@ class Dashboard extends React.Component {
             }
         `);
 
-        this.setState({
-            answersFAQ: resultFAQ.getAnswers,
-            userAvatar
-        });
+        this.setState({ answersFAQ: resultFAQ.getAnswers });
     }
     async setNewAvatar(avatar) {
         const user = jwtDecode(localStorage.getItem('token'));
@@ -342,7 +339,6 @@ class Dashboard extends React.Component {
             passwordChangedNotification,
             passwordChangedNotificationShown,
             agreementShown,
-            getUser,
             answersFAQ,
             user,
             userAvatar,
@@ -378,7 +374,6 @@ class Dashboard extends React.Component {
                         hideModal={this.hideModal}
                         showingChangePassword={showingChangePassword}
                         hideChangedPasswordNotification={this.hideNotificationMessage}
-                        getUser={getUser}
                         userAvatar={userAvatar}
                     />
                 </header>

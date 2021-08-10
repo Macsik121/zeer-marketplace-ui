@@ -86,11 +86,12 @@ class Home extends React.Component {
         this.toggleForgotPassword = this.toggleForgotPassword.bind(this);
     }
     async componentDidMount() {
-        // const token = localStorage.getItem('token');
-        // if (token && token != '') {
-        //     const user = jwtDecode(token);
-        //     if (this.props.user.name != user.name) this.props.getUser();    
-        // }
+        const token = localStorage.getItem('token');
+        if (token && token != '') {
+            const user = jwtDecode(token);
+            this.props.history.push(`/dashboard/${user.name}`);
+            return;
+        }
         window.onkeydown = function(e) {
             const {
                 showingLogin,
@@ -273,7 +274,7 @@ class Home extends React.Component {
                         </div>
                     </nav>
                 </div>
-                <Signin
+                <Signin 
                     style={
                         showingLogin
                             ? {

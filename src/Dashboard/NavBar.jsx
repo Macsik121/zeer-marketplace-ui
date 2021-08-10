@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
+import UserMenu from '../UserMenu.jsx';
 
 export default class NavBar extends React.Component {
     constructor() {
@@ -247,99 +248,16 @@ export default class NavBar extends React.Component {
         return (
             <nav className="nav">
                 <div className="container">
-                    <div className="user-menu">
-                        <div
-                            onClick={
-                                function() {
-                                    this.hiddenMenuDropdown();
-                                    this.toggleUserDropdown();
-                                }.bind(this)
-                            }
-                            style={
-                                userDropdownShown
-                                    ? {
-                                        background: userAvatar.background,
-                                        border: '2px solid #fff',
-                                        padding: '20px'
-                                    }
-                                    : {
-                                        background: userAvatar.background,
-                                        border: 'none',
-                                        padding: '22px'
-                                    }
-                            }
-                            className="avatar"
-                        >
-                            <span className="first-char">
-                                {userAvatar.background && userAvatar.background.includes('#') &&
-                                    user.name.substring(0, 2)
-                                }
-                            </span>
-                        </div>
-                        <span className="username">{user.name}</span>
-                        <img
-                            onClick={
-                                function() {
-                                    this.hiddenMenuDropdown();
-                                    this.toggleUserDropdown();
-                                }.bind(this)
-                            }
-                            className="menu-arrow"
-                            src="/images/user-menu-arrow.png"
-                        />
-                        <div
-                            className="dropdown"
-                            style={
-                                userDropdownShown
-                                    ? {maxHeight: '550px', transition: '350ms'}
-                                    : {maxHeight: 0, transition: '200ms'}
-                            }
-                        >
-                            <NavLink
-                                onClick={
-                                    function() {
-                                        this.hiddenUserDropdown();
-                                    }.bind(this)
-                                }
-                                to={`/${user.name}/changeavatar`}
-                            >
-                                <div className="item">
-                                    Установить новый аватар
-                                </div>
-                            </NavLink>
-                            <button
-                                className="show-modal-change-password"
-                                onClick={
-                                    function() {
-                                        this.hiddenUserDropdown();
-                                        this.props.hideChangedPasswordNotification();
-                                        toggleModal();
-                                    }.bind(this)
-                                }
-                            >
-                                <div className="item">
-                                    Сменить пароль
-                                </div>
-                            </button>
-                            <NavLink
-                                onClick={this.hiddenUserDropdown}
-                                to={`/dashboard/${user.name}/reset-binding`}
-                            >
-                                <div className="item">
-                                    Сбросить привязку
-                                </div>
-                            </NavLink>
-                            <NavLink
-                                onClick={this.hiddenUserDropdown}
-                                to={`/admin/${user.name}`}
-                            >
-                                <div className="item">
-                                    Админ-панель
-                                </div>
-                            </NavLink>
-                            <div onClick={this.logout} className="item">Выйти</div>
-                        </div>
-                    </div>
+                    <UserMenu
+                        user={user}
+                        userDropdownShown={userDropdownShown}
+                        toggleUserDropdown={this.toggleUserDropdown}
+                        hiddenUserDropdown={this.hiddenUserDropdown}
+                        toggleMenuDropdown={this.toggleMenuDropdown}
+                        hiddenMenuDropdown={this.hiddenMenuDropdown}
+                        userAvatar={userAvatar}
+                        logout={this.logout}
+                    />
                     <ul className="links">
                         {navMenu}
                         <Link

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&family=Poppins:ital,wght@0,400;0,600;1,600&family=Roboto:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&family=Poppins:ital,wght@0,400;0,500;0,600;1,400&family=Roboto:wght@400;500;700&display=swap');
 @import './slick-slider.css';
 @import './auth.css';
 
@@ -861,7 +861,6 @@ fieldset {
 }
 
 .dashboard .nav .links-wrap .link-item.active .border-bottom {
-    transition: 200ms;
     position: absolute;
     left: 0;
     bottom: -3px;
@@ -924,7 +923,8 @@ fieldset {
 
 .user-menu .avatar {
     border-radius: 50%;
-    height: 50%;
+    height: 46px;
+    width: 46px;
     display: flex;
     align-items: center;
     position: relative;
@@ -1192,6 +1192,7 @@ fieldset {
 
 .dashboard .main .lobby .info .user .general {
     display: flex;
+    align-items: center;
 }
 
 .dashboard .main .lobby .info .user .general .avatar {
@@ -1200,8 +1201,9 @@ fieldset {
     justify-content: center;
     border: 4px solid #44444F;
     border-radius: 50%;
-    padding: 25px;
     position: relative;
+    min-width: 56px;
+    height: 56px;
 }
 
 .dashboard .main .lobby .info .user .general .avatar .first-char {
@@ -3623,11 +3625,16 @@ fieldset {
     }
 }
 
-.dashboard .footer {
-    background-color: #1C1C24;
+.home .footer {
+    background: transparent;
 }
 
-.dashboard .footer .container {
+.footer {
+    background-color: #1C1C24;
+    border-top: 1px solid #292932;
+}
+
+.footer .container {
     padding: 15px;
     display: flex;
     align-items: center;
@@ -3636,37 +3643,37 @@ fieldset {
     font-size: 14px;
 }
 
-.dashboard .footer .footer-wrap {
+.footer .footer-wrap {
     display: flex;
     justify-content: space-between;
     width: 100%;
 }
 
-.dashboard .footer .zeer {
+.footer .zeer {
     display: flex;
     align-items: center;
 }
 
-.dashboard .footer .zeer .logo {
+.footer .zeer .logo {
     width: 50px;
     height: 50px;
 }
 
-.dashboard .footer .zeer .time-working {
+.footer .zeer .time-working {
     margin-left: 20px;
 }
 
-.dashboard .footer .contacts {
+.footer .contacts {
     display: flex;
     align-items: center;
 }
 
-.dashboard .footer .contacts .soc-media {
+.footer .contacts .soc-media {
     margin-left: 30px;
     display: flex;
 }
 
-.dashboard .footer .contacts .soc-media a {
+.footer .contacts .soc-media a {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -3676,24 +3683,24 @@ fieldset {
     transition: 200ms;
 }
 
-.dashboard .footer .contacts .soc-media a + a {
+.footer .contacts .soc-media a + a {
     margin-left: 10px;
 }
 
-.dashboard .footer .contacts .soc-media a:hover {
+.footer .contacts .soc-media a:hover {
     filter: invert(1);
     background-color: #000;
     border: 1px solid #fff;
 }
 
-.dashboard .footer .gray-line {
+.footer .gray-line {
     height: 60%;
     width: 1px;
     background-color: #292932;
     margin-left: 30px;
 }
 
-.dashboard .footer .download-loader {
+.footer .download-loader {
     border: 1px solid #1E75FF;
     padding: 10px 20px;
     cursor: pointer;
@@ -3705,7 +3712,7 @@ fieldset {
     width: 206px;
 }
 
-.dashboard .footer .download-loader:hover {
+.footer .download-loader:hover {
     background-color: #1E75FF;
 }
 
@@ -3719,23 +3726,23 @@ fieldset {
     .dashboard .main .product-info .info .general .cost .gray-line {
         display: none;
     }
-    .dashboard .footer .container {
+    .footer .container {
         flex-direction: column;
     }
-    .dashboard .footer .contacts {
+    .footer .contacts {
         flex-direction: column;
         justify-content: center;
     }
-    .dashboard .footer .contacts .soc-media {
+    .footer .contacts .soc-media {
         margin: 0;
     }
-    .dashboard .footer .download-loader {
+    .footer .download-loader {
         margin: 0;
     }
-    .dashboard .nav .links .icon {
+    .dashboar .nav .links .icon {
         margin: 0;
     }
-    .dashboard .footer .gray-line {
+    .footer .gray-line {
         display: none;
     }
     .dashboard .nav .three-dots .menu-dropdown .link-item .icon {
@@ -3747,3 +3754,118 @@ fieldset {
         max-height: 15px;
     }
 }
+
+.admin-panel .header {
+    display: flex;
+    justify-content: space-between;
+    background-color: #1C1C24;
+    align-items: center;
+    border-bottom: 1px solid #292932;
+}
+
+.admin-panel .header .admin-title {
+    font-weight: 500;
+    letter-spacing: .1px;
+    font-size: 24px;
+    line-height: 36px;
+    padding: 0 15px;
+    width: 212px;
+    text-decoration: none;
+    color: #fff;
+    height: 85px;
+    display: flex;
+    align-items: center;
+}
+
+.admin-panel .header .user-menu {
+    padding: 20px;
+    margin-right: 200px;
+}
+
+.admin-panel .main {
+    display: flex;
+}
+
+.admin-panel .main .nav {
+    display: flex;
+    flex-direction: column;
+    background-color: #1C1C24;
+    min-width: 212px;
+    padding-top: 15px;
+    min-height: 100vh;
+}
+
+.admin-panel .main .nav .logo {
+    width: 40px;
+    height: 40px;
+}
+
+.admin-panel .main .nav a {
+    color: #fff;
+    text-decoration: none;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-weight: 500;
+    letter-spacing: .1px;
+    font-size: 22px;
+    line-height: 36px;
+    text-align: center;
+    position: relative;
+    user-select: none;
+}
+
+.admin-panel .main .nav a .border {
+    position: absolute;
+    background-color: transparent;
+    height: 20px;
+    width: 4px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto 0;
+}
+
+.admin-panel .main .nav a.active .border {
+    background-color: #F00;
+}
+
+.admin-panel .main .nav a + a {
+    margin-top: 10px;
+}
+
+.admin-panel .main .page {
+    background-color: #13131A;
+    width: 100%;
+}
+
+.admin-panel .users h2 {
+    text-align: center;
+    margin-top: 10px;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    letter-spacing: .1px;
+    color: #fff;
+}
+
+.admin-panel .users .users-list {
+    margin-top: 20px;
+}
+
+.admin-panel .users .users-list .heading {
+    display: flex;
+    justify-content: space-between;
+}
+
+.admin-panel .users .users-list .all-users {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-panel .users .users-list .all-users .user {
+    display: flex;
+    justify-content: space-between;
+}
+
+

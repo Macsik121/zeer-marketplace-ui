@@ -11,14 +11,16 @@ class Routing extends React.Component {
         this.state = {
             user: null
         };
+        this.getUser = this.getUser.bind(this);
     }
     async componentDidMount() {
         this.getUser();
     }
     getUser() {
         let user = {};
-        if (localStorage.getItem('token') && localStorage.getItem('token') != '') {
-            user = jwtDecode(localStorage.getItem('token'));
+        const token = localStorage.getItem('token');
+        if (token && token != '') {
+            user = jwtDecode(token);
             this.setState({ user });
         }
         else this.setState({ user: null });
@@ -36,19 +38,35 @@ class Routing extends React.Component {
                 }
                 {!user &&
                     <Redirect from="/admin" to="/" />
-                }
-                {user &&
-                    <Redirect exact from="/" to={`/dashboard/${user.name}`} />
-                }
-                {!user &&
-                    <Redirect exact from="/dashboard/:username" to="/" />
                 } */}
-                {routes.map(route => (
+                {/* {user &&
+                    <Redirect exact from="/" to={`/dashboard/${user.name}`} />
+                } */}
+                {!user &&
+                    <Redirect exact from="/dashboard" to="/" />
+                }
+                {routes.map(route => {
+                    if (route.path == '/' && route.exact) {
+                        return (
+                            <Route
+                                getUser={this.getUser}
+                                path={route.path}
+                                component={
+                                    () => (
+                                        <route.component getUser={this.getUser} user={user} />
+                                    )
+                                }
+                                key={route.path}
+                            />
+                        )
+                    }
+
+                    return (
                         <Route
                             {...route}
                             key={route.path}
                         />
-                    )
+                    )}
                 )}
             </Switch>
         )

@@ -23,7 +23,6 @@ export default class Subscriptions extends React.Component {
     }
     async unfreezeSubscription(e) {
         this.setState({ isRequestSent: true });
-        console.log(this.state.isRequestSent);
         const divContent = e.target.parentNode.parentNode.parentNode.parentNode;
         const title = divContent.childNodes[0].childNodes[0].textContent;
 

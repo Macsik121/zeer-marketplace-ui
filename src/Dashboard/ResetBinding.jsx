@@ -75,6 +75,8 @@ export default class ResetBinding extends React.Component {
             </div>
         ));
 
+        console.log(resetRequests[0]);
+
         return (
             <div className="reset-binding">
                 <div className="container">
@@ -87,8 +89,11 @@ export default class ResetBinding extends React.Component {
                         >
                             <h3>Новая заявка</h3>
                             <span className="last-reset">
-                                Последний сброс&nbsp;
-                                {new Date().toLocaleDateString()}
+                                {
+                                    resetRequests[0]
+                                    ? `Последний сброс ${new Date(resetRequests[0].date).toLocaleDateString()}`
+                                    : 'У вас нету сбросов'
+                                }
                             </span>
                             <div className="field-wrap">
                                 <textarea
