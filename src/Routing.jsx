@@ -40,7 +40,7 @@ class Routing extends React.Component {
                     <Redirect from="/admin" to="/" />
                 } */}
                 {/* {user &&
-                    <Redirect exact from="/" to={`/dashboard/${user.name}`} />
+                    <Redirect exact from="/" to="/dashboard" />
                 } */}
                 {!user &&
                     <Redirect exact from="/dashboard" to="/" />

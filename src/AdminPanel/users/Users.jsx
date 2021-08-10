@@ -31,26 +31,27 @@ export default class Users extends React.Component {
         });
     }
     render() {
-        const users = this.state.users.map(user => (
-            <div key={user.name} className="user">
-                <span className="ID">{user.id}</span>
-                <span className="login">{user.name}</span>
-                <span className="e-mail">{user.email}</span>
-                <span className="registered-date">{new Date(user.registeredDate).toLocaleDateString()}</span>
-                <span className="subscription">
-                    {
-                        user.subscriptions.length > 0
-                            ? 'Активна'
-                            : 'Неактивна'
-                    }
-                </span>
-                <div className="actions">
-                    <Link to={`/admin/${this.state.user.name}/edit-user/${user.name}`}>
-                        Изменить
-                    </Link>
+        const users = this.state.users.length > 0 &&
+            this.state.users.map(user => (
+                <div key={user.name} className="user">
+                    <span className="ID">{user.id}</span>
+                    <span className="login">{user.name}</span>
+                    <span className="e-mail">{user.email}</span>
+                    <span className="registered-date">{new Date(user.registeredDate).toLocaleDateString()}</span>
+                    <span className="subscription">
+                        {
+                            user.subscriptions.length > 0
+                                ? 'Активна'
+                                : 'Неактивна'
+                        }
+                    </span>
+                    <div className="actions">
+                        <Link to={`/admin/edit-user/${user.name}`}>
+                            Изменить
+                        </Link>
+                    </div>
                 </div>
-            </div>
-        ));
+            ));
 
         return (
             <div className="users">

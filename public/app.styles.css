@@ -1890,7 +1890,7 @@ fieldset {
 .user-menu .avatar {
     border-radius: 50%;
     height: 46px;
-    width: 46px;
+    min-width: 46px;
     display: flex;
     align-items: center;
     position: relative;

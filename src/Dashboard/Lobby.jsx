@@ -77,13 +77,13 @@ export default class Lobby extends React.Component {
                                 </div>
                                 <div className="buttons">
                                     <button className="download-loader button">Скачать лоадер</button>
-                                    <Link className="subs button" to={`/dashboard/${user.name}/subscriptions`}>
+                                    <Link className="subs button" to={`/dashboard/subscriptions`}>
                                         Подписки
                                     </Link>
                                 </div>
                             </div>
                             <div className="subscriptions">
-                                <Link className="subscription all" to={`/dashboard/${user.name}/subscriptions`}>
+                                <Link className="subscription all" to={`/dashboard/subscriptions`}>
                                     <div className="all subs">
                                         <div className="amount">{subscriptions.all.length}</div>
                                         <div className="type">Всего</div>
@@ -91,7 +91,7 @@ export default class Lobby extends React.Component {
                                     <div className="linear-gradient-bg all" />
                                     <img src="/images/all.png" className="subscription-character" />
                                 </Link>
-                                <Link className="subscription active" to={`/dashboard/${user.name}/subscriptions`}>
+                                <Link className="subscription active" to={`/dashboard/subscriptions`}>
                                     <div className="active subs">
                                         <div className="amount">{subscriptions.active.length}</div>
                                         <div className="type">Активные</div>
@@ -99,7 +99,7 @@ export default class Lobby extends React.Component {
                                     <div className="linear-gradient-bg active" />
                                     <img src="/images/active.png" className="subscription-character" />
                                 </Link>
-                                <Link className="subscription overdue" to={`/dashboard/${user.name}/subscriptions`}>
+                                <Link className="subscription overdue" to={`/dashboard/subscriptions`}>
                                     <div className="overdue subs">
                                         <div className="amount">{subscriptions.overdue.length}</div>
                                         <div className="type">Просроченные</div>
@@ -117,7 +117,7 @@ export default class Lobby extends React.Component {
                                     Убедитесь, что вы не "нарушаете правила"
                                 </span>
                                 <div className="links">
-                                    <Link to={`/dashboard/${user.name}/reset-binding`}>
+                                    <Link to={`/dashboard/reset-binding`}>
                                         Перейти
                                     </Link>
                                     <Link to="/dashboard/FAQ">

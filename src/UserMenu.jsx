@@ -9,7 +9,9 @@ export default class UserMenu extends React.Component {
             user,
             userDropdownShown,
             userAvatar,
-            logout
+            logout,
+            hideChangedPasswordNotification,
+            toggleModal
         } = this.props;
 
         return (
@@ -65,7 +67,7 @@ export default class UserMenu extends React.Component {
                                 hiddenUserDropdown();
                             }.bind(this)
                         }
-                        to={`/${user.name}/changeavatar`}
+                        to={`/changeavatar`}
                     >
                         <div className="item">
                             Установить новый аватар
@@ -87,7 +89,7 @@ export default class UserMenu extends React.Component {
                     </button>
                     <NavLink
                         onClick={hiddenUserDropdown}
-                        to={`/dashboard/${user.name}/reset-binding`}
+                        to={`/dashboard/reset-binding`}
                     >
                         <div className="item">
                             Сбросить привязку
@@ -95,7 +97,7 @@ export default class UserMenu extends React.Component {
                     </NavLink>
                     <NavLink
                         onClick={hiddenUserDropdown}
-                        to={`/admin/${user.name}/statistics`}
+                        to={`/admin/statistics`}
                     >
                         <div className="item">
                             Админ-панель

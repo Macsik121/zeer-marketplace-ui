@@ -8,7 +8,80 @@ export default class NavBar extends React.Component {
         super();
         this.state = {
             user: {},
-            navLinks: [],
+            navLinks: [
+                {
+                    name: 'Лобби',
+                    path: '',
+                    isExact: true,
+                    content: [
+                        {
+                            tag: 'img',
+                            class: 'icon',
+                            content: 'self-closing tag',
+                            src: "/images/Home.svg"
+                        },
+                        {
+                            tag: 'span',
+                            class: '',
+                            content: 'Лобби'
+                        }
+                    ]
+                },
+                {
+                    name: 'Продукты',
+                    path: 'products',
+                    isExact: false,
+                    content: [
+                        {
+                            tag: 'img',
+                            class: 'icon',
+                            content: 'self-closing tag',
+                            src: "/images/Category.svg"
+                        },
+                        {
+                            tag: 'span',
+                            class: '',
+                            content: 'Продукты'
+                        }
+                    ]
+                },
+                {
+                    name: 'Управление подписками',
+                    path: 'subscriptions',
+                    isExact: false,
+                    content: [
+                        {
+                            tag: 'img',
+                            class: 'icon',
+                            content: 'self-closing tag',
+                            src: "/images/Path.svg"
+                        },
+                        {
+                            tag: 'span',
+                            class: '',
+                            content: 'Управление подписками'
+                        }
+                    ]
+                },
+                {
+                    name: 'FAQ',
+                    path: 'FAQ',
+                    isExact: false,
+                    content: [
+                        {
+                            tag: 'img',
+                            class: 'icon',
+                            content: 'self-closing tag',
+                            src: '/images/Folder.svg'
+                        },
+                        {
+                            tag: 'span',
+                            class: '',
+                            content: 'FAQ'
+                        }
+                    ]
+                }
+            ],
             menuDropdownShown: false,
             userDropdownShown: false,
             deviceWidth: 0,
@@ -41,88 +114,6 @@ export default class NavBar extends React.Component {
             user,
             deviceWidth: window.innerWidth,
             userAvatar
-        });
-
-        const navLinks = [
-            {
-                name: 'Лобби',
-                path: '',
-                isExact: true,
-                userpage: true,
-                content: [
-                    {
-                        tag: 'img',
-                        class: 'icon',
-                        content: 'self-closing tag',
-                        src: "/images/Home.svg"
-                    },
-                    {
-                        tag: 'span',
-                        class: '',
-                        content: 'Лобби'
-                    }
-                ]
-            },
-            {
-                name: 'Продукты',
-                path: 'products',
-                isExact: false,
-                userpage: false,
-                content: [
-                    {
-                        tag: 'img',
-                        class: 'icon',
-                        content: 'self-closing tag',
-                        src: "/images/Category.svg"
-                    },
-                    {
-                        tag: 'span',
-                        class: '',
-                        content: 'Продукты'
-                    }
-                ]
-            },
-            {
-                name: 'Управление подписками',
-                path: 'subscriptions',
-                isExact: false,
-                userpage: true,
-                content: [
-                    {
-                        tag: 'img',
-                        class: 'icon',
-                        content: 'self-closing tag',
-                        src: "/images/Path.svg"
-                    },
-                    {
-                        tag: 'span',
-                        class: '',
-                        content: 'Управление подписками'
-                    }
-                ]
-            },
-            {
-                name: 'FAQ',
-                path: 'FAQ',
-                isExact: false,
-                userpage: false,
-                content: [
-                    {
-                        tag: 'img',
-                        class: 'icon',
-                        content: 'self-closing tag',
-                        src: '/images/Folder.svg'
-                    },
-                    {
-                        tag: 'span',
-                        class: '',
-                        content: 'FAQ'
-                    }
-                ]
-            }
-        ]
-        this.setState({
-            navLinks
         });
     }
     toggleMenuDropdown(e) {
@@ -161,7 +152,7 @@ export default class NavBar extends React.Component {
                 <NavLink
                     key={link.path}
                     to={
-                        `/dashboard/${link.userpage ? `${user.name}/` : ''}${link.path}`
+                        `/dashboard/${link.path}`
                     }
                     exact={link.isExact}
                     className="link-item"
@@ -257,6 +248,9 @@ export default class NavBar extends React.Component {
                         hiddenMenuDropdown={this.hiddenMenuDropdown}
                         userAvatar={userAvatar}
                         logout={this.logout}
+                        hideChangedPasswordNotification={this.props.hideChangedPasswordNotification}
+                        toggleModal={toggleModal}
+                        hideModal={hideModal}
                     />
                     <ul className="links">
                         {navMenu}
@@ -266,7 +260,8 @@ export default class NavBar extends React.Component {
                                     this.hiddenMenuDropdown();
                                     this.hiddenUserDropdown();
                                 }.bind(this)
-                            } to={`/dashboard/${user.name}`}
+                            }
+                            to="/dashboard"
                         >
                             <img className="logo" src="/images/zeer-logo.png" />
                         </Link>

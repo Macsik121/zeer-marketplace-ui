@@ -176,7 +176,7 @@ class Dashboard extends React.Component {
 
         const result = await fetchData(query, vars);
         
-        this.props.history.push(`/dashboard/${user.name}/subscriptions`);
+        this.props.history.push(`/dashboard/subscriptions`);
         await this.getSubscriptions();
         await this.getPopularProducts();
         await this.getProducts();
@@ -434,7 +434,7 @@ class Dashboard extends React.Component {
                             }
                         />
                         <Route
-                            path="/dashboard/:username/subscriptions"
+                            path="/dashboard/subscriptions"
                             component={
                                 () => (
                                     <Subscriptions
@@ -450,7 +450,7 @@ class Dashboard extends React.Component {
                             }
                         />
                         <Route
-                            path="/dashboard/:username/reset-binding"
+                            path="/dashboard/reset-binding"
                             component={
                                 () => (
                                     <ResetBinding
@@ -461,7 +461,7 @@ class Dashboard extends React.Component {
                             }
                         />
                         <Route
-                            path="/dashboard/:username/changeavatar"
+                            path="/dashboard/changeavatar"
                             component={
                                 () => (
                                     <SetNewAvatar setNewAvatar={this.setNewAvatar} />
@@ -470,7 +470,7 @@ class Dashboard extends React.Component {
                         />
                         <Route
                             exact
-                            path="/dashboard/:username"
+                            path="/dashboard"
                             component={
                                 () => (
                                     <Lobby

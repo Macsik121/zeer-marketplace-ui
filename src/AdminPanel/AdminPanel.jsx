@@ -15,15 +15,16 @@ import FAQ from './FAQ.jsx';
 import InjectLogs from './InjectLogs.jsx';
 import CrashLogs from './CrashLogs.jsx';
 import Settings from './Settings.jsx';
+import NotFound from '../NotFound.jsx';
 
 export default class AdminPanel extends React.Component {
     constructor() {
         super();
         this.state = {
             userDropdownShown: false,
-            user: {},
             userAvatar: { background: '' },
             statisticsShown: false,
+            user: {},
             navLinks: [
                 {
                     path: 'statistics',
@@ -107,7 +108,7 @@ export default class AdminPanel extends React.Component {
         });
     }
     logout() {
-        this.props.history.push(`/dashboard/${this.state.user.name}`);
+        this.props.history.push(`/dashboard`);
         return;
     }
     toggleUserDropdown() {
@@ -126,7 +127,7 @@ export default class AdminPanel extends React.Component {
         const navLinks = this.state.navLinks.map(link => (
             <NavLink
                 key={link.title}
-                to={`/admin/${user.name}/${link.path}`}
+                to={`/admin/${link.path}`}
             >
                 {link.title}
                 <div className="border"/>
@@ -134,20 +135,9 @@ export default class AdminPanel extends React.Component {
         ));
 
         const routes = this.state.navLinks.map(link => {
-            if (link.path == 'users') {
-                return (
-                    <Route
-                        path={`/admin/${user.name}/${link.path}`}
-                        component={() => (
-                            <link.component user={user} />
-                        )}
-                        key={link.title}
-                    />
-                )
-            }
             return (
                 <Route
-                    path={`/admin/${user.name}/${link.path}`}
+                    path={`/admin/${link.path}`}
                     component={() => link.component}
                     key={link.title}
                 />
@@ -159,7 +149,7 @@ export default class AdminPanel extends React.Component {
                 <div className="header">
                     <Link
                         className="admin-title"
-                        to={`/admin/${user.name}/statistics`}
+                        to="/admin/statistics"
                     >
                         Админ панель
                     </Link>
@@ -174,15 +164,16 @@ export default class AdminPanel extends React.Component {
                 </div>
                 <div className="main">
                     <nav className="nav">
-                        <Link to={`/admin/${user.name}/statistics`}>
+                        <Link to="/admin/statistics">
                             <img src="/images/zeer-logo.png" className="logo" />
                         </Link>
                         {navLinks}
                     </nav>
                     <div className="page">
                         <Switch>
-                            <Redirect exact from={`/admin/${user.name}`} to={`/admin/${user.name}/statistics`} />
+                            <Redirect exact from="/admin/" to="/admin/statistics" />
                             {routes}
+                            <Route path="/admin" component={NotFound} />
                         </Switch>
                     </div>
                 </div>
