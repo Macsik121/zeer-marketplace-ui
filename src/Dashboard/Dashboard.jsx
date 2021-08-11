@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, withRouter } from 'react-router-dom';
+import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import fetchData from '../fetchData';
 import Lobby from './Lobby.jsx';

@@ -266,9 +266,9 @@ export default class Subscriptions extends React.Component {
                             />
                             <label>Введите ключ</label>
                         </div>
-                        <button type="submit" className="activate">Активировать продукт</button>
+                        <button type="submit" className="activate">Активировать ключ</button>
                         <label className="terms">
-                            Нажимая кнопку "Активировать подписку"<br />
+                            Нажимая кнопку "Активировать ключ"<br />
                             я соглашаюсь
                             &nbsp;
                             <button

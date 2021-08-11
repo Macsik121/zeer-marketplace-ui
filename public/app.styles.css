@@ -355,39 +355,56 @@ template {
   !*** css ./node_modules/css-loader/dist/cjs.js!./src/styles/notfound.css ***!
   \***************************************************************************/
 .not-found {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 2;
+}
+
+.not-found .not-found-bg {
+    width: 100%;
+    height: 100%;
     background-image: url(/images/not-found.png);
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
     background-color: black;
-    width: 100vw;
-    height: 100vh;
     position: absolute;
     top: 0;
+    right: 0;
+    bottom: 0;
     left: 0;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    margin: auto;
+    z-index: -1;
+    filter: grayscale(1);
 }
 
 .not-found h2 {
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
-    /* font-size: 36px; */
+    font-size: 36px;
     line-height: 36px;
     text-align: center;
+    letter-spacing: 2%;
+    font-family: Roboto, sans-serif;
+    font-weight: 500;
+    color: #fff;
 }
 
 .not-found .content {
     display: flex;
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
-    font-size: 1.05vw;
+    font-size: 14px;
     line-height: 22px;
     margin: 18px auto 0 auto;
-    max-width: 350px;
+    width: 360px;
     text-align: center;
+    color: #92929D80;
 }
 
 .not-found .error {
@@ -398,40 +415,51 @@ template {
 }
 
 .not-found .error .four {
-    font-size: 20vw;
-    color: #fff;
-    opacity: .1;
+    font-size: 200px;
+    color: rgba(255, 255, 255, .1);
     font-family: 'Roboto', sans-serif;
+    line-height: 234px;
 }
 
 .not-found .error .four:nth-of-type(1) {
-    margin-right: 5vw;
+    margin-right: 70px;
 }
 
 .not-found .error .four:nth-of-type(2) {
-    margin-left: 5vw;
+    margin-left: 70px;
 }
 
 .not-found .error .logo {
-    width: 20vw;
+    width: 230px;
+    height: 240px;
 }
 
 .not-found .link {
     display: flex;
     justify-content: center;
+    margin-top: 100px;
 }
 
 .not-found .link .link-to-home {
-    margin-top: 3vw;
     font-family: 'Poppins', sans-serif;
-    font-weight: 600;
     color: #fff;
     text-decoration: none;
     background-color: #1E75FF;
-    padding: 1vw 3.5vw;
-    border-radius: 1vw;
-    font-size: 1.2vw;
+    border-radius: 10px;
+    font-size: 12px;
+    width: 200px;
+    font-weight: 600;
+    line-height: 18px;
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    transition: 200ms;
 }
+
+.not-found .link .lilnk-to-home:hover {
+    background-color: #1C6FF2;
+}
+
 /*!************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./src/styles/style.css ***!
   \************************************************************************/
@@ -998,6 +1026,8 @@ html {
     color: #fff;
     scrollbar-width: auto;
     scrollbar-color: #1C1C24 #13131A;
+    width: 100%;
+    height: 100%;
 }
 
 body {
@@ -1006,6 +1036,8 @@ body {
     font-weight: 400;
     background-color: #020100;
     font-size: 16px;
+    width: 100%;
+    height: 100%;
 }
 
 form input {

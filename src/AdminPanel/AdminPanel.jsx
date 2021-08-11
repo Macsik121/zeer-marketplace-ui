@@ -178,7 +178,6 @@ export default class AdminPanel extends React.Component {
                         <Switch>
                             <Redirect exact from="/admin/" to="/admin/statistics" />
                             {routes}
-                            <Route path="/admin" component={NotFound} />
                         </Switch>
                     </div>
                 </div>

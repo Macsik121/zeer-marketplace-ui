@@ -126,7 +126,7 @@ export default class Lobby extends React.Component {
                                 </div>
                             </div>
                             <div className="questions opportunity">
-                                <h2>Собрали наиболее актуальные ответы на вопросы</h2>
+                                <h2>Собрали наиболее актуальные<br /> ответы на вопросы</h2>
                                 <img src="/images/answers_to_questions.png" className="character" />
                                 <Link className="explore" to="/dashboard/FAQ">
                                     Изучить
