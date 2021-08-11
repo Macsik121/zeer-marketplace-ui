@@ -93,7 +93,12 @@ export default class AdminPanel extends React.Component {
         this.logout = this.logout.bind(this);
     }
     componentDidMount() {
-        const user = jwtDecode(localStorage.getItem('token'));
+        const token = localStorage.getItem('token');
+        if (!token || token == '') {
+            this.props.history.push('/');
+            return;
+        }
+        const user = jwtDecode(token);
         const userAvatar = {};
         if (user.avatar && user.avatar.includes('#')) {
             userAvatar.background = user.avatar;

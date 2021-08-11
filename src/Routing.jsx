@@ -33,17 +33,20 @@ class Routing extends React.Component {
         
         return (
             <Switch>
-                {/* {user && !user.isAdmin &&
-                    <Redirect from="/admin" to={`/dashboard/${user.name}`} />
+                {user && !user.isAdmin &&
+                    <Redirect from="/admin" to="/dashboard" />
                 }
                 {!user &&
                     <Redirect from="/admin" to="/" />
-                } */}
+                }
+                {!user &&
+                    <Redirect from="/changeavatar" to="/" />
+                }
                 {/* {user &&
                     <Redirect exact from="/" to="/dashboard" />
                 } */}
                 {!user &&
-                    <Redirect exact from="/dashboard" to="/" />
+                    <Redirect from="/dashboard" to="/" />
                 }
                 {routes.map(route => {
                     if (route.path == '/' && route.exact) {
