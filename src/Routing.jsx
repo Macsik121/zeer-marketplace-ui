@@ -33,12 +33,12 @@ class Routing extends React.Component {
         
         return (
             <Switch>
-                {user && !user.isAdmin &&
+                {/* {user && !user.isAdmin &&
                     <Redirect from="/admin" to="/dashboard" />
-                }
-                {!user &&
+                } */}
+                {/* {!user &&
                     <Redirect from="/admin" to="/" />
-                }
+                } */}
                 {!user &&
                     <Redirect from="/changeavatar" to="/" />
                 }

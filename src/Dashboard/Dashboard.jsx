@@ -53,7 +53,7 @@ class Dashboard extends React.Component {
         this.makeResetRequest = this.makeResetRequest.bind(this);
     }
     async componentDidMount() {
-        const { history, getUser } = this.props;
+        const { history } = this.props;
         this.setState({ deviceWidth: window.innerWidth });
         window.onkeypress = function(e) {
             if (e.keyCode == 13) {
@@ -67,6 +67,21 @@ class Dashboard extends React.Component {
             return;
         }
         const user = jwtDecode(token);
+        const resultUserExists = await fetchData(`
+            query user($name: String!) {
+                user(name: $name) {
+                    email
+                    name
+                    id
+                }
+            }
+        `, { name: user.name });
+
+        if (resultUserExists.user.name == '') {
+            localStorage.clear();
+            this.props.history.push('/');
+            return;
+        }
 
         this.getProducts();
         this.getPopularProducts();

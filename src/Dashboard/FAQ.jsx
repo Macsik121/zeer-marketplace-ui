@@ -77,9 +77,9 @@ export default class FAQ extends React.Component {
             }
             this.setState({ answers: answersToRender });
         } else if (answersToRender.length < 1) {
-            this.setState({answers: answersCopy});
+            this.setState({ answers: answersCopy });
         } else {
-            this.setState({answers: answersToRender});
+            this.setState({ answers: answersToRender });
         }
     }
     addElement(answers) {

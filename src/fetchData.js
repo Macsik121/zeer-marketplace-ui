@@ -11,7 +11,7 @@ export default async function fetchData(query, variables = {}, headers = {}) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({query, variables})
+        body: JSON.stringify({ query, variables })
     });
 
     const result = await res.json();

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&family=Poppins:ital,wght@0,400;0,500;0,600;1,400&family=Roboto:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Roboto:ital,wght@0,400;0,500;1,700&display=swap');
 @import './slick-slider.css';
 @import './auth.css';
 
@@ -1235,6 +1235,7 @@ fieldset {
     font-family: Roboto, sans-serif;
     line-height: 24px;
     letter-spacing: .1px;
+    word-break: break-all;
 }
 
 .dashboard .main .lobby .info .buttons {
@@ -3234,6 +3235,7 @@ fieldset {
     width: 350px;
     margin-left: 20px;
     padding-right: 25px;
+    word-break: break-word;
 }
 
 .reset-binding .history .last-thirty-resets .resets .date {
@@ -3759,6 +3761,15 @@ fieldset {
     }
 }
 
+.admin-panel .progress-bar {
+    position: absolute;
+    top: 250px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+}
+
 .admin-panel .header {
     display: flex;
     justify-content: space-between;
@@ -3767,23 +3778,107 @@ fieldset {
     border-bottom: 1px solid #292932;
 }
 
-.admin-panel .header .admin-title {
+.admin-panel .header .heading {
+    display: flex;
     font-weight: 500;
     letter-spacing: .1px;
     font-size: 24px;
     line-height: 36px;
-    padding: 0 15px;
-    width: 212px;
+    height: 70px;
+    padding-left: 15px;
+}
+
+.admin-panel .header .heading .admin-title {
     text-decoration: none;
     color: #fff;
-    height: 85px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-right: 15px;
+}
+
+.admin-panel .search-bar {
     display: flex;
     align-items: center;
 }
 
+.admin-panel .search-bar .search-field input {
+    width: 315px;
+    color: #aaa;
+    background-color: #F8F8F8;
+    border-radius: 8px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    border: none;
+    padding: 10px 15px;
+}
+
+.admin-panel .search-bar .checkbox {
+    width: 24px;
+    height: 24px;
+    position: relative;
+}
+
+.admin-panel .search-bar .checkbox-wrap {
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.admin-panel .search-bar .checkbox .checkbox-bg {
+    background-color: #50B5FF;
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.admin-panel .search-bar .checkbox .checkbox-bg::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: '';
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-panel .search-bar .checkbox input {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.admin-panel .search-bar .checkbox-wrap span {
+    color: #fff;
+    line-height: 24px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: .1px;
+    margin-left: 10px;
+}
+
+.admin-panel .search-bar .checkbox input:checked + .checkbox-bg::before {
+    content: url('../images/checked-search-admin.png');
+}
+
 .admin-panel .header .user-menu {
-    padding: 20px;
+    padding: 0 20px;
     margin-right: 200px;
+    height: 70px;
 }
 
 .admin-panel .main {
@@ -3841,11 +3936,77 @@ fieldset {
 .admin-panel .main .page {
     background-color: #13131A;
     width: 100%;
+    position: relative;
+}
+
+.admin-panel .users {
+    position: relative;
+    padding-top: 10px;
+}
+
+.admin-panel .users .confirm {
+    position: absolute;
+    top: -45%;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    transition: 300ms;
+    opacity: 0;
+    display: flex;
+    justify-content: center;
+    background-color: #1C1C24;
+    padding: 30px 20px;
+    border-radius: 10px;
+    width: 400px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-panel .users .confirm .heading {
+    display: flex;
+    justify-content: space-between;
+}
+
+.admin-panel .users .confirm .heading .close-icon {
+    fill: #1E75FF;
+    cursor: pointer;
+}
+
+.admin-panel .users .confirm .warning {
+    line-height: 24px;
+    margin-top: 30px;
+    text-align: center;
+}
+
+.admin-panel .users .confirm .buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.admin-panel .users .confirm .buttons .button {
+    border-radius: 10px;
+    width: 160px;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    border: none;
+    color: #fff;
+}
+
+.admin-panel .users .confirm .buttons .button.agree {
+    background-color: #04BE00;
+}
+
+.admin-panel .users .confirm .buttons .button.refuse {
+    background-color: #DD4D4D78;
 }
 
 .admin-panel .users h2 {
     text-align: center;
-    margin-top: 10px;
     font-weight: 700;
     font-size: 24px;
     line-height: 36px;
@@ -3855,21 +4016,154 @@ fieldset {
 
 .admin-panel .users .users-list {
     margin-top: 20px;
+    height: 100%;
+    transition: 300ms;
 }
 
 .admin-panel .users .users-list .heading {
     display: flex;
     justify-content: space-between;
+    background-color: #1C1C24;
+}
+
+.admin-panel .users .users-list .heading .head-item {
+    line-height: 36px;
+    font-size: 20px;
+    letter-spacing: .1px;
+    font-weight: 700;
+}
+
+.admin-panel .users .users-list .heading .ID {
+    width: 70px;
+    display: flex;
+    justify-content: center;
+}
+
+.admin-panel .users .users-list .heading .login {
+    width: 175px;
+    display: flex;
+    justify-content: center;
+}
+
+.admin-panel .users .users-list .heading .e-mail {
+    width: 230px;
+    display: flex;
+    justify-content: center;
+}
+
+.admin-panel .users .users-list .heading .registration-date {
+    width: 140px;
+    display: flex;
+    justify-content: center;
+    padding-right: 5px;
+}
+
+.admin-panel .users .users-list .heading .subscription {
+    width: 110px;
+    display: flex;
+    justify-content: center;
+}
+
+.admin-panel .users .users-list .heading .action {
+    width: 160px;
+    display: flex;
+    justify-content: center;
 }
 
 .admin-panel .users .users-list .all-users {
     display: flex;
     flex-direction: column;
+    height: 100%;
+}
+
+.admin-panel .users .users-list .all-users .users-wrap {
+    transition: 300ms;
+    opacity: 1;
 }
 
 .admin-panel .users .users-list .all-users .user {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    padding: 2px 0;
 }
 
+.admin-panel .users .users-list .all-users .user:nth-child(2n) {
+    background-color: #1C1C24;
+}
 
+.admin-panel .users .users-list .all-users .user .user-info {
+    word-break: break-all;
+    font-size: 18px;
+    line-height: 36px;
+    letter-spacing: .1px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.admin-panel .users .users-list .all-users .user .ID {
+    width: 70px;
+    display: flex;
+    justify-content: center;
+}
+
+.admin-panel .users .users-list .all-users .user .login {
+    width: 170px;
+    display: flex;
+    justify-content: center;
+}
+
+.admin-panel .users .users-list .all-users .user .e-mail {
+    width: 230px;
+    display: flex;
+    justify-content: center;
+}
+
+.admin-panel .users .users-list .all-users .user .registered-date {
+    width: 140px;
+    display: flex;
+    justify-content: center;
+}
+
+.admin-panel .users .users-list .all-users .user .subscription {
+    width: 110px;
+    display: flex;
+    justify-content: center;
+}
+
+.admin-panel .users .users-list .all-users .user .actions {
+    width: 160px;
+    display: flex;
+}
+
+.admin-panel .users .users-list .all-users .user .actions .button {
+    background-color: #DD4D4D78;
+    text-decoration: none;
+    color: #fff;
+    border: none;
+    padding: 0 12px;
+    cursor: pointer;
+}
+
+.admin-panel .users .users-list .all-users .user .actions .button.delete {
+    margin-left: 6px;
+}
+
+.admin-panel .edit-user {
+    position: relative;
+    padding-top: 10px;
+}
+
+.admin-panel .edit-user .edit-user-wrap {
+    transition: 300ms;
+}
+
+.admin-panel .edit-user h2 {
+    text-align: center;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    color: #fff;
+    letter-spacing: .1px;
+}

@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link, NavLink, Switch, Route, Redirect } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
+import fetchData from '../fetchData.js';
 import UserMenu from '../UserMenu.jsx';
 import Footer from '../Footer.jsx';
 import Statistics from './Statistics.jsx';
 import Users from './users/Users.jsx';
+import EditUser from './users/EditUser.jsx';
 import ActionLogs from './ActionLogs.jsx';
 import Keys from './Keys.jsx';
 import Promocodes from './Promocodes.jsx';
@@ -15,7 +17,6 @@ import FAQ from './FAQ.jsx';
 import InjectLogs from './InjectLogs.jsx';
 import CrashLogs from './CrashLogs.jsx';
 import Settings from './Settings.jsx';
-import NotFound from '../NotFound.jsx';
 
 export default class AdminPanel extends React.Component {
     constructor() {
@@ -25,80 +26,97 @@ export default class AdminPanel extends React.Component {
             userAvatar: { background: '' },
             statisticsShown: false,
             user: {},
+            users: [],
+            SearchToRender: null,
             navLinks: [
                 {
                     path: 'statistics',
                     title: 'Статистика',
-                    component: <Statistics />
+                    component: Statistics
                 },
                 {
                     path: 'users',
                     title: 'Пользователи',
-                    component: <Users />
+                    component: Users
                 },
                 {
                     path: 'logs',
                     title: 'Логи действий',
-                    component: <ActionLogs />
+                    component: ActionLogs
                 },
                 {
                     path: 'keys',
                     title: 'Ключи',
-                    component: <Keys />
+                    component: Keys
                 },
                 {
                     path: 'promocodes',
                     title: 'Промокоды',
-                    component: <Promocodes />
+                    component: Promocodes
                 },
                 {
                     path: 'products',
                     title: 'Продукты',
-                    component: <Products />
+                    component: Products
                 },
                 {
                     path: 'reset-binding',
                     title: 'Сброс привязки',
-                    component: <ResetBindings />
+                    component: ResetBindings
                 },
                 {
                     path: 'news',
                     title: 'Новости',
-                    component: <News />
+                    component: News
                 },
                 {
                     path: 'FAQ',
                     title: 'FAQ',
-                    component: <FAQ />
+                    component: FAQ
                 },
                 {
                     path: 'inject-logs',
                     title: 'Логи инжекта',
-                    component: <InjectLogs />
+                    component: InjectLogs
                 },
                 {
                     path: 'crash-logs',
                     title: 'Логи крашей',
-                    component: <CrashLogs />
+                    component: CrashLogs
                 },
                 {
                     path: 'settings',
                     title: 'Настройки',
-                    component: <Settings />
+                    component: Settings
                 }
             ]
         };
         this.toggleUserDropdown = this.toggleUserDropdown.bind(this);
         this.hideUserDropdown = this.hideUserDropdown.bind(this);
         this.logout = this.logout.bind(this);
+        this.renderSearchBar = this.renderSearchBar.bind(this);
     }
-    componentDidMount() {
+    async componentDidMount() {
         const token = localStorage.getItem('token');
         if (!token || token == '') {
             this.props.history.push('/');
             return;
         }
         const user = jwtDecode(token);
+        const resultUserExists = await fetchData(`
+            query user($name: String!) {
+                user(name: $name) {
+                    email
+                    name
+                    id
+                }
+            }
+        `, { name: user.name });
+
+        if (resultUserExists.name == '') {
+            this.props.history.push('/');
+            return;
+        }
         const userAvatar = {};
         if (user.avatar && user.avatar.includes('#')) {
             userAvatar.background = user.avatar;
@@ -122,28 +140,60 @@ export default class AdminPanel extends React.Component {
     hideUserDropdown() {
         this.setState({ userDropdownShown: false });
     }
+    renderSearchBar(SearchToRender) {
+        this.setState({ SearchToRender });
+    }
     render() {
         const {
             userDropdownShown,
             userAvatar,
-            user
+            user,
+            SearchToRender
         } = this.state;
 
-        const navLinks = this.state.navLinks.map(link => (
-            <NavLink
-                key={link.title}
-                to={`/admin/${link.path}`}
-            >
-                {link.title}
-                <div className="border"/>
-            </NavLink>
-        ));
+        const navLinks = this.state.navLinks.map(link => {
+            // if (link.path == 'path') {
+            //     return (
+            //         <NavLink
+            //             key={link.title}
+            //             to={`/admin/${link.path}`}
+            //             onClick={this.getUsers}
+            //         >
+            //             {link.title}
+            //             <div className="border"></div>
+            //         </NavLink>
+            //     )
+            // }
+            return (
+                <NavLink
+                    key={link.title}
+                    to={`/admin/${link.path}`}
+                >
+                    {link.title}
+                    <div className="border"/>
+                </NavLink>
+            )
+        });
 
         const routes = this.state.navLinks.map(link => {
+            // if (link.path == 'users') {
+            //     return (
+            //         <Route
+            //             path={`/admin/${link.path}`}
+            //             component={() => <link.component  />}
+            //             key={link.title}
+            //         />
+            //     )
+            // }
             return (
                 <Route
                     path={`/admin/${link.path}`}
-                    component={() => link.component}
+                    component={() => (
+                        <link.component
+                            SearchToRender={SearchToRender}
+                            renderSearchBar={this.renderSearchBar}
+                        />
+                    )}
                     key={link.title}
                 />
             )
@@ -152,12 +202,15 @@ export default class AdminPanel extends React.Component {
         return (
             <div className="admin-panel">
                 <div className="header">
-                    <Link
-                        className="admin-title"
-                        to="/admin/statistics"
-                    >
-                        Админ панель
-                    </Link>
+                    <div className="heading">
+                        <Link
+                            className="admin-title"
+                            to="/admin/statistics"
+                        >
+                            Админ панель
+                        </Link>
+                        {SearchToRender && SearchToRender}
+                    </div>
                     <UserMenu
                         user={user}
                         userAvatar={userAvatar}
@@ -176,7 +229,16 @@ export default class AdminPanel extends React.Component {
                     </nav>
                     <div className="page">
                         <Switch>
-                            <Redirect exact from="/admin/" to="/admin/statistics" />
+                            <Redirect exact from="/admin" to="/admin/statistics" />
+                            <Route
+                                path="/admin/users/edit-user/:username"
+                                component={() => (
+                                    <EditUser
+                                        renderSearchBar={this.renderSearchBar}
+                                        SearchToRender={SearchToRender}
+                                    />
+                                )}
+                            />
                             {routes}
                         </Switch>
                     </div>

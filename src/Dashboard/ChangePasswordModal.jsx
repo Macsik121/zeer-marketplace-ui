@@ -54,7 +54,6 @@ export default class ChangePassword extends React.Component {
         } else {
             this.showError(result.changePassword);
         }
-        console.log(result.changePassword);
     }
     handleInputFocus() {
         this.setState({ errorMessageStyles: {opacity: 0} });
@@ -74,9 +73,6 @@ export default class ChangePassword extends React.Component {
             repeatedPasswordShown,
             passwordChangedNotification
         } = this.state;
-
-        console.log('New password:', newPasswordShown);
-        console.log('Repeated password:', repeatedPasswordShown);
 
         return (
             <div style={style} className="change-password modal-form">

@@ -12,7 +12,8 @@ class Signup extends React.Component {
             signUpAttempt: {},
             agreed: false,
             isPasswordShown: false,
-            isRepeatedPasswordShown: false
+            isRepeatedPasswordShown: false,
+            isRequestMaking: false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleFieldFocus = this.handleFieldFocus.bind(this);
@@ -34,6 +35,7 @@ class Signup extends React.Component {
         return regexp.test(String(email).toLowerCase());
     }
     async handleSubmit(e) {
+        this.setState({ isRequestMaking: true });
         e.preventDefault();
         
         const form = document.forms.signup;
@@ -49,48 +51,57 @@ class Signup extends React.Component {
             } else if (name.length < 3) {
                 this.showError('Имя должно быть не мене 3-х символов');
             }
+            this.setState({ isRequestMaking: false });
             return;
         }
 
         for(let i = 0; i < name.length; i++) {
             if (name[i] == '/') {
                 this.showError('Твоё имя пользователя не должно содержать "/" символ');
+                this.setState({ isRequestMaking: false });
                 return;
             }
         }
 
         if (name.toLowerCase() == 'faq') {
-            this.showError('Ваше имя не должно быть FAQ')
+            this.showError('Ваше имя не должно быть FAQ');
+            this.setState({ isRequestMaking: false });
             return;
         }
 
         if (name.toLowerCase() == 'products') {
             this.showError('Ваше имя не должно быть products');
+            this.setState({ isRequestMaking: false });
             return;
         }
 
         if (email == '') {
             this.showError('Напишите свою почту, чтобы зарегестрироваться');
+            this.setState({ isRequestMaking: false });
             return;
         }
 
         if (!this.validateEmail(email)) {
             this.showError('Вы ввели почту неверено');
+            this.setState({ isRequestMaking: false });
             return;
         }
 
         if (password.length < 6) {
             this.showError('Минимальная длина пароля 6 символов');
+            this.setState({ isRequestMaking: false });
             return;
         }
 
         if (password != confirmPassword) {
             this.showError('Повторите пароль правильно');
+            this.setState({ isRequestMaking: false });
             return;
         }
 
         if (!agreeWithTerms) {
             this.showError('Вы должны согласится с правилами');
+            this.setState({ isRequestMaking: false });
             return;
         }
 
@@ -117,17 +128,19 @@ class Signup extends React.Component {
         this.setState({signUpAttempt: res.signUp});
         const { signUpAttempt } = this.state;
 
-        if (signUpAttempt.token == '') {
-            this.showError(signUpAttempt.message);
-            return;
-        }
-
         if (signUpAttempt.token && signUpAttempt.token != '') {
             localStorage.setItem('token', signUpAttempt.token);
             this.props.getUser();
-            this.props.history.replace(`/dashboard/${signUpAttempt.user.name}`);
+            this.props.history.push('/dashboard');
+            this.setState({ isRequestMaking: false });
+            return;
+        } else {
+            this.showError(signUpAttempt.message);
+            this.setState({ isRequestMaking: false });
             return;
         }
+
+        this.setState({ isRequestMaking: false })
     }
     handleFieldFocus(e) {
         this.setState({
@@ -149,15 +162,22 @@ class Signup extends React.Component {
             formErrorStyles,
             agreed,
             isPasswordShown,
-            isRepeatedPasswordShown
+            isRepeatedPasswordShown,
+            isRequestMaking
         } = this.state;
         const {
-            style,
             hideSignup,
             showLogin,
             toggleAgreement,
             hideAgreement
         } = this.props;
+        const style = {...this.props.style}
+
+        isRequestMaking
+            ? style.pointerEvents = 'none'
+            : style.pointerEvents = 'all';
+        console.log(style);
+        
         return (
             <div style={style} className="signup auth-form">
                 <div className="container">
