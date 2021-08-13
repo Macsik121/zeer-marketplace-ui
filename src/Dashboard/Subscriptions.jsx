@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { CircularProgress } from '@material-ui/core';
+import jwtDecode from 'jwt-decode';
 import fetchData from '../fetchData';
 
 export default class Subscriptions extends React.Component {
@@ -8,14 +10,18 @@ export default class Subscriptions extends React.Component {
         this.state = {
             subscriptions: {},
             showAll: false,
-            user: {},
             isRequestSent: false
         };
         this.freezeSubscription = this.freezeSubscription.bind(this);
         this.unfreezeSubscription = this.unfreezeSubscription.bind(this);
     }
+    componentDidUpdate(prevProps) {
+        const { subscriptions } = this.props;
+        if (prevProps.subscriptions != this.props.subscriptions) this.setState({ subscriptions })
+    }
     componentDidMount() {
-        const { subscriptions, user } = this.props;
+        const { subscriptions } = this.props;
+        const user = jwtDecode(localStorage.getItem('token'));
         this.setState({
             subscriptions,
             user
@@ -48,12 +54,13 @@ export default class Subscriptions extends React.Component {
         };
         await fetchData(query, vars);
         await this.props.getSubscriptions();
-        this.setState({ isRequestSent: true });
+        this.setState({ isRequestSent: false });
     }
     async freezeSubscription(e) {
         this.setState({ isRequestSent: true });
         const divContent = e.target.parentNode.parentNode.parentNode.parentNode;
         const title = divContent.childNodes[0].childNodes[0].textContent;
+
         const query = `
             mutation freezeSubscription($name: String!, $title: String!) {
                 freezeSubscription(name: $name, title: $title) {
@@ -76,7 +83,7 @@ export default class Subscriptions extends React.Component {
         };
         await fetchData(query, vars);
         await this.props.getSubscriptions();
-        this.setState({ isRequestSent: true });
+        this.setState({ isRequestSent: false });
     }
     handleSubmit(e) {
         e.preventDefault();
@@ -200,14 +207,27 @@ export default class Subscriptions extends React.Component {
                 <div className="container">
                     <div
                         className="all-subscriptions"
-                        style={
-                            isRequestSent
-                                ? { pointerEvents: 'none' }
-                                : { pointerEvents: 'all' }
-                        }
                     >
                         <h2 className="active-subs-title">Активные подписки</h2>
-                        {activeSubs}
+                        <CircularProgress
+                            style={
+                                {
+                                    display: this.props.isRequestMaking ? 'block' : 'none'
+                                }
+                            }
+                            className="progress-bar"
+                        />
+                        <div
+                            className="active-subs"
+                            style={
+                                {
+                                    pointerEvents: isRequestSent ? 'none' : 'all',
+                                    opacity: this.props.isRequestMaking ? 0 : 1
+                                }
+                            }
+                        >
+                            {activeSubs}
+                        </div>
                         <div className="show-all">
                             {
                                 subscriptions.all

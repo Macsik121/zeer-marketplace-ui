@@ -61,6 +61,7 @@
 .popular-products-slider {
     margin-top: 30px;
     min-height: 500px;
+    transition: 300ms;
 }
 
 .popular-products-slider .slick-list {

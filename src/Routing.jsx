@@ -33,40 +33,34 @@ class Routing extends React.Component {
         
         return (
             <Switch>
-                {/* {user && !user.isAdmin &&
+                {user && !user.isAdmin &&
                     <Redirect from="/admin" to="/dashboard" />
-                } */}
-                {/* {!user &&
+                }
+                {!user &&
                     <Redirect from="/admin" to="/" />
-                } */}
+                }
                 {!user &&
                     <Redirect from="/changeavatar" to="/" />
                 }
-                {/* {user &&
+                {user &&
                     <Redirect exact from="/" to="/dashboard" />
-                } */}
-                {!user &&
-                    <Redirect from="/dashboard" to="/" />
                 }
+                {/* {!user &&
+                    <Redirect from="/dashboard" to="/" />
+                } */}
                 {routes.map(route => {
-                    if (route.path == '/' && route.exact) {
-                        return (
-                            <Route
-                                getUser={this.getUser}
-                                path={route.path}
-                                component={
-                                    () => (
-                                        <route.component getUser={this.getUser} user={user} />
-                                    )
-                                }
-                                key={route.path}
-                            />
-                        )
-                    }
-
                     return (
                         <Route
-                            {...route}
+                            path={route.path}
+                            render={
+                                () => (
+                                    <route.component user={user} getUser={this.getUser} />
+                                )
+                            }
+                            // component={() => (
+                            //     <route.component user={user} getUser={this.getUser} />
+                            // )}
+                            // {...route}
                             key={route.path}
                         />
                     )}

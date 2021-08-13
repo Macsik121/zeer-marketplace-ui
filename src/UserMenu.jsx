@@ -67,7 +67,7 @@ export default class UserMenu extends React.Component {
                                 hiddenUserDropdown();
                             }.bind(this)
                         }
-                        to={`/changeavatar`}
+                        to="/dashboard/changeavatar"
                     >
                         <div className="item">
                             Установить новый аватар

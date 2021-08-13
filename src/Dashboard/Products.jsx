@@ -1,13 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { CircularProgress } from '@material-ui/core';
 import BoughtPeople from '../RenderBoughtPeople.jsx';
 
 export default class Products extends React.Component {
-    constructor() {
-        super();
-    }
     render() {
-        const { buyProduct } = this.props;
+        const { buyProduct, isRequestMaking } = this.props;
+        const style = { opacity: isRequestMaking ? 0 : 1 };
         const products = this.props.products.map(product => {
             return (
                 <div key={product.id} className="product">
@@ -32,7 +31,18 @@ export default class Products extends React.Component {
         });
         return (
             <div className="products">
-                <div className="container">
+                <CircularProgress
+                    style={
+                        isRequestMaking
+                            ? { display: 'block' }
+                            : { display: 'none' }
+                    }
+                    className="progress-bar"
+                />
+                <div
+                    className="container"
+                    style={style}
+                >
                     {products}
                 </div>
             </div>

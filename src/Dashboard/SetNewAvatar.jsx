@@ -35,7 +35,7 @@ class SetNewAvatar extends React.Component {
         }
 
         this.props.setNewAvatar(newAvatar);
-        this.props.history.push(`/dashboard/${user.name}`);
+        this.props.history.push('/dashboard');
     }
     changeAvatar(e) {
         const reader = new FileReader();

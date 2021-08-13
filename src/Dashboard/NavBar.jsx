@@ -1,9 +1,9 @@
 import React from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, withRouter } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import UserMenu from '../UserMenu.jsx';
 
-export default class NavBar extends React.Component {
+class NavBar extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -11,7 +11,7 @@ export default class NavBar extends React.Component {
             navLinks: [
                 {
                     name: 'Лобби',
-                    path: '',
+                    path: '/',
                     isExact: true,
                     content: [
                         {
@@ -130,6 +130,7 @@ export default class NavBar extends React.Component {
     }
     async logout() {
         localStorage.clear();
+        this.props.getUser();
         this.props.history.push('/');
     }
     render() {
@@ -152,7 +153,9 @@ export default class NavBar extends React.Component {
                 <NavLink
                     key={link.path}
                     to={
-                        `/dashboard/${link.path}`
+                        link.path == '/'
+                            ? '/dashboard'
+                            : `/dashboard/${link.path}`
                     }
                     exact={link.isExact}
                     className="link-item"
@@ -271,3 +274,5 @@ export default class NavBar extends React.Component {
         )
     }
 }
+
+export default withRouter(NavBar);

@@ -1,12 +1,12 @@
 import React from 'react';
-import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import fetchData from '../fetchData';
 import Lobby from './Lobby.jsx';
 import Products from './Products.jsx';
 import Subscriptions from './Subscriptions.jsx';
 import FAQ from './FAQ.jsx';
-import SetNewAvatar from '../SetNewAvatar.jsx';
+import SetNewAvatar from './SetNewAvatar.jsx';
 import ProductInfo from './ProductInfo.jsx';
 import ChangePassword from './ChangePasswordModal.jsx';
 import Footer from '../Footer.jsx';
@@ -35,7 +35,13 @@ class Dashboard extends React.Component {
             passwordChangedNotification: '',
             passwordChangedNotificationShown: false,
             agreementShown: false,
-            resetRequests: []
+            resetRequests: [],
+            popularProductsRequestMaking: false,
+            productsRequestMaking: true,
+            answersFAQRequestMaking: true,
+            subscriptionsRequestMaking: true,
+            resetBindingRequestsRequestMaking: true,
+            isMounted: false
         }
         this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
@@ -51,8 +57,10 @@ class Dashboard extends React.Component {
         this.toggleAgreement = this.toggleAgreement.bind(this);
         this.getResetRequests = this.getResetRequests.bind(this);
         this.makeResetRequest = this.makeResetRequest.bind(this);
+        this.updateMount = this.updateMount.bind(this);
     }
     async componentDidMount() {
+        this.setState({ isMounted: true });
         const { history } = this.props;
         this.setState({ deviceWidth: window.innerWidth });
         window.onkeypress = function(e) {
@@ -112,6 +120,8 @@ class Dashboard extends React.Component {
         this.getSubscriptions();
         this.getResetRequests();
 
+        this.setState({ answersFAQRequestMaking: true });
+
         const resultFAQ = await fetchData(`
             query {
                 getAnswers {
@@ -126,7 +136,13 @@ class Dashboard extends React.Component {
             }
         `);
 
-        this.setState({ answersFAQ: resultFAQ.getAnswers });
+        this.setState({ answersFAQ: resultFAQ.getAnswers, answersFAQRequestMaking: false });
+    }
+    componentWillUnmount() {
+        this.setState({ isMounted: false })
+    }
+    updateMount() {
+        this.setState({ isMounted: !this.state.isMounted });
     }
     async setNewAvatar(avatar) {
         const user = jwtDecode(localStorage.getItem('token'));
@@ -197,6 +213,7 @@ class Dashboard extends React.Component {
         await this.getProducts();
     }
     async getProducts() {
+        this.setState({ productsRequestMaking: true })
         const result = await fetchData(`
             query {
                 products {
@@ -224,9 +241,10 @@ class Dashboard extends React.Component {
                 }
             }
         `);
-        this.setState({ products: result.products });
+        this.setState({ products: result.products, productsRequestMaking: false });
     }
     async getPopularProducts() {
+        this.setState({ popularProductsRequestMaking: true })
         let popularProducts = await fetchPopularProducts();
         const popularProductsCopy = popularProducts.slice();
         popularProducts = [];
@@ -238,9 +256,10 @@ class Dashboard extends React.Component {
                 break;
             }
         }
-        this.setState({ popularProducts });
+        this.setState({ popularProducts, popularProductsRequestMaking: false });
     }
     async getSubscriptions() {
+        this.setState({ subscriptionsRequestMaking: true });
         let user = {};
         if (localStorage.getItem('token') && localStorage.getItem('token') != '') {
             user = jwtDecode(localStorage.getItem('token'));
@@ -283,7 +302,7 @@ class Dashboard extends React.Component {
                     }
                 }
             `, { name: user.name });
-            this.setState({ subscriptions: result.getSubscriptions });
+            this.setState({ subscriptions: result.getSubscriptions, subscriptionsRequestMaking: false });
         }
     }
     async makeResetRequest(reason) {
@@ -305,6 +324,7 @@ class Dashboard extends React.Component {
         return result.makeResetRequest;
     }
     async getResetRequests() {
+        this.setState({ resetBindingRequestsRequestMaking: true });
         const user = jwtDecode(localStorage.getItem('token'));
         const result = await fetchData(`
             query getResetRequests($name: String!) {
@@ -317,7 +337,7 @@ class Dashboard extends React.Component {
             }
         `, { name: user.name });
 
-        this.setState({ resetRequests: result.getResetRequests });
+        this.setState({ resetRequests: result.getResetRequests, resetBindingRequestsRequestMaking: false });
         return result.getResetRequests;
     }
     toggleModal() {
@@ -360,7 +380,13 @@ class Dashboard extends React.Component {
             subscriptions,
             popularProducts,
             products,
-            resetRequests
+            resetRequests,
+            productsRequestMaking,
+            popularProductsRequestMaking,
+            answersFAQRequestMaking,
+            subscriptionsRequestMaking,
+            resetBindingRequestsRequestMaking,
+            isMounted
         } = this.state;
 
         return (
@@ -390,6 +416,7 @@ class Dashboard extends React.Component {
                         showingChangePassword={showingChangePassword}
                         hideChangedPasswordNotification={this.hideNotificationMessage}
                         userAvatar={userAvatar}
+                        getUser={this.props.getUser}
                     />
                 </header>
                 <ChangePassword
@@ -417,8 +444,20 @@ class Dashboard extends React.Component {
                 <main
                     style={
                         showingChangePassword || agreementShown
-                            ? {opacity: '.5', transition: '500ms', pointerEvents: 'none', userSelect: 'none'}
-                            : {opactiy: 1, transition: '500ms', pointerEvents: 'all', userSelect: 'text'}
+                            ? {
+                                opacity: '.5',
+                                transition: '500ms',
+                                pointerEvents: 'none',
+                                userSelect: 'none',
+                                opacity: isMounted ? 1 : 0
+                            }
+                            : {
+                                opactiy: 1,
+                                transition: '500ms',
+                                pointerEvents: 'all',
+                                userSelect: 'text',
+                                opacity: isMounted ? 1 : 0
+                            }
                     }
                     className="main"
                 >
@@ -426,19 +465,30 @@ class Dashboard extends React.Component {
                         <Route
                             exact
                             path="/dashboard/products"
-                            component={() => (
+                            render={() => (
                                 <Products
                                     products={products}
                                     getSubscriptions={this.getSubscriptions}
-                                    getProducts={this.getProducts}
+                                    // getProducts={this.getProducts}
                                     buyProduct={this.buyProduct}
+                                    isRequestMaking={productsRequestMaking}
                                 />
                             )}
                         />
-                        <Route path="/dashboard/FAQ" component={() => <FAQ answers={answersFAQ} />} />
+                        <Route
+                            path="/dashboard/FAQ"
+                            render={
+                                () => (
+                                    <FAQ
+                                        answers={answersFAQ}
+                                        isRequestMaking={answersFAQRequestMaking}
+                                    />
+                                )
+                            }
+                        />
                         <Route
                             path="/dashboard/products/:title"
-                            component={
+                            render={
                                 () => (
                                     <ProductInfo
                                         popularProducts={popularProducts}
@@ -450,7 +500,7 @@ class Dashboard extends React.Component {
                         />
                         <Route
                             path="/dashboard/subscriptions"
-                            component={
+                            render={
                                 () => (
                                     <Subscriptions
                                         subscriptions={subscriptions}
@@ -460,24 +510,26 @@ class Dashboard extends React.Component {
                                         getSubscriptions={this.getSubscriptions}
                                         user={user}
                                         buyProduct={this.buyProduct}
+                                        isRequestMaking={subscriptionsRequestMaking}
                                     />
                                 )
                             }
                         />
                         <Route
                             path="/dashboard/reset-binding"
-                            component={
+                            render={
                                 () => (
                                     <ResetBinding
                                         resetRequests={resetRequests}
                                         makeResetRequest={this.makeResetRequest}
+                                        isRequestMaking={resetBindingRequestsRequestMaking}
                                     />
                                 )
                             }
                         />
                         <Route
                             path="/dashboard/changeavatar"
-                            component={
+                            render={
                                 () => (
                                     <SetNewAvatar setNewAvatar={this.setNewAvatar} />
                                 )
@@ -486,7 +538,7 @@ class Dashboard extends React.Component {
                         <Route
                             exact
                             path="/dashboard"
-                            component={
+                            render={
                                 () => (
                                     <Lobby
                                         user={user}
@@ -496,6 +548,8 @@ class Dashboard extends React.Component {
                                         getPopularProducts={this.getPopularProducts}
                                         deviceWidth={deviceWidth}
                                         buyProduct={this.buyProduct}
+                                        isRequestMaking={popularProductsRequestMaking}
+                                        updateMount={this.updateMount}
                                     />
                                 )
                             }

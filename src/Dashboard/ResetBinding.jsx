@@ -1,3 +1,4 @@
+import { CircularProgress } from '@material-ui/core';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -34,23 +35,48 @@ export default class ResetBinding extends React.Component {
                             <Link className="additional-link" to="/dashboard/FAQ">
                                 правила нашего
                                 сообщества
-                            </Link>.
+                            </Link>
+                            .
                         </span>
                     )
                 }
-            ]
+            ],
+            isFormDisabled: false,
+            isErrorShown: false,
+            formError: '.'
         };
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleFocus = this.handleFocus.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+    }
+    showError(formError) {
+        this.setState({ isErrorShown: true, formError });
     }
     async handleSubmit(e) {
+        this.setState({ isFormDisabled: true });
         e.preventDefault();
         const form = document.forms.newApplication;
         const reason = form.reason.value;
 
+        if (reason.length == 0) {
+            this.showError('Заполните это поле');
+            this.setState({ isFormDisabled: false });
+            return;
+        }
+
         await this.props.makeResetRequest(reason);
+        form.reason.value = '';
+        this.setState({ isFormDisabled: false });
+    }
+    handleFocus() {
+        this.setState({ isErrorShown: false });
+    }
+    handleChange() {
+        this.setState({ isErrorShown: false })
     }
     render() {
-        const { resetRequests } = this.props;
+        const { resetRequests, isRequestMaking } = this.props;
+        const { isFormDisabled, formError, isErrorShown } = this.state;
         const resets = resetRequests.map((reset, i) => {
             if (i < 30) {
                 return (
@@ -75,8 +101,6 @@ export default class ResetBinding extends React.Component {
             </div>
         ));
 
-        console.log(resetRequests[0]);
-
         return (
             <div className="reset-binding">
                 <div className="container">
@@ -87,32 +111,46 @@ export default class ResetBinding extends React.Component {
                             name="newApplication"
                             className="new-application"
                         >
-                            <h3>Новая заявка</h3>
-                            <span className="last-reset">
-                                {
-                                    resetRequests[0]
-                                    ? `Последний сброс ${new Date(resetRequests[0].date).toLocaleDateString()}`
-                                    : 'У вас нету сбросов'
-                                }
-                            </span>
-                            <div className="field-wrap">
-                                <textarea
-                                    required
-                                    name="reason"
-                                    placeholder="Причина сброса"
-                                    name="reason"
-                                    className="reset-reason"
-                                    onKeyDown={
-                                        function(e) {
-                                            if (e.keyCode == 13) {
-                                                this.handleSubmit(e);
-                                            }
-                                        }.bind(this)
+                            <fieldset disabled={isFormDisabled}>
+                                <h3>Новая заявка</h3>
+                                <span className="last-reset">
+                                    {
+                                        resetRequests[0]
+                                            ? `Последний сброс ${new Date(resetRequests[0].date).toLocaleDateString()}`
+                                            : 'У вас нету сбросов'
                                     }
-                                />
-                                {/* <label>Причина сброса</label> */}
-                            </div>
-                            <button type="submit" className="send">Отправить</button>
+                                </span>
+                                <label
+                                    className="error"
+                                    style={
+                                        {
+                                            opacity: isErrorShown ? 1 : 0
+                                        }
+                                    }
+                                >
+                                    {formError}
+                                </label>
+                                <div className="field-wrap">
+                                    <textarea
+                                        required
+                                        name="reason"
+                                        placeholder="Причина сброса"
+                                        name="reason"
+                                        className="reset-reason"
+                                        onFocus={this.handleFocus}
+                                        onKeyDown={
+                                            function(e) {
+                                                if (e.keyCode == 13) {
+                                                    this.handleSubmit(e);
+                                                }
+                                            }.bind(this)
+                                        }
+                                        onChange={this.handleChange}
+                                    />
+                                    {/* <label>Причина сброса</label> */}
+                                </div>
+                                <button type="submit" className="send">Отправить</button>
+                            </fieldset>
                         </form>
                         <div className="rules">
                             {rules}
@@ -120,7 +158,22 @@ export default class ResetBinding extends React.Component {
                     </div>
                     <div className="history">
                         <h2 className="history-title">Последние 30 сбросов</h2>
-                        <div className="last-thirty-resets">
+                        <CircularProgress
+                            style={
+                                {
+                                    display: isRequestMaking ? 'block' : 'none',
+                                }
+                            }
+                            className="progress-bar"
+                        />
+                        <div
+                            className="last-thirty-resets"
+                            style={
+                                {
+                                    opacity: isRequestMaking ? 0 : 1
+                                }
+                            }
+                        >
                             <div className="heading">
                                 <span className="number">&#8470;</span>
                                 <span className="reason-of-reset">Причина сброса</span>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { CircularProgress } from '@material-ui/core';
 
 export default class FAQ extends React.Component {
     constructor() {
@@ -20,7 +21,8 @@ export default class FAQ extends React.Component {
         this.toggleCategoryMenu = this.toggleCategoryMenu.bind(this);
         this.hiddenCategoryMenu = this.hiddenCategoryMenu.bind(this);
     }
-    componentDidUpdate(_, prevState) {
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.answers != this.props.answers) this.setState({ answers: this.props.answers })
         const { currentCategory, answersCopy, searchValue } = this.state; 
         const answers = this.state.answersCopy.slice();
         if (prevState.currentCategory != currentCategory) {
@@ -37,7 +39,7 @@ export default class FAQ extends React.Component {
     }
     componentDidMount() {
         const { answers } = this.props;
-        this.setState({answers});
+        this.setState({ answers });
         let modifiedStateAnswers = answers;
         modifiedStateAnswers = modifiedStateAnswers.map(answer => {
             answer.isShown = false;
@@ -245,6 +247,7 @@ export default class FAQ extends React.Component {
             currentCategory,
             deviceWidth
         } = this.state;
+        const { isRequestMaking } = this.props;
         let categoryToRender = '';
         const categoriesToSearch = this.state.categoriesToSearch.map(category => {
             return (
@@ -290,14 +293,7 @@ export default class FAQ extends React.Component {
             <div className="FAQ">
                 <div className="container">
                     <h2>Ответы на вопросы</h2>
-                    <div
-                        // style={
-                        //     this._isMounted
-                        //         ? {transform: 'translateY(0)', opacity: 1}
-                        //         : {transform: 'translateY(-500%)', opacity: 0}
-                        // }
-                        className="search-bar"
-                    >
+                    <div className="search-bar">
                         <div className="categories">
                             <div
                                 className="first-category"
@@ -320,7 +316,23 @@ export default class FAQ extends React.Component {
                         <input onClick={this.hiddenCategoryMenu} placeholder="Ваш вопрос..." className="search" value={searchValue} onChange={this.handleSearch} />
                         <img className="search-icon" src="/images/search-icon.png" />
                     </div>
-                    <div className="answers-wrap">
+                    <CircularProgress
+                        style={
+                            {
+                                display: isRequestMaking ? 'block' : 'none',
+                                margin: '50px auto 0 auto'
+                            }
+                        }
+                    />
+                    <div
+                        className="answers-wrap"
+                        style={
+                            {
+                                transform: `translateX(${isRequestMaking ? '-2%' : 0})`,
+                                opacity: isRequestMaking ? 0 : 1
+                            }
+                        }
+                    >
                         {this.renderAnswers()}
                     </div>
                 </div>

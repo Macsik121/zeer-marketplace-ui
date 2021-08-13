@@ -1,22 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import SlickSlider from 'react-slick';
+import { CircularProgress } from '@material-ui/core';
 import { fetchPopularProducts } from '../PopularProducts.jsx';
 import BoughtPeople from '../RenderBoughtPeople.jsx';
 
 export default class Lobby extends React.Component {
-    constructor() {
-        super();
-    }
     render() {
         const {
             user,
             userAvatar,
             subscriptions,
             deviceWidth,
-            buyProduct
+            buyProduct,
+            isRequestMaking
         } = this.props;
-
+    
         const sliderSettings = {
             infinite: true,
             speed: 500,
@@ -142,10 +141,33 @@ export default class Lobby extends React.Component {
                     {
                         deviceWidth > 1080
                             ? (
-                                <SlickSlider className="popular-products-slider" {...sliderSettings}>
-                                    {popularProducts}
-                                    {popularProducts}
-                                </SlickSlider>
+                                isRequestMaking
+                                    ? (
+                                        <CircularProgress
+                                            style={
+                                                {
+                                                    display: (
+                                                        isRequestMaking ? 'block' : 'none'
+                                                    ),
+                                                    margin: '50px auto 0 auto'
+                                                }
+                                            }
+                                       />
+                                    )
+                                    : (
+                                        <SlickSlider
+                                            className="popular-products-slider"
+                                            {...sliderSettings}
+                                            style={
+                                                isRequestMaking
+                                                    ? { opacity: 0 }
+                                                    : { opacity: 1 }
+                                            }
+                                        >
+                                            {popularProducts}
+                                            {popularProducts}
+                                        </SlickSlider>
+                                    )
                             )
                             : (
                                 <div className="popular-products-slides">

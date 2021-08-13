@@ -530,6 +530,7 @@ template {
 .popular-products-slider {
     margin-top: 30px;
     min-height: 500px;
+    transition: 300ms;
 }
 
 .popular-products-slider .slick-list {
@@ -1793,6 +1794,14 @@ fieldset {
     position: relative;
 }
 
+.dashboard .progress-bar {
+    position: absolute;
+    top: 150px;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+}
+
 .dashboard .nav {
     border-bottom: 1px solid #3c3c4d;
     background: #1C1C24;
@@ -2152,6 +2161,8 @@ fieldset {
     margin-top: 50px;
     padding-bottom: 60px;
     position: relative;
+    transition: 300ms;
+    opacity: 0;
 }
 
 .dashboard .main .lobby a {
@@ -2568,6 +2579,7 @@ fieldset {
 
 .dashboard .main .products {
     margin-top: 60px;
+    transition: 300ms;
 }
 
 .dashboard .main .products .container {
@@ -2576,6 +2588,8 @@ fieldset {
     justify-content: space-between;
     padding-top: 30px;
     margin-bottom: -60px;
+    transition: 300ms;
+    opacity: 0;
 }
 
 .dashboard .main .products .product {
@@ -2601,7 +2615,7 @@ fieldset {
     margin: 0 auto;
     right: 0;
     left: 0;
-    top: -180px;
+    top: -40%;
     border-radius: 10px;
     border: 3px solid #44444f;
 }
@@ -3298,6 +3312,7 @@ fieldset {
 
 .dashboard .main .subscriptions .all-subscriptions {
     width: calc(770px - 30px);
+    position: relative;
 }
 
 .dashboard .main .subscriptions .all-subscriptions .active-subs-title {
@@ -3306,6 +3321,10 @@ fieldset {
     font-size: 24px;
     color: #FAFAFB;
     letter-spacing: .1px;
+}
+
+.dashboard .main .subscriptions .all-subscriptions .active-subs {
+    transition: 300ms;
 }
 
 .dashboard .main .subscriptions .all-subscriptions .subscription {
@@ -3741,6 +3760,7 @@ fieldset {
 
 .dashboard .main .FAQ .answers-wrap {
     margin-top: 70px;
+    transition: 1s;
 }
 
 .dashboard .main .FAQ .answer-title {
@@ -4028,6 +4048,12 @@ fieldset {
     background-color: #1C1C24;
 }
 
+.reset-binding .reset-binding-form .new-application fieldset {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
 .reset-binding .reset-binding-form .new-application h3 {
     line-height: 24px;
     font-size: 16px;
@@ -4045,6 +4071,12 @@ fieldset {
     color: #B5B5BE;
 }
 
+.reset-binding .reset-binding-form .new-application .error {
+    text-align: center;
+    color: #f00;
+    transition: 200ms;
+}
+
 .reset-binding .reset-binding-form .new-application .field-wrap {
     width: 100%;
     position: relative;
@@ -4057,11 +4089,11 @@ fieldset {
     border-radius: 10px;
     background-color: #292932;
     padding: 15px;
-    margin-top: 20px;
     width: 100%;
     height: 100%;
     color: #FAFAFB;
     border: 1px solid #1C1C24;
+    margin-top: 5px;
 }
 
 .reset-binding .reset-binding-form .new-application .field-wrap .reset-reason:focus + label,
@@ -4098,7 +4130,7 @@ fieldset {
     width: 100%;
     padding: 10px;
     border: none;
-    margin-top: 40px;
+    margin-top: 25px;
     color: #FAFAFB;
     font-weight: 600;
     font-size: 12px;
@@ -4153,6 +4185,7 @@ fieldset {
 
 .reset-binding .history {
     width: 770px;
+    position: relative;
 }
 
 .reset-binding .history .last-thirty-resets {
@@ -4162,6 +4195,7 @@ fieldset {
     padding: 20px 20px 30px;
     background-color: #1C1C24;
     border-radius: 10px;
+    transition: 300ms;
 }
 
 .reset-binding .history .last-thirty-resets .heading {
@@ -4821,7 +4855,7 @@ fieldset {
 }
 
 .admin-panel .search-bar .checkbox .checkbox-bg {
-    background-color: #50B5FF;
+    background-color: #fff;
     position: absolute;
     top: 0;
     left: 0;
@@ -4833,6 +4867,10 @@ fieldset {
     justify-content: center;
     align-items: center;
     z-index: 1;
+}
+
+.admin-panel .search-bar .checkbox .checkbox-bg:hover {
+    background-color: #aaa;
 }
 
 .admin-panel .search-bar .checkbox .checkbox-bg::before {
@@ -4867,6 +4905,8 @@ fieldset {
 
 .admin-panel .search-bar .checkbox input:checked + .checkbox-bg::before {
     content: url(/images/checked-search-admin.png);
+    background-color: #50B5FF;
+    border-radius: 4.5px;
 }
 
 .admin-panel .header .user-menu {
@@ -4940,7 +4980,7 @@ fieldset {
 
 .admin-panel .users .confirm {
     position: absolute;
-    top: -45%;
+    top: -60%;
     left: 0;
     right: 0;
     margin: 0 auto;
@@ -4989,6 +5029,7 @@ fieldset {
     user-select: none;
     border: none;
     color: #fff;
+    transition: 300ms;
 }
 
 .admin-panel .users .confirm .buttons .button.agree {
@@ -4997,6 +5038,10 @@ fieldset {
 
 .admin-panel .users .confirm .buttons .button.refuse {
     background-color: #DD4D4D78;
+}
+
+.admin-panel .users .confirm .buttons .button.refuse:hover {
+    background-color: #92191978;
 }
 
 .admin-panel .users h2 {
@@ -5160,5 +5205,101 @@ fieldset {
     line-height: 36px;
     color: #fff;
     letter-spacing: .1px;
+}
+
+.admin-panel .keys {
+    position: relative;
+    padding-top: 10px;
+}
+
+.admin-panel .keys h2 {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    letter-spacing: .1px;
+    color: #fff;
+    text-align: center;
+    width: 100%;
+}
+
+.admin-panel .keys .products {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    transition: 300ms;
+    margin: 40px auto 0 auto;
+    padding-top: 150px;
+    width: 85%;
+}
+
+.admin-panel .keys .products .product {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-basis: 15%;
+    min-width: 370px;
+    height: 424px;
+    padding: 20px;
+    padding-top: 150px;
+    background-color: #1C1C24;
+    margin-bottom: 200px;
+    position: relative;
+    border-radius: 10px;
+}
+
+.admin-panel .keys .products .product .cover {
+    height: 330px;
+    min-height: 330px;
+    width: 330px;
+    border: 3px solid #44444F;
+    border-radius: 10px;
+    position: absolute;
+    top: -40%;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+}
+
+.admin-panel .keys .products .product .product-title {
+    margin-top: 20px;
+    text-align: center;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: .1px;
+    color: #FAFAFB;
+}
+
+.admin-panel .keys .products .product .keys .keys-amount {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 18px;
+    color: #fff;
+}
+
+.admin-panel .keys .products .product .buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.admin-panel .keys .products .product .buttons .button {
+    width: 160px;
+    padding: 10px 0;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 18px;
+    color: #FAFAFB;
+    display: flex;
+    justify-content: center;
+    border: none;
+    text-decoration: none;
+    border-radius: 10px;
+}
+
+.admin-panel .keys .products .product .buttons .button.create-key {
+    background-color: #292932;
+}
+
+.admin-panel .keys .products .product .buttons .button.watch-keys {
+    background-color: #1E75FF;
 }
 

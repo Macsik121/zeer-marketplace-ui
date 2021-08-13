@@ -89,8 +89,10 @@ class Home extends React.Component {
         const token = localStorage.getItem('token');
         if (token && token != '') {
             const user = jwtDecode(token);
-            this.props.history.push(`/dashboard`);
+            this.props.history.push('/dashboard');
             return;
+        } else {
+            this.props.user && this.props.getUser();
         }
         window.onkeydown = function(e) {
             const {

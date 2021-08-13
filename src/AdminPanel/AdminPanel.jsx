@@ -8,7 +8,8 @@ import Statistics from './Statistics.jsx';
 import Users from './users/Users.jsx';
 import EditUser from './users/EditUser.jsx';
 import ActionLogs from './ActionLogs.jsx';
-import Keys from './Keys.jsx';
+import Keys from './product-keys/Keys.jsx';
+import ViewKeys from './product-keys/ViewKeys.jsx';
 import Promocodes from './Promocodes.jsx';
 import Products from './Products.jsx';
 import ResetBindings from './ResetBindings.jsx';
@@ -234,6 +235,15 @@ export default class AdminPanel extends React.Component {
                                 path="/admin/users/edit-user/:username"
                                 component={() => (
                                     <EditUser
+                                        renderSearchBar={this.renderSearchBar}
+                                        SearchToRender={SearchToRender}
+                                    />
+                                )}
+                            />
+                            <Route
+                                path="/admin/keys/view-keys/:title"
+                                component={() => (
+                                    <ViewKeys
                                         renderSearchBar={this.renderSearchBar}
                                         SearchToRender={SearchToRender}
                                     />
