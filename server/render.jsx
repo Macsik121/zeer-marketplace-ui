@@ -10,8 +10,6 @@ export default function render(req, res) {
             <Routing />
         </StaticRouter>
     )
-    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    console.log(ip);
 
     const body = ReactDOMServer.renderToString(element);
     res.send(template(body));

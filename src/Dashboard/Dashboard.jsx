@@ -74,13 +74,14 @@ class Dashboard extends React.Component {
             this.props.history.push('/');
             return;
         }
-        const user = jwtDecode(token);
+        let user = jwtDecode(token);
         const resultUserExists = await fetchData(`
             query user($name: String!) {
                 user(name: $name) {
                     email
                     name
-                    id
+                    isAdmin
+                    avatar
                 }
             }
         `, { name: user.name });
@@ -90,6 +91,8 @@ class Dashboard extends React.Component {
             this.props.history.push('/');
             return;
         }
+
+        user = resultUserExists.user;
 
         this.getProducts();
         this.getPopularProducts();

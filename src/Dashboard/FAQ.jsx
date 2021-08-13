@@ -22,8 +22,14 @@ export default class FAQ extends React.Component {
         this.hiddenCategoryMenu = this.hiddenCategoryMenu.bind(this);
     }
     componentDidUpdate(prevProps, prevState) {
-        if (prevProps.answers != this.props.answers) this.setState({ answers: this.props.answers })
-        const { currentCategory, answersCopy, searchValue } = this.state; 
+        if (prevProps.answers != this.props.answers) {
+            this.setState({ answers: this.props.answers });
+        }
+        // if (prevState.answers != this.state.answers) {
+            
+        // }
+        console.log(this.state);
+        const { currentCategory, answersCopy, searchValue } = this.state;
         const answers = this.state.answersCopy.slice();
         if (prevState.currentCategory != currentCategory) {
             for (let i = 0; i < answers.length; i++) {
