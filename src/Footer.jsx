@@ -21,7 +21,7 @@ export default class Footer extends React.Component {
         const { timeWorking, deviceWidth } = this.state;
         const { style } = this.props;
         return (
-            <footer style={style} className="footer">
+            <footer style={style} className="general-footer">
                 <div className="container">
                     <div className="footer-wrap">
                         <div className="zeer">
@@ -32,7 +32,7 @@ export default class Footer extends React.Component {
                         </div>
                         <div className="contacts">
                             {deviceWidth > 800 &&
-                                <span>Мы в социальных сетях</span>
+                                <span className="we-in-soc-media">Мы в социальных сетях</span>
                             }
                             <div className="soc-media">
                                 <a href="https://t.me/zeer_changer" target="_blank">

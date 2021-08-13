@@ -1624,6 +1624,7 @@ fieldset {
     left: 0;
     opacity: .25;
     z-index: 1;
+    pointer-events: none;
 }
 
 .home .footer-wrap .footer-bottom-bg {
@@ -2850,7 +2851,7 @@ fieldset {
     background-color: #1C1C24;
     min-height: auto;
     position: static;
-    opacity: 1jjkjjjjkjkjkjjkjjj;
+    opacity: 1;
 }
 
 .dashboard .main .product-info .product .general-info {
@@ -4686,12 +4687,12 @@ fieldset {
     background: transparent;
 }
 
-.footer {
+.general-footer {
     background-color: #1C1C24;
     border-top: 1px solid #292932;
 }
 
-.footer .container {
+.general-footer .container {
     padding: 15px;
     display: flex;
     align-items: center;
@@ -4700,43 +4701,52 @@ fieldset {
     font-size: 14px;
 }
 
-.footer .container .container .container {
+.general-footer .container .container .container {
     padding: 0;
     width: 100%;
     margin: 0;
 }
 
-.footer .footer-wrap {
+.general-footer .footer-wrap {
     display: flex;
     justify-content: space-between;
     width: 100%;
 }
 
-.footer .zeer {
+.general-footer .zeer {
     display: flex;
     align-items: center;
 }
 
-.footer .zeer .logo {
+.general-footer .zeer .logo {
     width: 50px;
     height: 50px;
 }
 
-.footer .zeer .time-working {
+.general-footer .zeer .time-working {
     margin-left: 20px;
+    font-family: Roboto, sans-serif;
+    font-size: 12px;
+    line-height: 14px;
 }
 
-.footer .contacts {
+.general-footer .we-in-soc-media {
+    font-family: Roboto, sans-serif;
+    font-size: 12px;
+    line-height: 14px;
+}
+
+.general-footer .contacts {
     display: flex;
     align-items: center;
 }
 
-.footer .contacts .soc-media {
+.general-footer .contacts .soc-media {
     margin-left: 30px;
     display: flex;
 }
 
-.footer .contacts .soc-media a {
+.general-footer .contacts .soc-media a {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -4746,32 +4756,39 @@ fieldset {
     transition: 200ms;
 }
 
-.footer .contacts .soc-media a + a {
+.general-footer .contacts .soc-media a + a {
     margin-left: 10px;
 }
 
-.footer .contacts .soc-media a:hover {
-    background-color: #fff;
-    border: 1px solid #000;
+.general-footer .contacts .soc-media a:hover {
+    filter: invert(1);
+    background-color: #000;
+    border: 1px solid #fff;
 }
 
-.footer .gray-line {
+.general-footer .gray-line {
     height: 50px;
     width: 1px;
     background-color: #292932;
-}
-
-.footer .download-loader {
-    border: 1px solid #1E75FF;
-    cursor: pointer;
-    background: transparent;
-    color: #fff;
-    border-radius: 10px;
-    transition: 200ms;
     margin-left: 30px;
 }
 
-.footer .download-loader:hover {
+.general-footer .download-loader {
+    border: 1px solid #1E75FF;
+    cursor: pointer;
+    background: transparent;
+    color: #FAFAFB;
+    border-radius: 10px;
+    transition: 200ms;
+    margin-left: 30px;
+    width: 190px;
+    padding: 10px 0;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.general-footer .download-loader:hover {
     background-color: #1E75FF;
 }
 
@@ -4812,6 +4829,11 @@ fieldset {
         text-align: center;
         max-height: 15px;
     }
+}
+
+.admin-panel .general-footer .download-loader {
+    pointer-events: none;
+    opacity: 0;
 }
 
 .admin-panel .progress-bar {
