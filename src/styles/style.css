@@ -1245,6 +1245,8 @@ fieldset {
 
 .dashboard .main .lobby .info .user .general .avatar .first-char {
     position: absolute;
+    user-select: none;
+    pointer-events: none;
 }
 
 .dashboard .main .lobby .info .user .general .data {
