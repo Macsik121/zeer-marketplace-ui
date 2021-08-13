@@ -966,6 +966,7 @@ fieldset {
     justify-content: center;
     cursor: pointer;
     user-select: none;
+    transition: 300ms;
 }
 
 .user-menu .avatar .first-char {
@@ -974,6 +975,7 @@ fieldset {
 
 .user-menu .username {
     margin-left: 10px;
+    transition: 300ms;
 }
 
 .user-menu .menu-arrow {
@@ -1193,6 +1195,10 @@ fieldset {
     opacity: 0;
 }
 
+.dashboard .main .lobby .welcome .user-avatar-wrap {
+    transition: 300ms;
+}
+
 .dashboard .main .lobby a {
     color: #fff;
     text-decoration: none;
@@ -1241,6 +1247,7 @@ fieldset {
     position: relative;
     min-width: 56px;
     height: 56px;
+    transition: 300ms;
 }
 
 .dashboard .main .lobby .info .user .general .avatar .first-char {

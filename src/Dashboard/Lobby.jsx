@@ -57,12 +57,31 @@ export default class Lobby extends React.Component {
         return (
             <div className="lobby">
                 <div className="container">
-                    <h2 className="welcome">Добро пожаловать, {user.name}!</h2>
+                    <h2 className="welcome">
+                        Добро пожаловать,&nbsp;
+                        <span
+                            className="user-avatar-wrap"
+                            style={
+                                {
+                                    opacity: Object.keys(user).length > 1 ? 1 : 0
+                                }
+                            }
+                        >
+                            {
+                                user.name
+                                    ? user.name
+                                    : 'имя'
+                            }
+                        </span>!
+                    </h2>
                     <div className="general-info">
                         <div className="info">
                             <div className="user">
                                 <div className="general">
-                                    <div className="avatar" style={userAvatar}>
+                                    <div
+                                        className="avatar"
+                                        style={userAvatar}
+                                    >
                                         <span className="first-char">
                                             {
                                                 user.nameFirstChar

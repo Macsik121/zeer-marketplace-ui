@@ -43,8 +43,7 @@ class SetNewAvatar extends React.Component {
             return;
         }
 
-        this.props.setNewAvatar(newAvatar);
-        await this.props.getUser(user.name);
+        await this.props.setNewAvatar(newAvatar);
         this.props.history.push('/dashboard');
         this.setState({ isRequestSent: false });
     }

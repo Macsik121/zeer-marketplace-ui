@@ -59,6 +59,20 @@ class Dashboard extends React.Component {
         this.makeResetRequest = this.makeResetRequest.bind(this);
         this.getUser = this.getUser.bind(this);
     }
+    componentDidUpdate(_, prevState) {
+        if (JSON.stringify(prevState.user) != JSON.stringify(this.state.user)) {
+            const { user } = this.state;
+            const userAvatar = {};
+            if (user.avatar && user.avatar.includes('#')) {
+                userAvatar.background = user.avatar;
+                user.nameFirstChar = user.name.substring(0, 2);
+            } else {
+                userAvatar.background = `url("${user.avatar}") center/cover no-repeat`;
+                user.nameFirstChar = '';
+            }
+            this.setState({ userAvatar });
+        }
+    }
     async componentDidMount() {
         this.setState({ isMounted: true });
         const { history } = this.props;
@@ -130,6 +144,7 @@ class Dashboard extends React.Component {
         this.setState({ isMounted: false })
     }
     async getUser(name) {
+        const user = jwtDecode(localStorage.getItem('token'));
         const resultUserExists = await fetchData(`
             query user($name: String!) {
                 user(name: $name) {
@@ -139,7 +154,7 @@ class Dashboard extends React.Component {
                     avatar
                 }
             }
-        `, { name });
+        `, { name: name && name != '' ? name : user.name });
 
         if (resultUserExists.user.name == '') {
             localStorage.clear();
@@ -182,8 +197,12 @@ class Dashboard extends React.Component {
                 }
             }
         `, { name: user.name });
+
+        await this.getUser();
+        this.getPopularProducts();
+        this.getProducts()
+
         this.setState({
-            user: jwtDecode(localStorage.getItem('token')),
             userAvatar: { background: `url(${this.state.user.avatar}) center/cover no-repeat` }
         });
     }

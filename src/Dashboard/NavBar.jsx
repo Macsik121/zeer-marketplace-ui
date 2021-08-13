@@ -95,10 +95,6 @@ class NavBar extends React.Component {
         this.hiddenUserDropdown = this.hiddenUserDropdown.bind(this);
         this.logout = this.logout.bind(this);
     }
-    componentDidUpdate(prevProps) {
-        const { userAvatar } = this.props;
-        if (prevProps.userAvatar != this.props.userAvatar) this.setState({ userAvatar })
-    }
     componentDidMount() {
         window.onkeydown = function(e) {
             if (e.keyCode == 27) {
@@ -138,7 +134,7 @@ class NavBar extends React.Component {
             navLinks,
             menuDropdownShown,
             deviceWidth,
-            userDropdownShown
+            userDropdownShown,
         } = this.state;
 
         const {

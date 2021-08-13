@@ -15,7 +15,9 @@ export default class UserMenu extends React.Component {
         } = this.props;
 
         return (
-            <div className="user-menu">
+            <div
+                className="user-menu"
+            >
                 <div
                     onClick={
                         function() {
@@ -24,15 +26,12 @@ export default class UserMenu extends React.Component {
                         }.bind(this)
                     }
                     style={
-                        userDropdownShown
-                            ? {
-                                background: userAvatar.background,
-                                border: '2px solid #fff'
-                            }
-                            : {
-                                background: userAvatar.background,
-                                border: '2px solid #1C1C24'
-                            }
+                        {
+                            background: userAvatar.background,
+                            border: userDropdownShown ? '2px solid #fff' : '2px solid #1C1C24',
+                            backgroundPosition: 'center center',
+                            opacity: Object.keys(userAvatar).length > 0 ? 1 : 0
+                        }
                     }
                     className="avatar"
                 >
@@ -42,7 +41,20 @@ export default class UserMenu extends React.Component {
                         }
                     </span>
                 </div>
-                <span className="username">{user.name}</span>
+                <span
+                    className="username"
+                    style={
+                        {
+                            opacity: Object.keys(user).length > 0 ? 1 : 0
+                        }
+                    }
+                >
+                    {
+                        user.name
+                            ? user.name
+                            : 'имя'
+                    }
+                </span>
                 <img
                     onClick={
                         function() {
