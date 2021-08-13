@@ -863,13 +863,23 @@ fieldset {
     position: relative;
 }
 
-.dashboard .nav .links a + a {
+.dashboard .nav .links .link-item .main-content {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+.dashboard .nav .links .link-item + .link-item {
     margin-left: 1.5vw;
 }
 
-.dashboard .nav .links a.active {
+.dashboard .nav .links .link-item.active {
     color: #1E75FF;
     position: relative;
+}
+
+.dashboard .nav .links .link-item.active .icon {
+    fill: #1E75FF;
 }
 
 .dashboard .nav .links-wrap .link-item.active .border-bottom {
@@ -4090,7 +4100,7 @@ fieldset {
 }
 
 .admin-panel .users .users-list .heading .e-mail {
-    width: 230px;
+    width: 275px;
     display: flex;
     justify-content: center;
 }
@@ -4159,7 +4169,7 @@ fieldset {
 }
 
 .admin-panel .users .users-list .all-users .user .e-mail {
-    width: 230px;
+    width: 275px;
     display: flex;
     justify-content: center;
 }
@@ -4188,10 +4198,20 @@ fieldset {
     border: none;
     padding: 0 12px;
     cursor: pointer;
+    transition: 300ms;
+    user-select: none;
 }
 
 .admin-panel .users .users-list .all-users .user .actions .button.delete {
     margin-left: 6px;
+}
+
+.admin-panel .users .users-list .all-users .user .actions .button.edit:hover {
+    background-color: #92191978;
+}
+
+.admin-panel .users .users-list .all-users .user .actions .button.delete:hover {
+    background-color: #92191978;
 }
 
 .admin-panel .edit-user {
