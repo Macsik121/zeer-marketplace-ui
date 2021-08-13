@@ -57,7 +57,7 @@ class Dashboard extends React.Component {
         this.toggleAgreement = this.toggleAgreement.bind(this);
         this.getResetRequests = this.getResetRequests.bind(this);
         this.makeResetRequest = this.makeResetRequest.bind(this);
-        this.updateMount = this.updateMount.bind(this);
+        this.getUser = this.getUser.bind(this);
     }
     async componentDidMount() {
         this.setState({ isMounted: true });
@@ -75,24 +75,9 @@ class Dashboard extends React.Component {
             return;
         }
         let user = jwtDecode(token);
-        const resultUserExists = await fetchData(`
-            query user($name: String!) {
-                user(name: $name) {
-                    email
-                    name
-                    isAdmin
-                    avatar
-                }
-            }
-        `, { name: user.name });
+        await this.getUser(user.name);
 
-        if (resultUserExists.user.name == '') {
-            localStorage.clear();
-            this.props.history.push('/');
-            return;
-        }
-
-        user = resultUserExists.user;
+        user = this.state.user;
 
         this.getProducts();
         this.getPopularProducts();
@@ -144,8 +129,25 @@ class Dashboard extends React.Component {
     componentWillUnmount() {
         this.setState({ isMounted: false })
     }
-    updateMount() {
-        this.setState({ isMounted: !this.state.isMounted });
+    async getUser(name) {
+        const resultUserExists = await fetchData(`
+            query user($name: String!) {
+                user(name: $name) {
+                    email
+                    name
+                    isAdmin
+                    avatar
+                }
+            }
+        `, { name });
+
+        if (resultUserExists.user.name == '') {
+            localStorage.clear();
+            this.props.history.push('/');
+            return;
+        }
+        
+        this.setState({ user: resultUserExists.user });
     }
     async setNewAvatar(avatar) {
         const user = jwtDecode(localStorage.getItem('token'));
@@ -534,7 +536,10 @@ class Dashboard extends React.Component {
                             path="/dashboard/changeavatar"
                             render={
                                 () => (
-                                    <SetNewAvatar setNewAvatar={this.setNewAvatar} />
+                                    <SetNewAvatar
+                                        setNewAvatar={this.setNewAvatar}
+                                        getUser={this.getUser}
+                                    />
                                 )
                             }
                         />

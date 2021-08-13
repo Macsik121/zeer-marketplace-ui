@@ -478,7 +478,7 @@ class Home extends React.Component {
                     <div className="footer-bottom-bg" />
                     <div className="steps">
                         <div className="container">
-                            <h2 className="instruction">Инструкцию как купить</h2>
+                            <h2 className="instruction">Инструкция как купить</h2>
                             <div className="container">
                                 <div className="step1 step">
                                     <div className="step-bg">
