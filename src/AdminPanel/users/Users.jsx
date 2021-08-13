@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { CircularProgress } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import fetchData from '../../fetchData';
@@ -17,7 +17,7 @@ function ConfirmationModal(props) {
             style={
                 agreedToDeleteShown
                     ? { opacity: 1, top: '0' }
-                    : { opacity: 0, top: '-60%' }
+                    : { opacity: 0, top: '-65%' }
             }
         >
             <div className="heading">
@@ -43,7 +43,7 @@ function ConfirmationModal(props) {
     )
 }
 
-export default class Users extends React.Component {
+class Users extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -55,42 +55,21 @@ export default class Users extends React.Component {
             deletedUserMessage: '',
             isRequestMaking: false,
             searchOnlyRoles: false,
-            agreedToDeleteShown: false
+            agreedToDeleteShown: false,
+            currentPage: 1
         };
         this.toggleSearchOnlyRoles = this.toggleSearchOnlyRoles.bind(this);
         this.searchUsers = this.searchUsers.bind(this);
         this.deleteUser = this.deleteUser.bind(this);
         this.hideConfirmDeleteUser = this.hideConfirmDeleteUser.bind(this);
     }
+    componentDidUpdate() {
+        const { number } = this.props.match.params;
+        if (this.state.currentPage != number) {
+            this.setState({ currentPage: number })
+        }
+    }
     async componentDidMount() {
-        // const SearchToRender = (
-        //     <div className="search-bar">
-        //         <div className="search-field">
-        //             <input
-        //                 type="text"
-        //                 placeholder="Search here"
-        //                 onChange={this.searchUsers}
-        //             />
-        //         </div>
-        //         <div className="checkbox-wrap">
-        //             <div className="checkbox">
-        //                 <div
-        //                     className="checkbox-bg"
-        //                     onClick={this.toggleSearchOnlyRoles}
-        //                 />
-        //                 <input
-        //                     onChange={this.toggleSearchOnlyRoles}
-        //                     type="checkbox"
-        //                     checked={this.state.searchOnlyRoles}
-        //                 />
-        //             </div>
-        //             <span>Только по ролям</span>
-        //         </div>
-        //     </div>
-        // )
-
-        // !this.props.SearchToRender && this.props.renderSearchBar(SearchToRender);
-
         window.onkeydown = function(e) {
             if (e.keyCode == 27) {
                 this.setState({ agreedToDeleteShown: false })
@@ -146,7 +125,6 @@ export default class Users extends React.Component {
         const usersToRender = [];
 
         this.state.usersCopy.map(user => {
-            console.log(user.id);
             if (user.id.toString().includes(searchCondition)) {
                 usersToRender.push(user);
                 return;
@@ -167,59 +145,80 @@ export default class Users extends React.Component {
             this.setState({ users: usersToRender });
         }
     }
+    handleSearchBarClick(e) {
+        console.log(e);
+    }
     render() {
         const {
             areUsersLoaded,
             isRequestMaking,
             userToDelete,
-            agreedToDeleteShown
+            agreedToDeleteShown,
+            currentPage
         } = this.state;
 
-        const users = this.state.users.length > 0 &&
-            this.state.users.map(user => (
-                <div key={user.name} className="user">
-                    <span className="ID user-info">{user.id}</span>
-                    <span className="login user-info">{user.name}</span>
-                    <span className="e-mail user-info">{user.email}</span>
-                    <span className="registered-date user-info">{new Date(user.registeredDate).toLocaleDateString()}</span>
-                    <span
-                        className="subscription user-info"
-                        style={
-                            user.subscriptions.length > 0
-                                ? { backgroundColor: '#04BE00' }
-                                : { backgroundColor: '#DD4D4D78' }
-                        }
+        let usersPages = this.state.users.map((_, i) => {
+            if (i % 15 == 0) {
+                let pageNumber = i / 15;
+                return (
+                    <Link
+                        to={`/admin/users/page/${++pageNumber}`}
+                        className="page-link"
                     >
-                        {
-                            user.subscriptions.length > 0
-                                ? 'Активна'
-                                : 'Неактивна'
-                        }
-                    </span>
-                    <div className="actions user-info">
-                        <Link
-                            to={`/admin/users/edit-user/${user.name}`}
-                            className="button edit"
-                        >
-                            Изменить
-                        </Link>
-                        <button
-                            type="button"
-                            className="button delete"
-                            onClick={
-                                () => {
-                                    this.setState({
-                                        userToDelete: user,
-                                        agreedToDeleteShown: true
-                                    })
-                                }
+                        {pageNumber}
+                    </Link>
+                )
+            }
+        })
+
+        const users = this.state.users.length > 0 &&
+            this.state.users.map((user, i) => {
+                
+                return (
+                    <div key={user.name} className="user">
+                        <span className="ID user-info">{user.id}</span>
+                        <span className="login user-info">{user.name}</span>
+                        <span className="e-mail user-info">{user.email}</span>
+                        <span className="registered-date user-info">{new Date(user.registeredDate).toLocaleDateString()}</span>
+                        <span
+                            className="subscription user-info"
+                            style={
+                                user.subscriptions.length > 0
+                                    ? { backgroundColor: '#04BE00' }
+                                    : { backgroundColor: '#DD4D4D78' }
                             }
                         >
-                            X
-                        </button>
+                            {
+                                user.subscriptions.length > 0
+                                    ? 'Активна'
+                                    : 'Неактивна'
+                            }
+                        </span>
+                        <div className="actions user-info">
+                            <Link
+                                to={`/admin/users/edit-user/${user.name}`}
+                                className="button edit"
+                            >
+                                Изменить
+                            </Link>
+                            <button
+                                type="button"
+                                className="button delete"
+                                onClick={
+                                    () => {
+                                        this.setState({
+                                            userToDelete: user,
+                                            agreedToDeleteShown: true
+                                        })
+                                    }
+                                }
+                            >
+                                x
+                            </button>
+                        </div>
                     </div>
-                </div>
-            ));
+                )
+            });
 
         return (
             <div
@@ -238,8 +237,16 @@ export default class Users extends React.Component {
                 />
                 <div
                     className="search-bar"
+                    style={
+                        {
+                            opacity: agreedToDeleteShown ? .5 : 1,
+                            pointerEvents: agreedToDeleteShown ? 'none' : 'all'
+                        }
+                    }
+                    onClick={this.handleSearchBarClick}
                 >
                     <div className="search-field">
+                        <img src="/images/search-icon-admin.png" />
                         <input
                             type="text"
                             placeholder="Search here"
@@ -295,9 +302,14 @@ export default class Users extends React.Component {
                         >
                             {users}
                         </div>
+                        <div className="pages">
+                            {usersPages}
+                        </div>
                     </div>
                 </div>
             </div>
         )
     }
 }
+
+export default withRouter(Users);

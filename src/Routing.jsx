@@ -36,9 +36,9 @@ class Routing extends React.Component {
                 {user && !user.isAdmin &&
                     <Redirect from="/admin" to="/dashboard" />
                 }
-                {!user &&
+                {/* {!user &&
                     <Redirect from="/admin" to="/" />
-                }
+                } */}
                 {!user &&
                     <Redirect from="/changeavatar" to="/" />
                 }

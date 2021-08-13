@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, NavLink, Switch, Route, Redirect } from 'react-router-dom';
+import { Link, NavLink, Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import fetchData from '../fetchData.js';
 import UserMenu from '../UserMenu.jsx';
@@ -19,7 +19,7 @@ import InjectLogs from './InjectLogs.jsx';
 import CrashLogs from './CrashLogs.jsx';
 import Settings from './Settings.jsx';
 
-export default class AdminPanel extends React.Component {
+class AdminPanel extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -36,7 +36,7 @@ export default class AdminPanel extends React.Component {
                     component: Statistics
                 },
                 {
-                    path: 'users',
+                    path: 'users/page/:number',
                     title: 'Пользователи',
                     component: Users
                 },
@@ -99,10 +99,10 @@ export default class AdminPanel extends React.Component {
     }
     async componentDidMount() {
         const token = localStorage.getItem('token');
-        if (!token || token == '') {
-            this.props.history.push('/');
-            return;
-        }
+        // if (!token || token == '') {
+        //     this.props.history.push('/');
+        //     return;
+        // }
         const user = jwtDecode(token);
         const resultUserExists = await fetchData(`
             query user($name: String!) {
@@ -153,18 +153,17 @@ export default class AdminPanel extends React.Component {
         } = this.state;
 
         const navLinks = this.state.navLinks.map(link => {
-            // if (link.path == 'path') {
-            //     return (
-            //         <NavLink
-            //             key={link.title}
-            //             to={`/admin/${link.path}`}
-            //             onClick={this.getUsers}
-            //         >
-            //             {link.title}
-            //             <div className="border"></div>
-            //         </NavLink>
-            //     )
-            // }
+            if (link.path == 'users/page/:number') {
+                return (
+                    <NavLink
+                        key={link.title}
+                        to={`/admin/users`}
+                    >
+                        {link.title}
+                        <div className="border" />
+                    </NavLink>
+                )
+            }
             return (
                 <NavLink
                     key={link.title}
@@ -177,19 +176,19 @@ export default class AdminPanel extends React.Component {
         });
 
         const routes = this.state.navLinks.map(link => {
-            // if (link.path == 'users') {
-            //     return (
-            //         <Route
-            //             path={`/admin/${link.path}`}
-            //             component={() => <link.component  />}
-            //             key={link.title}
-            //         />
-            //     )
-            // }
+            if (link.path == 'users/page/:number') {
+                return (
+                    <Route
+                        path={`/admin/users`}
+                        render={() => <link.component  />}
+                        key={link.title}
+                    />
+                )
+            }
             return (
                 <Route
                     path={`/admin/${link.path}`}
-                    component={() => (
+                    render={() => (
                         <link.component
                             SearchToRender={SearchToRender}
                             renderSearchBar={this.renderSearchBar}
@@ -231,9 +230,10 @@ export default class AdminPanel extends React.Component {
                     <div className="page">
                         <Switch>
                             <Redirect exact from="/admin" to="/admin/statistics" />
+                            <Redirect exact from="/admin/users/page" to="/admin/users/page/1" />
                             <Route
                                 path="/admin/users/edit-user/:username"
-                                component={() => (
+                                render={() => (
                                     <EditUser
                                         renderSearchBar={this.renderSearchBar}
                                         SearchToRender={SearchToRender}
@@ -242,7 +242,7 @@ export default class AdminPanel extends React.Component {
                             />
                             <Route
                                 path="/admin/keys/view-keys/:title"
-                                component={() => (
+                                render={() => (
                                     <ViewKeys
                                         renderSearchBar={this.renderSearchBar}
                                         SearchToRender={SearchToRender}
@@ -258,3 +258,5 @@ export default class AdminPanel extends React.Component {
         )
     }
 }
+
+export default withRouter(AdminPanel);
