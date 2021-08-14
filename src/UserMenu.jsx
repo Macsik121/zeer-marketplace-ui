@@ -27,9 +27,9 @@ export default class UserMenu extends React.Component {
                     }
                     style={
                         {
+                            backgroundPosition: 'center center',
                             background: userAvatar.background,
                             border: userDropdownShown ? '2px solid #fff' : '2px solid #1C1C24',
-                            backgroundPosition: 'center center',
                             opacity: Object.keys(userAvatar).length > 0 ? 1 : 0
                         }
                     }

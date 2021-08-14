@@ -88,7 +88,7 @@ class Dashboard extends React.Component {
             this.props.history.push('/');
             return;
         }
-        let user = jwtDecode(token);
+        let user = token && token != '' ? jwtDecode(token) : { name: '' };
         await this.getUser(user.name);
 
         user = this.state.user;
@@ -203,7 +203,7 @@ class Dashboard extends React.Component {
         this.getProducts()
 
         this.setState({
-            userAvatar: { background: `url(${this.state.user.avatar}) center/cover no-repeat` }
+            userAvatar: { background: `url(${this.state.user.avatar})` }
         });
     }
     async buyProduct(title) {

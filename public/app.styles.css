@@ -1961,7 +1961,7 @@ fieldset {
     justify-content: center;
     cursor: pointer;
     user-select: none;
-    transition: 300ms;
+    transition: opacity 300ms;
 }
 
 .user-menu .avatar .first-char {
@@ -2242,7 +2242,6 @@ fieldset {
     position: relative;
     min-width: 56px;
     height: 56px;
-    transition: 300ms;
 }
 
 .dashboard .main .lobby .info .user .general .avatar .first-char {
@@ -4898,7 +4897,7 @@ fieldset {
 }
 
 .admin-panel .search-bar .search-field input {
-    width: 315px;
+    width: 100%;
     color: #aaa;
     font-weight: 400;
     font-size: 16px;

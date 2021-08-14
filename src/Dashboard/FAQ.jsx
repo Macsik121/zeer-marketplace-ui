@@ -23,12 +23,9 @@ export default class FAQ extends React.Component {
     }
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.answers != this.props.answers) {
-            this.setState({ answers: this.props.answers });
+            const { answers } = this.props;
+            this.setState({ answers, answersCopy: answers.slice() })
         }
-        // if (prevState.answers != this.state.answers) {
-            
-        // }
-        console.log(this.state);
         const { currentCategory, answersCopy, searchValue } = this.state;
         const answers = this.state.answersCopy.slice();
         if (prevState.currentCategory != currentCategory) {
@@ -41,11 +38,11 @@ export default class FAQ extends React.Component {
                     this.setState({ answers: [ { ...answers[i] } ] }, () => this.filterAnswers(searchValue));
                 }
             }
-        }
+        }    
     }
     componentDidMount() {
         const { answers } = this.props;
-        this.setState({ answers });
+        this.setState({ answers, answersCopy: answers.slice() });
         let modifiedStateAnswers = answers;
         modifiedStateAnswers = modifiedStateAnswers.map(answer => {
             answer.isShown = false;
