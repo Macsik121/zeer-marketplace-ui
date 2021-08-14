@@ -4316,6 +4316,71 @@ fieldset {
     padding-top: 10px;
 }
 
+.admin-panel .keys .create-product-key-modal .create-key {
+    background-color: #1C1C24;
+    padding: 20px 25px;
+    border-radius: 5px;
+    width: 420px;
+}
+
+.admin-panel .keys .create-product-key-modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    transition: 200ms;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 36px;
+    letter-spacing: .1px;
+    color: #fff;
+}
+
+.admin-panel .keys .create-product-key-modal .field-wrap {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-panel .keys .create-product-key-modal .field-wrap + .field-wrap {
+    margin-top: 10px;
+}
+
+.admin-panel .keys .create-product-key-modal .field-wrap label {
+    text-align: center;
+}
+
+.admin-panel .keys .create-product-key-modal .field-wrap .field {
+    border: none;
+    border-radius: 8px;
+    background-color: #F8F8F8;
+    color: #aaa;
+    padding: 7px 10px;
+    margin-top: 10px;
+}
+
+.admin-panel .keys .create-product-key-modal .save-key {
+    background-color: #FF00006E;
+    border: none;
+    width: 100%;
+    font-weight: 700;
+    font-size: 16px;
+    color: #fff;
+    border-radius: 5px;
+    height: 35px;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: 300ms;
+}
+
+.admin-panel .keys .create-product-key-modal .save-key:hover {
+    background-color: #92191978;
+}
+
 .admin-panel .keys h2 {
     font-weight: 700;
     font-size: 24px;
@@ -4326,6 +4391,10 @@ fieldset {
     width: 100%;
 }
 
+.admin-panel .keys .products-wrap {
+    transition: 300ms;
+}
+
 .admin-panel .keys .products {
     display: flex;
     justify-content: space-between;
@@ -4333,7 +4402,26 @@ fieldset {
     transition: 300ms;
     margin: 40px auto 0 auto;
     padding-top: 150px;
-    width: 85%;
+    max-width: 1170px;
+}
+
+@media (max-width: 1400px) and (min-width: 1131px) {
+    .admin-panel .keys .products {
+        padding: 150px 7vw 0;
+    }
+}
+
+@media (max-width: 1130px) {
+    .admin-panel .keys .products {
+        padding: 150px 0 0;
+        justify-content: center;
+    }
+    .admin-panel .main .keys .products .product {
+        flex-basis: 51%;
+    }
+    .admin-panel .main .keys .products .product .cover {
+        width: 350px;
+    }
 }
 
 .admin-panel .keys .products .product {
@@ -4397,6 +4485,7 @@ fieldset {
     border: none;
     text-decoration: none;
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .admin-panel .keys .products .product .buttons .button.create-key {
@@ -4405,4 +4494,12 @@ fieldset {
 
 .admin-panel .keys .products .product .buttons .button.watch-keys {
     background-color: #1E75FF;
+}
+
+.admin-panel .product-keys {
+    position: relative;
+}
+
+.admin-panel .product-keys h2 {
+    transition: 300ms;
 }

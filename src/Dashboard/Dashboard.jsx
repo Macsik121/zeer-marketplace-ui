@@ -203,7 +203,7 @@ class Dashboard extends React.Component {
         this.getProducts()
 
         this.setState({
-            userAvatar: { background: `url(${this.state.user.avatar})` }
+            userAvatar: { background: `url(${this.state.user.avatar}) center/cover no-repeat` }
         });
     }
     async buyProduct(title) {

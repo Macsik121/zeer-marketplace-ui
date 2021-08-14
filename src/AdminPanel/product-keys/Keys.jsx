@@ -3,15 +3,93 @@ import { Link } from 'react-router-dom';
 import { CircularProgress } from '@material-ui/core';
 import fetchData from '../../fetchData';
 
+class CreateKey extends React.Component {
+    async handleSubmit(e) {
+        e.preventDefault();
+        const form = document.forms.createKey;
+        const name = form.nameKey.value;
+        const daysAmount = form.amountDays.value;
+        const keysToAddAmount = form.amountActivations.value;
+        const activationsAmount = form.amountKeys.value;
+
+        const vars = {
+            key: {
+                name,
+                daysAmount,
+                keysToAddAmount,
+                activationsAmount
+            },
+            title: this.props.title
+        }
+
+        const result = await fetchData(`
+            mutation createKey($key: KeyInput!, $title: String!) {
+                    createKey(key: $key, title: $title) {
+                    name
+                    expiredInDays
+                    activationsAmount
+                    keysAmount
+                }
+            }
+        `, vars);
+
+
+    }
+    render() {
+        const {
+            style
+        } = this.props;
+
+        return (
+            <div
+                className="create-product-key-modal"
+                style={style}
+            >
+                <form name="createKey" onSubmit={this.handleSubmit} className="create-key">
+                    <div className="field-wrap">
+                        <label className="key-name">Наименоваение ключа:</label>
+                        <input className="field" name="nameKey" />
+                    </div>
+                    <div className="field-wrap">
+                        <label className="amount-days">Количество дней:</label>
+                        <input className="field" name="amountDays" />
+                    </div>
+                    <div className="field-wrap">
+                        <label className="amount-activations">Количество активаций:</label>
+                        <input className="field" name="amountActivations" />
+                    </div>
+                    <div className="field-wrap">
+                        <label className="amountKeys">Сколько ключей добавить:</label>
+                        <input className="field" name="amountKeys" />
+                    </div>
+                    <button className="save-key" type="submit">Сохранить</button>
+                </form>
+            </div>
+        )
+    }
+}
+
 export default class Keys extends React.Component {
     constructor() {
         super();
         this.state = {
             products: [],
-            isRequestSent: true
+            isRequestSent: true,
+            productToAddKey: {},
+            isCreateKeyModalShown: false
         };
+        this.setProductToAddKey = this.setProductToAddKey.bind(this);
+        this.getProductKeys = this.getProductKeys.bind(this);
     }
     async componentDidMount() {
+        window.onkeydown = function(e) {
+            if (e.keyCode == 27) {
+                this.hideCreateKeyModal();
+            }
+        }.bind(this);
+        await this.getProductKeys();
+    }
+    async getProductKeys() {
         this.setState({ isRequestSent: true })
         const result = await fetchData(`
             query {
@@ -46,11 +124,22 @@ export default class Keys extends React.Component {
             }
         `);
 
-        this.setState({ products: result.products, isRequestSent: false })
+        this.setState({ products: result.products, isRequestSent: false });
+    }
+    setProductToAddKey(productToAddKey) {
+        this.setState({ productToAddKey });
+    }
+    showCreateKeyModal() {
+        this.setState({ isCreateKeyModalShown: true });
+    }
+    hideCreateKeyModal() {
+        this.setState({ isCreateKeyModalShown: false });
     }
     render() {
         const {
-            isRequestSent
+            isRequestSent,
+            productToAddKey,
+            isCreateKeyModalShown
         } = this.state;
 
         const products = this.state.products.map(product => {
@@ -79,7 +168,15 @@ export default class Keys extends React.Component {
                             </div>
                     </div>
                     <div className="buttons">
-                        <button className="create-key button">Создать ключ</button>
+                        <button
+                            className="create-key button"
+                            onClick={() => {
+                                this.setProductToAddKey(product);
+                                this.showCreateKeyModal();
+                            }}
+                        >
+                            Создать ключ
+                        </button>
                         <Link
                             to={`/admin/keys/view-keys/${product.title}`}
                             className="watch-keys button"
@@ -93,23 +190,46 @@ export default class Keys extends React.Component {
 
         return (
             <div className="keys">
-                <h2>Ключи</h2>
-                <CircularProgress
+                <CreateKey
+                    title={productToAddKey.title}
                     style={
-                        isRequestSent
-                            ? { display: 'block' }
-                            : { display: 'none' }
+                        {
+                            transform: `translateY(
+                                ${isCreateKeyModalShown ? '100px' : '-170%'}
+                            )`,
+                            opacity: isCreateKeyModalShown ? 1 : 0
+                        }
                     }
-                    className="progress-bar"
                 />
-                <div className="products"
+                <div
+                    className="products-wrap"
                     style={
-                        isRequestSent
-                            ? { opacity: 0 }
-                            : { opacity: 1 }
+                        {
+                            opacity: isCreateKeyModalShown ? .5 : 1,
+                            pointerEvents: isCreateKeyModalShown ? 'none' : 'all',
+                            userSelect: isCreateKeyModalShown ? 'none' : 'all'
+                        }
                     }
+                    onClick={}
                 >
-                    {products}
+                    <h2>Ключи</h2>
+                    <CircularProgress
+                        style={
+                            isRequestSent
+                                ? { display: 'block' }
+                                : { display: 'none' }
+                        }
+                        className="progress-bar"
+                    />
+                    <div className="products"
+                        style={
+                            {
+                                opacity: isRequestSent ? 0 : 1
+                            }
+                        }
+                    >
+                        {products}
+                    </div>
                 </div>
             </div>
         )
