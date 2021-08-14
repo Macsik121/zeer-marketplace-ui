@@ -164,6 +164,7 @@ class Users extends React.Component {
                     <Link
                         to={`/admin/users/page/${++pageNumber}`}
                         className="page-link"
+                        key={i}
                     >
                         {pageNumber}
                     </Link>

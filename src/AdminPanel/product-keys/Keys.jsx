@@ -37,8 +37,10 @@ class CreateKey extends React.Component {
     }
     render() {
         const {
-            style
+            style,
+            isHelpMessageShown
         } = this.props;
+        console.log(isHelpMessageShown);
 
         return (
             <div
@@ -46,6 +48,17 @@ class CreateKey extends React.Component {
                 style={style}
             >
                 <form name="createKey" onSubmit={this.handleSubmit} className="create-key">
+                    <label
+                        className="help-message"
+                        style={
+                            {
+                                opacity: isHelpMessageShown ? 1 : 0,
+                                pointerEvents: isHelpMessageShown ? 'all' : 'none'
+                            }
+                        }
+                    >
+                        Чтобы закрыть модальное окно нажмите <b>Esc</b>
+                    </label>
                     <div className="field-wrap">
                         <label className="key-name">Наименоваение ключа:</label>
                         <input className="field" name="nameKey" />
@@ -76,10 +89,13 @@ export default class Keys extends React.Component {
             products: [],
             isRequestSent: true,
             productToAddKey: {},
-            isCreateKeyModalShown: false
+            isCreateKeyModalShown: false,
+            isHelpMessageShown: false
         };
         this.setProductToAddKey = this.setProductToAddKey.bind(this);
         this.getProductKeys = this.getProductKeys.bind(this);
+        this.showHelpMessage = this.showHelpMessage.bind(this);
+        this.hideHelpMessage = this.hideHelpMessage.bind(this);
     }
     async componentDidMount() {
         window.onkeydown = function(e) {
@@ -135,9 +151,16 @@ export default class Keys extends React.Component {
     hideCreateKeyModal() {
         this.setState({ isCreateKeyModalShown: false });
     }
+    showHelpMessage() {
+        this.setState({ isHelpMessageShown: true });
+    }
+    hideHelpMessage() {
+        this.setState({ isHelpMessageShown: false });
+    }
     render() {
         const {
             isRequestSent,
+            isHelpMessageShown,
             productToAddKey,
             isCreateKeyModalShown
         } = this.state;
@@ -200,6 +223,8 @@ export default class Keys extends React.Component {
                             opacity: isCreateKeyModalShown ? 1 : 0
                         }
                     }
+                    hideHelpMessage={this.hideHelpMessage}
+                    isHelpMessageShown={isHelpMessageShown}
                 />
                 <div
                     className="products-wrap"
@@ -210,7 +235,7 @@ export default class Keys extends React.Component {
                             userSelect: isCreateKeyModalShown ? 'none' : 'all'
                         }
                     }
-                    onClick={}
+                    onClick={this.showHelpMessage}
                 >
                     <h2>Ключи</h2>
                     <CircularProgress

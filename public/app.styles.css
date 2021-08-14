@@ -5324,7 +5324,7 @@ fieldset {
     left: 0;
     right: 0;
     margin: 0 auto;
-    transition: 200ms;
+    transition: 450ms;
     z-index: 2;
     display: flex;
     flex-direction: column;
@@ -5334,6 +5334,13 @@ fieldset {
     line-height: 36px;
     letter-spacing: .1px;
     color: #fff;
+}
+
+.admin-panel .keys .create-product-key-modal .help-message {
+    line-height: 18px;
+    font-size: 15px;
+    text-align: center;
+    color: #04BE00;
 }
 
 .admin-panel .keys .create-product-key-modal .field-wrap {
