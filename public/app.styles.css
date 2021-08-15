@@ -5757,7 +5757,6 @@ fieldset {
 
 .admin-panel .promocodes .promocodes-wrap {
     transition: 300ms;
-    margin-top: 40px;
     display: flex;
     justify-content: space-between;
     width: 1170px;
