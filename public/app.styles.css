@@ -5354,6 +5354,9 @@ fieldset {
     transition: 300ms;
     cursor: pointer;
     user-select: none;
+    text-align: center;
+    display: inline-block;
+    width: 100%;
 }
 
 .admin-panel .keys .create-product-key-modal .field-wrap {
@@ -5378,7 +5381,7 @@ fieldset {
     border: none;
     border-radius: 8px;
     background-color: #F8F8F8;
-    color: #aaa;
+    color: #1C1C24;
     padding: 7px 10px;
     margin-top: 10px;
 }

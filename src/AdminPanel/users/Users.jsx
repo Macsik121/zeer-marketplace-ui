@@ -274,7 +274,7 @@ class Users extends React.Component {
                     style={
                         {
                             pointerEvents: agreedToDeleteShown ? 'none' : 'all',
-                            userSelect: agreedToDeleteShown ? 'none' : 'all',
+                            userSelect: agreedToDeleteShown ? 'none' : 'text',
                             opacity: agreedToDeleteShown ? .5 : 1
                         }
                     }
