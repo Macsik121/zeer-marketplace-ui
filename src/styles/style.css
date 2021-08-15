@@ -4069,6 +4069,7 @@ fieldset {
 .admin-panel .users .confirm .heading {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .admin-panel .users .confirm .heading .close-icon {
@@ -4103,6 +4104,10 @@ fieldset {
 
 .admin-panel .users .confirm .buttons .button.agree {
     background-color: #04BE00;
+}
+
+.admin-panel .users .confirm .buttons .button.agree:hover {
+    opacity: .85;
 }
 
 .admin-panel .users .confirm .buttons .button.refuse {
@@ -4316,13 +4321,6 @@ fieldset {
     padding-top: 10px;
 }
 
-.admin-panel .keys .create-product-key-modal .create-key {
-    background-color: #1C1C24;
-    padding: 20px 25px;
-    border-radius: 5px;
-    width: 420px;
-}
-
 .admin-panel .keys .create-product-key-modal {
     position: absolute;
     top: 0;
@@ -4341,11 +4339,26 @@ fieldset {
     color: #fff;
 }
 
+.admin-panel .keys .create-product-key-modal .create-key {
+    background-color: #1C1C24;
+    padding: 20px 25px;
+    border-radius: 5px;
+    width: 420px;
+}
+
+.admin-panel .keys .create-product-key-modal .create-key h4 {
+    text-align: center;
+    line-height: 16px;
+}
+
 .admin-panel .keys .create-product-key-modal .help-message {
     line-height: 18px;
     font-size: 15px;
     text-align: center;
     color: #04BE00;
+    transition: 300ms;
+    cursor: pointer;
+    user-select: none;
 }
 
 .admin-panel .keys .create-product-key-modal .field-wrap {
@@ -4357,8 +4370,13 @@ fieldset {
     margin-top: 10px;
 }
 
+.admin-panel .keys .create-product-key-modal .field-wrap label:first-of-type {
+    line-height: 16px;
+}
+
 .admin-panel .keys .create-product-key-modal .field-wrap label {
     text-align: center;
+    user-select: none;
 }
 
 .admin-panel .keys .create-product-key-modal .field-wrap .field {
@@ -4493,20 +4511,335 @@ fieldset {
     text-decoration: none;
     border-radius: 10px;
     cursor: pointer;
+    transition: 300ms;
 }
 
 .admin-panel .keys .products .product .buttons .button.create-key {
     background-color: #292932;
 }
 
+.admin-panel .keys .products .product .buttons .button.create-key:hover {
+    background-color: #1F1F26;
+}
+
 .admin-panel .keys .products .product .buttons .button.watch-keys {
     background-color: #1E75FF;
 }
 
+.admin-panel .keys .products .product .buttons .button.watch-keys:hover {
+    background-color: #1C6FF2;
+}
+
 .admin-panel .product-keys {
     position: relative;
+    padding-top: 10px;
+}
+
+.admin-panel .product-keys .product-keys-wrap {
+    transition: 300ms;
+}
+
+.admin-panel .product-keys .progress-bar {
+    top: 0px;
+}
+
+.admin-panel .product-keys .confirm-action {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    transition: 350ms;
+    z-index: 2;
+}
+
+.admin-panel .product-keys .confirm-action .confirm-action-wrap {
+    width: 400px;
+    background-color: #1C1C24;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.admin-panel .product-keys .confirm-action .heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-panel .product-keys .confirm-action .heading .close-modal {
+    fill: #1E75FF;
+    cursor: pointer;
+}
+
+.admin-panel .product-keys .confirm-action .content {
+    margin-top: 30px;
+    line-height: 24px;
+    letter-spacing: .2px;
+    text-align: center;
+}
+
+.admin-panel .product-keys .confirm-action .buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.admin-panel .product-keys .confirm-action .buttons .button {
+    width: 160px;
+    border: none;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    color: #fff;
+    padding: 10px 0;
+    cursor: pointer;
+    transition: 300ms;
+}
+
+.admin-panel .product-keys .confirm-action .buttons .button.agree {
+    background-color: #04BE00;
+}
+
+.admin-panel .product-keys .confirm-action .buttons .button.agree:hover {
+    opacity: .85;
+}
+
+.admin-panel .product-keys .confirm-action .buttons .button.refuse {
+    background-color: #DD4D4D78;
+}
+
+.admin-panel .product-keys .confirm-action .buttons .button.refuse:hover {
+    background-color: #92191978;
 }
 
 .admin-panel .product-keys h2 {
     transition: 300ms;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    letter-spacing: .1px;
+    text-align: center;
+}
+
+.admin-panel .product-keys h2 span {
+    transition: 300ms;
+}
+
+.admin-panel .product-keys .keys-wrap {
+    display: flex;
+    margin-top: 30px;
+    justify-content: space-between;
+    padding: 0 2vw;
+}
+
+.admin-panel .product-keys .keys {
+    transition: 300ms;
+    font-size: 18px;
+    line-height: 27px;
+    color: #fff;
+}
+
+.admin-panel .product-keys .keys .heading {
+    display: flex;
+    justify-content: space-between;
+}
+
+.admin-panel .product-keys .keys .keys-of-product {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-panel .product-keys .keys .keys-of-product .key {
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 10px;
+}
+
+.admin-panel .product-keys .keys .keys-of-product .key:nth-of-type(2n + 1) {
+    background-color: #1C1C24;
+}
+
+.admin-panel .product-keys .keys .keys-of-product .key .action .delete {
+    background-color: #FF00006E;
+    border: none;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    width: 140px;
+    color: #fff;
+    cursor: pointer;
+    line-height: 27px;
+    transition: 300ms;
+}
+
+.admin-panel .product-keys .keys .keys-of-product .key .action .delete:hover {
+    background-color: #92191978;
+}
+
+.admin-panel .product-keys .product {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    justify-content: space-between;
+    flex-direction: column;
+    transition: 300ms;
+    width: 370px;
+    background-color: #1C1C24;
+    height: 424px;
+    border-radius: 10px;
+    position: relative;
+    margin-top: 170px;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 18px;
+    color: #fff;
+    padding-top: 170px;
+    margin-left: 30px;
+}
+
+.admin-panel .product-keys .product h3 {
+    text-align: center;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: .1px;
+}
+
+.admin-panel .product-keys .product .cover {
+    width: 330px;
+    height: 330px;
+    position: absolute;
+    top: -40%;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    border-radius: 10px;
+    border: 3px solid #44444F;
+}
+
+.admin-panel .product-keys .product .keys-amount {
+    width: 100%;
+}
+
+.admin-panel .product-keys .product .buttons .button {
+    width: 160px;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    border-radius: 10px;
+    color: #FAFAFB;
+    cursor: pointer;
+    border: none;
+    font-weight: 600;
+    line-height: 18px;
+    transition: 300ms;
+}
+
+.admin-panel .product-keys .product .buttons .button.delete-all-keys {
+    background-color: #1E75FF;
+}
+
+.admin-panel .product-keys .product .buttons .button.delete-all-keys:hover {
+    background-color: #1C6FF2;
+}
+
+.admin-panel .promocodes {
+    padding-top: 10px;
+    transition: 300ms;
+    position: relative;
+}
+
+.admin-panel .promocodes h2 {
+    text-align: center;
+    font-size: 24px;
+    line-height: 36px;
+    letter-spacing: .1px;
+    font-weight: 700;
+}
+
+.admin-panel .promocodes .promocodes-wrap {
+    transition: 300ms;
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    width: 1170px;
+    flex-wrap: wrap;
+    padding-top: 150px;
+    margin: 40px auto 0;
+}
+
+.admin-panel .promocodes .promocodes-wrap .promocode {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 424px;
+    min-width: 370px;
+    font-size: 12px;
+    line-height: 18px;
+    font-weight: 600;
+    background-color: #1C1C24;
+    padding: 180px 20px 20px;
+    flex-basis: 30%;
+    position: relative;
+    margin-bottom: 190px;
+    border-radius: 10px;
+}
+
+.admin-panel .promocodes .promocodes-wrap .promocode .cover {
+    width: 330px;
+    height: 330px;
+    border: 3px solid #44444F;
+    border-radius: 10px;
+    position: absolute;
+    top: -40%;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+}
+
+.admin-panel .promocodes .promocodes-wrap .promocode .promocode-title {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: .1px;
+    color: #FAFAFB;
+    text-align: center;
+}
+
+.admin-panel .promocodes .promocodes-wrap .promocode .buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.admin-panel .promocodes .promocodes-wrap .promocode .buttons .button {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    color: #fff;
+    border: none;
+    padding: 10px 0;
+    width: 160px;
+    font-weight: 600;
+    line-height: 18px;
+    border-radius: 10px;
+    transition: 300ms;
+    cursor: pointer;
+}
+
+.admin-panel .promocodes .promocodes-wrap .promocode .buttons .button.create-promo {
+    background-color: #1E75FF;
+}
+
+.admin-panel .promocodes .promocodes-wrap .promocode .buttons .button.create-promo:hover {
+    background-color: #1C6FF2;
+}
+
+.admin-panel .promocodes .promocodes-wrap .promocode .buttons .button.view-promocodes {
+    background-color: #292932;
+}
+
+.admin-panel .promocodes .promocodes-wrap .promocode .buttons .button.view-promocodes:hover {
+    background-color: #1F1F26;
 }

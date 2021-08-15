@@ -16,7 +16,7 @@ function ConfirmationModal(props) {
             className="confirm"
             style={
                 agreedToDeleteShown
-                    ? { opacity: 1, top: '0' }
+                    ? { opacity: 1, top: '30px' }
                     : { opacity: 0, top: '-65%' }
             }
         >
@@ -225,9 +225,9 @@ class Users extends React.Component {
             <div
                 className="users"
                 style={
-                    isRequestMaking
-                        ? { pointerEvents: 'none' }
-                        : { pointerEvents: 'all' }
+                    {
+                        pointerEvents: isRequestMaking ? 'none' : 'all'
+                    }
                 }
             >
                 <ConfirmationModal
@@ -272,9 +272,11 @@ class Users extends React.Component {
                 <h2>Пользователи</h2>
                 <div className="users-list"
                     style={
-                        agreedToDeleteShown
-                            ? { opacity: .5 }
-                            : { opacity: 1 }
+                        {
+                            pointerEvents: agreedToDeleteShown ? 'none' : 'all',
+                            userSelect: agreedToDeleteShown ? 'none' : 'all',
+                            opacity: agreedToDeleteShown ? .5 : 1
+                        }
                     }
                 >
                     <header className="heading">

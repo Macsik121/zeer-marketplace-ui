@@ -10,7 +10,7 @@ import EditUser from './users/EditUser.jsx';
 import ActionLogs from './ActionLogs.jsx';
 import Keys from './product-keys/Keys.jsx';
 import ViewKeys from './product-keys/ViewKeys.jsx';
-import Promocodes from './Promocodes.jsx';
+import Promocodes from './promocodes/Promocodes.jsx';
 import Products from './Products.jsx';
 import ResetBindings from './ResetBindings.jsx';
 import News from './News.jsx';
@@ -241,7 +241,7 @@ class AdminPanel extends React.Component {
                                 )}
                             />
                             <Route
-                                path="/admin/keys/view-keys/:title"
+                                path="/admin/keys/:title"
                                 render={() => (
                                     <ViewKeys
                                         renderSearchBar={this.renderSearchBar}
