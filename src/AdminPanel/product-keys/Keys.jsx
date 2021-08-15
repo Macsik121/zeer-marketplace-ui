@@ -259,7 +259,7 @@ export default class Keys extends React.Component {
                             Создать ключ
                         </button>
                         <Link
-                            to={`/admin/keys/view-keys/${product.title}`}
+                            to={`/admin/keys/${product.title}`}
                             className="watch-keys button"
                         >
                             Просмотр ключей

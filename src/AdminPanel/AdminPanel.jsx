@@ -180,7 +180,7 @@ class AdminPanel extends React.Component {
                 return (
                     <Route
                         path={`/admin/users`}
-                        render={() => <link.component  />}
+                        render={() => <link.component />}
                         key={link.title}
                     />
                 )
