@@ -107,14 +107,16 @@ export default class UserMenu extends React.Component {
                             Сбросить привязку
                         </div>
                     </NavLink>
-                    <NavLink
-                        onClick={hiddenUserDropdown}
-                        to={`/admin/statistics`}
-                    >
-                        <div className="item">
-                            Админ-панель
-                        </div>
-                    </NavLink>
+                    {user.isAdmin &&
+                        <NavLink
+                            onClick={hiddenUserDropdown}
+                            to={`/admin/statistics`}
+                        >
+                            <div className="item">
+                                Админ-панель
+                            </div>
+                        </NavLink>
+                    }
                     <div onClick={logout} className="item">Выйти</div>
                 </div>
             </div>

@@ -48,15 +48,11 @@ class CreateKey extends React.Component {
                 let genedNameLength = generatedKeyName.length;
                 const numberToRandom = 62 - randomNumber;
                 const characterToAdd = Math.floor(Math.random() * numberToRandom);
-                generatedKeyName += (
-                    randomNumber > 52
-                        ? (
-                            ++genedNameLength % 5 == 0 ? '-' : characterToAdd
-                        )
-                        : (
-                            ++genedNameLength % 5 == 0 ? '-' : alphabet[randomNumber]
-                        )
-                );
+                if (randomNumber > 52) {
+                    generatedKeyName += ++genedNameLength % 5 == 0 ? '-' : characterToAdd;
+                } else {
+                    generatedKeyName += ++genedNameLength % 5 == 0 ? '-' : alphabet[randomNumber];
+                }
             }
         });
         if (generatedKeyName.charAt(generatedKeyName.length - 1) == '-') {

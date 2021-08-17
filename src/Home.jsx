@@ -244,8 +244,8 @@ class Home extends React.Component {
                                     <div
                                         style={
                                             showingLogin || showingSignup
-                                                ? {pointerEvents: 'none', userSelect: 'none'}
-                                                : {pointerEvents: 'all', userSelect: 'text'}
+                                                ? { pointerEvents: 'none', userSelect: 'none' }
+                                                : { pointerEvents: 'all', userSelect: 'text' }
                                         }
                                         className="download-loader"
                                     >
@@ -342,7 +342,7 @@ class Home extends React.Component {
                                 userSelect: 'none'
                             }
                             : {opacity: '1', transition: '500ms', 
-                            pointerEvents: 'text', userSelect: 'text'
+                            pointerEvents: 'all', userSelect: 'text'
                         }
                     }
                     className="slider-wrap"
