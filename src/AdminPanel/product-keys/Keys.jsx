@@ -26,9 +26,48 @@ class CreateKey extends React.Component {
         keysToAddAmount.blur();
         activationsAmount.blur();
 
+        const alphabet = [
+            "A",'a',"B",'b',
+            "C",'c',"D",'d',
+            "E",'e',"F",'f',
+            "G",'g',"H",'h',
+            "I",'i',"J",'j',
+            "K",'k',"L",'l',
+            "M",'m',"N",'n',
+            "O",'o',"P",'p',
+            "Q",'q',"R",'r',
+            "S",'s',"T",'t',
+            "U",'u',"V",'v',
+            "W",'w',"X",'x',
+            "Y",'y',"Z",'z'
+        ];
+        let generatedKeyName = '';
+        alphabet.map(() => {
+            if (generatedKeyName.length != 20) {
+                const randomNumber = Math.floor(Math.random() * alphabet.length + 10);
+                let genedNameLength = generatedKeyName.length;
+                const numberToRandom = 62 - randomNumber;
+                const characterToAdd = Math.floor(Math.random() * numberToRandom);
+                generatedKeyName += (
+                    randomNumber > 52
+                        ? (
+                            ++genedNameLength % 5 == 0 ? '-' : characterToAdd
+                        )
+                        : (
+                            ++genedNameLength % 5 == 0 ? '-' : alphabet[randomNumber]
+                        )
+                );
+            }
+        });
+        if (generatedKeyName.charAt(generatedKeyName.length - 1) == '-') {
+            let nameCopy = generatedKeyName.split('');
+            nameCopy[nameCopy.length - 1] = '';
+            generatedKeyName = nameCopy.join('');
+        }
+
         const vars = {
             key: {
-                name: name.value,
+                name: name.value == '' ? generatedKeyName : name.value,
                 daysAmount: +daysAmount.value,
                 keysToAddAmount: +keysToAddAmount.value,
                 activationsAmount: +activationsAmount.value
@@ -198,7 +237,6 @@ export default class Keys extends React.Component {
         } else if (searchValue != '') {
             this.setState({ products: productsToRender });
         }
-        console.log(productsToRender);
     }
     setProductToAddKey(productToAddKey) {
         this.setState({ productToAddKey });

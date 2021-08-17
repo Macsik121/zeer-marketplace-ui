@@ -5,7 +5,7 @@ const serverEndpoint = (
     'http://localhost:3000/graphql'
 );
 
-export default async function fetchData(query = '', variables = {}) {
+export default async function fetchData(query, variables = {}) {
     const res = await fetch(serverEndpoint, {
         method: 'POST',
         headers: {

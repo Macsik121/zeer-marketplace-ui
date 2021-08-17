@@ -129,16 +129,19 @@ class ViewKeys extends React.Component {
                             name
                             expiredInDays
                             activationsAmount
+                            isUsed
                         }
                         active {
                             name
                             expiredInDays
                             activationsAmount
+                            isUsed
                         }
                         unactive {
                             name
                             expiredInDays
                             activationsAmount
+                            isUsed
                         }
                     }
                 }
@@ -201,22 +204,27 @@ class ViewKeys extends React.Component {
         const active = product.keys && product.keys.active ? product.keys.active : [];
         const unactive = product.keys && product.keys.unactive ? product.keys.unactive : [];
 
-        const productKeys = this.state.product.keys && this.state.product.keys.all.map(key => (
-            <div className="key">
-                <div className="name">{key.name}</div>
-                <div className="action">
-                    <button
-                        className="delete"
-                        onClick={() => {
-                            this.showDeleteKeyModal();
-                            this.setState({ keyToDelete: key });
-                        }}
-                    >
-                        Удалить
-                    </button>
+        const productKeys = this.state.product.keys && this.state.product.keys.all.map(key => {
+            return (
+                <div key={key.name} className="key">
+                    <div className="name">{key.name}</div>
+                    <div className="days-amount">{key.expiredInDays}</div>
+                    <div className="activations">{key.activationsAmount}</div>
+                    <div className="is-used">{key.isUsed ? 'Да' : 'Нет'}</div>
+                    <div className="action">
+                        <button
+                            className="delete"
+                            onClick={() => {
+                                this.showDeleteKeyModal();
+                                this.setState({ keyToDelete: key });
+                            }}
+                        >
+                            Удалить
+                        </button>
+                    </div>
                 </div>
-            </div>
-        ));
+            )
+        });
 
         return (
             <div className="product-keys">
@@ -288,7 +296,7 @@ class ViewKeys extends React.Component {
                             <div className="heading">
                                 <div className="key-name">Имя ключа</div>
                                 <div className="days-amount">Количество дней</div>
-                                <div className="activations">Количество активаций</div>
+                                <div className="activations">Кол-во активаций</div>
                                 <div className="is-used">Использован</div>
                                 <div className="action">Действие</div>
                             </div>

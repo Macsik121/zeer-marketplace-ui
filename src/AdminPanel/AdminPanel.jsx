@@ -11,10 +11,12 @@ import ActionLogs from './ActionLogs.jsx';
 import Keys from './product-keys/Keys.jsx';
 import ViewKeys from './product-keys/ViewKeys.jsx';
 import Promocodes from './promocodes/Promocodes.jsx';
+import ViewPromocodes from './promocodes/ViewPromocodes.jsx';
 import Products from './Products.jsx';
 import ResetBindings from './ResetBindings.jsx';
 import News from './News.jsx';
-import FAQ from './FAQ.jsx';
+import FAQ from './FAQ/FAQ.jsx';
+import ViewAnswers from './FAQ/ViewAnswers.jsx';
 import InjectLogs from './InjectLogs.jsx';
 import CrashLogs from './CrashLogs.jsx';
 import Settings from './Settings.jsx';
@@ -99,10 +101,6 @@ class AdminPanel extends React.Component {
     }
     async componentDidMount() {
         const token = localStorage.getItem('token');
-        // if (!token || token == '') {
-        //     this.props.history.push('/');
-        //     return;
-        // }
         const user = jwtDecode(token);
         const resultUserExists = await fetchData(`
             query user($name: String!) {
@@ -247,6 +245,21 @@ class AdminPanel extends React.Component {
                                         renderSearchBar={this.renderSearchBar}
                                         SearchToRender={SearchToRender}
                                     />
+                                )}
+                            />
+                            <Route
+                                path="/admin/promocodes/:title"
+                                render={() => (
+                                    <ViewPromocodes
+                                        renderSearchBar={this.renderSearchBar}
+                                        SearchToRender={SearchToRender}
+                                    />
+                                )}
+                            />
+                            <Route
+                                path="/admin/FAQ/:title"
+                                render={() => (
+                                    <ViewAnswers />
                                 )}
                             />
                             {routes}
