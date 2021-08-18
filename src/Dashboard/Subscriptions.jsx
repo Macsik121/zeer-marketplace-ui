@@ -22,17 +22,25 @@ export default class Subscriptions extends React.Component {
             subscriptions: {},
             showAll: false,
             isRequestSent: false,
-            message: 'Message'
+            message: 'Message',
+            isMessageShown: false
         };
         this.freezeSubscription = this.freezeSubscription.bind(this);
         this.unfreezeSubscription = this.unfreezeSubscription.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.showMessageModal = this.showMessageModal.bind(this);
+        this.hideMessageModal = this.hideMessageModal.bind(this);
     }
     componentDidUpdate(prevProps) {
         const { subscriptions } = this.props;
         if (prevProps.subscriptions != this.props.subscriptions) this.setState({ subscriptions })
     }
     componentDidMount() {
+        window.onkeydown = function(e) {
+            if (e.keyCode == 27) {
+                this.hideMessageModal();
+            }
+        }.bind(this);
         const { subscriptions } = this.props;
         const user = jwtDecode(localStorage.getItem('token'));
         this.setState({
@@ -118,12 +126,20 @@ export default class Subscriptions extends React.Component {
         if (result.activateKey != 'Такого ключа не существует') {
             this.props.getSubscriptions();
         }
+        this.showMessageModal();
+    }
+    showMessageModal() {
+        this.setState({ isMessageShown: true });
+    }
+    hideMessageModal() {
+        this.setState({ isMessageShown: false });
     }
     render() {
         const {
             subscriptions,
             isRequestSent,
             showAll,
+            isMessageShown,
             message
         } = this.state;
         const { toggleAgreement, buyProduct } = this.props;
@@ -241,14 +257,15 @@ export default class Subscriptions extends React.Component {
 
         return (
             <div className="subscriptions">
-                {/* <MessageModal
+                <MessageModal
                     style={
                         {
-
+                            opacity: isMessageShown ? 1 : 0,
+                            zIndex: isMessageShown ? 1 : -1
                         }
                     }
                     message={message}
-                /> */}
+                />
                 <div className="container">
                     <div
                         className="all-subscriptions"
