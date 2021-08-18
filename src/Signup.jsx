@@ -173,10 +173,14 @@ class Signup extends React.Component {
         } = this.props;
         const style = {...this.props.style}
 
-        isRequestMaking
-            ? style.pointerEvents = 'none'
-            : style.pointerEvents = 'all';
-        
+        if (isRequestMaking) {
+            style.pointerEvents = 'none';
+        } else {
+            style.pointerEvents = 'all';
+        }
+
+        console.log(style.pointerEvents);
+
         return (
             <div style={style} className="signup auth-form">
                 <div className="container">

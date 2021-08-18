@@ -204,6 +204,7 @@ class ViewKeys extends React.Component {
         
         const product = {...productCopy}
 
+        const all = product.keys && product.keys.all ? product.keys.all : [];
         const active = product.keys && product.keys.active ? product.keys.active : [];
         const unactive = product.keys && product.keys.unactive ? product.keys.unactive : [];
 
@@ -328,11 +329,7 @@ class ViewKeys extends React.Component {
                                 </div>
                                 <div className="all keys-amount">
                                     Количество ключей:&nbsp;
-                                    {
-                                        active.length
-                                        +
-                                        unactive.length
-                                    }
+                                    {all.length}
                                 </div>
                             </div>
                             <div className="buttons">

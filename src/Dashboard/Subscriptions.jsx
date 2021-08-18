@@ -166,9 +166,10 @@ export default class Subscriptions extends React.Component {
                                 {sub.title}{' | '}{sub.productFor}
                             </h3>
                             <span className="active-until">
-                                Активно до
-                                &nbsp;
-                                {new Date(sub.activelyUntil).toLocaleDateString()}
+                                {`
+                                    Активно до
+                                    ${new Date(sub.activelyUntil).toLocaleDateString()}
+                                `}
                             </span>
                             {sub.status.isActive &&
                                 <div className="status-content active">

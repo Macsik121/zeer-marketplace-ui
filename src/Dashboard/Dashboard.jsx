@@ -207,6 +207,7 @@ class Dashboard extends React.Component {
         });
     }
     async buyProduct(title) {
+        this.setState({ productsRequestMaking: true });
         const query = `
             mutation buyProduct($title: String!, $name: String!) {
                 buyProduct(title: $title, name: $name) {
@@ -235,6 +236,7 @@ class Dashboard extends React.Component {
         await this.getSubscriptions();
         await this.getPopularProducts();
         await this.getProducts();
+        this.setState({ productsRequestMaking: false });
     }
     async getProducts() {
         this.setState({ productsRequestMaking: true })

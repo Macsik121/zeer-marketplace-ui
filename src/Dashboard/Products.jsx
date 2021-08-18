@@ -6,7 +6,17 @@ import BoughtPeople from '../RenderBoughtPeople.jsx';
 export default class Products extends React.Component {
     render() {
         const { buyProduct, isRequestMaking } = this.props;
-        const style = { opacity: isRequestMaking ? 0 : 1 };
+        let style = {};
+        if (isRequestMaking) {
+            style.opacity = 0;
+            style.pointerEvents = 'none';
+            style.userSelect = 'none';
+        } else {
+            style.opacity = 1;
+            style.pointerEvents = 'all';
+            style.userSelect = 'text';
+        }
+        console.log(style);
         const products = this.props.products.map(product => {
             return (
                 <div key={product.id} className="product">
