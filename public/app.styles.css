@@ -3364,7 +3364,7 @@ fieldset {
     display: flex;
     background-color: #1C1C24;
     border-radius: 10px;
-    height: 177px;
+    height: 175px;
 }
 
 .dashboard .main .subscriptions .all-subscriptions .subscription .subscription-icon {
@@ -5652,6 +5652,7 @@ fieldset {
 .admin-panel .product-keys .keys .heading {
     display: flex;
     justify-content: space-between;
+    padding-bottom: 10px;
 }
 
 .admin-panel .product-keys .keys .heading div {
@@ -5664,7 +5665,7 @@ fieldset {
 }
 
 .admin-panel .product-keys .keys .heading .days-amount {
-    width: 165px;
+    width: 175px;
 }
 
 .admin-panel .product-keys .keys .heading .activations {
@@ -5676,8 +5677,7 @@ fieldset {
 }
 
 .admin-panel .product-keys .keys .heading .action {
-    width: 85px;
-    margin-right: 25px;
+    width: 140px;
 }
 
 .admin-panel .product-keys .keys .keys-of-product {
@@ -5698,15 +5698,13 @@ fieldset {
 }
 
 .admin-panel .product-keys .keys .keys-of-product .key .name {
-    width: 150px;
+    width: 170px;
     word-break: break-all;
     text-align: center;
-    padding-left: 20px;
 }
 
 .admin-panel .product-keys .keys .keys-of-product .days-amount {
     width: 175px;
-    margin-left: 30px;
 }
 
 .admin-panel .product-keys .keys .keys-of-product .activations {
@@ -5715,7 +5713,6 @@ fieldset {
 
 .admin-panel .product-keys .keys .keys-of-product .is-used {
     width: 120px;
-    padding-left: 30px;
 }
 
 .admin-panel .product-keys .keys .keys-of-product .key:nth-of-type(2n + 1) {

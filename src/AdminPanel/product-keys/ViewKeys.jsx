@@ -129,18 +129,21 @@ class ViewKeys extends React.Component {
                             name
                             expiredInDays
                             activationsAmount
+                            keysAmount
                             isUsed
                         }
                         active {
                             name
                             expiredInDays
                             activationsAmount
+                            keysAmount
                             isUsed
                         }
                         unactive {
                             name
                             expiredInDays
                             activationsAmount
+                            keysAmount
                             isUsed
                         }
                     }
@@ -209,7 +212,7 @@ class ViewKeys extends React.Component {
                 <div key={key.name} className="key">
                     <div className="name">{key.name}</div>
                     <div className="days-amount">{key.expiredInDays}</div>
-                    <div className="activations">{key.activationsAmount}</div>
+                    <div className="activations">{key.activationsAmount}/{key.keysAmount}</div>
                     <div className="is-used">{key.isUsed ? 'Да' : 'Нет'}</div>
                     <div className="action">
                         <button
@@ -317,11 +320,11 @@ class ViewKeys extends React.Component {
                             <div className="keys-amount">
                                 <div className="active keys-amount">
                                     Количество активированных ключей:&nbsp;
-                                    {active.length}
+                                    {unactive.length}
                                 </div>
                                 <div className="unactive keys-amount">
                                     Количество неактивированных ключей:&nbsp;
-                                    {unactive.length}
+                                    {active.length}
                                 </div>
                                 <div className="all keys-amount">
                                     Количество ключей:&nbsp;

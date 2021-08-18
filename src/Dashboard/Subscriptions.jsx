@@ -4,16 +4,29 @@ import { CircularProgress } from '@material-ui/core';
 import jwtDecode from 'jwt-decode';
 import fetchData from '../fetchData';
 
+function MessageModal({ message, style }) {
+    return (
+        <div
+            className="message-modal"
+            style={style}
+        >
+            {message}
+        </div>
+    )
+}
+
 export default class Subscriptions extends React.Component {
     constructor() {
         super();
         this.state = {
             subscriptions: {},
             showAll: false,
-            isRequestSent: false
+            isRequestSent: false,
+            message: 'Message'
         };
         this.freezeSubscription = this.freezeSubscription.bind(this);
         this.unfreezeSubscription = this.unfreezeSubscription.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
     componentDidUpdate(prevProps) {
         const { subscriptions } = this.props;
@@ -85,11 +98,34 @@ export default class Subscriptions extends React.Component {
         await this.props.getSubscriptions();
         this.setState({ isRequestSent: false });
     }
-    handleSubmit(e) {
+    async handleSubmit(e) {
+        this.setState({ isRequestSent: true });
         e.preventDefault();
+        const form = document.forms.activateKey;
+        const keyName = form.keyName;
+        keyName.blur();
+
+        const user = jwtDecode(localStorage.getItem('token'));
+
+        const result = await fetchData(`
+            mutation activateKey($username: String!, $keyName: String!) {
+                activateKey(username: $username, keyName: $keyName)
+            }
+        `, { username: user.name, keyName: keyName.value });
+
+        keyName.value = '';
+        this.setState({ isRequestSent: false, message: result.activateKey });
+        if (result.activateKey != 'Такого ключа не существует') {
+            this.props.getSubscriptions();
+        }
     }
     render() {
-        const { subscriptions, isRequestSent, showAll } = this.state;
+        const {
+            subscriptions,
+            isRequestSent,
+            showAll,
+            message
+        } = this.state;
         const { toggleAgreement, buyProduct } = this.props;
         const activeSubs = [];
         const expiredSubs = [];
@@ -202,8 +238,17 @@ export default class Subscriptions extends React.Component {
                 )
             }
         }) : '';
+
         return (
             <div className="subscriptions">
+                {/* <MessageModal
+                    style={
+                        {
+
+                        }
+                    }
+                    message={message}
+                /> */}
                 <div className="container">
                     <div
                         className="all-subscriptions"
@@ -271,7 +316,17 @@ export default class Subscriptions extends React.Component {
                         }
                         {expiredSubs}
                     </div>
-                    <form onSubmit={this.handleSubmit} className="activate-product">
+                    <form
+                        onSubmit={this.handleSubmit}
+                        className="activate-product"
+                        style={
+                            {
+                                pointerEvents: isRequestSent ? 'none' : 'all',
+                                userSelect: isRequestSent ? 'none' : 'text'
+                            }
+                        }
+                        name="activateKey"
+                    >
                         <h2>Активация</h2>
                         <label className="activate-product-label">
                             Если есть ключ<br />
@@ -280,7 +335,7 @@ export default class Subscriptions extends React.Component {
                         </label>
                         <div className="field-wrap">
                             <input
-                                name="activate-key"
+                                name="keyName"
                                 className="activate-key"
                                 required="required"
                             />

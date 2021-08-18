@@ -42,16 +42,17 @@ class CreateKey extends React.Component {
             "Y",'y',"Z",'z'
         ];
         let generatedKeyName = '';
-        alphabet.map(() => {
-            if (generatedKeyName.length != 20) {
+        alphabet.map((_, i) => {
+            if (i < 11) {
                 const randomNumber = Math.floor(Math.random() * alphabet.length + 10);
                 let genedNameLength = generatedKeyName.length;
-                const numberToRandom = 62 - randomNumber;
-                const characterToAdd = Math.floor(Math.random() * numberToRandom);
-                if (randomNumber > 52) {
-                    generatedKeyName += ++genedNameLength % 5 == 0 ? '-' : characterToAdd;
+                let numberToRandom = 62 - randomNumber;
+                numberToRandom++;
+                let characterToAdd = Math.floor(Math.random() * numberToRandom);
+                if (randomNumber >= 52) {
+                    generatedKeyName += ++genedNameLength % 6 == 0 ? '-' : characterToAdd;
                 } else {
-                    generatedKeyName += ++genedNameLength % 5 == 0 ? '-' : alphabet[randomNumber];
+                    generatedKeyName += ++genedNameLength % 6 == 0 ? '-' : alphabet[randomNumber];
                 }
             }
         });
@@ -193,16 +194,19 @@ export default class Keys extends React.Component {
                             name
                             expiredInDays
                             activationsAmount
+                            isUsed
                         }
                         unactive {
                             name
                             expiredInDays
                             activationsAmount
+                            isUsed
                         }
                         all {
                             name
                             expiredInDays
                             activationsAmount
+                            isUsed
                         }
                     }
                 }
@@ -260,6 +264,7 @@ export default class Keys extends React.Component {
         const products = this.state.products.map(product => {
             const active = product.keys && product.keys.active ? product.keys.active : [];
             const unactive = product.keys && product.keys.unactive ? product.keys.unactive : [];
+            console.log(product)
             return (
                 <div className="product" key={product.title}>
                     <img className="cover" src={product.imageURLdashboard} />
