@@ -57,30 +57,28 @@ class DeleteKey extends React.Component {
                     }
                 }
             >
-                <div className="confirm-action-wrap">
-                    <div className="heading">
-                        <h3>Подтвердите действие</h3>
-                        <CloseIcon
-                            className="close-modal"
-                            onClick={hideDeleteKeyModal}
-                        />
-                    </div>
-                    <div className="content">
-                        Вы действительно хотите удалить ключ с именем {keyToDelete.name}
-                    </div>
-                    <div className="buttons">
-                        <button className="button agree"
-                            onClick={this.deleteKey}
-                        >
-                            Да
-                        </button>
-                        <button
-                            className="button refuse"
-                            onClick={hideDeleteKeyModal}
-                        >
-                            Нет
-                        </button>
-                    </div>
+                <div className="heading">
+                    <h3>Подтвердите действие</h3>
+                    <CloseIcon
+                        className="close-modal"
+                        onClick={hideDeleteKeyModal}
+                    />
+                </div>
+                <div className="content">
+                    Вы действительно хотите удалить ключ с именем {keyToDelete.name}
+                </div>
+                <div className="buttons">
+                    <button className="button agree"
+                        onClick={this.deleteKey}
+                    >
+                        Да
+                    </button>
+                    <button
+                        className="button refuse"
+                        onClick={hideDeleteKeyModal}
+                    >
+                        Нет
+                    </button>
                 </div>
             </div>
         )

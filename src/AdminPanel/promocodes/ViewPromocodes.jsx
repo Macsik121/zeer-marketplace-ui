@@ -44,11 +44,11 @@ class ConfirmDeletePromo extends React.Component {
 
         return (
             <div
-                className="confirm-action-delete-promo"
+                className="confirm-action delete-promo"
                 style={style}
             >
                 <div className="heading">
-                    <h3>Подтверидте действие</h3>
+                    <h3>Подтвердите действие</h3>
                     <CloseIcon onClick={hideDeletePromo} className="close-modal" />
                 </div>
                 <div className="content">
@@ -112,6 +112,7 @@ class ViewPromocodes extends React.Component {
                         all {
                             name
                             activationsAmount
+                            promocodesAmount
                             discountPercent
                             expirationDays
                             isUsed
@@ -119,6 +120,7 @@ class ViewPromocodes extends React.Component {
                         active {
                             name
                             activationsAmount
+                            promocodesAmount
                             discountPercent
                             expirationDays
                             isUsed
@@ -126,6 +128,7 @@ class ViewPromocodes extends React.Component {
                         unactive {
                             name
                             activationsAmount
+                            promocodesAmount
                             discountPercent
                             expirationDays
                             isUsed
@@ -206,7 +209,7 @@ class ViewPromocodes extends React.Component {
                 <div key={promo.name} className="promocode">
                     <div className="promo-name">{promo.name}</div>
                     <div className="discount-percent">{promo.discountPercent}</div>
-                    <div className="activations-amount">{promo.activationsAmount}</div>
+                    <div className="activations-amount">{promo.activationsAmount}/{promo.promocodesAmount}</div>
                     <div className="is-used">{promo.isUsed ? 'Да' : 'Нет'}</div>
                     <div className="action">
                         <button

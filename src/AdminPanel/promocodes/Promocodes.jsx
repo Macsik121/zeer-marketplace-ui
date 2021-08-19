@@ -15,17 +15,19 @@ class CreatePromocode extends React.Component {
     async handleSubmit(e) {
         this.setState({ isRequestMaking: true });
         e.preventDefault();
+
         const form = document.forms.createPromocode;
         const name = form.promoName;
         const discountPercent = form.expiredName;
         const activationsAmount = form.activationsAmount;
-        const expirationDays = new Date();
-        expirationDays.setDate(expirationDays.getDate() + +form.expiredName.value);
-
+        
         name.blur();
         discountPercent.blur();
         activationsAmount.blur();
         form.expiredName.blur();
+        
+        const expirationDays = new Date();
+        expirationDays.setDate(expirationDays.getDate() + +form.expiredName.value);
 
         const generatedPromocode = generateString(10, false);
 
@@ -46,20 +48,20 @@ class CreatePromocode extends React.Component {
                     name
                     discountPercent
                     activationsAmount
+                    promocodesAmount
                     expirationDays
                     isUsed
                 }
             }
         `, vars);
 
-        if (result && result.createPromocode.name != '') {
-            this.props.hideCreatePromocodeModal();
-            await this.props.getProducts();
-        } else {
-            name.focus();
-        }
+        this.props.hideCreatePromocodeModal();
+        await this.props.getProducts();
 
         this.setState({ isRequestMaking: false });
+    }
+    handleChangeDate(e) {
+        console.log(e.target.value);
     }
     render() {
         const {
@@ -104,7 +106,12 @@ class CreatePromocode extends React.Component {
                     </div>
                     <div className="field-wrap">
                         <label>Время действия:</label>
-                        <input name="expiredName" className="expired-time" />
+                        <input
+                            type="date"
+                            onChange={this.handleChangeDate}
+                            name="expiredName"
+                            className="expired-time"
+                        />
                     </div>
                     <div className="field-wrap">
                         <label>Количество активаций:</label>

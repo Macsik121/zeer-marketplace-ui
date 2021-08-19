@@ -283,7 +283,7 @@ class Home extends React.Component {
                                 opacity: `${showingForgotPassword ? '0.85' : '1'}`,
                                 transition: '500ms',
                                 pointerEvents: `${showingForgotPassword ? 'none' : 'all'}`,
-                                userSelect: `${showingForgotPassword ? 'none' : 'all'}`
+                                userSelect: `${showingForgotPassword ? 'none' : 'text'}`
                             }
                             : {
                                 opacity: 0,

@@ -3797,6 +3797,7 @@ fieldset {
 .dashboard .main .FAQ .answers-wrap {
     margin-top: 70px;
     transition: 650ms;
+    width: 1170px;
 }
 
 .dashboard .main .FAQ .answer-title {
@@ -3939,6 +3940,7 @@ fieldset {
     letter-spacing: .1px;
     font-family: Roboto, sans-serif;
     margin-top: 1px;
+    word-wrap: break-word;
 }
 
 .dashboard .main .FAQ .answers .answer .answer-title {
@@ -4903,7 +4905,7 @@ fieldset {
 
 .admin-panel .search-bar .search-field input {
     width: 100%;
-    color: #aaa;
+    color: #1C1C24;
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
@@ -5541,50 +5543,49 @@ fieldset {
     transition: 300ms;
 }
 
-.admin-panel .product-keys .confirm-action {
+.admin-panel .confirm-action {
+    width: 400px;
+    background-color: #1C1C24;
+    padding: 20px;
+    border-radius: 10px;
     position: absolute;
     left: 0;
     right: 0;
-    top: 0;
+    top: 30px;
     margin: 0 auto;
     display: flex;
     justify-content: center;
     transition: 350ms;
     z-index: 2;
+    display: flex;
+    flex-direction: column;
 }
 
-.admin-panel .product-keys .confirm-action .confirm-action-wrap {
-    width: 400px;
-    background-color: #1C1C24;
-    padding: 20px;
-    border-radius: 10px;
-}
-
-.admin-panel .product-keys .confirm-action .heading {
+.admin-panel .confirm-action .heading {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.admin-panel .product-keys .confirm-action .heading .close-modal {
+.admin-panel .confirm-action .heading .close-modal {
     fill: #1E75FF;
     cursor: pointer;
 }
 
-.admin-panel .product-keys .confirm-action .content {
+.admin-panel .confirm-action .content {
     margin-top: 30px;
     line-height: 24px;
     letter-spacing: .2px;
     text-align: center;
 }
 
-.admin-panel .product-keys .confirm-action .buttons {
+.admin-panel .confirm-action .buttons {
     display: flex;
     justify-content: space-between;
     margin-top: 30px;
 }
 
-.admin-panel .product-keys .confirm-action .buttons .button {
+.admin-panel .confirm-action .buttons .button {
     width: 160px;
     border: none;
     border-radius: 10px;
@@ -5596,19 +5597,19 @@ fieldset {
     transition: 300ms;
 }
 
-.admin-panel .product-keys .confirm-action .buttons .button.agree {
+.admin-panel .confirm-action .buttons .button.agree {
     background-color: #04BE00;
 }
 
-.admin-panel .product-keys .confirm-action .buttons .button.agree:hover {
+.admin-panel .confirm-action .buttons .button.agree:hover {
     opacity: .85;
 }
 
-.admin-panel .product-keys .confirm-action .buttons .button.refuse {
+.admin-panel .confirm-action .buttons .button.refuse {
     background-color: #DD4D4D78;
 }
 
-.admin-panel .product-keys .confirm-action .buttons .button.refuse:hover {
+.admin-panel .confirm-action .buttons .button.refuse:hover {
     background-color: #92191978;
 }
 
@@ -5628,7 +5629,7 @@ fieldset {
 .admin-panel .product-keys .keys-wrap {
     display: flex;
     justify-content: space-between;
-    padding: 30px 2vw 20px;
+    padding: 10px 2vw 20px;
 }
 
 @media (max-width: 1500px) {
@@ -5652,7 +5653,7 @@ fieldset {
 .admin-panel .product-keys .keys .heading {
     display: flex;
     justify-content: space-between;
-    padding-bottom: 10px;
+    padding: 10px 15px;
 }
 
 .admin-panel .product-keys .keys .heading div {
@@ -5686,7 +5687,7 @@ fieldset {
 }
 
 .admin-panel .product-keys .keys .keys-of-product .key {
-    padding: 10px 0;
+    padding: 10px 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -6055,7 +6056,7 @@ fieldset {
 
 .admin-panel .view-promocodes .promocodes-wrap {
     display: flex;
-    padding: 20px 2vw;
+    padding: 10px 2vw 20px;
     transition: 300ms;
 }
 
@@ -6084,7 +6085,7 @@ fieldset {
 .admin-panel .view-promocodes .promocodes-wrap .table .heading {
     display: flex;
     justify-content: space-between;
-    padding-bottom: 10px;
+    padding: 10px 15px;
 }
 
 .admin-panel .view-promocodes .promocodes-wrap .table .heading div {
@@ -6093,8 +6094,7 @@ fieldset {
 }
 
 .admin-panel .view-promocodes .promocodes-wrap .table .heading .promo-name {
-    width: 245px;
-    padding-left: 20px;
+    width: 225px;
 }
 
 .admin-panel .view-promocodes .promocodes-wrap .table .heading .discount-percent {
@@ -6122,7 +6122,7 @@ fieldset {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 0;
+    padding: 10px 15px;
 }
 
 .admin-panel .view-promocodes .promocodes-wrap .promocodes .promocode:nth-of-type(2n + 1) {
@@ -6135,10 +6135,9 @@ fieldset {
 }
 
 .admin-panel .view-promocodes .promocodes-wrap .promocodes .promocode .promo-name {
-    min-width: 245px;
-    width: 245px;
+    min-width: 225px;
+    width: 225px;
     word-break: break-all;
-    padding-left: 20px;
     text-align: center;
 }
 
@@ -6271,6 +6270,7 @@ fieldset {
     flex-wrap: wrap;
     margin: 0 auto;
     max-width: 1170px;
+    padding-bottom: 30px;
 }
 
 .admin-panel .FAQ .sorts-wrap .add-FAQ-sort {
@@ -6299,6 +6299,8 @@ fieldset {
     padding: 30px;
     cursor: pointer;
     border: none;
+    width: 100px;
+    height: 100px;
 }
 
 .admin-panel .FAQ .sorts-wrap .add-FAQ-sort .plus {
@@ -6333,11 +6335,50 @@ fieldset {
     height: 100%;
     min-height: 300px;
     margin-top: 30px;
-    margin-left: 20px;
+    margin-left: 30px;
 }
 
 .admin-panel .FAQ .sorts-wrap .answer:nth-of-type(4n + 5) {
     margin-left: 0;
+}
+
+@media (max-width: 1381px) {
+    .admin-panel .FAQ .sorts-wrap {
+        width: 870px;
+    }
+    .admin-panel .FAQ .sorts-wrap .answer:nth-of-type(4n + 5) {
+        margin-left: 30px;
+    }
+    .admin-panel .FAQ .sorts-wrap .answer:nth-child(3n + 4) {
+        margin-left: 0;
+    }
+    .admin-panel .FAQ .sorts-wrap .add-FAQ-sort {
+        margin-left: 0px;
+    }
+}
+
+@media (max-width: 1120px) {
+    .admin-panel .FAQ .sorts-wrap {
+        width: 570px;
+    }
+    .admin-panel .FAQ .sorts-wrap .answer:nth-of-type(4n + 5) {
+        margin-left: 0;
+    }
+    .admin-panel .FAQ .FAQ-sorts-wrap .sorts-wrap .answer:nth-child(3n + 4) {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 1120px) {
+    .admin-panel .FAQ .sorts-wrap {
+        width: 270px;
+    }
+    .admin-panel .FAQ .sorts-wrap .answer:nth-child(3n + 4) {
+        margin-left: 30px;
+    }
+    .admin-panel .FAQ .sorts-wrap .answer {
+        margin-left: 0;
+    }
 }
 
 .admin-panel .FAQ .sorts-wrap .answer h3 {
@@ -6553,12 +6594,26 @@ fieldset {
 
 .admin-panel .view-answers .view-answers-wrap {
     display: flex;
-    justify-content: space-between;
+    padding: 20px 2vw;
+}
+
+@media (max-width: 1400px) {
+    .admin-panel .view-answers .view-answers-wrap {
+        flex-direction: column;
+        align-items: center;
+    }
+    .admin-panel .view-answers .view-answers-wrap .sort {
+        margin-top: 30px;
+    }
+}
+
+.admin-panel .view-answers .answers {
+    width: 100%;
 }
 
 .admin-panel .view-answers .view-answers-wrap .sort {
-    width: 270px;
-    min-height: 300px;
+    min-width: 270px;
+    height: 300px;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -6567,6 +6622,7 @@ fieldset {
     border: 1px solid #292932;
     border-radius: 20px;
     padding: 120px 0 10px;
+    margin-left: 30px;
 }
 
 .admin-panel .view-answers .view-answers-wrap .sort .sort-title {
@@ -6623,4 +6679,186 @@ fieldset {
 .admin-panel .view-answers .view-answers-wrap .sort .buttons .button.add-answer:hover {
     background-color: #1C6FF2;
 }
+
+.admin-panel .view-answers .table {
+    width: 100%;
+    font-size: 18px;
+    line-height: 27px;
+}
+
+.admin-panel .view-answers .table .heading {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+}
+
+.admin-panel .view-answers .table .heading div {
+    display: flex;
+    justify-content: center;
+}
+
+.admin-panel .view-answers .table .heading .description {
+    width: 300px;
+}
+
+.admin-panel .view-answers .table .heading .title {
+    width: 175px;
+}
+
+.admin-panel .view-answers .table .heading .date {
+    width: 110px;
+}
+
+.admin-panel .view-answers .table .heading .action {
+    width: 140px;
+}
+
+.admin-panel .view-answers .table .answers {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-panel .view-answers .table .answers .answer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+}
+
+.admin-panel .view-answers .table .answers .answer:nth-of-type(2n) {
+    background-color: #1C1C24;
+}
+
+.admin-panel .view-answers .table .answers .answer div {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    word-break: break-all;
+}
+
+.admin-panel .view-answers .table .answers .answer .description {
+    width: 300px;
+    text-align: center;
+    word-break: break-all;
+}
+
+.admin-panel .view-answers .table .answers .answer .title {
+    width: 175px;
+}
+
+.admin-panel .view-answers .table .answers .answer .date {
+    width: 110px;
+}
+
+.admin-panel .view-answers .table .answers .answer .action {
+    width: 140px;
+}
+
+.admin-panel .view-answers .table .answers .answer .action .button {
+    width: 100%;
+    height: 27px;
+    cursor: pointer;
+    color: #fff;
+    background-color: #FF00006E;
+    transition: 300ms;
+    border: none;
+    border-radius: 5px;
+}
+
+.admin-panel .view-answers .table .answers .answer .action .button.delete:hover {
+    background-color: #92191978;
+}
+
+.admin-panel .view-answers .create-answer-modal {
+    transition: 300ms;
+    position: absolute;
+    top: 30px;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    transform: translateY(-145%);
+    opacity: 0;
+    z-index: 1;
+}
+
+.admin-panel .view-answers .create-answer-modal .add-answer {
+    width: 420px;
+    background-color: #1C1C24;
+    padding: 10px 25px 20px;
+    border-radius: 5px;
+}
+
+.admin-panel .view-answers .create-answer-modal .add-answer .field-wrap {
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+    margin-top: 10px;
+}
+
+.admin-panel .view-answers .create-answer-modal .add-answer .field-wrap label {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 36px;
+    letter-spacing: .1px;
+    text-align: center;
+    cursor: text;
+}
+
+.admin-panel .view-answers .create-answer-modal .add-answer .field-wrap input,
+.admin-panel .view-answers .create-answer-modal .add-answer .field-wrap textarea {
+    margin-top: 5px;
+    border-radius: 8px;
+    color: #1C1C24;
+    height: 31px;
+    border: none;
+    padding-left: 10px;
+}
+
+.admin-panel .view-answers .create-answer-modal .add-answer .field-wrap textarea {
+    scrollbar-color: auto;
+    padding-top: 10px;
+}
+
+.admin-panel .view-answers .create-answer-modal .add-answer .field-wrap textarea::-webkit-scrollbar {
+    width: 10px;
+}
+
+.admin-panel .view-answers .create-answer-modal .add-answer .field-wrap textarea::-webkit-scrollbar-track {
+    /* box-shadow: auto; 
+    -webkit-border-radius: auto;
+    border-radius: auto; */
+    background: #fff;
+}
+
+.admin-panel .view-answers .create-answer-modal .add-answer .field-wrap textarea::-webkit-scrollbar-thumb {
+    /* -webkit-border-radius: auto;
+    border-radius: auto; */
+    background: #aaa;
+    border: 2px solid #fff;
+    /* box-shadow: auto;  */
+}
+
+.admin-panel .view-answers .create-answer-modal .add-answer .field-wrap .answer-description {
+    height: 84px;
+}
+
+.admin-panel .view-answers .create-answer-modal .add-answer .add {
+    width: 100%;
+    border-radius: 5px;
+    border: none;
+    color: #fff;
+    background-color: #FF00006E;
+    transition: 300ms;
+    margin-top: 15px;
+    line-height: 36px;
+    letter-spacing: .1px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.admin-panel .view-answers .create-answer-modal .add-answer .add:hover {
+    background-color: #92191978;
+}
+
 
