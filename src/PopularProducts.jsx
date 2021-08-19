@@ -26,7 +26,7 @@ function Product({product, styles, className}) {
     )
 }
 
-async function fetchPopularProducts() {
+async function fetchPopularProducts(isMounted) {
     const query = `
         query {
             popularProducts {

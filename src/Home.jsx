@@ -9,6 +9,7 @@ import AgreementPrivacyNPolicy from './AgreementModal.jsx';
 import ForgotPassword from './ForgotPasswordModal.jsx';
 
 class Home extends React.Component {
+    _isMounted = false;
     constructor() {
         super();
         this.state = {
@@ -86,6 +87,7 @@ class Home extends React.Component {
         this.toggleForgotPassword = this.toggleForgotPassword.bind(this);
     }
     async componentDidMount() {
+        this._isMounted = true;
         const token = localStorage.getItem('token');
         if (token && token != '') {
             const user = jwtDecode(token);
@@ -113,9 +115,12 @@ class Home extends React.Component {
             }
         }.bind(this);
         this.setState({
-            products: await fetchPopularProducts(),
+            products: await fetchPopularProducts(this._isMounted),
             deviceWidth: window.innerWidth
         });
+    }
+    componentWillUnmount() {
+        this._isMounted = false;
     }
     toggleLogin() {
         this.setState({

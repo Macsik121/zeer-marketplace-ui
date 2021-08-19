@@ -205,6 +205,7 @@ class ViewPromocodes extends React.Component {
         const unactivePromocodes = product.promocodes && product.promocodes.unactive.length;
 
         const promocodes = product.promocodes && product.promocodes.all.map(promo => {
+            console.log(promo);
             return (
                 <div key={promo.name} className="promocode">
                     <div className="promo-name">{promo.name}</div>

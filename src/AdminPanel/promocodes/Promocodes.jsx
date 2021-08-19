@@ -18,25 +18,24 @@ class CreatePromocode extends React.Component {
 
         const form = document.forms.createPromocode;
         const name = form.promoName;
-        const discountPercent = form.expiredName;
+        const discountPercent = form.discountPercent;
         const activationsAmount = form.activationsAmount;
-        
+        const expirationDays = form.expiredName;
+
         name.blur();
         discountPercent.blur();
         activationsAmount.blur();
-        form.expiredName.blur();
-        
-        const expirationDays = new Date();
-        expirationDays.setDate(expirationDays.getDate() + +form.expiredName.value);
+        expirationDays.blur();
 
         const generatedPromocode = generateString(10, false);
+        console.log(activationsAmount.value)
 
         const vars = {
             promocode: {
                 name: name.value.length == 0 ? generatedPromocode : name.value,
                 discountPercent: +discountPercent.value,
                 activationsAmount: +activationsAmount.value,
-                expirationDays: +form.expiredName.value,
+                expirationDays: new Date(expirationDays.value).toISOString(),
                 isUsed: false
             },
             title: this.props.product.title
@@ -59,9 +58,6 @@ class CreatePromocode extends React.Component {
         await this.props.getProducts();
 
         this.setState({ isRequestMaking: false });
-    }
-    handleChangeDate(e) {
-        console.log(e.target.value);
     }
     render() {
         const {
