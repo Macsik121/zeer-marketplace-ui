@@ -1808,11 +1808,7 @@ fieldset {
 }
 
 .dashboard .progress-bar {
-    position: absolute;
     top: 150px;
-    margin: 0 auto;
-    left: 0;
-    right: 0;
 }
 
 .dashboard .nav {
@@ -2736,6 +2732,7 @@ fieldset {
     background-color: #1C1C24;
     margin-top: 30px;
     border-radius: 10px;
+    transition: 300ms;
 }
 
 .dashboard .main .product-info .info .general .cost .dropdown {
@@ -3148,10 +3145,15 @@ fieldset {
     background-color: #1C6FF2;
 }
 
+.dashboard .main .product-info .info {
+    position: relative;
+}
+
 .dashboard .main .product-info .info .changes {
     background-color: #1C1C24;
     margin-top: 30px;
     border-radius: 10px;
+    transition: 300ms;
 }
 
 .dashboard .main .product-info .info .changes .general {
@@ -3233,6 +3235,8 @@ fieldset {
 
 .dashboard .main .product-info .popular-products {
     width: 30%;
+    transition: 300ms;
+    position: relative;
 }
 
 .dashboard .main .product-info .popular-products h2 {
@@ -4844,13 +4848,14 @@ fieldset {
     opacity: 0;
 }
 
-.admin-panel .progress-bar {
+.progress-bar {
     position: absolute;
     top: 250px;
     right: 0;
     bottom: 0;
     left: 0;
-    margin: auto;
+    margin: 0 auto;
+    z-index: 1;
 }
 
 .admin-panel .header {
@@ -5346,10 +5351,9 @@ fieldset {
     line-height: 16px;
 }
 
-.admin-panel .keys .create-product-key-modal .help-message {
+.admin-panel .help-message {
     line-height: 18px;
     font-size: 15px;
-    text-align: center;
     color: #04BE00;
     transition: 300ms;
     cursor: pointer;
@@ -5535,10 +5539,6 @@ fieldset {
 
 .admin-panel .product-keys .product-keys-wrap {
     transition: 300ms;
-}
-
-.admin-panel .product-keys .progress-bar {
-    top: 0px;
 }
 
 .admin-panel .product-keys .confirm-action {
@@ -5803,7 +5803,6 @@ fieldset {
 }
 
 .admin-panel .promocodes {
-    padding-top: 10px;
     transition: 300ms;
     position: relative;
 }
@@ -5913,6 +5912,7 @@ fieldset {
 
 .admin-panel .promocodes .promocodes-wrap-products {
     transition: 300ms;
+    padding-top: 10px;
 }
 
 .admin-panel .promocodes .create-promo-modal {
@@ -5938,6 +5938,7 @@ fieldset {
 
 .admin-panel .promocodes .create-promo-modal .create-promocode h3 {
     text-align: center;
+    line-height: 36px;
 }
 
 .admin-panel .promocodes .create-promo-modal .create-promocode .field-wrap {
@@ -5982,8 +5983,69 @@ fieldset {
     position: relative;
 }
 
-.admin-panel .view-promocodes .progress-bar {
-    top: 0;
+.admin-panel .view-promocodes .confirm-action-delete-promo {
+    position: absolute;
+    top: 30px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 400px;
+    transition: 300ms;
+    padding: 20px;
+    background-color: #1C1C24;
+    z-index: 1;
+    border-radius: 10px;
+    transform: translateY(-150%);
+}
+
+.admin-panel .view-promocodes .confirm-action-delete-promo .heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-panel .view-promocodes .confirm-action-delete-promo .heading .close-modal {
+    fill: #1E75FF;
+    cursor: pointer;
+}
+
+.admin-panel .view-promocodes .confirm-action-delete-promo .content {
+    margin-top: 30px;
+    line-height: 24px;
+    letter-spacing: .2px;
+    text-align: center;
+}
+
+.admin-panel .view-promocodes .confirm-action-delete-promo .buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.admin-panel .view-promocodes .confirm-action-delete-promo .buttons .button {
+    padding: 10px 0;
+    width: 160px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none;
+    color: #fff;
+    transition: 300ms;
+}
+
+.admin-panel .view-promocodes .confirm-action-delete-promo .buttons .button.agree {
+    background-color: #04BE00;
+}
+
+.admin-panel .view-promocodes .confirm-action-delete-promo .buttons .button.agree:hover {
+    opacity: .85;
+}
+
+.admin-panel .view-promocodes .confirm-action-delete-promo .buttons .button.refuse {
+    background-color: #FF00006E;
+}
+
+.admin-panel .view-promocodes .confirm-action-delete-promo .buttons .button.refuse:hover {
+    background-color: #92191978;
 }
 
 .admin-panel .view-promocodes .view-promos-wrap {
@@ -5993,7 +6055,18 @@ fieldset {
 
 .admin-panel .view-promocodes .promocodes-wrap {
     display: flex;
-    padding: 0 2vw;
+    padding: 20px 2vw;
+    transition: 300ms;
+}
+
+@media (max-width: 1500px) {
+    .admin-panel .view-promocodes .promocodes-wrap {
+        flex-direction: column;
+    }
+    .admin-panel .view-promocodes .promocodes-wrap .product {
+        max-width: 330px;
+        margin: 200px auto 0;
+    }
 }
 
 .admin-panel .view-promocodes .view-promos-wrap h2 {
@@ -6008,6 +6081,98 @@ fieldset {
     width: 100%;
 }
 
+.admin-panel .view-promocodes .promocodes-wrap .table .heading {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+}
+
+.admin-panel .view-promocodes .promocodes-wrap .table .heading div {
+    display: flex;
+    justify-content: center;
+}
+
+.admin-panel .view-promocodes .promocodes-wrap .table .heading .promo-name {
+    width: 245px;
+    padding-left: 20px;
+}
+
+.admin-panel .view-promocodes .promocodes-wrap .table .heading .discount-percent {
+    width: 100px;
+}
+
+.admin-panel .view-promocodes .promocodes-wrap .table .heading .activations-amount {
+    width: 195px;
+}
+
+.admin-panel .view-promocodes .promocodes-wrap .table .heading .is-used {
+    width: 120px;
+}
+
+.admin-panel .view-promocodes .promocodes-wrap .table .heading .action {
+    width: 140px;
+}
+
+.admin-panel .view-promocodes .promocodes-wrap .promocodes {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-panel .view-promocodes .promocodes-wrap .promocodes .promocode {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.admin-panel .view-promocodes .promocodes-wrap .promocodes .promocode:nth-of-type(2n + 1) {
+    background-color: #1C1C24;
+}
+
+.admin-panel .view-promocodes .promocodes-wrap .promocodes .promocode div {
+    display: flex;
+    justify-content: center;
+}
+
+.admin-panel .view-promocodes .promocodes-wrap .promocodes .promocode .promo-name {
+    min-width: 245px;
+    width: 245px;
+    word-break: break-all;
+    padding-left: 20px;
+    text-align: center;
+}
+
+.admin-panel .view-promocodes .promocodes-wrap .promocodes .promocode .discount-percent {
+    width: 100px;
+}
+
+.admin-panel .view-promocodes .promocodes-wrap .promocodes .promocode .activations-amount {
+    width: 195px;
+}
+
+.admin-panel .view-promocodes .promocodes-wrap .promocodes .promocode .is-used {
+    width: 120px;
+}
+
+.admin-panel .view-promocodes .promocodes-wrap .promocodes .promocode .action {
+    width: 140px;
+}
+
+.admin-panel .view-promocodes .promocodes-wrap .promocodes .promocode .button {
+    width: 100%;
+    border-radius: 5px;
+    background-color: #FF00006E;
+    color: #fff;
+    height: 27px;
+    border: none;
+    cursor: pointer;
+    transition: 300ms;
+}
+
+.admin-panel .view-promocodes .promocodes-wrap .promocodes .promocode .button.delete:hover {
+    background-color: #92191978;
+}
+
 .admin-panel .view-promocodes .product {
     display: flex;
     flex-direction: column;
@@ -6019,6 +6184,7 @@ fieldset {
     padding: 170px 20px 20px;
     position: relative;
     margin-top: 170px;
+    margin-left: 30px;
     font-weight: 600;
     font-size: 12px;
     line-height: 18px;

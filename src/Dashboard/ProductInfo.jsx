@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import fetchData from '../fetchData';
-import { fetchPopularProducts } from '../PopularProducts.jsx';
+import { CircularProgress } from '@material-ui/core';
 import BoughtPeople from '../RenderBoughtPeople.jsx';
 
 class ProductInfo extends React.Component {
@@ -14,18 +14,31 @@ class ProductInfo extends React.Component {
             changes: [],
             showAllChanges: false,
             showDropdown: false,
-            popularProducts: []
+            popularProducts: [],
+            isRequestMaking: false
         };
         this.loadProduct = this.loadProduct.bind(this);
         this.showAllChanges = this.showAllChanges.bind(this);
         this.renderChanges = this.renderChanges.bind(this);
         this.calculateCost = this.calculateCost.bind(this);
     }
+    async componentDidUpdate(prevProps, prevState) {
+        if (prevProps.popularProducts != this.props.popularProducts) {
+            this.setState({
+                popularProducts: this.props.popularProducts,
+                product: {}
+            });
+        }
+        if (JSON.stringify(prevState.product) != JSON.stringify(this.state.product)) {
+            await this.loadProduct();
+        }
+    }
     async componentDidMount() {
         await this.loadProduct();
         this.setState({ popularProducts: this.props.popularProducts });
     }
     async loadProduct() {
+        this.setState({ isRequestMaking: true });
         const title = this.props.match.params.title;
         const resultProduct = await fetchData(`
             query getProduct($title: String!) {
@@ -68,7 +81,8 @@ class ProductInfo extends React.Component {
 
         this.setState({
             product: getProduct,
-            changes
+            changes,
+            isRequestMaking: false
         });
     }
     showAllChanges() {
@@ -110,7 +124,12 @@ class ProductInfo extends React.Component {
         this.setState({ choosenDropdown: e.target.textContent });
     }
     render() {
-        const { product, choosenDropdown, calculatedCosts } = this.state;
+        const {
+            product,
+            choosenDropdown,
+            calculatedCosts,
+            isRequestMaking
+        } = this.state;
         const { buyProduct } = this.props;
         const info = [];
         const costDropdown = calculatedCosts.map(costTime => (
@@ -214,7 +233,10 @@ class ProductInfo extends React.Component {
                             <button className="buy button" onClick={() => buyProduct(popProduct.title)}>
                                 Купить
                             </button>
-                            <Link to={`/dashboard/products/${popProduct.title}`} className="detailed button">
+                            <Link
+                                to={`/dashboard/products/${popProduct.title}`}
+                                className="detailed button"
+                            >
                                 Подробнее
                             </Link>
                         </div>
@@ -420,52 +442,92 @@ class ProductInfo extends React.Component {
             <div className="product-info">
                 <div className="container">
                     <div className="info">
+                        <CircularProgress
+                            className="progress-bar"
+                            style={
+                                {
+                                    display: isRequestMaking ? 'block' : 'none'
+                                }
+                            }
+                        />
                         <h2>Информация о продукте</h2>
-                        <div className="general">
+                        <div
+                            className="general"
+                            style={
+                                {
+                                    opacity: isRequestMaking ? 0 : 1,
+                                    pointerEvents: isRequestMaking ? 'none' : 'all'
+                                }
+                            }
+                        >
                             {productInfo}
                         </div>
-                            <div className="changes-log">
-                                <h2>Журнал изменений</h2>
-                                {changes.length > 0 &&
-                                    <div className="changes">
-                                        {changes}
-                                        <div className="show-all">
-                                            {
-                                                changes.length > 3 &&
-                                                <button onClick={this.showAllChanges} className="show-more">
-                                                    {
-                                                        this.state.showAllChanges
-                                                            ? 'Спрятать'
-                                                            : 'Показать ещё'
-                                                    }
-                                                </button>
+                        <div className="changes-log">
+                            <h2>Журнал изменений</h2>
+                            {changes.length > 0 &&
+                                <div
+                                    className="changes"
+                                    style={
+                                        {
+                                            opacity: isRequestMaking ? 0 : 1,
+                                            pointerEvents: isRequestMaking ? 'none' : 'all'
+                                        }
+                                    }
+                                >
+                                    {changes}
+                                    <div className="show-all">
+                                        {
+                                            changes.length > 3 &&
+                                            <button onClick={this.showAllChanges} className="show-more">
+                                                {
+                                                    this.state.showAllChanges
+                                                        ? 'Спрятать'
+                                                        : 'Показать ещё'
+                                                }
+                                            </button>
+                                        }
+                                        <span
+                                            style={
+                                                changes.length > 3
+                                                    ? {}
+                                                    : { margin: 0 }
                                             }
-                                            <span
-                                                style={
-                                                    changes.length > 3
-                                                        ? {}
-                                                        : { margin: 0 }
-                                                }
-                                                className="how-many-shown"
-                                            >
-                                                Показано последние
-                                                {changes.length > 3
-                                                    ? this.state.showAllChanges
-                                                        ? ` ${changes.length} `
-                                                        : ' 3 '
-                                                    : ` ${changes.length} `
-                                                }
-                                                обновлений из {changes.length}
-                                            </span>
-                                        </div>
+                                            className="how-many-shown"
+                                        >
+                                            Показано последние
+                                            {changes.length > 3
+                                                ? this.state.showAllChanges
+                                                    ? ` ${changes.length} `
+                                                    : ' 3 '
+                                                : ` ${changes.length} `
+                                            }
+                                            обновлений из {changes.length}
+                                        </span>
                                     </div>
-                                }
-                            </div>
+                                </div>
+                            }
+                        </div>
                     </div>
                     <div className="popular-products">
                         <h2>Популярные продукты</h2>
-                        <div className="products">
-                            {popularProducts && popularProducts}
+                        <CircularProgress
+                            className="progress-bar"
+                            style={
+                                {
+                                    display: popularProducts.length > 0 ? 'none' : 'block'
+                                }
+                            }
+                        />
+                        <div
+                            className="products"
+                            style={
+                                {
+                                    pointerEvents: popularProducts.length > 0 ? 'all' : 'none',
+                                    opacity: popularProducts.length > 0 ? 1 : 0
+                                }
+                            }
+                        >
+                            {popularProducts.length > 0 && popularProducts}
                         </div>
                     </div>
                 </div>

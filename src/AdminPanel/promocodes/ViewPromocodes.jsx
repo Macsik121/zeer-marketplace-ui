@@ -1,7 +1,77 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { CircularProgress } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 import fetchData from '../../fetchData';
+
+class ConfirmDeletePromo extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            isRequestMaking: false
+        };
+        this.deletePromocode = this.deletePromocode.bind(this);
+    }
+    async deletePromocode() {
+        this.setState({ isRequestMaking: true });
+        const { name } = this.props.promoToDelete;
+        const { title } = this.props.match.params;
+
+        await fetchData(`
+            mutation deletePromocode($promocodeTitle: String!, $productTitle: String!) {
+                deletePromocode(productTitle: $productTitle, promocodeTitle: $promocodeTitle)
+            }
+        `, { productTitle: title, promocodeTitle: name });
+
+        await this.props.getPromocodes();
+        this.props.hideDeletePromo();
+
+        this.setState({ isRequestMaking: false });
+    }
+    render() {
+        const {
+            promoToDelete,
+            hideDeletePromo
+        } = this.props;
+        const { isRequestMaking } = this.state;
+
+        const style = {...this.props.style};
+        if (isRequestMaking) {
+            style.pointerEvents = 'none';
+        } else {
+            style.pointerEvents = 'all';
+        }
+
+        return (
+            <div
+                className="confirm-action-delete-promo"
+                style={style}
+            >
+                <div className="heading">
+                    <h3>Подтверидте действие</h3>
+                    <CloseIcon onClick={hideDeletePromo} className="close-modal" />
+                </div>
+                <div className="content">
+                    Вы действительно хотите удалить промокод с именем {promoToDelete.name}
+                </div>
+                <div className="buttons">
+                    <button
+                        className="button agree"
+                        onClick={this.deletePromocode}
+                    >
+                        Да
+                    </button>
+                    <button
+                        className="button refuse"
+                        onClick={hideDeletePromo}
+                    >
+                        Нет
+                    </button>
+                </div>
+            </div>
+        )
+    }
+}
 
 class ViewPromocodes extends React.Component {
     constructor() {
@@ -9,11 +79,25 @@ class ViewPromocodes extends React.Component {
         this.state = {
             product: {},
             productCopy: {},
-            isRequestMaking: true
+            isRequestMaking: true,
+            promoToDelete: {},
+            deletePromocodeShown: false
         };
         this.handlePromosSearch = this.handlePromosSearch.bind(this);
+        this.hideDeletePromo = this.hideDeletePromo.bind(this);
+        this.showDeletePromo = this.showDeletePromo.bind(this);
+        this.getPromocodes = this.getPromocodes.bind(this);
+        this.deleteAllPromocodes = this.deleteAllPromocodes.bind(this);
     }
     async componentDidMount() {
+        window.onkeydown = function(e) {
+            if (e.keyCode == 27) {
+                this.hideDeletePromo();
+            }
+        }.bind(this);
+        await this.getPromocodes();
+    }
+    async getPromocodes() {
         this.setState({ isRequestMaking: true });
         const { title } = this.props.match.params;
 
@@ -57,6 +141,33 @@ class ViewPromocodes extends React.Component {
             isRequestMaking: false
         });
     }
+    showDeletePromo() {
+        this.setState({ deletePromocodeShown: true });
+    }
+    hideDeletePromo() {
+        this.setState({ deletePromocodeShown: false });
+    }
+    async deleteAllPromocodes() {
+        this.setState({ isRequestMaking: true });
+        const { title } = this.props.match.params;
+        await fetchData(`
+            mutation deleteAllPromocodes($title: String!) {
+                deleteAllPromocodes(title: $title) {
+                    promocodes {
+                        all {
+                            name
+                            activationsAmount
+                            discountPercent
+                            isUsed
+                        }
+                    }
+                }
+            }
+        `, { title });
+
+        await this.getPromocodes();
+        this.setState({ isRequestMaking: false });
+    }
     handlePromosSearch(e) {
         const searchValue = e.target.value;
 
@@ -82,20 +193,51 @@ class ViewPromocodes extends React.Component {
     render() {
         const {
             isRequestMaking,
-            product
+            product,
+            promoToDelete,
+            deletePromocodeShown
         } = this.state;
 
         const activePromocodes = product.promocodes && product.promocodes.active.length;
         const unactivePromocodes = product.promocodes && product.promocodes.unactive.length;
 
-        const promocodes = product.promocodes && product.promocodes.all.map(promo => (
-            <div key={promo.name} className="promocode">
-                {promo.name}
-            </div>
-        ));
+        const promocodes = product.promocodes && product.promocodes.all.map(promo => {
+            return (
+                <div key={promo.name} className="promocode">
+                    <div className="promo-name">{promo.name}</div>
+                    <div className="discount-percent">{promo.discountPercent}</div>
+                    <div className="activations-amount">{promo.activationsAmount}</div>
+                    <div className="is-used">{promo.isUsed ? 'Да' : 'Нет'}</div>
+                    <div className="action">
+                        <button
+                            className="button delete"
+                            onClick={() => {
+                                this.showDeletePromo();
+                                this.setState({ promoToDelete: promo });
+                            }}
+                        >
+                            Удалить
+                        </button>
+                    </div>
+                </div>
+            )
+        });
 
         return (
             <div className="view-promocodes">
+                <ConfirmDeletePromo
+                    style={
+                        {
+                            opacity: deletePromocodeShown ? 1 : 0,
+                            transform: `translateY(${deletePromocodeShown ? 0 : '-150%'})`,
+                            pointerEvents: deletePromocodeShown ? 'all' : 'none'
+                        }
+                    }
+                    promoToDelete={promoToDelete}
+                    hideDeletePromo={this.hideDeletePromo}
+                    match={this.props.match}
+                    getPromocodes={this.getPromocodes}
+                />
                 <CircularProgress
                     style={
                         {
@@ -108,7 +250,9 @@ class ViewPromocodes extends React.Component {
                     className="view-promos-wrap"
                     style={
                         {
-                            opacity: isRequestMaking ? 0 : 1
+                            opacity: deletePromocodeShown ? .5 : 1,
+                            pointerEvents: isRequestMaking || deletePromocodeShown ? 'none' : 'all',
+                            userSelect: deletePromocodeShown ? 'none' : 'text'
                         }
                     }
                 >
@@ -123,11 +267,22 @@ class ViewPromocodes extends React.Component {
                         </div>
                     </div>
                     <h2>Просмотр промокодов продукта {this.state.product.title}</h2>
-                    <div className="promocodes-wrap">
+                    <div
+                        className="promocodes-wrap"
+                        style={
+                            {
+                                opacity: isRequestMaking ? 0 : 1,
+                                pointerEvents: isRequestMaking ? 'none' : 'all'
+                            }
+                        }
+                    >
                         <div className="table">
                             <div className="heading">
                                 <div className="promo-name">Наименование промокода</div>
-
+                                <div className="discount-percent">% скидки</div>
+                                <div className="activations-amount">Количество активаций</div>
+                                <div className="is-used">Использован</div>
+                                <div className="action">Действие</div>
                             </div>
                             <div className="promocodes">
                                 {promocodes}
@@ -151,7 +306,12 @@ class ViewPromocodes extends React.Component {
                                 </span>
                             </div>
                             <div className="buttons">
-                                <button className="button delete-promos">Удалить все промокоды</button>
+                                <button
+                                    className="button delete-promos"
+                                    onClick={this.deleteAllPromocodes}
+                                >
+                                    Удалить все промокоды
+                                </button>
                             </div>
                         </div>
                     </div>

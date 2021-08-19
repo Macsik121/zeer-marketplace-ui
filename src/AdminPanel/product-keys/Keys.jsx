@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { CircularProgress } from '@material-ui/core';
 import fetchData from '../../fetchData';
+import generateString from '../../generateString';
 
 class CreateKey extends React.Component {
     constructor() {
@@ -26,41 +27,7 @@ class CreateKey extends React.Component {
         keysToAddAmount.blur();
         activationsAmount.blur();
 
-        const alphabet = [
-            "A",'a',"B",'b',
-            "C",'c',"D",'d',
-            "E",'e',"F",'f',
-            "G",'g',"H",'h',
-            "I",'i',"J",'j',
-            "K",'k',"L",'l',
-            "M",'m',"N",'n',
-            "O",'o',"P",'p',
-            "Q",'q',"R",'r',
-            "S",'s',"T",'t',
-            "U",'u',"V",'v',
-            "W",'w',"X",'x',
-            "Y",'y',"Z",'z'
-        ];
-        let generatedKeyName = '';
-        alphabet.map((_, i) => {
-            if (i < 11) {
-                const randomNumber = Math.floor(Math.random() * alphabet.length + 10);
-                let genedNameLength = generatedKeyName.length;
-                let numberToRandom = 62 - randomNumber;
-                numberToRandom++;
-                let characterToAdd = Math.floor(Math.random() * numberToRandom);
-                if (randomNumber >= 52) {
-                    generatedKeyName += ++genedNameLength % 6 == 0 ? '-' : characterToAdd;
-                } else {
-                    generatedKeyName += ++genedNameLength % 6 == 0 ? '-' : alphabet[randomNumber];
-                }
-            }
-        });
-        if (generatedKeyName.charAt(generatedKeyName.length - 1) == '-') {
-            let nameCopy = generatedKeyName.split('');
-            nameCopy[nameCopy.length - 1] = '';
-            generatedKeyName = nameCopy.join('');
-        }
+        const generatedKeyName = generateString(10, true, 5);
 
         const vars = {
             key: {
@@ -263,9 +230,15 @@ export default class Keys extends React.Component {
 
         const products = this.state.products.map(product => {
             const all = product.keys && product.keys.all ? product.keys.all : [];
-            const active = product.keys && product.keys.active ? product.keys.active : [];
-            const unactive = product.keys && product.keys.unactive ? product.keys.unactive : [];
-            console.log(product)
+            const active = [];
+            const unactive  = [];
+            all && all.map(key => {
+                if (key.isUsed) {
+                    active.push(key);
+                } else {
+                    unactive.push(key);
+                }
+            });
             return (
                 <div className="product" key={product.title}>
                     <img className="cover" src={product.imageURLdashboard} />

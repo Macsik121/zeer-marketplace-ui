@@ -205,8 +205,15 @@ class ViewKeys extends React.Component {
         const product = {...productCopy}
 
         const all = product.keys && product.keys.all ? product.keys.all : [];
-        const active = product.keys && product.keys.active ? product.keys.active : [];
-        const unactive = product.keys && product.keys.unactive ? product.keys.unactive : [];
+        const active = [];
+        const unactive  = [];
+        all && all.map(key => {
+            if (key.isUsed) {
+                active.push(key);
+            } else {
+                unactive.push(key);
+            }
+        });
 
         const productKeys = this.state.product.keys && this.state.product.keys.all.map(key => {
             return (
@@ -321,11 +328,11 @@ class ViewKeys extends React.Component {
                             <div className="keys-amount">
                                 <div className="active keys-amount">
                                     Количество активированных ключей:&nbsp;
-                                    {unactive.length}
+                                    {active.length}
                                 </div>
                                 <div className="unactive keys-amount">
                                     Количество неактивированных ключей:&nbsp;
-                                    {active.length}
+                                    {unactive.length}
                                 </div>
                                 <div className="all keys-amount">
                                     Количество ключей:&nbsp;

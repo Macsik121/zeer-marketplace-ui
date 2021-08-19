@@ -2,6 +2,7 @@ import React from 'react';
 import { CircularProgress } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import fetchData from '../../fetchData';
+import generateString from '../../generateString';
 
 class CreatePromocode extends React.Component {
     constructor() {
@@ -26,9 +27,11 @@ class CreatePromocode extends React.Component {
         activationsAmount.blur();
         form.expiredName.blur();
 
+        const generatedPromocode = generateString(10, false);
+
         const vars = {
             promocode: {
-                name: name.value,
+                name: name.value.length == 0 ? generatedPromocode : name.value,
                 discountPercent: +discountPercent.value,
                 activationsAmount: +activationsAmount.value,
                 expirationDays: +form.expiredName.value,
@@ -49,8 +52,6 @@ class CreatePromocode extends React.Component {
             }
         `, vars);
 
-        console.log(result.createPromocode.name);
-
         if (result && result.createPromocode.name != '') {
             this.props.hideCreatePromocodeModal();
             await this.props.getProducts();
@@ -62,8 +63,10 @@ class CreatePromocode extends React.Component {
     }
     render() {
         const {
-            product
-        } = this.props;
+            product,
+            helpMessageShown,
+            hideHelpMessage
+        } = this.props
         
         const {
             isRequestMaking
@@ -79,10 +82,22 @@ class CreatePromocode extends React.Component {
             >
                 <form
                     name="createPromocode"
-                    onSubmit={this.handleSubmit}
                     className="create-promocode"
+                    onSubmit={this.handleSubmit}
+                    onClick={hideHelpMessage}
                 >
                     <h3>{product.title}</h3>
+                    <label
+                        className="help-message"
+                        style={
+                            {
+                                opacity: helpMessageShown ? 1 : 0,
+                                pointerEvents: helpMessageShown ? 'all' : 'none'
+                            }
+                        }
+                    >
+                        Чтобы закрыть модальное окно нажмите <b>Esc</b>
+                    </label>
                     <div className="field-wrap">
                         <label>Наименование промокода:</label>
                         <input name="promoName" className="promo-name" />
@@ -114,12 +129,15 @@ export default class Promocodes extends React.Component {
             productsCopy: [],
             isRequestMaking: true,
             isCreatePromocodeShown: false,
-            productToAddPromocode: {}
+            productToAddPromocode: {},
+            helpMessageShown: false
         };
         this.searchProducts = this.searchProducts.bind(this);
         this.showCreatePromocodeModal = this.showCreatePromocodeModal.bind(this);
         this.hideCreatePromocodeModal = this.hideCreatePromocodeModal.bind(this);
         this.getProducts = this.getProducts.bind(this);
+        this.showHelpMessage = this.showHelpMessage.bind(this);
+        this.hideHelpMessage = this.hideHelpMessage.bind(this);
     }
     async componentDidMount() {
         window.onkeydown = function(e) {
@@ -197,13 +215,20 @@ export default class Promocodes extends React.Component {
         this.setState({ isCreatePromocodeShown: true, productToAddPromocode: product });
     }
     hideCreatePromocodeModal() {
-        this.setState({ isCreatePromocodeShown: false });
+        this.setState({ isCreatePromocodeShown: false, helpMessageShown: false });
+    }
+    showHelpMessage() {
+        this.setState({ helpMessageShown: true });
+    }
+    hideHelpMessage() {
+        this.setState({ helpMessageShown: false });
     }
     render() {
         const {
             isRequestMaking,
             isCreatePromocodeShown,
-            productToAddPromocode
+            productToAddPromocode,
+            helpMessageShown
         } = this.state;
 
         const products = (
@@ -257,16 +282,17 @@ export default class Promocodes extends React.Component {
                     product={productToAddPromocode}
                     getProducts={this.getProducts}
                     hideCreatePromocodeModal={this.hideCreatePromocodeModal}
+                    helpMessageShown={helpMessageShown}
+                    hideHelpMessage={this.hideHelpMessage}
                 />
                 <div
                     className="promocodes-wrap-products"
                     style={
                         {
-                            opacity: isCreatePromocodeShown ? .5 : 1,
-                            userSelect: isCreatePromocodeShown ? 'none' : 'text',
-                            pointerEvents: isCreatePromocodeShown ? 'none' : 'all',
+                            opacity: isCreatePromocodeShown ? .5 : 1
                         }
                     }
+                    onClick={this.showHelpMessage}
                 >
                     <div className="search-bar">
                         <div className="search-field">
@@ -291,7 +317,9 @@ export default class Promocodes extends React.Component {
                         className="promocodes-wrap"
                         style={
                             {
-                                opacity: isRequestMaking ? 0 : 1
+                                opacity: isRequestMaking ? 0 : 1,
+                                userSelect: isCreatePromocodeShown ? 'none' : 'text',
+                                pointerEvents: isCreatePromocodeShown ? 'none' : 'all',    
                             }
                         }
                     >

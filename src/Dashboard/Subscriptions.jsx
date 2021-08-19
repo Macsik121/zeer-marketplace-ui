@@ -33,7 +33,9 @@ export default class Subscriptions extends React.Component {
     }
     componentDidUpdate(prevProps) {
         const { subscriptions } = this.props;
-        if (prevProps.subscriptions != this.props.subscriptions) this.setState({ subscriptions })
+        if (prevProps.subscriptions != this.props.subscriptions) {
+            this.setState({ subscriptions })
+        }
     }
     componentDidMount() {
         window.onkeydown = function(e) {
@@ -122,10 +124,9 @@ export default class Subscriptions extends React.Component {
         `, { username: user.name, keyName: keyName.value });
 
         keyName.value = '';
+        console.log(this.props.getSubscriptions);
+        await this.props.getSubscriptions();
         this.setState({ isRequestSent: false, message: result.activateKey });
-        if (result.activateKey != 'Такого ключа не существует') {
-            this.props.getSubscriptions();
-        }
         this.showMessageModal();
     }
     showMessageModal() {

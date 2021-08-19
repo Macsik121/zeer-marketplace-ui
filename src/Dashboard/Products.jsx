@@ -16,7 +16,6 @@ export default class Products extends React.Component {
             style.pointerEvents = 'all';
             style.userSelect = 'text';
         }
-        console.log(style);
         const products = this.props.products.map(product => {
             return (
                 <div key={product.id} className="product">

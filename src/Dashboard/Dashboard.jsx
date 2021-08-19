@@ -328,7 +328,11 @@ class Dashboard extends React.Component {
                     }
                 }
             `, { name: user.name });
-            this.setState({ subscriptions: result.getSubscriptions, subscriptionsRequestMaking: false });
+            this.setState({
+                subscriptions: result.getSubscriptions,
+                subscriptionsRequestMaking: false
+            });
+            console.log(result.getSubscriptions);
         }
     }
     async makeResetRequest(reason) {
