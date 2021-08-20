@@ -179,13 +179,11 @@ class ViewPromocodes extends React.Component {
         this.state.productCopy.promocodes.all.slice().map(promocode => {
             if (promocode.name.toLowerCase().includes(searchValue.toLowerCase().trim())) {
                 promocodesToRender.push(promocode);
-                console.log(searchValue);
             }
         });
 
         const newProduct = {...this.state.productCopy};
         newProduct.promocodes.all = promocodesToRender;
-        console.log(this.state.productCopy.promocodes);
 
         if (searchValue == '') {
             this.setState({ product: this.state.productCopy });
@@ -205,7 +203,6 @@ class ViewPromocodes extends React.Component {
         const unactivePromocodes = product.promocodes && product.promocodes.unactive.length;
 
         const promocodes = product.promocodes && product.promocodes.all.map(promo => {
-            console.log(promo);
             return (
                 <div key={promo.name} className="promocode">
                     <div className="promo-name">{promo.name}</div>

@@ -687,6 +687,28 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
+/***/ "./node_modules/@material-ui/icons/ArrowBackIos.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/@material-ui/icons/ArrowBackIos.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+eval("\n\nvar _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ \"./node_modules/@babel/runtime/helpers/interopRequireDefault.js\");\n\nvar _interopRequireWildcard = __webpack_require__(/*! @babel/runtime/helpers/interopRequireWildcard */ \"./node_modules/@babel/runtime/helpers/interopRequireWildcard.js\");\n\nObject.defineProperty(exports, \"__esModule\", ({\n  value: true\n}));\nexports.default = void 0;\n\nvar React = _interopRequireWildcard(__webpack_require__(/*! react */ \"./node_modules/react/index.js\"));\n\nvar _createSvgIcon = _interopRequireDefault(__webpack_require__(/*! ./utils/createSvgIcon */ \"./node_modules/@material-ui/icons/utils/createSvgIcon.js\"));\n\nvar _default = (0, _createSvgIcon.default)( /*#__PURE__*/React.createElement(\"path\", {\n  d: \"M11.67 3.87L9.9 2.1 0 12l9.9 9.9 1.77-1.77L3.54 12z\"\n}), 'ArrowBackIos');\n\nexports.default = _default;\n\n//# sourceURL=webpack://zeer-online-store-ui/./node_modules/@material-ui/icons/ArrowBackIos.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/icons/ArrowForwardIos.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@material-ui/icons/ArrowForwardIos.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+eval("\n\nvar _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ \"./node_modules/@babel/runtime/helpers/interopRequireDefault.js\");\n\nvar _interopRequireWildcard = __webpack_require__(/*! @babel/runtime/helpers/interopRequireWildcard */ \"./node_modules/@babel/runtime/helpers/interopRequireWildcard.js\");\n\nObject.defineProperty(exports, \"__esModule\", ({\n  value: true\n}));\nexports.default = void 0;\n\nvar React = _interopRequireWildcard(__webpack_require__(/*! react */ \"./node_modules/react/index.js\"));\n\nvar _createSvgIcon = _interopRequireDefault(__webpack_require__(/*! ./utils/createSvgIcon */ \"./node_modules/@material-ui/icons/utils/createSvgIcon.js\"));\n\nvar _default = (0, _createSvgIcon.default)( /*#__PURE__*/React.createElement(\"path\", {\n  d: \"M5.88 4.12L13.76 12l-7.88 7.88L8 22l10-10L8 2z\"\n}), 'ArrowForwardIos');\n\nexports.default = _default;\n\n//# sourceURL=webpack://zeer-online-store-ui/./node_modules/@material-ui/icons/ArrowForwardIos.js?");
+
+/***/ }),
+
 /***/ "./node_modules/@material-ui/icons/Close.js":
 /*!**************************************************!*\
   !*** ./node_modules/@material-ui/icons/Close.js ***!

@@ -179,8 +179,6 @@ class Signup extends React.Component {
             style.pointerEvents = 'all';
         }
 
-        console.log(style.pointerEvents);
-
         return (
             <div style={style} className="signup auth-form">
                 <div className="container">
@@ -274,7 +272,6 @@ class Signup extends React.Component {
                                     checked={agreed}
                                     onChange={
                                         function() {
-                                            console.log(agreed);
                                             this.toggleAgree();
                                         }.bind(this)
                                     }

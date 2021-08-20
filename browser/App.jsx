@@ -2,9 +2,10 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import jwtDecode from 'jwt-decode';
+// libraries
 import 'normalize.css';
-// import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'react-notifications/lib/notifications.css';
+// my styles
 import '../src/styles/notfound.css';
 import '../src/styles/style.css';
 // importing images:

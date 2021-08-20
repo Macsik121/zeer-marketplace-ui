@@ -32,8 +32,6 @@ html {
     color: #fff;
     scrollbar-width: auto;
     scrollbar-color: #1C1C24 #13131A;
-    width: 100%;
-    height: 100%;
 }
 
 body {
@@ -4362,7 +4360,7 @@ fieldset {
     line-height: 18px;
     font-size: 15px;
     color: #04BE00;
-    transition: 300ms;
+    transition: opacity 300ms ease-in;
     cursor: pointer;
     user-select: none;
     text-align: center;
@@ -4947,6 +4945,12 @@ fieldset {
     line-height: 36px;
 }
 
+.admin-panel .promocodes .create-promo-modal .create-promocode .error {
+    text-align: center;
+    color: #f00;
+    transition: 300ms;
+}
+
 .admin-panel .promocodes .create-promo-modal .create-promocode .field-wrap {
     display: flex;
     flex-direction: column;
@@ -4965,6 +4969,10 @@ fieldset {
     border: none;
     color: #1C1C24;
     padding: 7px 0 7px 10px;
+}
+
+.admin-panel .promocodes .create-promo-modal .create-promocode .field-wrap .expired-time {
+    cursor: pointer;
 }
 
 .admin-panel .promocodes .create-promo-modal .create-promocode .save {
@@ -5830,18 +5838,12 @@ fieldset {
 }
 
 .admin-panel .view-answers .create-answer-modal .add-answer .field-wrap textarea::-webkit-scrollbar-track {
-    /* box-shadow: auto; 
-    -webkit-border-radius: auto;
-    border-radius: auto; */
     background: #fff;
 }
 
 .admin-panel .view-answers .create-answer-modal .add-answer .field-wrap textarea::-webkit-scrollbar-thumb {
-    /* -webkit-border-radius: auto;
-    border-radius: auto; */
     background: #aaa;
     border: 2px solid #fff;
-    /* box-shadow: auto;  */
 }
 
 .admin-panel .view-answers .create-answer-modal .add-answer .field-wrap .answer-description {
@@ -5866,3 +5868,166 @@ fieldset {
     background-color: #92191978;
 }
 
+.admin-panel .promocodes .calendar {
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    height: 500px;
+    position: absolute;
+    top: 30px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    transition: 350ms;
+    background-color: #1C1C24;
+    z-index: 2;
+}
+
+.admin-panel .promocodes .calendar .current-date {
+    display: flex;
+    flex-direction: column;
+    background-color: #363644;
+    padding: 20px;
+}
+
+.admin-panel .promocodes .calendar .current-date .year {
+    color: rgba(255, 255, 255, .6);
+    position: relative;
+}
+
+.admin-panel .promocodes .calendar .current-date .year .active-year {
+    cursor: pointer;
+    transition: 200ms;
+}
+
+.admin-panel .promocodes .calendar .choose-date-body .year {
+    display: flex;
+    flex-direction: column;
+    word-wrap: break-word;
+    overflow: auto;
+    transition: 300ms;
+    color: #fff;
+    max-height: 315px;
+    scrollbar-color: #363644 #1C1C24;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.admin-panel .promocodes .calendar .choose-date-body .year::-webkit-scrollbar {
+    width: 15px;
+}
+
+.admin-panel .promocodes .calendar .choose-date-body .year::-webkit-scrollbar-track {
+    background-color: #1C1C24;
+}
+
+.admin-panel .promocodes .calendar .choose-date-body .year::-webkit-scrollbar-thumb {
+    background-color: #363644;
+    border: 4px solid #1C1C24;
+}
+
+.admin-panel .promocodes .calendar .choose-date-body .year .choose-year {
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+    font-family: Roboto, sans-serif;
+    padding: 20px 0;
+    cursor: pointer;
+    transition: 200ms;
+}
+
+.admin-panel .promocodes .calendar .choose-date-body .year .choose-year:hover {
+    background-color: rgba(54, 54, 68, .25);
+}
+
+.admin-panel .promocodes .calendar .choose-date-body .year .choose-year.active-year {
+    color: #0d47a1;
+    font-size: 24px;
+}
+
+.admin-panel .promocodes .calendar .choose-date-body .days-date {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 15px 20px;
+}
+
+.admin-panel .promocodes .calendar .current-date .day {
+    display: flex;
+    margin-top: 5px;
+    font-size: 24px;
+    font-weight: 500;
+    font-family: Roboto, sans-serif;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    transition: 200ms;
+}
+
+.admin-panel .promocodes .calendar .heading {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 300ms;
+}
+
+.admin-panel .promocodes .calendar .heading .switch-month {
+    user-select: none;
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
+}
+
+.admin-panel .promocodes .calendar .table {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.admin-panel .promocodes .calendar .table .table-head {
+    display: flex;
+    justify-content: space-between;
+}
+
+.admin-panel .promocodes .calendar .table .table-head div {
+    text-transform: lowercase;
+    color: rgba(255, 255, 255, .6);
+}
+
+.admin-panel .promocodes .calendar .choose-date-body {
+    height: 100%;
+    position: relative;
+}
+
+.admin-panel .promocodes .calendar .heading .date {
+    display: flex;
+}
+
+.admin-panel .promocodes .calendar .heading .date .current-date {
+    background: none;
+    padding: 0;
+}
+
+.admin-panel .promocodes .calendar .buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 0 20px 20px;
+}
+
+.admin-panel .promocodes .calendar .buttons .button {
+    background: transparent;
+    border: none;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: #0d47a1;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: -.1px;
+}
+
+.admin-panel .promocodes .calendar .buttons .button + .button {
+    margin-top: 20px;
+}

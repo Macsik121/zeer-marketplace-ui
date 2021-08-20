@@ -3,14 +3,25 @@ import { CircularProgress } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import fetchData from '../../fetchData';
 import generateString from '../../generateString';
+import Calendar from '../../Calendar.jsx';
 
 class CreatePromocode extends React.Component {
     constructor() {
         super();
         this.state = {
-            isRequestMaking: false
+            isRequestMaking: false,
+            errorMessage: '.',
+            errorShown: false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.showError = this.showError.bind(this);
+    }
+    showError(errorMessage) {
+        this.setState({
+            errorMessage,
+            errorShown: true,
+            isRequestMaking: false
+        });
     }
     async handleSubmit(e) {
         this.setState({ isRequestMaking: true });
@@ -20,22 +31,26 @@ class CreatePromocode extends React.Component {
         const name = form.promoName;
         const discountPercent = form.discountPercent;
         const activationsAmount = form.activationsAmount;
-        const expirationDays = form.expiredName;
+        const expirationDays = this.props.expiredInDate;
+
+        if (expirationDays == '') {
+            this.showError('Дата не выбрана');
+            return;
+        }
 
         name.blur();
         discountPercent.blur();
         activationsAmount.blur();
-        expirationDays.blur();
+        console.log(expirationDays)
 
         const generatedPromocode = generateString(10, false);
-        console.log(activationsAmount.value)
 
         const vars = {
             promocode: {
                 name: name.value.length == 0 ? generatedPromocode : name.value,
                 discountPercent: +discountPercent.value,
                 activationsAmount: +activationsAmount.value,
-                expirationDays: new Date(expirationDays.value).toISOString(),
+                expirationDays: expirationDays.toISOString(),
                 isUsed: false
             },
             title: this.props.product.title
@@ -59,15 +74,23 @@ class CreatePromocode extends React.Component {
 
         this.setState({ isRequestMaking: false });
     }
+    chooseYear(e) {
+        this.setState({
+            currentYear: +e.target.value,
+            activeYear: +e.target.value
+        });
+    }
     render() {
         const {
             product,
             helpMessageShown,
-            hideHelpMessage
+            hideHelpMessage,
+            expiredInDate
         } = this.props
         
         const {
-            isRequestMaking
+            isRequestMaking,
+            errorShown
         } = this.state;
 
         const style = {...this.props.style};
@@ -82,20 +105,38 @@ class CreatePromocode extends React.Component {
                     name="createPromocode"
                     className="create-promocode"
                     onSubmit={this.handleSubmit}
-                    onClick={hideHelpMessage}
+                    onClick={() => {
+                        hideHelpMessage();
+                        this.setState({ errorShown: false });
+                    }}
                 >
                     <h3>{product.title}</h3>
-                    <label
-                        className="help-message"
-                        style={
-                            {
-                                opacity: helpMessageShown ? 1 : 0,
-                                pointerEvents: helpMessageShown ? 'all' : 'none'
+                    {errorShown
+                        ?
+                        <label
+                            className='error'
+                            style={
+                                {
+                                    opacity: errorShown ? 1 : 0,
+                                    pointerEvents: errorShown ? 'all' : 'none'
+                                }
                             }
-                        }
-                    >
-                        Чтобы закрыть модальное окно нажмите <b>Esc</b>
-                    </label>
+                        >
+                            Дата времени действия не выбрана
+                        </label>
+                        :
+                        <label
+                            className='help-message'
+                            style={
+                                {
+                                    opacity: helpMessageShown ? 1 : 0,
+                                    pointerEvents: helpMessageShown ? 'all' : 'none'
+                                }
+                            }
+                        >
+                            Чтобы закрыть модальное окно нажмите <b>Esc</b>
+                        </label>
+                    }
                     <div className="field-wrap">
                         <label>Наименование промокода:</label>
                         <input name="promoName" className="promo-name" />
@@ -103,10 +144,15 @@ class CreatePromocode extends React.Component {
                     <div className="field-wrap">
                         <label>Время действия:</label>
                         <input
-                            type="date"
-                            onChange={this.handleChangeDate}
                             name="expiredName"
                             className="expired-time"
+                            value={
+                                expiredInDate != ''
+                                    ? expiredInDate.toLocaleDateString()
+                                    : expiredInDate
+                            }
+                            onClick={this.props.showCalendar}
+                            readOnly
                         />
                     </div>
                     <div className="field-wrap">
@@ -133,7 +179,9 @@ export default class Promocodes extends React.Component {
             isRequestMaking: true,
             isCreatePromocodeShown: false,
             productToAddPromocode: {},
-            helpMessageShown: false
+            helpMessageShown: false,
+            calendarShown: false,
+            expiredInDate: ''
         };
         this.searchProducts = this.searchProducts.bind(this);
         this.showCreatePromocodeModal = this.showCreatePromocodeModal.bind(this);
@@ -141,10 +189,16 @@ export default class Promocodes extends React.Component {
         this.getProducts = this.getProducts.bind(this);
         this.showHelpMessage = this.showHelpMessage.bind(this);
         this.hideHelpMessage = this.hideHelpMessage.bind(this);
-    }
+        this.showCalendar = this.showCalendar.bind(this);
+        this.hideCalendar = this.hideCalendar.bind(this);
+        this.setExpirationDate = this.setExpirationDate.bind(this);
+        this.deleteExpirationDate = this.deleteExpirationDate.bind(this);
+    };
     async componentDidMount() {
         window.onkeydown = function(e) {
-            if (e.keyCode == 27) {
+            if (e.keyCode == 27 && this.state.calendarShown) {
+                this.hideCalendar();
+            } else if (e.keyCode == 27) {
                 this.hideCreatePromocodeModal();
             }
         }.bind(this);
@@ -226,12 +280,25 @@ export default class Promocodes extends React.Component {
     hideHelpMessage() {
         this.setState({ helpMessageShown: false });
     }
+    showCalendar() {
+        this.setState({ calendarShown: true });
+    }
+    hideCalendar() {
+        this.setState({ calendarShown: false });
+    }
+    setExpirationDate(date) {
+        this.setState({ expiredInDate: new Date(date), calendarShown: false });
+    }
+    deleteExpirationDate() {
+        this.setState({ expiredInDate: '' });
+    }
     render() {
         const {
             isRequestMaking,
             isCreatePromocodeShown,
             productToAddPromocode,
-            helpMessageShown
+            helpMessageShown,
+            calendarShown
         } = this.state;
 
         const products = (
@@ -287,12 +354,25 @@ export default class Promocodes extends React.Component {
                     hideCreatePromocodeModal={this.hideCreatePromocodeModal}
                     helpMessageShown={helpMessageShown}
                     hideHelpMessage={this.hideHelpMessage}
+                    showCalendar={this.showCalendar}
+                    expiredInDate={this.state.expiredInDate}
+                />
+                <Calendar
+                    style={
+                        {
+                            opacity: calendarShown ? 1 : 0,
+                            pointerEvents: calendarShown ? 'all' : 'none'
+                        }
+                    }
+                    hideCalendar={this.hideCalendar}
+                    setExpirationDate={this.setExpirationDate}
+                    calendarShown={calendarShown}
                 />
                 <div
                     className="promocodes-wrap-products"
                     style={
                         {
-                            opacity: isCreatePromocodeShown ? .5 : 1
+                            opacity: calendarShown ? .25 : isCreatePromocodeShown ? .5 : 1
                         }
                     }
                     onClick={this.showHelpMessage}
@@ -328,7 +408,7 @@ export default class Promocodes extends React.Component {
                     >
                         {products}
                     </div>
-                </div>
+                </div> 
             </div>
         )
     }
