@@ -143,17 +143,22 @@ class CreatePromocode extends React.Component {
                     </div>
                     <div className="field-wrap">
                         <label>Время действия:</label>
-                        <input
-                            name="expiredName"
-                            className="expired-time"
-                            value={
-                                expiredInDate != ''
-                                    ? expiredInDate.toLocaleDateString()
-                                    : expiredInDate
-                            }
+                        <div
+                            className="input"
                             onClick={this.props.showCalendar}
-                            readOnly
-                        />
+                        >
+                            <input
+                                name="expiredName"
+                                className="expired-time"
+                                value={
+                                    expiredInDate != ''
+                                        ? expiredInDate.toLocaleDateString()
+                                        : 'дд.мм.гггг'
+                                }
+                                readOnly
+                            />
+                            <img src="/images/user-menu-arrow.png" />
+                        </div>
                     </div>
                     <div className="field-wrap">
                         <label>Количество активаций:</label>
@@ -180,7 +185,7 @@ export default class Promocodes extends React.Component {
             isCreatePromocodeShown: false,
             productToAddPromocode: {},
             helpMessageShown: false,
-            calendarShown: false,
+            calendarShown: true,
             expiredInDate: ''
         };
         this.searchProducts = this.searchProducts.bind(this);

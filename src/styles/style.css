@@ -4971,8 +4971,40 @@ fieldset {
     padding: 7px 0 7px 10px;
 }
 
-.admin-panel .promocodes .create-promo-modal .create-promocode .field-wrap .expired-time {
+.admin-panel .promocodes .create-promo-modal .create-promocode .field-wrap .input {
+    display: flex;
+    align-items: center;
+    position: relative;
     cursor: pointer;
+    height: 31px;
+    z-index: 3;
+}
+
+.admin-panel .promocodes .create-promo-modal .create-promocode .field-wrap .input .date-format {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    bottom: 0;
+    margin: auto 0;
+}
+
+.admin-panel .promocodes .create-promo-modal .create-promocode .field-wrap .input .expired-time {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.admin-panel .promocodes .create-promo-modal .create-promocode .field-wrap .input img {
+    z-index: 2;
+    filter: invert(.65);
+    position: absolute;
+    top: 0;
+    right: 10px;
+    bottom: 0;
+    margin: auto 0;
 }
 
 .admin-panel .promocodes .create-promo-modal .create-promocode .save {
@@ -5994,6 +6026,39 @@ fieldset {
 .admin-panel .promocodes .calendar .table .table-head div {
     text-transform: lowercase;
     color: rgba(255, 255, 255, .6);
+    width: 65px;
+    display: flex;
+    justify-content: center;
+}
+
+.admin-panel .promocodes .calendar .table .table-body {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.admin-panel .promocodes .calendar .table .table-body .day {
+    width: 65.7px;
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    user-select: none;
+    cursor: pointer;
+    background: transparent;
+    transition: opacity 300ms ease-in-out;
+}
+
+.admin-panel .promocodes .calendar .table .table-body .day:hover {
+    opacity: .6;
+}
+
+.admin-panel .promocodes .calendar .table .table-body .day.active-day {
+    color: #0d47a1;
+}
+
+.admin-panel .promocodes .calendar .table .table-body .day.empty-day {
+    opacity: 0;
+    pointer-events: none;
+    transition: 0s;
 }
 
 .admin-panel .promocodes .calendar .choose-date-body {
