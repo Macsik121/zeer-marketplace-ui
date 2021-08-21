@@ -5103,6 +5103,8 @@ fieldset {
     display: flex;
     padding: 10px 2vw 20px;
     transition: 300ms;
+    font-size: 18px;
+    line-height: 27px;
 }
 
 @media (max-width: 1500px) {
@@ -5118,7 +5120,7 @@ fieldset {
 .admin-panel .view-promocodes .view-promos-wrap h2 {
     text-align: center;
     font-weight: 700;
-    font-size: 20px;
+    font-size: 24px;
     line-height: 36px;
     letter-spacing: .1px;
 }
@@ -5131,6 +5133,8 @@ fieldset {
     display: flex;
     justify-content: space-between;
     padding: 10px 15px;
+    text-align: center;
+    align-items: center;
 }
 
 .admin-panel .view-promocodes .promocodes-wrap .table .heading div {
@@ -6096,4 +6100,123 @@ fieldset {
 
 .admin-panel .promocodes .calendar .buttons .button + .button {
     margin-top: 20px;
+}
+
+.admin-panel .action-logs {
+    padding-top: 10px;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 36px;
+    letter-spacing: .1px;
+}
+
+.admin-panel .action-logs h2 {
+    text-align: center;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    letter-spacing: .1px;
+}
+
+.admin-panel .action-logs .actions-wrap {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.admin-panel .action-logs .table {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-panel .action-logs .table .heading {
+    display: flex;
+    justify-content: space-between;
+    background-color: #1C1C24;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.admin-panel .action-logs .table .heading div {
+    display: flex;
+    justify-content: center;
+}
+
+.admin-panel .action-logs .table .heading .date {
+    width: 200px;
+}
+
+.admin-panel .action-logs .table .heading .name {
+    width: 130px;
+}
+
+.admin-panel .action-logs .table .heading .location {
+    width: 100px;
+}
+
+.admin-panel .action-logs .table .heading .ip {
+    width: 85px;
+}
+
+.admin-panel .action-logs .table .heading .browser {
+    width: 140px;
+}
+
+.admin-panel .action-logs .table .heading .platform {
+    width: 140px;
+}
+
+.admin-panel .action-logs .table .heading .action {
+    width: 235px;
+}
+
+.admin-panel .action-logs .table .logs {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-panel .action-logs .table .logs .log:nth-of-type(2n) {
+    background-color: #1C1C24;
+}
+
+.admin-panel .action-logs .table .logs .log {
+    display: flex;
+    justify-content: space-between;
+}
+
+.admin-panel .action-logs .table .logs .log div {
+    display: flex;
+    justify-content: center;
+}
+
+.admin-panel .action-logs .table .logs .log .date {
+    width: 200px;
+}
+
+.admin-panel .action-logs .table .logs .log .name {
+    width: 130px;
+}
+
+.admin-panel .action-logs .table .logs .log .location {
+    width: 100px;
+}
+
+.admin-panel .action-logs .table .logs .log .ip {
+    width: 85px;
+}
+
+.admin-panel .action-logs .table .logs .log .browser {
+    width: 140px;
+}
+
+.admin-panel .action-logs .table .logs .log .platform {
+    width: 140px;
+}
+
+.admin-panel .action-logs .table .logs .log .action {
+    width: 235px;
+}
+
+@media (max-width: 1300px) {
+    
 }
