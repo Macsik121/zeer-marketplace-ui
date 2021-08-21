@@ -185,7 +185,7 @@ export default class Promocodes extends React.Component {
             isCreatePromocodeShown: false,
             productToAddPromocode: {},
             helpMessageShown: false,
-            calendarShown: true,
+            calendarShown: false,
             expiredInDate: ''
         };
         this.searchProducts = this.searchProducts.bind(this);

@@ -6,7 +6,6 @@ function generateDayOfWeek(
     year = new Date().getFullYear(),
     month = new Date().getMonth()
 ) {
-    console.log(month);
     return (
         new Date(`${year}-${month}-1`).getDay()
     )
@@ -70,13 +69,15 @@ export default class ChooseDateCalendar extends React.Component {
     }
     switchNextMonth() {
         let { currentMonth, currentYear, currentDay } = this.state;
-        currentMonth++;
-        let newDate = new Date(`${currentYear}-${++this.state.currentMonth}-${currentDay}`);
-        if (currentMonth < 12) {
+        let month = currentMonth;
+        month++;
+        let newDate = new Date(`${currentYear}-${currentMonth}-${currentDay}`);
+        if (month < 12) {
             this.setState({
                 currentMonth,
                 currentDate: newDate,
-                daysOfCurrentMonth: generateDays(currentYear, currentMonth)
+                daysOfCurrentMonth: generateDays(currentYear, currentMonth),
+                currentDayOfWeek: new Date(`${currentYear}-${currentMonth}-${currentDay}`).getDay()
             });
         } else {
             newDate = new Date(`${currentYear}-01-01`)
@@ -88,6 +89,7 @@ export default class ChooseDateCalendar extends React.Component {
                 activeYear: currentYear
             });
         }
+        console.log(new Date(`${currentYear}-${currentMonth}-${currentDay}`).toLocaleDateString())
     }
     switchPrevMonth() {
         let { currentMonth, currentYear, currentDay } = this.state;
@@ -128,10 +130,13 @@ export default class ChooseDateCalendar extends React.Component {
         this.toggleChooseYear();
     }
     chooseDay(e) {
-        const { currentYear, currentDay, currentMonth } = this.state;
+        let { currentYear, currentMonth } = this.state;
+        const date = `${currentYear}-${--currentMonth}-${e.target.textContent}`;
         this.setState({
             currentDay: e.target.textContent,
-            activeDay: e.target.textContent
+            activeDay: e.target.textContent,
+            currentMonth: new Date(date).getMonth(),
+            currentDayOfWeek: new Date(date).getDay()
         });
     }
     render() {
@@ -172,18 +177,18 @@ export default class ChooseDateCalendar extends React.Component {
                 </div>
             )
         });
-        
-        // let monthToSkip = currentMonth;
-        // monthToSkip++;
-        // for(
-        //     let i = 0;
-        //     i < new Date(`${currentYear}-${monthToSkip}-${currentDay}`).getDay();
-        //     i++
-        // ) {
-        //     days.unshift(
-        //         <div key={++days.length} className="day empty-day">{i}</div>
-        //     );
-        // }
+
+        let skipTimes = currentDayOfWeek;
+        skipTimes++;
+        for(
+            let i = 0;
+            i <= skipTimes;
+            i++
+        ) {
+            days.unshift(
+                <div key={++days.length} className="day empty-day">{i}</div>
+            );
+        }
 
         currentDayOfWeek--;
 

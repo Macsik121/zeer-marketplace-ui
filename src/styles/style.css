@@ -5735,6 +5735,7 @@ fieldset {
     display: flex;
     justify-content: space-between;
     padding: 10px 15px;
+    background-color: #1C1C24;
 }
 
 .admin-panel .view-answers .table .heading div {
