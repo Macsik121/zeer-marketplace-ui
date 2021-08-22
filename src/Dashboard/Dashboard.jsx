@@ -209,8 +209,8 @@ class Dashboard extends React.Component {
     async buyProduct(title) {
         this.setState({ productsRequestMaking: true });
         const query = `
-            mutation buyProduct($title: String!, $name: String!) {
-                buyProduct(title: $title, name: $name) {
+            mutation buyProduct($title: String!, $name: String!, $navigator: NavigatorInput) {
+                buyProduct(title: $title, name: $name, navigator: $navigator) {
                     id
                     title
                     productFor
@@ -227,7 +227,11 @@ class Dashboard extends React.Component {
 
         const vars = {
             title,
-            name: user.name
+            name: user.name,
+            navigator: {
+                userAgent: navigator.userAgent,
+                platform: navigator.platform
+            }
         };
 
         const result = await fetchData(query, vars);
@@ -336,8 +340,8 @@ class Dashboard extends React.Component {
     }
     async makeResetRequest(reason) {
         const query = `
-            mutation makeResetRequest($name: String!, $reason: String!) {
-                makeResetRequest(name: $name, reason: $reason) {
+            mutation makeResetRequest($name: String!, $reason: String!, $navigator: NavigatorInput) {
+                makeResetRequest(name: $name, reason: $reason, navigator: $navigator) {
                     reason
                     number
                     status
@@ -348,7 +352,17 @@ class Dashboard extends React.Component {
         const user = jwtDecode(localStorage.getItem('token'));
         const { name } = user;
 
-        const result = await fetchData(query, { name, reason });
+        const result = await fetchData(
+            query,
+            {
+                name,
+                reason,
+                navigator: {
+                    userAgent: navigator.userAgent,
+                    platform: navigator.platform
+                }
+            }
+        );
         await this.getResetRequests();
         return result.makeResetRequest;
     }
@@ -475,14 +489,12 @@ class Dashboard extends React.Component {
                         showingChangePassword || agreementShown
                             ? {
                                 opacity: '.5',
-                                transition: '500ms',
                                 pointerEvents: 'none',
                                 userSelect: 'none',
                                 opacity: isMounted ? 1 : 0
                             }
                             : {
                                 opactiy: 1,
-                                transition: '500ms',
                                 pointerEvents: 'all',
                                 userSelect: 'text',
                                 opacity: isMounted ? 1 : 0
@@ -540,6 +552,7 @@ class Dashboard extends React.Component {
                                         user={user}
                                         buyProduct={this.buyProduct}
                                         isRequestMaking={subscriptionsRequestMaking}
+                                        agreementShown={agreementShown}
                                     />
                                 )
                             }

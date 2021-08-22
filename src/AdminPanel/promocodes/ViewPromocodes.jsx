@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { CircularProgress } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import jwtDecode from 'jwt-decode';
 import fetchData from '../../fetchData';
 
 class ConfirmDeletePromo extends React.Component {
@@ -16,12 +17,33 @@ class ConfirmDeletePromo extends React.Component {
         this.setState({ isRequestMaking: true });
         const { name } = this.props.promoToDelete;
         const { title } = this.props.match.params;
+        const user = jwtDecode(localStorage.getItem('token'));
+
+        const vars = {
+            productTitle: title,
+            promocodeTitle: name,
+            name: user.name,
+            navigator: {
+                userAgent: navigator.userAgent,
+                platform: navigator.platform
+            }
+        };
 
         await fetchData(`
-            mutation deletePromocode($promocodeTitle: String!, $productTitle: String!) {
-                deletePromocode(productTitle: $productTitle, promocodeTitle: $promocodeTitle)
+            mutation deletePromocode(
+                $promocodeTitle: String!,
+                $productTitle: String!,
+                $name: String!,
+                $navigator: NavigatorInput
+            ) {
+                deletePromocode(
+                    productTitle: $productTitle,
+                    promocodeTitle: $promocodeTitle,
+                    name: $name,
+                    navigator: $navigator
+                )
             }
-        `, { productTitle: title, promocodeTitle: name });
+        `, vars);
 
         await this.props.getPromocodes();
         this.props.hideDeletePromo();

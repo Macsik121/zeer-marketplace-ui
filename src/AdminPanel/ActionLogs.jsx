@@ -6,20 +6,28 @@ export default class ActionLogs extends React.Component {
     constructor() {
         super();
         this.state = {
-            logs: [
-                {action: 'Действие', date: new Date('2021-06-7')},
-                {action: 'Ещё Действие', date: new Date('2020-11-13')},
-                {action: 'Действие №3', date: new Date('2021-08-15')}
-            ],
-            isRequestMaking: false
+            logs: [],
+            isRequestMaking: true
         };
     }
     async componentDidMount() {
         this.setState({ isRequestMaking: true });
 
-        const result = await fetchData;
+        const result = await fetchData(`
+            query {
+                getActionLogs {
+                    date
+                    name
+                    location
+                    IP
+                    browser
+                    platform
+                    action
+                }
+            }
+        `);
 
-        this.setState({ isRequestMaking: false });
+        this.setState({ logs: result.getActionLogs, isRequestMaking: false });
     }
     render() {
         const { isRequestMaking } = this.state;
@@ -27,11 +35,11 @@ export default class ActionLogs extends React.Component {
         const logs = this.state.logs.map(log => (
             <div key={new Date() - new Date(log.date)} className="log">
                 <div className="date">{new Date(log.date).toLocaleString()}</div>
-                <div className="name">log.name</div>
-                <div className="location">log.location</div>
-                <div className="ip">log.ip</div>
-                <div className="browser">log.browser</div>
-                <div className="platform">log.platform</div>
+                <div className="name">{log.name}</div>
+                <div className="location">{log.location}</div>
+                <div className="ip">{log.IP}</div>
+                <div className="browser">{log.browser}</div>
+                <div className="platform">{log.platform}</div>
                 <div className="action">{log.action}</div>
             </div>
         ));
@@ -44,9 +52,17 @@ export default class ActionLogs extends React.Component {
                             display: isRequestMaking ? 'block' : 'none'
                         }
                     }
+                    className="progress-bar"
                 />
                 <h2>Логи действий</h2>
-                <div className="actions-wrap">
+                <div
+                    className="actions-wrap"
+                    style={
+                        {
+                            opacity: isRequestMaking ? 0 : 1
+                        }
+                    }
+                >
                     <div className="table">
                         <div className="heading">
                             <div className="date">Дата</div>

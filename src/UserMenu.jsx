@@ -1,7 +1,37 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
+import fetchData from './fetchData';
 
-export default class UserMenu extends React.Component {
+class UserMenu extends React.Component {
+    constructor() {
+        super();
+    }
+    async createLog() {
+        const user = jwtDecode(localStorage.getItem('token'));
+
+        const vars = {
+            log: {
+                name: user.name,
+                action: 'Выход из аккаунта',
+                date: new Date(),
+                location: 'Москва',
+                IP: 'localhost',
+            },
+            navigator: {
+                userAgent: navigator.userAgent,
+                platform: navigator.platform
+            }
+        };
+
+        await fetchData(`
+            mutation createLog($log: ActionLogInput, $navigator: NavigatorInput) {
+                createLog(log: $log, navigator: $navigator) {
+                    name
+                }
+            }
+        `, vars);
+    }
     render() {
         const {
             hiddenUserDropdown,
@@ -117,9 +147,22 @@ export default class UserMenu extends React.Component {
                             </div>
                         </NavLink>
                     }
-                    <div onClick={logout} className="item">Выйти</div>
+                    <div
+                        onClick={async () => {
+                            const { path } = this.props.match;
+                            if (path == '/dashboard' && path != '/admin') {
+                                this.createLog();
+                            }
+                            logout();
+                        }}
+                        className="item"
+                    >
+                        Выйти
+                    </div>
                 </div>
             </div>
         )
     }
 }
+
+export default withRouter(UserMenu);

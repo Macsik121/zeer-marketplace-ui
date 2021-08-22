@@ -106,8 +106,13 @@ class Signup extends React.Component {
         }
 
         const query = `
-            mutation signUp($email: String!, $password: String!, $name: String!) {
-                signUp(email: $email, password: $password, name: $name) {
+            mutation signUp(
+                $email: String!,
+                $password: String!,
+                $name: String!,
+                $navigator: NavigatorInput
+            ) {
+                signUp(email: $email, password: $password, name: $name, navigator: $navigator) {
                     user {
                         name
                         email
@@ -121,7 +126,11 @@ class Signup extends React.Component {
         const vars = {
             name,
             email,
-            password
+            password,
+            navigator: {
+                userAgent: navigator.userAgent,
+                platform: navigator.platform
+            }
         };
 
         const res = await fetchData(query, vars);

@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { CircularProgress } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import jwtDecode from 'jwt-decode';
 import fetchData from '../../fetchData';
 
 class DeleteKey extends React.Component {
@@ -20,14 +21,31 @@ class DeleteKey extends React.Component {
             hideDeleteKeyModal
         } = this.props;
 
+        const user = jwtDecode(localStorage.getItem('token'))
+
         const vars = {
             keyName: keyToDelete.name,
-            title: match.params.title
+            title: match.params.title,
+            navigator: {
+                userAgent: navigator.userAgent,
+                platform: navigator.platform
+            },
+            name: user.name
         }
 
         const result = await fetchData(`
-            mutation deleteKey($keyName: String!, $title: String!) {
-                deleteKey(keyName: $keyName, title: $title)
+            mutation deleteKey(
+                $keyName: String!,
+                $title: String!,
+                $navigator: NavigatorInput,
+                $name: String!
+            ) {
+                deleteKey(
+                    keyName: $keyName,
+                    title: $title,
+                    navigator: $navigator,
+                    name: $name
+                )
             }
         `, vars);
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { CircularProgress } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
 import fetchData from '../../fetchData';
 import generateString from '../../generateString';
 import Calendar from '../../Calendar.jsx';
@@ -45,6 +46,8 @@ class CreatePromocode extends React.Component {
 
         const generatedPromocode = generateString(10, false);
 
+        const user = jwtDecode(localStorage.getItem('token'));
+
         const vars = {
             promocode: {
                 name: name.value.length == 0 ? generatedPromocode : name.value,
@@ -53,12 +56,27 @@ class CreatePromocode extends React.Component {
                 expirationDays: expirationDays.toISOString(),
                 isUsed: false
             },
-            title: this.props.product.title
+            title: this.props.product.title,
+            username: user.name,
+            navigator: {
+                userAgent: navigator.userAgent,
+                platform: navigator.platform
+            }
         };
 
         const result = await fetchData(`
-            mutation createPromocode($promocode: ProductPromocodeInput!, $title: String!) {
-                createPromocode(promocode: $promocode, title: $title) {
+            mutation createPromocode(
+                $promocode: ProductPromocodeInput!,
+                $title: String!,
+                $username: String!,
+                $navigator: NavigatorInput
+            ) {
+                createPromocode(
+                    promocode: $promocode,
+                    title: $title,
+                    username: $username,
+                    navigator: $navigator
+                ) {
                     name
                     discountPercent
                     activationsAmount

@@ -58,13 +58,15 @@ class Signin extends React.Component {
         this.setState({rememberMe: !this.state.rememberMe});
     }
     async handleSubmit(e) {
-        this.setState({isDisabled: true});
+        this.setState({ isDisabled: true });
         e.preventDefault();
 
         const form = document.forms.signin;
         const email = form.email.value;
         const password = form.password.value;
         this.setState({rememberMe: form.rememberMe.checked});
+        form.email.blur();
+        form.password.blur();
 
         if (email == '') {
             this.showError('Пожалуйста, введите имя или адрес эл. почты');
@@ -79,8 +81,18 @@ class Signin extends React.Component {
         }
 
         const query = `
-            mutation signIn($email: String!, $password: String!, $rememberMe: Boolean!) {
-                signIn(email: $email, password: $password, rememberMe: $rememberMe) {
+            mutation signIn(
+                $email: String!,
+                $password: String!,
+                $rememberMe: Boolean!,
+                $navigator: NavigatorInput!
+            ) {
+                signIn(
+                    email: $email,
+                    password: $password,
+                    rememberMe: $rememberMe,
+                    navigator: $navigator
+                ) {
                     user {
                         name
                         email
@@ -94,11 +106,16 @@ class Signin extends React.Component {
         const vars = {
             email,
             password,
-            rememberMe: this.state.rememberMe
+            rememberMe: this.state.rememberMe,
+            navigator: {
+                platform: navigator.platform,
+                userAgent: navigator.userAgent
+            }
         }
+        console.log(vars)
         
         const res = await fetchData(query, vars);
-        this.setState({signInAttempt: res.signIn});
+        this.setState({ signInAttempt: res.signIn });
         const { signInAttempt } = this.state;
 
         localStorage.setItem('token', signInAttempt.token)
@@ -136,7 +153,8 @@ class Signin extends React.Component {
             rememberMe,
             formError,
             formErrorStyles,
-            isPasswordShown
+            isPasswordShown,
+            isDisabled
         } = this.state;
         const {
             style,
@@ -150,89 +168,98 @@ class Signin extends React.Component {
                 <div className="container">
                     <SigninHeader hideLogin={hideLogin} />
                     <label style={formErrorStyles} className="error">{formError.message}</label>
-                    <form name="signin" className="signin-form form" onSubmit={this.handleSubmit}>
-                        <fieldset disabled={this.state.isDisabled}>
-                            <div className="email field-wrap">
-                                <input
-                                    onFocus={this.handleFocusInput}
-                                    name="email"
-                                    className="field"
-                                    onChange={this.handleChange}
-                                    required="required"
-                                />
-                                <label>
-                                    Имя пользователя / Эл. почта
-                                </label>
+                    <form
+                        name="signin"
+                        className="signin-form form"
+                        onSubmit={this.handleSubmit}
+                        style={
+                            {
+                                opacity: isDisabled ? .65 : 1,
+                                pointerEvents: isDisabled ? 'none' : 'all',
+                                userSelect: isDisabled ? 'none' : 'text'
+                            }
+                        }
+                    >
+                        <div className="email field-wrap">
+                            <input
+                                onFocus={this.handleFocusInput}
+                                name="email"
+                                className="field"
+                                onChange={this.handleChange}
+                                required="required"
+                            />
+                            <label>
+                                Имя пользователя / Эл. почта
+                            </label>
+                        </div>
+                        <div className="password field-wrap">
+                            <input
+                                required="required"
+                                onFocus={this.handleFocusInput}
+                                name="password"
+                                className="field"
+                                onChange={this.handleChange}
+                                type={
+                                    isPasswordShown
+                                        ? 'text'
+                                        : 'password'
+                                }
+                            />
+                            <label>Пароль</label>
+                            <img
+                                onClick={this.toggleShowingPassword}
+                                src="/images/field-shown.png"
+                                className="eye"
+                            />
+                            <img
+                                style={
+                                    isPasswordShown
+                                        ? {display: 'none'}
+                                        : {display: 'block'}
+                                }
+                                onClick={this.toggleShowingPassword}
+                                src="/images/closed-eye.png"
+                                className="hidden-password"
+                            />
+                        </div>
+                        <div onClick={this.handleRememberMeClick} className="remember">
+                            <div className="checkbox">
+                                <input checked={rememberMe} onChange={this.changeRememberMe} className="check" type="checkbox" name="rememberMe" />
+                                <div className="checkmark" />
                             </div>
-                            <div className="password field-wrap">
-                                <input
-                                    required="required"
-                                    onFocus={this.handleFocusInput}
-                                    name="password"
-                                    className="field"
-                                    onChange={this.handleChange}
-                                    type={
-                                        isPasswordShown
-                                            ? 'text'
-                                            : 'password'
-                                    }
-                                />
-                                <label>Пароль</label>
-                                <img
-                                    onClick={this.toggleShowingPassword}
-                                    src="/images/field-shown.png"
-                                    className="eye"
-                                />
-                                <img
-                                    style={
-                                        isPasswordShown
-                                            ? {display: 'none'}
-                                            : {display: 'block'}
-                                    }
-                                    onClick={this.toggleShowingPassword}
-                                    src="/images/closed-eye.png"
-                                    className="hidden-password"
-                                />
-                            </div>
-                            <div onClick={this.handleRememberMeClick} className="remember">
-                                <div className="checkbox">
-                                    <input checked={rememberMe} onChange={this.changeRememberMe} className="check" type="checkbox" name="rememberMe" />
-                                    <div className="checkmark" />
-                                </div>
-                                <label onClick={this.handleRememberMeClick} className="remember-me">Запомнить</label>
-                            </div>
-                            {/* <ReCAPTCHA
-                                className="re-captcha"
-                                sitekey="AIzaSyAo2cRhJXwA-3ca3GnHgyR7zhVknFNJtdA"
-                            /> */}
+                            <label onClick={this.handleRememberMeClick} className="remember-me">Запомнить</label>
+                        </div>
+                        {/* <ReCAPTCHA
+                            className="re-captcha"
+                            sitekey="AIzaSyAo2cRhJXwA-3ca3GnHgyR7zhVknFNJtdA"
+                        /> */}
+                        <button
+                            // disabled={this.state.isDisabled}
+                            className="submit-button"
+                            type="submit"
+                        >
+                            Войти
+                        </button>
+                        <div className="addition">
                             <button
-                                // disabled={this.state.isDisabled}
-                                className="submit-button"
-                                type="submit"
+                                type="button"
+                                onClick={
+                                    function() {
+                                        hideForgotPassword();
+                                        hideLogin();
+                                        showSignup();
+                                    }.bind(this)
+                                }
                             >
-                                Войти
+                                Зарегестрироваться
                             </button>
-                            <div className="addition">
-                                <button
-                                    type="button"
-                                    onClick={
-                                        function() {
-                                            hideForgotPassword();
-                                            hideLogin();
-                                            showSignup();
-                                        }.bind(this)
-                                    }
-                                >
-                                    Зарегестрироваться
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={toggleForgotPassword}
-                                >
-                                    Забыл пароль
-                                </button>
-                            </div>
-                        </fieldset>
+                            <button
+                                type="button"
+                                onClick={toggleForgotPassword}
+                            >
+                                Забыл пароль
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>

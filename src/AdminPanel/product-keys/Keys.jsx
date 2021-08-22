@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { CircularProgress } from '@material-ui/core';
+import jwtDecode from 'jwt-decode';
 import fetchData from '../../fetchData';
 import generateString from '../../generateString';
 
@@ -29,6 +30,8 @@ class CreateKey extends React.Component {
 
         const generatedKeyName = generateString(10, true, 5);
 
+        const user = jwtDecode(localStorage.getItem('token'));
+
         const vars = {
             key: {
                 name: name.value == '' ? generatedKeyName : name.value,
@@ -36,12 +39,19 @@ class CreateKey extends React.Component {
                 keysToAddAmount: +keysToAddAmount.value,
                 activationsAmount: +activationsAmount.value
             },
-            title: this.props.title
+            title: this.props.title,
+            navigator: {
+                userAgent: navigator.userAgent,
+                platform: navigator.platform
+            },
+            username: user.name
         }
 
+        console.log(vars);
+
         const result = await fetchData(`
-            mutation createKey($key: KeyInput!, $title: String!) {
-                createKey(key: $key, title: $title) {
+            mutation createKey($key: KeyInput!, $title: String!, $navigator: NavigatorInput, $username: String!) {
+                createKey(key: $key, title: $title, navigator: $navigator, username: $username) {
                     key {
                         name
                         expiredInDays

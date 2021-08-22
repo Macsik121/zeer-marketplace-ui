@@ -2323,6 +2323,10 @@ fieldset {
     height: 50%;
 }
 
+.dashboard .main .lobby .subscriptions .container {
+    transition: 300ms;
+}
+
 .dashboard .main .lobby .subscriptions .subscription {
     background-color: #1C1C24;
     border-top-left-radius: 10px;
@@ -7103,6 +7107,7 @@ fieldset {
     font-size: 18px;
     line-height: 36px;
     letter-spacing: .1px;
+    position: relative;
 }
 
 .admin-panel .action-logs h2 {
@@ -7117,6 +7122,7 @@ fieldset {
     display: flex;
     flex-direction: column;
     margin-top: 20px;
+    transition: 300ms;
 }
 
 .admin-panel .action-logs .table {
@@ -7162,7 +7168,7 @@ fieldset {
 }
 
 .admin-panel .action-logs .table .heading .action {
-    width: 235px;
+    width: 175px;
 }
 
 .admin-panel .action-logs .table .logs {
@@ -7177,6 +7183,8 @@ fieldset {
 .admin-panel .action-logs .table .logs .log {
     display: flex;
     justify-content: space-between;
+    text-align: center;
+    align-items: center;
 }
 
 .admin-panel .action-logs .table .logs .log div {
@@ -7209,7 +7217,7 @@ fieldset {
 }
 
 .admin-panel .action-logs .table .logs .log .action {
-    width: 235px;
+    width: 175px;
 }
 
 @media (max-width: 1300px) {

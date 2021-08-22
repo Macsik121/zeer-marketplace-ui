@@ -40,7 +40,7 @@ export default class Subscriptions extends React.Component {
     componentDidMount() {
         window.onkeydown = function(e) {
             if (e.keyCode == 27) {
-                this.hideMessageModal();
+                this.props.hideAgreement();
             }
         }.bind(this);
         const { subscriptions } = this.props;
@@ -118,10 +118,17 @@ export default class Subscriptions extends React.Component {
         const user = jwtDecode(localStorage.getItem('token'));
 
         const result = await fetchData(`
-            mutation activateKey($username: String!, $keyName: String!) {
-                activateKey(username: $username, keyName: $keyName)
+            mutation activateKey($username: String!, $keyName: String!, $navigator: NavigatorInput) {
+                activateKey(username: $username, keyName: $keyName, navigator: $navigator)
             }
-        `, { username: user.name, keyName: keyName.value });
+        `, {
+            username: user.name,
+            keyName: keyName.value,
+            navigator: {
+                userAgent: navigator.userAgent,
+                platform: navigator.platform
+            }
+        });
 
         keyName.value = '';
         console.log(this.props.getSubscriptions);
@@ -143,7 +150,7 @@ export default class Subscriptions extends React.Component {
             isMessageShown,
             message
         } = this.state;
-        const { toggleAgreement, buyProduct } = this.props;
+        const { toggleAgreement, buyProduct, agreementShown } = this.props;
         const activeSubs = [];
         const expiredSubs = [];
         subscriptions.all ? subscriptions.all.map((sub, i) => {
@@ -258,7 +265,17 @@ export default class Subscriptions extends React.Component {
         }) : '';
 
         return (
-            <div className="subscriptions">
+            <div
+                className="subscriptions"
+                style={
+                    {
+                        opacity: agreementShown ? 0.5 : 1,
+                        pointerEvents: agreementShown ? 'none' : 'all',
+                        userSelect: agreementShown ? 'none' : 'text',
+                        transition: '300ms'
+                    }
+                }
+            >
                 <MessageModal
                     style={
                         {
@@ -268,7 +285,10 @@ export default class Subscriptions extends React.Component {
                     }
                     message={message}
                 />
-                <div className="container">
+                <div
+                    className="container"
+                    
+                >
                     <div
                         className="all-subscriptions"
                     >
@@ -340,8 +360,8 @@ export default class Subscriptions extends React.Component {
                         className="activate-product"
                         style={
                             {
-                                pointerEvents: isRequestSent ? 'none' : 'all',
-                                userSelect: isRequestSent ? 'none' : 'text'
+                                pointerEvents: isRequestSent && !agreementShown ? 'none' : 'all',
+                                userSelect: isRequestSent && !agreementShown ? 'none' : 'text'
                             }
                         }
                         name="activateKey"
