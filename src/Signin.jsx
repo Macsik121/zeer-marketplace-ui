@@ -112,7 +112,6 @@ class Signin extends React.Component {
                 userAgent: navigator.userAgent
             }
         }
-        console.log(vars)
         
         const res = await fetchData(query, vars);
         this.setState({ signInAttempt: res.signIn });

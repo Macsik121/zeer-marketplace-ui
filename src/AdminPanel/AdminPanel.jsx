@@ -108,6 +108,11 @@ class AdminPanel extends React.Component {
                     email
                     name
                     id
+                    status {
+                        isAdmin
+                        isBanned
+                        simpleUser
+                    }
                 }
             }
         `, { name: user.name });

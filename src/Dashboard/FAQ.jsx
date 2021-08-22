@@ -89,9 +89,9 @@ export default class FAQ extends React.Component {
     }
     addElement(answers) {
         const renderedAnswers = answers.answers.map(
-            answer => {
+            (answer, i) => {
                 return (
-                    <div key={answer.title} className="answer">
+                    <div key={i} className="answer">
                         <div className="answer-main-bg" />
                         <div className="answer-additional-bg" />
                         <h4 className="answer-title">

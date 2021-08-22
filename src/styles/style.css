@@ -6118,6 +6118,7 @@ fieldset {
 
 .admin-panel .action-logs .search {
     display: flex;
+    transition: 300ms;
 }
 
 .admin-panel .action-logs .search .search-bar.by-actions {
@@ -6152,7 +6153,6 @@ fieldset {
     font-size: 24px;
     line-height: 36px;
     letter-spacing: .1px;
-    margin-top: 10px;
 }
 
 .admin-panel .action-logs .actions-wrap {

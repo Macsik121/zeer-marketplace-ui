@@ -62,6 +62,7 @@ class Users extends React.Component {
         this.searchUsers = this.searchUsers.bind(this);
         this.deleteUser = this.deleteUser.bind(this);
         this.hideConfirmDeleteUser = this.hideConfirmDeleteUser.bind(this);
+        this.handleSearchBarClick = this.handleSearchBarClick.bind(this);
     }
     componentDidUpdate() {
         const { number } = this.props.match.params;
@@ -85,7 +86,11 @@ class Users extends React.Component {
                     email
                     name
                     id
-                    isAdmin
+                    status {
+                        isAdmin
+                        isBanned
+                        simpleUser
+                    }
                     registeredDate
                     subscriptions {
                         title
@@ -120,33 +125,46 @@ class Users extends React.Component {
         this.setState({ agreedToDeleteShown: false });
     }
     searchUsers(e) {
-        const searchCondition = e.target.value;
+        let searchCondition = e.target.value;
+        searchCondition = searchCondition.toLowerCase().trim();
 
         const usersToRender = [];
 
         this.state.usersCopy.map(user => {
-            if (user.id.toString().includes(searchCondition)) {
-                usersToRender.push(user);
-                return;
-            }
-            if (user.name.toLowerCase().includes(searchCondition.toLowerCase())) {
-                usersToRender.push(user);
-                return;
-            }
-            if (user.email.toLowerCase().includes(searchCondition.toLowerCase())) {
-                usersToRender.push(user);
-                return;
+            if (this.state.searchOnlyRoles) {
+                if (user.status.isAdmin && searchCondition.includes('админ')) {
+                    usersToRender.push(user);
+                } else if (user.status.simpleUser && searchCondition.includes('обычный пользователь')) {
+                    usersToRender.push(user);
+                } else if (user.status.isBanned && searchCondition.includes('забаненные')) {
+                    usersToRender.push(user);
+                }
+            } else {
+                if (user.id.toString().includes(searchCondition)) {
+                    usersToRender.push(user);
+                    return;
+                }
+                if (user.name.toLowerCase().includes(searchCondition)) {
+                    usersToRender.push(user);
+                    return;
+                }
+                if (user.email.toLowerCase().includes(searchCondition)) {
+                    usersToRender.push(user);
+                    return;
+                }    
             }
         });
 
-        if (usersToRender.length == 0 || searchCondition.length == '<empty string>') {
+        if (searchCondition == '') {
+            this.setState({ users: this.state.usersCopy });
+        } else if (usersToRender.length == 0) {
             this.setState({ users: [] });
         } else {
             this.setState({ users: usersToRender });
         }
     }
-    handleSearchBarClick(e) {
-        console.log(e);
+    handleSearchBarClick() {
+        this.setState({ searchOnlyRoles: !this.state.searchOnlyRoles })
     }
     render() {
         const {
@@ -174,7 +192,6 @@ class Users extends React.Component {
 
         const users = this.state.users.length > 0 &&
             this.state.users.map((user, i) => {
-                
                 return (
                     <div key={user.name} className="user">
                         <span className="ID user-info">{user.id}</span>
@@ -244,7 +261,6 @@ class Users extends React.Component {
                             pointerEvents: agreedToDeleteShown ? 'none' : 'all'
                         }
                     }
-                    onClick={this.handleSearchBarClick}
                 >
                     <div className="search-field">
                         <img src="/images/search-icon-admin.png" />

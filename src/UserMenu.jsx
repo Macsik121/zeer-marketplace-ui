@@ -6,6 +6,9 @@ import fetchData from './fetchData';
 class UserMenu extends React.Component {
     constructor() {
         super();
+        this.state = {
+            user: {}
+        };
     }
     async createLog() {
         const user = jwtDecode(localStorage.getItem('token'));
@@ -36,14 +39,14 @@ class UserMenu extends React.Component {
         const {
             hiddenUserDropdown,
             toggleUserDropdown,
-            user,
             userDropdownShown,
+            user,
             userAvatar,
             logout,
             hideChangedPasswordNotification,
             toggleModal
         } = this.props;
-
+        
         return (
             <div
                 className="user-menu"
@@ -137,7 +140,7 @@ class UserMenu extends React.Component {
                             Сбросить привязку
                         </div>
                     </NavLink>
-                    {user.isAdmin &&
+                    {user.status && user.status.isAdmin &&
                         <NavLink
                             onClick={hiddenUserDropdown}
                             to={`/admin/statistics`}

@@ -8,13 +8,16 @@ export default class ActionLogs extends React.Component {
         this.state = {
             logs: [],
             logsCopy: [],
+            logsByActionCopy: [],
             isRequestMaking: true,
-            isRequestForLogsMaking: true
+            isRequestForLogsMaking: true,
+            searchLogs: '',
+            searchByAction: ''
         };
         this.searchLogs = this.searchLogs.bind(this);
-        this.searchLogsByAction = this.searchLogsByAction.bind(this);
         this.getActionLogs = this.getActionLogs.bind(this);
         this.cleanLogs = this.cleanLogs.bind(this);
+        this.handleActionChange = this.handleActionChange.bind(this);
     }
     async componentDidMount() {
         await this.getActionLogs();
@@ -51,56 +54,87 @@ export default class ActionLogs extends React.Component {
         this.setState({
             logs: result.getActionLogs,
             logsCopy: result.getActionLogs,
+            logsByActionCopy: result.getActionLogs,
             isRequestMaking: false,
             isRequestForLogsMaking: false
         });
     }
+    filterLog(log, searchValue, searchValue2) {
+        function valueMatched(valueToCompare, value, value2) {
+            value = value.toLowerCase().trim();
+
+            if (value2 && typeof log == 'object' && !Array.isArray(log)) {
+                const action = valueToCompare.action;
+
+                valueToCompare.includes(value);
+            } else {
+                valueToCompare = valueToCompare.toLowerCase();
+                return valueToCompare.includes(value);
+            }
+        }
+        if (searchValue == '' && searchValue2 == '') {
+            return null;
+        } else if (searchValue != '' && searchValue2 == '') {
+            if (valueMatched(log.name, searchValue)) {
+                return log;
+            } else if (valueMatched(log.location, searchValue)) {
+                return log;
+            } else if (valueMatched(log.IP, searchValue)) {
+                return log;
+            } else if (valueMatched(log.browser, searchValue)) {
+                return log;
+            } else if (valueMatched(log.platform, searchValue)) {
+                return log;
+            }    
+        } else if (searchValue2 != '' && searchValue == '') {
+            if (valueMatched(log.action, searchValue2)) {
+                return log;
+            }
+        } else if (searchValue2 != '' && searchValue != '') {
+            if (valueMatched(log, searchValue, searchValue2)) {
+                return log;
+            }
+        }
+    }
     searchLogs(e) {
         const searchValue = e.target.value;
-        const { logsCopy } = this.state;
+        this.setState({ searchLogs: searchValue });
+        const {
+            logsCopy,
+            logs
+        } = this.state;
 
         const logsToRender = [];
 
         logsCopy.map(log => {
-            if (log.name.toLowerCase().includes(searchValue.toLowerCase())) {
-                logsToRender.push(log);
-            } else if (log.location.toLowerCase().includes(searchValue.toLowerCase())) {
-                logsToRender.push(log);
-            } else if (log.IP.toLowerCase().includes(searchValue.toLowerCase())) {
-                logsToRender.push(log);
-            } else if (log.browser.toLowerCase().includes(searchValue.toLowerCase())) {
-                logsToRender.push(log);
-            } else if (log.platform.toLowerCase().includes(searchValue.toLowerCase())) {
-                logsToRender.push(log);
-            }
+            const result = this.filterLog(log, searchValue, e.target.value2 || '');
+            if (result) logsToRender.push(result);
         });
 
-        if (searchValue == '') {
+
+        if (searchValue == '' && !e.target.value2 || e.target.value2 == '') {
             this.setState({ logs: logsCopy });
         } else {
             this.setState({ logs: logsToRender });
         }
     }
-    searchLogsByAction(e) {
-        const searchValue = e.target.value;
-        const { logsCopy } = this.state;
-
-        const logsToRender = [];
-
-        logsCopy.map(log => {
-            if (log.action.toLowerCase().includes(searchValue.toLowerCase())) {
-                logsToRender.push(log);
+    handleActionChange(e) {
+        this.setState({ searchByAction: e.target.value });
+        const event = {
+            target: {
+                value: this.state.searchLogs,
+                value2: e.target.value
             }
-        });
-
-        if (searchValue == '') {
-            this.setState({ logs: logsCopy });
-        } else {
-            this.setState({ logs: logsToRender });
         }
+        this.searchLogs(event);
     }
     render() {
-        const { isRequestMaking, isRequestForLogsMaking } = this.state;
+        const {
+            isRequestMaking,
+            isRequestForLogsMaking,
+            searchByAction,
+            searchLogs
+        } = this.state;
 
         const logs = this.state.logs.map(log => (
             <div key={new Date() - new Date(log.date)} className="log">
@@ -140,6 +174,7 @@ export default class ActionLogs extends React.Component {
                                 type="text"
                                 placeholder="Search here"
                                 onChange={this.searchLogs}
+                                value={searchLogs}
                             />
                         </div>
                     </div>
@@ -147,13 +182,23 @@ export default class ActionLogs extends React.Component {
                         <div className="search-field">
                             <input
                                 placeholder="Действие"
-                                onChange={this.searchLogsByAction}
+                                onChange={this.handleActionChange}
+                                value={searchByAction}
                             />
                         </div>
                     </div>
                     <button onClick={this.cleanLogs} className="clean-logs">Очистить логи</button>
                 </div>
-                <h2>Логи действий</h2>
+                <h2
+                    style={
+                        {
+                            opacity: isRequestForLogsMaking ? .5 : 1,
+                            pointerEvents: isRequestForLogsMaking ? 'none' : 'all'
+                        }
+                    }
+                >
+                    Логи действий
+                </h2>
                 <div
                     className="actions-wrap"
                     style={

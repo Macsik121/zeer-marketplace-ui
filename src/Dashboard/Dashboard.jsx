@@ -150,7 +150,11 @@ class Dashboard extends React.Component {
                 user(name: $name) {
                     email
                     name
-                    isAdmin
+                    status {
+                        isAdmin
+                        isBanned
+                        simpleUser
+                    }
                     avatar
                 }
             }
