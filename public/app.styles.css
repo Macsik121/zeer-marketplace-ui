@@ -4913,6 +4913,7 @@ fieldset {
     line-height: 24px;
     border: none;
     margin-left: 15px;
+    background-color: #F8F8F8;
 }
 
 .admin-panel .search-bar .checkbox {
@@ -7110,12 +7111,43 @@ fieldset {
     position: relative;
 }
 
+.admin-panel .action-logs .search {
+    display: flex;
+}
+
+.admin-panel .action-logs .search .search-bar.by-actions {
+    margin-left: 10px;
+}
+
+.admin-panel .action-logs .search .search-bar.by-actions .search-field {
+    padding-left: 5px;
+}
+
+.admin-panel .action-logs .search .clean-logs {
+    background-color: #FF000070;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 0;
+    width: 180px;
+    cursor: pointer;
+    transition: 300ms;
+    color: #fff;
+    margin-left: 10px;
+    font-size: 18px;
+    line-height: 27px;
+}
+
+.admin-panel .action-logs .search .clean-logs:hover {
+    background-color: #92191978;
+}
+
 .admin-panel .action-logs h2 {
     text-align: center;
     font-weight: 700;
     font-size: 24px;
     line-height: 36px;
     letter-spacing: .1px;
+    margin-top: 10px;
 }
 
 .admin-panel .action-logs .actions-wrap {
