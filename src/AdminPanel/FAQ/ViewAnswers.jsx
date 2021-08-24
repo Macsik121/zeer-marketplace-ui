@@ -159,6 +159,7 @@ class ViewAnswers extends React.Component {
         this.showDeleteAnswer = this.showDeleteAnswer.bind(this);
         this.hideDeleteAnswer = this.hideDeleteAnswer.bind(this);
         this.getAnswers = this.getAnswers.bind(this);
+        this.searchTabs = this.searchTabs.bind(this);
     }
     async componentDidMount() {
         window.onkeydown = function(e) {
@@ -206,10 +207,32 @@ class ViewAnswers extends React.Component {
     hideDeleteAnswer() {
         this.setState({ deleteAnswerShown: false });
     }
+    searchTabs(e) {
+        let searchValue = e.target.value;
+        searchValue = searchValue.toLowerCase().trim();
+        const { sortCopy } = this.state;
+
+        const answersToRender = [];
+
+        sortCopy.answers.map(answer => {
+            if (answer.title.toLowerCase().includes(searchValue)) {
+                answersToRender.push(answer);
+            } else if (answer.answer.toLowerCase().includes(searchValue)) {
+                answersToRender.push(answer);
+            }
+        });
+
+        if (searchValue == '') {
+            this.setState({ sort: sortCopy });
+        } else {
+            this.setState({ sort: { answers: answersToRender } });
+        }
+    }
     render() {
         const {
             isRequestMaking,
             sort,
+            sortCopy,
             addAnswerShown,
             deleteAnswerShown,
             answerToDelete
@@ -287,7 +310,7 @@ class ViewAnswers extends React.Component {
                             <input
                                 type="text"
                                 placeholder="Search here"
-                                onChange={this.searchKeys}
+                                onChange={this.searchTabs}
                             />
                         </div>
                     </div>
@@ -306,10 +329,10 @@ class ViewAnswers extends React.Component {
                         </div>
                         <div className="sort">
                             <div className="sort-title">
-                                <h3>{sort.sort}</h3>
+                                <h3>{sortCopy.sort}</h3>
                                 <span className="decisions-amount">
                                     Кол-во решений&nbsp;
-                                    {sort.answers && sort.answers.length}
+                                    {sortCopy.answers && sortCopy.answers.length}
                                 </span>
                             </div>
                             <div className="buttons">

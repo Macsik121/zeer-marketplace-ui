@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import CloseIcon from '@material-ui/icons/Close';
 import fetchData from './fetchData';
+import getCoords from './GeocodingLocation';
 
 function SigninHeader(props) {
     return (

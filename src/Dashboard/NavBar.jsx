@@ -187,54 +187,58 @@ class NavBar extends React.Component {
                 </NavLink>
             )
         })
-        const navMenu = (
-            deviceWidth >= 700
-                ? (
-                    <div className="links-wrap">
-                        {nav}
-                    </div>
-                )
-                : (
-                    <div className="three-dots">
-                        <div
-                            className="open-menu"
-                            onClick={
-                                function(e) {
-                                    this.hiddenUserDropdown();
-                                    this.toggleMenuDropdown(e);
-                                }.bind(this)
-                            }
-                        >
-                            <div
-                                className="line-1 menu-line"
-                                style={
-                                    menuDropdownShown
-                                        ? {backgroundColor: '#1E75FF'}
-                                        : {backgroundColor: '#92929D'}
-                                }
-                            />
-                            <div
-                                className="line-2 menu-line"
-                                style={
-                                    menuDropdownShown
-                                        ? {backgroundColor: '#1E75FF'}
-                                        : {backgroundColor: '#92929D'}
-                                }
-                            />
-                        </div>
-                        <div
-                            style={
-                                menuDropdownShown
-                                    ? {maxHeight: '550px', transition: '350ms'}
-                                    : {maxHeight: 0, transition: '200ms'}
-                            }
-                            className="menu-dropdown"
-                        >
+        let navMenu;
+        if (deviceWidth) {
+            navMenu = (
+                deviceWidth >= 700
+                    ? (
+                        <div className="links-wrap">
                             {nav}
                         </div>
-                    </div>
-                )
-        );
+                    )
+                    : (
+                        <div className="three-dots">
+                            <div
+                                className="open-menu"
+                                onClick={
+                                    function(e) {
+                                        this.hiddenUserDropdown();
+                                        this.toggleMenuDropdown(e);
+                                    }.bind(this)
+                                }
+                            >
+                                <div
+                                    className="line-1 menu-line"
+                                    style={
+                                        menuDropdownShown
+                                            ? {backgroundColor: '#1E75FF'}
+                                            : {backgroundColor: '#92929D'}
+                                    }
+                                />
+                                <div
+                                    className="line-2 menu-line"
+                                    style={
+                                        menuDropdownShown
+                                            ? {backgroundColor: '#1E75FF'}
+                                            : {backgroundColor: '#92929D'}
+                                    }
+                                />
+                            </div>
+                            <div
+                                style={
+                                    menuDropdownShown
+                                        ? {maxHeight: '550px', transition: '350ms'}
+                                        : {maxHeight: 0, transition: '200ms'}
+                                }
+                                className="menu-dropdown"
+                            >
+                                {nav}
+                            </div>
+                        </div>
+                    )
+            );    
+        }
+
         return (
             <nav className="nav">
                 <div className="container">

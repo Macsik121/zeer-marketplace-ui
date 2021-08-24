@@ -155,6 +155,7 @@ export default class FAQ extends React.Component {
         super();
         this.state = {
             answersFAQ: [],
+            answersFAQCopy: [],
             isRequestMaking: true,
             createSortShown: false,
             agreeToDeleteShown: false,
@@ -165,6 +166,7 @@ export default class FAQ extends React.Component {
         this.hideAgreeToDelete = this.hideAgreeToDelete.bind(this);
         this.showAgreeToDelete = this.showAgreeToDelete.bind(this);
         this.getAnswers = this.getAnswers.bind(this);
+        this.searchTabs = this.searchTabs.bind(this);
     }
     async componentDidMount() {
         window.onkeydown = function(e) {
@@ -191,7 +193,11 @@ export default class FAQ extends React.Component {
             }
         `);
 
-        this.setState({ answersFAQ: result.getAnswers, isRequestMaking: false });
+        this.setState({
+            answersFAQ: result.getAnswers,
+            answersFAQCopy: result.getAnswers,
+            isRequestMaking: false
+        });
     }
     showCreateSortModal() {
         this.setState({ createSortShown: true });
@@ -204,6 +210,26 @@ export default class FAQ extends React.Component {
     }
     showAgreeToDelete() {
         this.setState({ agreeToDeleteShown: true });
+    }
+    searchTabs(e) {
+        let searchValue = e.target.value;
+        searchValue = searchValue.toLowerCase().trim();
+        const { answersFAQCopy } = this.state;
+
+        const answersToRender = [];
+
+        answersFAQCopy.map(answer => {
+            if (answer.sort.toLowerCase().includes(searchValue)) {
+                answersToRender.push(answer);
+            }
+        });
+        console.log(answersToRender);
+
+        if (searchValue == '') {
+            this.setState({ answersFAQ: answersFAQCopy });
+        } else {
+            this.setState({ answersFAQ: answersToRender });
+        }
     }
     render() {
         const {
@@ -284,7 +310,7 @@ export default class FAQ extends React.Component {
                             <input
                                 type="text"
                                 placeholder="Search here"
-                                onChange={this.searchKeys}
+                                onChange={this.searchTabs}
                             />
                         </div>
                     </div>

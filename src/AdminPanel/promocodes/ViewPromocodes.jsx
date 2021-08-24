@@ -194,23 +194,29 @@ class ViewPromocodes extends React.Component {
         this.setState({ isRequestMaking: false });
     }
     handlePromosSearch(e) {
-        const searchValue = e.target.value;
+        let searchValue = e.target.value;
+        searchValue = searchValue.toLowerCase().trim();
+        const { productCopy, product } = this.state;
 
         const promocodesToRender = [];
 
-        this.state.productCopy.promocodes.all.slice().map(promocode => {
-            if (promocode.name.toLowerCase().includes(searchValue.toLowerCase().trim())) {
+        productCopy.promocodes.all.map(promocode => {
+            if (promocode.name.toLowerCase().includes(searchValue)) {
                 promocodesToRender.push(promocode);
             }
         });
 
-        const newProduct = {...this.state.productCopy};
-        newProduct.promocodes.all = promocodesToRender;
-
         if (searchValue == '') {
-            this.setState({ product: this.state.productCopy });
+            this.setState({ product: {...productCopy} });
         } else {
-            this.setState({ product: newProduct });
+            const currentProduct = {
+                ...product,
+                promocodes: {
+                    ...product.promocodes,
+                    all: promocodesToRender
+                }
+            };
+            this.setState({ product: currentProduct });
         }
     }
     render() {

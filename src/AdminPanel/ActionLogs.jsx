@@ -18,6 +18,8 @@ export default class ActionLogs extends React.Component {
         this.getActionLogs = this.getActionLogs.bind(this);
         this.cleanLogs = this.cleanLogs.bind(this);
         this.handleActionChange = this.handleActionChange.bind(this);
+        this.filterLog = this.filterLog.bind(this);
+        this.handleSearchChange = this.handleSearchChange.bind(this);
     }
     async componentDidMount() {
         await this.getActionLogs();
@@ -59,19 +61,15 @@ export default class ActionLogs extends React.Component {
             isRequestForLogsMaking: false
         });
     }
-    filterLog(log, searchValue, searchValue2) {
-        function valueMatched(valueToCompare, value, value2) {
+    filterLog(log, searchValue = '', searchValue2 = '') {
+
+        function valueMatched(valueToCompare, value) {
             value = value.toLowerCase().trim();
+            valueToCompare = valueToCompare.toLowerCase();
 
-            if (value2 && typeof log == 'object' && !Array.isArray(log)) {
-                const action = valueToCompare.action;
-
-                valueToCompare.includes(value);
-            } else {
-                valueToCompare = valueToCompare.toLowerCase();
-                return valueToCompare.includes(value);
-            }
+            return valueToCompare.includes(value);
         }
+
         if (searchValue == '' && searchValue2 == '') {
             return null;
         } else if (searchValue != '' && searchValue2 == '') {
@@ -91,33 +89,75 @@ export default class ActionLogs extends React.Component {
                 return log;
             }
         } else if (searchValue2 != '' && searchValue != '') {
-            if (valueMatched(log, searchValue, searchValue2)) {
+            if (
+                (
+                    valueMatched(log.name, searchValue) ||
+                    valueMatched(log.location, searchValue) ||
+                    valueMatched(log.IP, searchValue) ||
+                    valueMatched(log.browser, searchValue) ||
+                    valueMatched(log.platform, searchValue)
+                ) &&
+                valueMatched(log.action, searchValue2)
+            ) {
                 return log;
             }
         }
     }
     searchLogs(e) {
-        const searchValue = e.target.value;
-        this.setState({ searchLogs: searchValue });
+        let searchValue = e.target.value;
+        let searchValue2 = e.target.value2;
         const {
             logsCopy,
             logs
         } = this.state;
 
-        const logsToRender = [];
+        let logsToRender = [];
 
         logsCopy.map(log => {
-            const result = this.filterLog(log, searchValue, e.target.value2 || '');
+            const result = this.filterLog(log, searchValue, searchValue2);
             if (result) logsToRender.push(result);
         });
 
-
-        if (searchValue == '' && !e.target.value2 || e.target.value2 == '') {
+        if (searchValue == '' && searchValue2 == '') {
             this.setState({ logs: logsCopy });
+        } else if (searchValue == '' && searchValue2 != '') {
+            logsToRender = [];
+            logsCopy.map(log => {
+                if (log.action.toLowerCase().includes(searchValue2)) {
+                    logsToRender.push(log);
+                }
+            });
+            this.setState({ logs: logsToRender });
+        } else if (searchValue != '' && searchValue2 == '') {
+            logsToRender = [];
+            logsCopy.map(log => {
+                if (log.name.toLowerCase().includes(searchValue)) {
+                    logsToRender.push(log);
+                } else if (log.location.toLowerCase().includes(searchValue)) {
+                    logsToRender.push(log);
+                } else if (log.IP.toLowerCase().includes(searchValue)) {
+                    logsToRender.push(log);
+                } else if (log.browser.toLowerCase().includes(searchValue)) {
+                    logsToRender.push(log);
+                } else if (log.platform.toLowerCase().includes(searchValue)) {
+                    logsToRender.push(log);
+                }
+            });
+            this.setState({ logs: logsToRender });
         } else {
             this.setState({ logs: logsToRender });
         }
     }
+    handleSearchChange(e) {
+        this.setState({ searchLogs: e.target.value });
+        const event = {
+            target: {
+                value: e.target.value,
+                value2: this.state.searchByAction
+            }
+        };
+        this.searchLogs(event);
+    };
     handleActionChange(e) {
         this.setState({ searchByAction: e.target.value });
         const event = {
@@ -132,8 +172,8 @@ export default class ActionLogs extends React.Component {
         const {
             isRequestMaking,
             isRequestForLogsMaking,
-            searchByAction,
-            searchLogs
+            searchLogs,
+            searchByAction
         } = this.state;
 
         const logs = this.state.logs.map(log => (
@@ -147,6 +187,7 @@ export default class ActionLogs extends React.Component {
                 <div className="action">{log.action}</div>
             </div>
         ));
+
 
         return (
             <div className="action-logs">
@@ -173,7 +214,7 @@ export default class ActionLogs extends React.Component {
                             <input
                                 type="text"
                                 placeholder="Search here"
-                                onChange={this.searchLogs}
+                                onChange={this.handleSearchChange}
                                 value={searchLogs}
                             />
                         </div>

@@ -1051,6 +1051,12 @@ fieldset {
     border: none;
 }
 
+button.disabled {
+    background-color: #DFDFDF;
+    color: #9F9F9F;
+    pointer-events: none;
+}
+
 #content {
     width: 100%;
     height: 100%;
@@ -5699,6 +5705,7 @@ fieldset {
 .admin-panel .product-keys .keys .keys-of-product .key div {
     display: flex;
     justify-content: center;
+    word-break: break-all;
 }
 
 .admin-panel .product-keys .keys .keys-of-product .key .name {
@@ -6181,6 +6188,7 @@ fieldset {
 .admin-panel .view-promocodes .promocodes-wrap .promocodes .promocode div {
     display: flex;
     justify-content: center;
+    word-break: break-all;
 }
 
 .admin-panel .view-promocodes .promocodes-wrap .promocodes .promocode .promo-name {
@@ -7222,6 +7230,7 @@ fieldset {
 .admin-panel .action-logs .table .logs .log div {
     display: flex;
     justify-content: center;
+    word-break: break-all;
 }
 
 .admin-panel .action-logs .table .logs .log .date {
@@ -7252,7 +7261,178 @@ fieldset {
     width: 175px;
 }
 
-@media (max-width: 1300px) {
-    
+.admin-panel .reset-requests {
+    padding-top: 10px;
+    position: relative;
+}
+
+.admin-panel .reset-requests .search-bar .delete-all-requests {
+    margin-left: 25px;
+    background-color: #FF00006E;
+    padding: 10px 30px;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 18px;
+    transition: 300ms;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.admin-panel .reset-requests .search-bar .delete-all-requests:hover {
+    background-color: #92191978;
+}
+
+.admin-panel .reset-requests h2 {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    letter-spacing: .1px;
+    text-align: center;
+}
+
+.admin-panel .reset-requests .reset-requests-wrap {
+    transition: 300ms;
+    margin-top: 75px;
+}
+
+.admin-panel .reset-requests .reset-requests-wrap .heading {
+    display: flex;
+    justify-content: space-between;
+    background-color: #292932;
+    text-transform: uppercase;
+    padding: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 21px;
+    color: #92929D;
+    letter-spacing: .8px;
+}
+
+.admin-panel .reset-requests .reset-requests-wrap .heading div {
+    display: flex;
+    justify-content: center;
+    word-break: break-all;
+}
+
+.admin-panel .reset-requests .reset-requests-wrap .heading .number {
+    width: 40px;
+}
+
+.admin-panel .reset-requests .reset-requests-wrap .heading .reason {
+    width: 220px;
+}
+
+.admin-panel .reset-requests .reset-requests-wrap .heading .date {
+    width: 65px;
+}
+
+.admin-panel .reset-requests .reset-requests-wrap .heading .ip {
+    width: 75px;
+}
+
+.admin-panel .reset-requests .reset-requests-wrap .heading .location {
+    width: 90px;
+}
+
+.admin-panel .reset-requests .reset-requests-wrap .heading .status {
+    width: 135px;
+}
+
+.admin-panel .reset-requests .reset-requests-wrap .heading .action {
+    width: 250px;
+}
+
+.admin-panel .reset-requests .reset-requests-wrap .requests {
+    line-height: 16.5px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+}
+
+.admin-panel .reset-requests .reset-requests-wrap .requests .reset-request {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 10px;
+    text-transform: uppercase;
+}
+
+.admin-panel .reset-requests .reset-requests-wrap .requests .reset-request:nth-of-type(2n) {
+    background-color: #292932;
+}
+
+.admin-panel .reset-requests .reset-requests-wrap .requests .reset-request div {
+    display: flex;
+    justify-content: center;
+    word-break: break-all;
+}
+
+.admin-panel .reset-requests .reset-requests-wrap .requests .reset-request .number {
+    width: 40px;
+}
+
+.admin-panel .reset-requests .reset-requests-wrap .requests .reset-request .reason {
+    width: 220px;
+}
+
+.admin-panel .reset-requests .reset-requests-wrap .requests .reset-request .date {
+    width: 65px;
+    word-break: inherit;
+}
+
+.admin-panel .reset-requests .reset-requests-wrap .requests .reset-request .ip {
+    width: 75px;
+}
+
+.admin-panel .reset-requests .reset-requests-wrap .requests .reset-request .location {
+    width: 90px;
+    word-break: inherit;
+}
+
+.admin-panel .reset-requests .reset-requests-wrap .requests .reset-request .status {
+    width: 135px;
+    word-wrap: break-word;
+}
+
+.admin-panel .reset-requests .reset-requests-wrap .requests .reset-request .action {
+    width: 250px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.admin-panel .reset-requests .reset-requests-wrap .requests .reset-request .action .button {
+    width: 120px;
+    transition: 300ms;
+    cursor: pointer;
+    user-select: none;
+    padding: 5px 0;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: 600;
+    border: none;
+}
+
+.admin-panel .reset-requests .reset-requests-wrap .requests .reset-request .action .button.disabled {
+    background-color: #DFDFDF;
+    color: #9F9F9F;
+    pointer-events: none;
+}
+
+.admin-panel .reset-requests .reset-requests-wrap .requests .reset-request .action .get-request {
+    background-color: #0085FF;
+}
+
+.admin-panel .reset-requests .reset-requests-wrap .requests .reset-request .action .get-request:hover {
+    background-color: rgb(0, 133, 255, .5);
+}
+
+.admin-panel .reset-requests .reset-requests-wrap .requests .reset-request .action .reject {
+    background-color: #FF00006E;
+}
+
+.admin-panel .reset-requests .reset-requests-wrap .requests .reset-request .action .reject:hover {
+    background-color: #92191978;
 }
 

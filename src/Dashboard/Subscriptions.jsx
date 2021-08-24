@@ -389,6 +389,11 @@ export default class Subscriptions extends React.Component {
                                 onClick={toggleAgreement}
                                 type="button"
                                 className="terms-n-policy"
+                                style={
+                                    {
+                                        cursor: isRequestSent ? 'default' : 'pointer'
+                                    }
+                                }
                             >
                                 с правилами
                             </button>
