@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { CircularProgress } from '@material-ui/core';
-import BoughtPeople from '../RenderBoughtPeople.jsx';
+import BoughtPeople from '../BoughtPeople.jsx';
 
 export default class Products extends React.Component {
     render() {

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import SlickSlider from 'react-slick';
 import { CircularProgress } from '@material-ui/core';
 import { fetchPopularProducts } from '../PopularProducts.jsx';
-import BoughtPeople from '../RenderBoughtPeople.jsx';
+import BoughtPeople from '../BoughtPeople.jsx';
 
 export default class Lobby extends React.Component {
     render() {
