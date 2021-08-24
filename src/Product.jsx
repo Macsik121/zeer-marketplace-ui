@@ -21,13 +21,13 @@ class Product extends React.Component {
         this.renderChanges = this.renderChanges.bind(this);
         this.calculateCost = this.calculateCost.bind(this);
     }
-    async componentDidMount() {
-        console.log(this.props.product)
-        if (this.props.product) {
+    async componentDidUpdate(prevProps) {
+        if (JSON.stringify(prevProps.product) != JSON.stringify(this.props.product)) {
             this.setState({ product: this.props.product });
-        } else {
-            await this.loadProduct();
         }
+    }
+    async componentDidMount() {
+        await this.loadProduct();
     }
     async loadProduct() {
         this.setState({ isRequestMaking: true });

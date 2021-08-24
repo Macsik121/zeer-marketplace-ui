@@ -63,6 +63,7 @@ class EditProduct extends React.Component {
             isRequestMaking,
             product
         } = this.state;
+        console.log(product);
 
         return (
             <div className="edit-product">

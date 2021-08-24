@@ -5331,6 +5331,7 @@ button.disabled {
 .admin-panel .keys {
     position: relative;
     padding-top: 10px;
+    width: 100%;
 }
 
 .admin-panel .keys .create-product-key-modal {
@@ -5473,7 +5474,6 @@ button.disabled {
     padding: 20px;
     padding-top: 150px;
     background-color: #1C1C24;
-    margin-bottom: 200px;
     position: relative;
     border-radius: 10px;
 }
@@ -5510,6 +5510,7 @@ button.disabled {
 .admin-panel .keys .products .product .buttons {
     display: flex;
     justify-content: space-between;
+    width: 100%;
 }
 
 .admin-panel .keys .products .product .buttons .button {
