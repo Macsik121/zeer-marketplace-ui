@@ -2672,6 +2672,10 @@ button.disabled {
     line-height: 24px;
     letter-spacing: .1px;
     font-family: Roboto, sans-serif;
+    max-width: 330px;
+    max-height: 100px;
+    overflow: hidden;
+    word-wrap: break-word;
 }
 
 .dashboard .main .products .product .buttons {
@@ -2799,6 +2803,11 @@ button.disabled {
     font-weight: 600;
     letter-spacing: .1px;
     background-color: rgba(41, 41, 50, 0.5);
+    transition: 100ms;
+}
+
+.info .general .cost .dropdown .items .item:hover {
+    background-color: rgba(41, 41, 50, 1);
 }
 
 .info .general .cost .dropdown .items .item:first-of-type {
@@ -2854,12 +2863,13 @@ button.disabled {
     background-size: cover;
     position: absolute;
     left: 30px;
-    top: 14.8%;
+    top: 155px;
 }
 
 .info .product .main {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin: 0;
     padding: 0;
     background-color: #1C1C24;
@@ -2880,6 +2890,7 @@ button.disabled {
     border-radius: 10px;
     background: transparent;
     width: 165px;
+    word-break: break-all;
 }
 
 .info .product .general-info .info-title {
@@ -2905,6 +2916,8 @@ button.disabled {
     flex-direction: column;
     align-items: flex-start;
     padding-left: 10px;
+    max-width: 405px;
+    word-break: break-all;
 }
 
 .info .product .title {
@@ -2980,13 +2993,13 @@ button.disabled {
     margin-left: 5px;
 }
 
-.dashboard .main .product-info .product .main .actions {
+.info .product .main .actions {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
 }
 
-.dashboard .main .product-info .product .main .actions .undetect {
+.info .product .main .actions .undetect {
     background-color: #82C43C26;
     border: none;
     padding: 10px 20px;
@@ -3001,18 +3014,18 @@ button.disabled {
     line-height: 18px;
 }
 
-.dashboard .main .product-info .product .main .actions .undetect .ellipse {
+.info .product .main .actions .undetect .ellipse {
     width: 10px;
     height: 10px;
 }
 
-.dashboard .main .product-info .product .main .actions .last-update {
+.info .product .main .actions .last-update {
     margin: 15px auto 0 auto;
     display: flex;
     align-items: center;
 }
 
-.dashboard .main .product-info .product .main .actions .last-update .createdDate {
+.info .product .main .actions .last-update .createdDate {
     color: #92929D;
     line-height: 16px;
     font-size: 14px;
@@ -3021,7 +3034,7 @@ button.disabled {
     text-align: center;
 }
 
-.dashboard .main .product-info .product .main .actions .last-update .circle {
+.info .product .main .actions .last-update .circle {
     width: 3px;
     height: 3px;
     background-color: #D8D8D8;
@@ -3029,7 +3042,7 @@ button.disabled {
     margin: 0 5px;
 }
 
-.dashboard .main .product-info .product .main .actions .last-update .current-version {
+.info .product .main .actions .last-update .current-version {
     font-weight: 500;
     font-family: Roboto, sans-serif;
     font-size: 14px;
@@ -3038,7 +3051,7 @@ button.disabled {
     text-align: center;
 }
 
-.dashboard .main .product-info .product .general .description h4 {
+.info .product .general .description h4 {
     font-size: 16px;
     color: #FAFAFB;
     font-weight: 600;
@@ -3046,45 +3059,46 @@ button.disabled {
     letter-spacing: .1px;
 }
 
-.dashboard .main .product-info .product .general p {
+.info .product .general p {
     font-size: 14px;
     line-height: 28px;
     letter-spacing: .1px;
     color: #B5B5BE;
     margin-top: 10px;
     font-family: Roboto, sans-serif;
+    word-break: break-all;
 }
 
-.dashboard .main .product-info .product .general .characteristics {
+.info .product .general .characteristics {
     margin-top: 60px;
 }
 
-.dashboard .main .product-info .product .general .characteristics h4 {
+.info .product .general .characteristics h4 {
     font-size: 16px;
     line-height: 24px;
     letter-spacing: .1px;
     font-weight: 600;
 }
 
-.dashboard .main .product-info .product .general .characteristics ul {
+.info .product .general .characteristics ul {
     margin-top: 30px;
     padding-bottom: 30px;
-    padding-left: 17px;
+    padding-left: 19px;
 }
 
-.dashboard .main .product-info .product .general .characteristics ul .wrap {
+.info .product .general .characteristics ul .wrap {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.dashboard .main .product-info .product .general .characteristics ul .characteristic {
+.info .product .general .characteristics ul .characteristic {
     margin-top: 20px;
     list-style-image: url(/images/characteristics-product-li.png);
 
 }
 
-.dashboard .main .product-info .product .general .characteristics ul .characteristic span {
+.info .product .general .characteristics ul .characteristic span {
     list-style-image: url(/images/characteristics-product-li.png);
     width: 50%;
     font-size: 14px;
@@ -3094,16 +3108,18 @@ button.disabled {
     color: #fff;
 }
 
-.dashboard .main .product-info .product .general .characteristics ul .characteristic .value {
+.info .product .general .characteristics ul .characteristic .value {
     color: #B5B5BE;
     font-size: 14px;
     line-height: 16px;
     letter-spacing: .1px;
     font-family: Roboto, sans-serif;
+    max-width: 85%;
     width: 85%;
+    word-wrap: break-word;
 }
 
-.dashboard .main .product-info .product .general .cost {
+.info .product .general .cost {
     border-top: 1px solid #292932;
     padding: 30px 0;
     display: flex;
@@ -3111,16 +3127,16 @@ button.disabled {
     justify-content: space-between;
 }
 
-.dashboard .main .product-info .product .general .cost .dropdown .item {
+.info .product .general .cost .dropdown .item {
     cursor: pointer;
 }
 
-.dashboard .main .product-info .product .general .cost .calc-cost {
+.info .product .general .cost .calc-cost {
     display: flex;
     align-items: center;
 }
 
-.dashboard .main .product-info .product .general .cost .calculated-cost .cost {
+.info .product .general .cost .calculated-cost .cost {
     border: none;
     font-weight: 600;
     font-size: 16px;
@@ -3128,12 +3144,12 @@ button.disabled {
     letter-spacing: .1px;
 }
 
-.dashboard .main .product-info .product .general .cost .button {
+.info .product .general .cost .button {
     width: 160px;
     border-radius: 10px;
 }
 
-.dashboard .main .product-info .product .general .cost .button .buy-button {
+.info .product .general .cost .button .buy-button {
     color: #FAFAFB;
     text-decoration: none;
     font-size: 12px;
@@ -3150,7 +3166,7 @@ button.disabled {
     transition: 200ms;
 }
 
-.dashboard .main .product-info .product .general .cost .button .buy-button:hover {
+.info .product .general .cost .button .buy-button:hover {
     background-color: #1C6FF2;
 }
 
@@ -7504,5 +7520,171 @@ button.disabled {
     left: 0;
     right: 0;
     margin: 0 auto;
+}
+
+.admin-panel .edit-product {
+    padding-top: 10px;
+}
+
+.admin-panel .edit-product h2 {
+    text-align: center;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    letter-spacing: .1px;
+}
+
+.admin-panel .edit-product .editing-product-form {
+    display: flex;
+    justify-content: space-between;
+    width: 1340px;
+    margin: 30px auto 0;
+    padding-bottom: 30px;
+    transition: 200ms;
+}
+
+@media (max-width: 1500px) {
+    .admin-panel .edit-product .editing-product-form {
+        flex-direction: column;
+        max-width: 100%;
+    }
+    .admin-panel .edit-product .editing-product-form .change-product {
+        margin: 0 auto;
+    }
+    .admin-panel .edit-product .editing-product-form .info {
+        margin: 0 auto;
+    }
+}
+
+.admin-panel .edit-product .editing-product-form .change-product {
+    width: 100%;
+    max-width: 550px;
+    background-color: #1C1C24;
+    border-radius: 5px;
+    transition: 300ms;
+    padding: 20px;
+}
+
+.admin-panel .edit-product .editing-product-form .change-product .field-wrap.name-field {
+    margin-top: 0;
+}
+
+.admin-panel .edit-product .editing-product-form .change-product .field-wrap {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.admin-panel .edit-product .editing-product-form .change-product .field-wrap label {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 36px;
+    letter-spacing: .1px;
+}
+
+.admin-panel .edit-product .editing-product-form .change-product .field-wrap .field {
+    height: 31px;
+    border-radius: 5px;
+    color: #1C1C24;
+    padding-left: 10px;
+    width: 100%;
+}
+
+.admin-panel .edit-product .editing-product-form .change-product .field-wrap.description-field {
+    margin-top: 25px;
+}
+
+.admin-panel .edit-product .editing-product-form .change-product .description-field .field {
+    height: 150px;
+    padding: 10px;
+    resize: none;
+    scrollbar-color: #aaa #fff;
+}
+
+.admin-panel .edit-product .editing-product-form .change-product .description-field .field::-webkit-scrollbar {
+    width: 15px;
+}
+
+.admin-panel .edit-product .editing-product-form .change-product .description-field .field::-webkit-scrollbar-track {
+    background-color: #fff;
+}
+
+.admin-panel .edit-product .editing-product-form .change-product .description-field .field::-webkit-scrollbar-thumb {
+    background-color: #aaa;
+    border: 4px solid #fff;
+}
+
+.admin-panel .edit-product .editing-product-form .change-product .buttons.upload-files {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.admin-panel .edit-product .editing-product-form .change-product .upper-block-field .input-wrap {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    color: #1C1C24;
+}
+
+.admin-panel .edit-product .editing-product-form .change-product .upper-block-field .input-wrap .field {
+    border: none;
+    height: auto;
+}
+
+.admin-panel .edit-product .editing-product-form .change-product .buttons .button {
+    width: 250px;
+    font-weight: 500;
+    color: #fff;
+    letter-spacing: .1px;
+    line-height: 36px;
+    font-size: 20px;
+    background-color: #FF00006E;
+    border: none;
+    border-radius: 5px;
+    transition: 300ms;
+    cursor: pointer;
+}
+
+.admin-panel .edit-product .editing-product-form .change-product .buttons .button:hover {
+    background-color: #92191978;
+}
+
+.admin-panel .edit-product .editing-product-form .product-wrap .buttons {
+    display: flex;
+    margin-top: 20px;
+}
+
+.admin-panel .edit-product .editing-product-form .product-wrap .buttons .button {
+    letter-spacing: .1px;
+    font-size: 20px;
+    line-height: 36px;
+    font-weight: 500;
+    color: #fff;
+    padding: 1px 10px;
+    transition: 300ms;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.admin-panel .edit-product .editing-product-form .product-wrap .buttons .button + .button {
+    margin-left: 10px;
+}
+
+.admin-panel .edit-product .editing-product-form .product-wrap .buttons .button.save-changes {
+    background-color: #1E75FF;
+}
+
+.admin-panel .edit-product .editing-product-form .product-wrap .buttons .button.save-changes:hover {
+    background-color: rgb(0, 133, 255, .5);
+}
+
+.admin-panel .edit-product .editing-product-form .product-wrap .buttons .button.off-the-product {
+    background-color: #FF00006E;
+}
+
+.admin-panel .edit-product .editing-product-form .product-wrap .buttons .button.off-the-product:hover {
+    background-color: #92191978;
 }
 

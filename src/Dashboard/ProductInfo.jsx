@@ -27,6 +27,7 @@ class ProductInfo extends React.Component {
         this.setState({ popularProducts: this.props.popularProducts });
     }
     render() {
+        const { isRequestMaking } = this.state;
         const { buyProduct } = this.props;
         const info = [];
         let renderedPopularProducts = [];
@@ -62,7 +63,14 @@ class ProductInfo extends React.Component {
         return (
             <div className="product-info">
                 <div className="container">
-                    <Product match={this.props.match} buyProduct={buyProduct} />
+                    <Product
+                        match={this.props.match}
+                        buyProduct={buyProduct}
+                        hideChanges={false}
+                        hideCircularProgress={false}
+                        hideh2={false}
+                        isRequestMaking={isRequestMaking}
+                    />
                     <div className="popular-products">
                         <h2>Популярные продукты</h2>
                         <CircularProgress

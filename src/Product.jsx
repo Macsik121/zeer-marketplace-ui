@@ -51,6 +51,7 @@ class Product extends React.Component {
                     costPerDay
                     description
                     locks
+                    timeBought
                     peopleBought {
                         name
                         email
@@ -214,12 +215,15 @@ class Product extends React.Component {
             }
         }
 
-        const generalInformation = [
-            product.workingTime && { title: 'Работает', content: 'Больше 1 года'/*new Date(product.workingTime).getDate()*/ },
-            product.locks || product.locks == 0 && { title: 'Блокировок', content: product.locks },
-            product.reloading && { title: 'Обновляется', content: product.reloading },
-            product.costPerDay && { title: 'Стоимость', content: `${product.costPerDay} ₽ / День` }
-        ];
+        let generalInformation = [];
+        if (product && Object.keys(product).length > 0) {
+            generalInformation = [
+                { title: 'Работает', content: product.workingTime },
+                { title: 'Блокировок', content: product.locks },
+                { title: 'Обновляется', content: product.reloading },
+                { title: 'Стоимость', content: `${product.costPerDay} ₽ / День` }
+            ]
+        }
 
         const productInfo = (
             <div className="product-wrap">
@@ -260,10 +264,12 @@ class Product extends React.Component {
                             {
                                 generalInformation.map(information => {
                                     if (information) {
-                                        return <div key={information.title} className="general-info-wrap">
-                                            <h3 className="info-title">{information.title}</h3>
-                                            <span className="info-content">{information.content}</span>
-                                        </div>
+                                        return (
+                                            <div key={information.title} className="general-info-wrap">
+                                                <h3 className="info-title">{information.title}</h3>
+                                                <span className="info-content">{information.content}</span>
+                                            </div>
+                                        )
                                     }
                                 })
                             }
@@ -304,17 +310,7 @@ class Product extends React.Component {
                                             {' '}
                                             <span className="value">
                                                 {product.characteristics &&
-                                                    function() {
-                                                        let supportedCpu = '';
-                                                        product.characteristics.cpuSupport.map((cpu, i) => {
-                                                            if (i > 0) {
-                                                                supportedCpu += ` / ${cpu}`;
-                                                            } else {
-                                                                supportedCpu += cpu;
-                                                            }
-                                                        });
-                                                        return supportedCpu;
-                                                    }()
+                                                    product.characteristics.cpuSupport
                                                 }
                                             </span>
                                         </div>
@@ -403,7 +399,14 @@ class Product extends React.Component {
                                         {productCost}
                                     </div>
                                 </div>
-                                <div className="button">
+                                <div
+                                    className="button"
+                                    style={
+                                        {
+                                            pointerEvents: this.props.isRequestMaking ? 'none' : 'all'
+                                        }
+                                    }
+                                >
                                     <button
                                         onClick={() => {
                                             if (buyProduct) {
@@ -425,27 +428,51 @@ class Product extends React.Component {
 
         return (
             <div className="info">
-                <CircularProgress
-                    className="progress-bar"
+                {this.props.hideCircularProgress
+                    ? ''
+                    : (
+                        <CircularProgress
+                            className="progress-bar"
+                            style={
+                                {
+                                    display: isRequestMaking ? 'block' : 'none'
+                                }
+                            }
+                        />
+                    )
+                }
+                <h2
                     style={
                         {
-                            display: isRequestMaking ? 'block' : 'none'
+                            display: this.props.hideh2
+                                ? 'none'
+                                : 'block'
                         }
                     }
-                />
-                <h2>Информация о продукте</h2>
+                >
+                    Информация о продукте
+                </h2>
                 <div
                     className="general"
                     style={
                         {
                             opacity: isRequestMaking ? 0 : 1,
-                            pointerEvents: isRequestMaking ? 'none' : 'all'
+                            pointerEvents: isRequestMaking ? 'none' : 'all',
+                            marginTop: this.props.hideh2 ? 0 : '30px',
+                            ...this.props.style || ''
                         }
                     }
                 >
                     {productInfo}
                 </div>
-                <div className="changes-log">
+                <div
+                    className="changes-log"
+                    style={
+                        {
+                            display: this.props.hideChanges ? 'none' : 'block'
+                        }
+                    }
+                >
                     <h2>Журнал изменений</h2>
                     {changes.length > 0 &&
                         <div
