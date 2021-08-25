@@ -446,6 +446,7 @@ button.disabled {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
 }
 
 .home .slider-wrap .info .popular-products {
@@ -2323,6 +2324,9 @@ button.disabled {
     color: #B5B5BE;
     font-family: 'Roboto', sans-serif;
     margin-top: 15px;
+    max-height: 72px;
+    overflow: hidden;
+
 }
 
 .dashboard .main .product-info .popular-products .popular-product .buttons {
