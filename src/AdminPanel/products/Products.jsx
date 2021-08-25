@@ -85,8 +85,8 @@ export default class Products extends React.Component {
                 <div className="description">{product.description}</div>
                 <BoughtPeople people={product.peopleBought} renderPeopleLimit="3" />
                 <div className="buttons">
-                    <Link to={`/admin/products/${product.title}`}>Редактировать</Link>
-                    <button className="button">Удалить</button>
+                    <Link onClick={() => this.props.setEditType('edit')} className="button edit" to={`/admin/products/${product.title}`}>Редактировать</Link>
+                    <button className="button delete">Удалить</button>
                 </div>
             </div>
         ));
@@ -102,6 +102,7 @@ export default class Products extends React.Component {
                             onChange={this.searchProducts}
                         />
                     </div>
+                    <Link onClick={() => this.props.setEditType('create')} to="/admin/products/add-product">Добавить продукт</Link>
                 </div>
                 <h2>Продукты</h2>
                 <CircularProgress

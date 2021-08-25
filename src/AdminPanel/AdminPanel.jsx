@@ -32,6 +32,7 @@ class AdminPanel extends React.Component {
             user: {},
             users: [],
             SearchToRender: null,
+            productEditType: 'edit',
             navLinks: [
                 {
                     path: 'statistics',
@@ -99,6 +100,7 @@ class AdminPanel extends React.Component {
         this.hideUserDropdown = this.hideUserDropdown.bind(this);
         this.logout = this.logout.bind(this);
         this.renderSearchBar = this.renderSearchBar.bind(this);
+        this.setEditType = this.setEditType.bind(this);
     }
     async componentDidMount() {
         const token = localStorage.getItem('token');
@@ -148,6 +150,9 @@ class AdminPanel extends React.Component {
     renderSearchBar(SearchToRender) {
         this.setState({ SearchToRender });
     }
+    setEditType(type) {
+        this.setState({ productEditType: type });
+    }
     render() {
         const {
             userDropdownShown,
@@ -185,6 +190,14 @@ class AdminPanel extends React.Component {
                     <Route
                         path={`/admin/users`}
                         render={() => <link.component />}
+                        key={link.title}
+                    />
+                )
+            } else if (link.path == 'products') {
+                return (
+                    <Route
+                        path='/admin/products'
+                        render={() => <link.component setEditType={this.setEditType} />}
                         key={link.title}
                     />
                 )
@@ -269,8 +282,12 @@ class AdminPanel extends React.Component {
                                 )}
                             />
                             <Route
+                                path="/admin/products/add-product"
+                                render={() => <EditProduct type={this.state.productEditType} />}
+                            />
+                            <Route
                                 path="/admin/products/:title"
-                                render={() => <EditProduct />}
+                                render={() => <EditProduct type={this.state.productEditType} />}
                             />
                             {routes}
                         </Switch>

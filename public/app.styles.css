@@ -631,7 +631,7 @@ template {
     line-height: 24px;
     font-family: Roboto, sans-serif;
     width: 330px;
-    max-height: 72px;
+    min-height: 72px;
     overflow: hidden;
 }
 
@@ -2636,7 +2636,7 @@ button.disabled {
     flex-direction: column;
     justify-content: space-between;
     background-color: #1C1C24;
-    padding: 150px 20px 20px;
+    padding: 160px 20px 20px;
     border-radius: 10px;
     margin: 150px 0 60px 0;
     position: relative;
@@ -2676,7 +2676,7 @@ button.disabled {
     letter-spacing: .1px;
     font-family: Roboto, sans-serif;
     max-width: 330px;
-    max-height: 100px;
+    height: 72px;
     overflow: hidden;
     word-wrap: break-word;
 }
@@ -2843,6 +2843,7 @@ button.disabled {
 .info .cover {
     background-repeat: no-repeat;
     background-position: center center;
+    background-size: cover;
     width: 100%;
     height: 200px;
     border-radius: 10px 10px 0 0;
@@ -2893,7 +2894,6 @@ button.disabled {
     border-radius: 10px;
     background: transparent;
     width: 165px;
-    word-break: break-all;
 }
 
 .info .product .general-info .info-title {
@@ -2938,8 +2938,10 @@ button.disabled {
 .bought-people {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-top: 23px;
     width: 100%;
+    min-height: 24px;
 }
 
 .bought-people .nobody-bought {
@@ -3323,7 +3325,7 @@ button.disabled {
     margin-top: 15px;
     max-height: 72px;
     overflow: hidden;
-
+    width: 100%;
 }
 
 .dashboard .main .product-info .popular-products .popular-product .buttons {
@@ -5462,8 +5464,7 @@ button.disabled {
     justify-content: space-between;
     flex-wrap: wrap;
     transition: 300ms;
-    margin: 40px auto 0 auto;
-    padding-top: 150px;
+    margin: 0 auto;
     max-width: 1170px;
 }
 
@@ -5856,8 +5857,8 @@ button.disabled {
     justify-content: space-between;
     max-width: 1170px;
     flex-wrap: wrap;
-    padding: 150px 0 0;
-    margin: 40px auto 0;
+    padding: 0 0 30px;
+    margin: 0 auto;
 }
 
 .admin-panel .promocodes .promocodes-wrap .promocode {
@@ -5873,7 +5874,7 @@ button.disabled {
     padding: 180px 20px 20px;
     flex-basis: 30%;
     position: relative;
-    margin-bottom: 190px;
+    margin-top: 210px;
     border-radius: 10px;
 }
 
@@ -7205,34 +7206,35 @@ button.disabled {
 .admin-panel .action-logs .table .heading div {
     display: flex;
     justify-content: center;
+    width: 10%;
 }
 
 .admin-panel .action-logs .table .heading .date {
-    width: 200px;
+    width: 15%;
 }
 
-.admin-panel .action-logs .table .heading .name {
+/* .admin-panel .action-logs .table .heading .name {
     width: 130px;
 }
 
 .admin-panel .action-logs .table .heading .location {
     width: 100px;
-}
+} */
 
 .admin-panel .action-logs .table .heading .ip {
-    width: 85px;
+    width: 15%;
 }
-
+/* 
 .admin-panel .action-logs .table .heading .browser {
     width: 140px;
 }
 
 .admin-panel .action-logs .table .heading .platform {
     width: 140px;
-}
+} */
 
 .admin-panel .action-logs .table .heading .action {
-    width: 175px;
+    width: 20%;
 }
 
 .admin-panel .action-logs .table .logs {
@@ -7265,35 +7267,36 @@ button.disabled {
     display: flex;
     justify-content: center;
     word-break: break-all;
+    width: 10%;
 }
 
 .admin-panel .action-logs .table .logs .log .date {
-    width: 200px;
+    width: 15%;
 }
-
+/* 
 .admin-panel .action-logs .table .logs .log .name {
     width: 130px;
 }
 
 .admin-panel .action-logs .table .logs .log .location {
     width: 100px;
-}
+} */
 
 .admin-panel .action-logs .table .logs .log .ip {
-    width: 85px;
+    width: 15%;
 }
 
-.admin-panel .action-logs .table .logs .log .browser {
+/* .admin-panel .action-logs .table .logs .log .browser {
     width: 140px;
 }
 
 .admin-panel .action-logs .table .logs .log .platform {
     width: 140px;
-}
+} */
 
 .admin-panel .action-logs .table .logs .log .action {
-    width: 175px;
-    height: 36px;
+    width: 20%;
+    /* height: 36px; */
 }
 
 .admin-panel .reset-requests {
@@ -7528,6 +7531,64 @@ button.disabled {
     margin: 0 auto;
 }
 
+.admin-panel .products .product .product-title {
+    width: 100%;
+    margin-top: 20px;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 600;
+    letter-spacing: .1px;
+}
+
+.admin-panel .products .product .description {
+    height: 72px;
+    overflow: hidden;
+    margin-top: 5px;
+    font-family: Robto, sans-serif;
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: .1px;
+}
+
+.admin-panel .products .product .buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 25px;
+}
+
+.admin-panel .products .product .buttons .button {
+    padding: 10px 0;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 18px;
+    color: #FAFAFB;
+    width: 160px;
+    border-radius: 10px;
+    transition: 300ms;
+    border: none;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.admin-panel .products .product .buttons .button.edit {
+    background-color: #1E75FF;
+}
+
+.admin-panel .products .product .buttons .button.edit:hover {
+    background-color: #1C6FF2;
+}
+
+.admin-panel .products .product .buttons .button.delete {
+    background-color: #292932;
+}
+
+.admin-panel .products .product .buttons .button.delete:hover {
+    background-color: #1F1F26;
+}
+
 .admin-panel .edit-product {
     padding-top: 10px;
 }
@@ -7650,6 +7711,17 @@ button.disabled {
     border-radius: 5px;
     transition: 300ms;
     cursor: pointer;
+    position: relative;
+}
+
+.admin-panel .edit-product .editing-product-form .change-product .buttons .button .upload-files {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100%;
+    cursor: pointer;
+    opacity: 0;
 }
 
 .admin-panel .edit-product .editing-product-form .change-product .buttons .button:hover {

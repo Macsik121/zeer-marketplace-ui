@@ -30,54 +30,58 @@ class Product extends React.Component {
         await this.loadProduct();
     }
     async loadProduct() {
-        this.setState({ isRequestMaking: true });
+        if (this.props.product) {
+            this.setState({ product: this.props.product });
+        } else {
+            this.setState({ isRequestMaking: true });
 
-        const { title } = this.props.match.params;
-        const resultProduct = await fetchData(`
-            query getProduct($title: String!) {
-                getProduct(title: $title) {
-                    id
-                    title
-                    productFor
-                    logo
-                    changes {
-                        version
-                        created
+            const { title } = this.props.match.params;
+            const resultProduct = await fetchData(`
+                query getProduct($title: String!) {
+                    getProduct(title: $title) {
+                        id
+                        title
+                        productFor
+                        logo
+                        changes {
+                            version
+                            created
+                            description
+                        }
+                        imageURLdashboard
+                        workingTime
+                        reloading
+                        costPerDay
                         description
-                    }
-                    imageURLdashboard
-                    workingTime
-                    reloading
-                    costPerDay
-                    description
-                    locks
-                    timeBought
-                    peopleBought {
-                        name
-                        email
-                        avatar
-                    }
-                    characteristics {
-                        version
-                        osSupport
-                        cpuSupport
-                        gameMode
-                        developer
-                        supportedAntiCheats
+                        locks
+                        timeBought
+                        peopleBought {
+                            name
+                            email
+                            avatar
+                        }
+                        characteristics {
+                            version
+                            osSupport
+                            cpuSupport
+                            gameMode
+                            developer
+                            supportedAntiCheats
+                        }
                     }
                 }
-            }
-        `, { title });
-
-        const { getProduct } = resultProduct;
-
-        let { changes } = getProduct;
-
-        this.setState({
-            product: getProduct,
-            changes,
-            isRequestMaking: false
-        });
+            `, { title });
+    
+            const { getProduct } = resultProduct;
+    
+            let { changes } = getProduct;
+    
+            this.setState({
+                product: getProduct,
+                changes,
+                isRequestMaking: false
+            });
+        }
     }
     showAllChanges() {
         this.setState({ showAllChanges: !this.state.showAllChanges });
@@ -200,11 +204,14 @@ class Product extends React.Component {
                 createdDate = `${years} лет`
             }
         }
-        let productCost = (
-            <span className="cost">
-                {product.costPerDay && product.costPerDay} &#8381; / День
-            </span>
-        );
+        let productCost;
+        if (product.costPerDay) {
+            productCost = (
+                <span className="cost">
+                    {product.costPerDay && product.costPerDay} &#8381; / День
+                </span>
+            );    
+        }
         if (choosenDropdown) {
             if (choosenDropdown == 'Ежеквартально') {
                 productCost = <span className="cost">{product.costPerDay && product.costPerDay} &#8381; / День</span>;
@@ -215,14 +222,21 @@ class Product extends React.Component {
             }
         }
 
-        let generalInformation = [];
+        let generalInformation = [
+            { title: 'Работает', content: '' },
+            { title: 'Блокировок', content: '' },
+            { title: 'Обновляется', content: '' },
+            { title: 'Стоимость', content: '' }
+        ];
         if (product && Object.keys(product).length > 0) {
-            generalInformation = [
-                { title: 'Работает', content: product.workingTime },
-                { title: 'Блокировок', content: product.locks },
-                { title: 'Обновляется', content: product.reloading },
-                { title: 'Стоимость', content: `${product.costPerDay} ₽ / День` }
-            ]
+            generalInformation[0] = { title: 'Работает', content: product.workingTime };
+            generalInformation[1] = { title: 'Блокировок', content: product.locks };
+            generalInformation[2] = { title: 'Обновляется', content: product.reloading };
+            if (product.costPerDay)
+                generalInformation[3] = {
+                    title: 'Стоимость',
+                    content: `${product.costPerDay} ₽ / День`
+                }
         }
 
         const productInfo = (
@@ -457,7 +471,7 @@ class Product extends React.Component {
                     style={
                         {
                             opacity: isRequestMaking ? 0 : 1,
-                            pointerEvents: isRequestMaking ? 'none' : 'all',
+                            pointerEvents: isRequestMaking ? 'none' : this.props.isRequestMaking ? 'none' : 'all',
                             marginTop: this.props.hideh2 ? 0 : '30px',
                             ...this.props.style || ''
                         }

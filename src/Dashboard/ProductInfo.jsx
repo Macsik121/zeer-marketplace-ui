@@ -70,6 +70,11 @@ class ProductInfo extends React.Component {
                         hideCircularProgress={false}
                         hideh2={false}
                         isRequestMaking={isRequestMaking}
+                        style={
+                            {
+                                display: isRequestMaking ? 'none' : 'block'
+                            }
+                        }
                     />
                     <div className="popular-products">
                         <h2>Популярные продукты</h2>

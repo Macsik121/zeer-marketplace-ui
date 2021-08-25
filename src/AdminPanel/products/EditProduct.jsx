@@ -5,6 +5,7 @@ import Product from '../../Product.jsx';
 import { withRouter } from 'react-router';
 
 class EditProduct extends React.Component {
+    type = 'edit';
     constructor() {
         super();
         this.state = {
@@ -14,52 +15,62 @@ class EditProduct extends React.Component {
         this.handleProductChange = this.handleProductChange.bind(this);
         this.handleCharacteristicsChange = this.handleCharacteristicsChange.bind(this);
         this.updateProduct = this.updateProduct.bind(this);
+        this.handleUploadHeader = this.handleUploadHeader.bind(this);
     }
     async componentDidMount() {
-        this.setState({ isRequestMaking: true });
-        const { title } = this.props.match.params;
-
-        const result = await fetchData(`
-            query getProduct($title: String!) {
-                getProduct(title: $title) {
-                    id
-                    title
-                    productFor
-                    logo
-                    changes {
-                        version
-                        created
+        console.log(this.props.type);
+        if (Object.keys(this.props.match.params).length < 1) {
+            this.type = 'create';
+            this.setState({ isRequestMaking: false });
+        }
+        if (this.type == 'edit') {
+            this.setState({ isRequestMaking: true });
+            const { title } = this.props.match.params;
+    
+            const result = await fetchData(`
+                query getProduct($title: String!) {
+                    getProduct(title: $title) {
+                        id
+                        title
+                        productFor
+                        logo
+                        changes {
+                            version
+                            created
+                            description
+                        }
+                        imageURLdashboard
+                        workingTime
+                        reloading
+                        costPerDay
                         description
-                    }
-                    imageURLdashboard
-                    workingTime
-                    reloading
-                    costPerDay
-                    description
-                    locks
-                    timeBought
-                    peopleBought {
-                        name
-                        email
-                        avatar
-                    }
-                    characteristics {
-                        version
-                        osSupport
-                        cpuSupport
-                        gameMode
-                        developer
-                        supportedAntiCheats
+                        locks
+                        timeBought
+                        peopleBought {
+                            name
+                            email
+                            avatar
+                        }
+                        characteristics {
+                            version
+                            osSupport
+                            cpuSupport
+                            gameMode
+                            developer
+                            supportedAntiCheats
+                        }
                     }
                 }
-            }
-        `, { title });
-
-        this.setState({
-            isRequestMaking: false,
-            product: result.getProduct,
-            productCopy: result.getProduct
-        });
+            `, { title });
+    
+            this.setState({
+                isRequestMaking: false,
+                product: result.getProduct,
+                productCopy: result.getProduct
+            });
+        } else if (this.type == 'create') {
+            this.setState({ product: {} });
+        }
     }
     handleProductChange(e) {
         this.setState({
@@ -86,7 +97,6 @@ class EditProduct extends React.Component {
 
         const { product } = this.state;
         product.costPerDay = +product.costPerDay;
-        product.locks = +product.locks;
         const result = await fetchData(`
             mutation editProduct($product: ProductInput!) {
                 editProduct(product: $product) {
@@ -123,6 +133,20 @@ class EditProduct extends React.Component {
             product: result.editProduct
         });
     }
+    handleUploadHeader(e) {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            this.setState({
+                product: {
+                    ...this.state.product,
+                    imageURLdashboard: e.target.result
+                }
+            });
+        }.bind(this);
+
+        reader.readAsDataURL(file);
+    }
     render() {
         const {
             isRequestMaking,
@@ -139,7 +163,7 @@ class EditProduct extends React.Component {
                         }
                     }
                 />
-                <h2>Добавление продукта</h2>
+                <h2>Редактирование продукта</h2>
                 <div
                     className="editing-product-form"
                     style={
@@ -159,7 +183,7 @@ class EditProduct extends React.Component {
                         onSubmit={this.updateProduct}
                     >
                         <div className="field-wrap name-field">
-                            <label>Наименования продукта:</label>
+                            <label>Наименование продукта:</label>
                             <input
                                 className="product-name field"
                                 type="text"
@@ -169,7 +193,7 @@ class EditProduct extends React.Component {
                             />
                         </div>
                         <div className="field-wrap product-for-field">
-                            <label>Наименования продукта:</label>
+                            <label>Продукт для:</label>
                             <input
                                 className="product-for field"
                                 type="text"
@@ -189,8 +213,11 @@ class EditProduct extends React.Component {
                             />
                         </div>
                         <div className="buttons upload-files">
-                            <button className="button upload-header">Загрузить шапку</button>
-                            <button className="button upload-avatar">Загрузить аву</button>
+                            <button type="button" className="button upload-header">
+                                Загрузить шапку
+                                <input onChange={this.handleUploadHeader} type="file" className="upload-files" />
+                            </button>
+                            <button type="button" className="button upload-avatar">Загрузить аву</button>
                         </div>
                         <div className="field-wrap upper-block-field">
                             <label>Верхний блок:</label>
@@ -318,13 +345,21 @@ class EditProduct extends React.Component {
                             }
                         />
                         <div className="buttons">
-                            <button
-                                className="button save-changes"
-                                onClick={this.updateProduct}
-                            >
-                                Сохранить изменения
-                            </button>
-                            <button className="button off-the-product">Отключить продукт</button>
+                            {this.type == 'edit'
+                                ? (
+                                    <>
+                                        <button
+                                            className="button save-changes"
+                                            onClick={this.updateProduct}
+                                        >
+                                            Сохранить изменения
+                                        </button>
+                                        <button className="button off-the-product">Отключить продукт</button>
+                                    </>
+                                ) : (
+                                    <button className="button">Добавить</button>
+                                )
+                            }
                         </div>
                     </div>
                 </div>
