@@ -48,6 +48,7 @@ class Product extends React.Component {
                             created
                             description
                         }
+                        imageURL
                         imageURLdashboard
                         workingTime
                         reloading
@@ -57,7 +58,6 @@ class Product extends React.Component {
                         timeBought
                         peopleBought {
                             name
-                            email
                             avatar
                         }
                         characteristics {
@@ -232,20 +232,30 @@ class Product extends React.Component {
             generalInformation[0] = { title: 'Работает', content: product.workingTime };
             generalInformation[1] = { title: 'Блокировок', content: product.locks };
             generalInformation[2] = { title: 'Обновляется', content: product.reloading };
-            if (product.costPerDay)
+            if (product.costPerDay) {
                 generalInformation[3] = {
                     title: 'Стоимость',
                     content: `${product.costPerDay} ₽ / День`
                 }
+            }
         }
+
+        console.log(product.imageURLdashboard);
 
         const productInfo = (
             <div className="product-wrap">
-                <div className="cover" style={{ backgroundImage: `url(${product.imageURLdashboard})` }} />
+                <div
+                    className="cover"
+                    style={
+                        {
+                            backgroundImage: `url("${product.imageURLdashboard}")`
+                        }
+                    }
+                />
                 <div className="product">
                     <div className="container">
                         <div className="main">
-                            <div className="logo" style={{ backgroundImage: `url(${product.logo})` }} />
+                            <div className="logo" style={{ backgroundImage: `url("${product.logo}")` }} />
                             <div className="product-title">
                                 <h3 className="title">
                                     {product.title}{' | '}{product.productFor}

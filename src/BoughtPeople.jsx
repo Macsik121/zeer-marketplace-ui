@@ -38,7 +38,7 @@ export default function BoughtPeople({ people, renderPeopleLimit = 3 }) {
         <div className="bought-people">
             {people && people.length < 1
                 ? (
-                    <label style={{margin: 0}} className="nobody-bought">Этот товар ещё никто не купил</label>
+                    <label style={{ margin: 0 }} className="nobody-bought">Этот товар ещё никто не купил</label>
                 )
                 : (
                     <div className="bought-people-wrap">

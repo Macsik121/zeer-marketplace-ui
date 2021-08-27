@@ -222,7 +222,6 @@ class Dashboard extends React.Component {
                     peopleBought {
                         avatar
                         name
-                        email
                     }
                 }
             }
@@ -261,7 +260,6 @@ class Dashboard extends React.Component {
                     currentDate
                     peopleBought {
                         name
-                        email
                         avatar
                     }
                     characteristics {

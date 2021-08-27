@@ -152,6 +152,8 @@
     font-weight: 600;
     letter-spacing: .1px;
     line-height: 24px;
+    max-height: 24px;
+    overflow: hidden;
 }
 
 .popular-products-slider .popular-product .description {

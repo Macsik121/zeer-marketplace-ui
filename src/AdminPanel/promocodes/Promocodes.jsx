@@ -42,7 +42,6 @@ class CreatePromocode extends React.Component {
         name.blur();
         discountPercent.blur();
         activationsAmount.blur();
-        console.log(expirationDays)
 
         const generatedPromocode = generateString(10, false);
 

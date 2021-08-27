@@ -1,8 +1,9 @@
 import React from 'react';
 import { CircularProgress } from '@material-ui/core';
+import { withRouter } from 'react-router';
+import fetch from 'isomorphic-fetch';
 import fetchData from '../../fetchData';
 import Product from '../../Product.jsx';
-import { withRouter } from 'react-router';
 
 class EditProduct extends React.Component {
     type = 'edit';
@@ -10,23 +11,23 @@ class EditProduct extends React.Component {
         super();
         this.state = {
             product: {},
+            title: '',
             isRequestMaking: true
         };
         this.handleProductChange = this.handleProductChange.bind(this);
         this.handleCharacteristicsChange = this.handleCharacteristicsChange.bind(this);
         this.updateProduct = this.updateProduct.bind(this);
-        this.handleUploadHeader = this.handleUploadHeader.bind(this);
+        this.handleUploadFile = this.handleUploadFile.bind(this);
+        this.addProduct = this.addProduct.bind(this);
     }
     async componentDidMount() {
-        console.log(this.props.type);
         if (Object.keys(this.props.match.params).length < 1) {
             this.type = 'create';
             this.setState({ isRequestMaking: false });
-        }
-        if (this.type == 'edit') {
+        } else if (this.type == 'edit') {
             this.setState({ isRequestMaking: true });
             const { title } = this.props.match.params;
-    
+
             const result = await fetchData(`
                 query getProduct($title: String!) {
                     getProduct(title: $title) {
@@ -34,11 +35,7 @@ class EditProduct extends React.Component {
                         title
                         productFor
                         logo
-                        changes {
-                            version
-                            created
-                            description
-                        }
+                        imageURL
                         imageURLdashboard
                         workingTime
                         reloading
@@ -48,7 +45,6 @@ class EditProduct extends React.Component {
                         timeBought
                         peopleBought {
                             name
-                            email
                             avatar
                         }
                         characteristics {
@@ -62,17 +58,22 @@ class EditProduct extends React.Component {
                     }
                 }
             `, { title });
-    
+   
+            console.log(result.getProduct);
             this.setState({
                 isRequestMaking: false,
                 product: result.getProduct,
-                productCopy: result.getProduct
+                productCopy: result.getProduct,
+                title: result.getProduct.title
             });
         } else if (this.type == 'create') {
             this.setState({ product: {} });
         }
     }
     handleProductChange(e) {
+        if (e.target.name == 'title' && e.target.value.toLowerCase().includes('/')) {
+            return;
+        }
         this.setState({
             product: {
                 ...this.state.product,
@@ -95,20 +96,61 @@ class EditProduct extends React.Component {
         e.preventDefault();
         this.setState({ isRequestMaking: true });
 
-        const { product } = this.state;
+        const {
+            product,
+            title
+        } = this.state;
+
+        const form = document.forms.updateProduct;
+        const imageURLdashboard = form.imageURLdashboard;
+        const logo = form.logo;
+
         product.costPerDay = +product.costPerDay;
+        product.oldTitle = this.state.title;
+        product.newTitle = product.title;
+        delete product.title;
+        const fd = new FormData();
+
+        fd.append('imageURLdashboard', imageURLdashboard.files[0] ? imageURLdashboard.files[0] : '');
+        fd.append('logo', logo.files[0] ? logo.files[0] : '');
+
+        await fetch('http://localhost:8080/uploaded-images', {
+            method: 'POST',
+            body: fd
+        });
+
+        if (imageURLdashboard.files[0] && logo.files[0]) {
+            delete product.imageURLdashboard;
+            delete product.logo;
+            product.imageURLdashboard = '/upload-images/' + imageURLdashboard.files[0].name;
+            product.logo = '/upload-images/' + logo.files[0].name;
+        } else if (imageURLdashboard.files[0]) {
+            delete product.imageURLdashboard;
+            product.imageURLdashboard = '/upload-images/' + imageURLdashboard.files[0].name;
+        } else if (logo.files[0]) {
+            delete product.logo;
+            product.logo = '/upload-images/' + logo.files[0].name;
+        }
+
         const result = await fetchData(`
             mutation editProduct($product: ProductInput!) {
                 editProduct(product: $product) {
                     id
                     title
                     productFor
-                    costPerDay
+                    logo
                     imageURL
                     imageURLdashboard
-                    logo
-                    reloading
                     workingTime
+                    reloading
+                    costPerDay
+                    description
+                    locks
+                    timeBought
+                    peopleBought {
+                        name
+                        avatar
+                    }
                     characteristics {
                         version
                         osSupport
@@ -117,6 +159,80 @@ class EditProduct extends React.Component {
                         developer
                         supportedAntiCheats
                     }
+                }
+            }
+        `, { product });
+
+        this.setState({
+            isRequestMaking: false,
+            product: result.editProduct,
+            title: result.editProduct.title
+        });
+    }
+    async handleUploadFile(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            this.setState({
+                product: {
+                    ...this.state.product,
+                    [event.target.name]: e.target.result
+                },
+            });
+        }.bind(this);
+
+        reader.readAsDataURL(file);
+    }
+    async addProduct() {
+        this.setState({ isRequestMaking: true });
+        const { product } = this.state;
+        product.peopleBought = [];
+        product.changes = [];
+        product.costPerDay = +product.costPerDay;
+        const form = document.forms.updateProduct;
+        const imageURLdashboard = form.imageURLdashboard;
+        const logo = form.logo;
+
+        const fd = new FormData();
+
+        fd.append('imageURLdashboard', imageURLdashboard.files[0] ? imageURLdashboard.files[0] : '');
+        fd.append('logo', logo.files[0] ? logo.files[0] : '');
+
+        await fetch('http://localhost:8080/uploaded-images', {
+            method: 'POST',
+            body: fd
+        });
+
+        if (imageURLdashboard.files[0] && logo.files[0]) {
+            delete product.imageURLdashboard;
+            delete product.logo;
+            product.imageURLdashboard = '/upload-images/' + imageURLdashboard.files[0].name;
+            product.logo = '/upload-images/' + logo.files[0].name;
+        } else if (imageURLdashboard.files[0]) {
+            delete product.imageURLdashboard;
+            product.imageURLdashboard = '/upload-images/' + imageURLdashboard.files[0].name;
+        } else if (logo.files[0]) {
+            delete product.logo;
+            product.logo = '/upload-images/' + logo.files[0].name;
+        } else {
+            product.imageURLdashboard = '';
+            product.logo = '';
+        }
+
+        console.log(product);
+
+        const result = await fetchData(`
+            mutation createProduct($product: ProductInput!) {
+                createProduct(product: $product) {
+                    id
+                    title
+                    productFor
+                    logo
+                    imageURL
+                    imageURLdashboard
+                    workingTime
+                    reloading
+                    costPerDay
                     description
                     locks
                     timeBought
@@ -124,28 +240,23 @@ class EditProduct extends React.Component {
                         name
                         avatar
                     }
+                    characteristics {
+                        version
+                        osSupport
+                        cpuSupport
+                        gameMode
+                        developer
+                        supportedAntiCheats
+                    }
                 }
             }
         `, { product });
 
         this.setState({
-            isRequestMaking: false,
-            product: result.editProduct
+            product: result.createProduct,
+            title: result.createProduct.title,
+            isRequestMaking: false
         });
-    }
-    handleUploadHeader(e) {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            this.setState({
-                product: {
-                    ...this.state.product,
-                    imageURLdashboard: e.target.result
-                }
-            });
-        }.bind(this);
-
-        reader.readAsDataURL(file);
     }
     render() {
         const {
@@ -180,6 +291,7 @@ class EditProduct extends React.Component {
                                 pointerEvents: isRequestMaking ? 'none' : 'all'
                             }
                         }
+                        name="updateProduct"
                         onSubmit={this.updateProduct}
                     >
                         <div className="field-wrap name-field">
@@ -215,9 +327,22 @@ class EditProduct extends React.Component {
                         <div className="buttons upload-files">
                             <button type="button" className="button upload-header">
                                 Загрузить шапку
-                                <input onChange={this.handleUploadHeader} type="file" className="upload-files" />
+                                <input
+                                    onChange={this.handleUploadFile}
+                                    type="file"
+                                    className="upload-files"
+                                    name="imageURLdashboard"
+                                />
                             </button>
-                            <button type="button" className="button upload-avatar">Загрузить аву</button>
+                            <button type="button" className="button upload-avatar">
+                                Загрузить аву
+                                <input
+                                    type="file"
+                                    name="logo"
+                                    className="upload-files"
+                                    onChange={this.handleUploadFile}
+                                />
+                            </button>
                         </div>
                         <div className="field-wrap upper-block-field">
                             <label>Верхний блок:</label>
@@ -351,13 +476,19 @@ class EditProduct extends React.Component {
                                         <button
                                             className="button save-changes"
                                             onClick={this.updateProduct}
+                                            type="submit"
                                         >
                                             Сохранить изменения
                                         </button>
                                         <button className="button off-the-product">Отключить продукт</button>
                                     </>
                                 ) : (
-                                    <button className="button">Добавить</button>
+                                    <button
+                                        className="button add-product"
+                                        onClick={this.addProduct}
+                                    >
+                                        Добавить
+                                    </button>
                                 )
                             }
                         </div>

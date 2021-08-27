@@ -40,7 +40,6 @@ async function fetchPopularProducts(isMounted) {
                 imageURLdashboard
                 peopleBought {
                     name
-                    email
                     avatar
                 }
                 characteristics {
