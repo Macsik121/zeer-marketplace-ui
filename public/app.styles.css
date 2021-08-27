@@ -7658,9 +7658,6 @@ button.disabled {
     display: flex;
     flex-direction: column;
     margin-top: 20px;
-}
-
-.admin-panel .edit-product .editing-product-form .change-product .field-wrap label {
     font-weight: 500;
     font-size: 20px;
     line-height: 36px;
@@ -7673,6 +7670,10 @@ button.disabled {
     color: #1C1C24;
     padding-left: 10px;
     width: 100%;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 36px;
+    letter-spacing: .1px;
 }
 
 .admin-panel .edit-product .editing-product-form .change-product .field-wrap.description-field {
