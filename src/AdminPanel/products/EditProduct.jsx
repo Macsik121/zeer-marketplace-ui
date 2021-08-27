@@ -474,7 +474,14 @@ class EditProduct extends React.Component {
                                 }
                             }
                         />
-                        <div className="buttons">
+                        <div
+                            className="buttons"
+                            style={
+                                {
+                                    pointerEvents: isRequestMaking ? 'none' : 'all'
+                                }
+                            }
+                        >
                             {this.type == 'edit'
                                 ? (
                                     <>
