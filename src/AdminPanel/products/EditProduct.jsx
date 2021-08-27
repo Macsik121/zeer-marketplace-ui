@@ -63,8 +63,7 @@ class EditProduct extends React.Component {
                     }
                 }
             `, { title });
-   
-            console.log(result.getProduct);
+            
             this.setState({
                 isRequestMaking: false,
                 product: result.getProduct,
@@ -193,6 +192,16 @@ class EditProduct extends React.Component {
         const { product } = this.state;
         product.peopleBought = [];
         product.changes = [];
+        product.promocodes = {
+            all: [],
+            active: [],
+            unactive: []
+        };
+        product.keys = {
+            all: [],
+            active: [],
+            unactive: []
+        };
         product.costPerDay = +product.costPerDay;
         const form = document.forms.updateProduct;
         const imageURLdashboard = form.imageURLdashboard;
@@ -223,8 +232,6 @@ class EditProduct extends React.Component {
             product.imageURLdashboard = '';
             product.logo = '';
         }
-
-        console.log(product);
 
         const result = await fetchData(`
             mutation createProduct($product: ProductInput!) {

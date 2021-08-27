@@ -217,7 +217,13 @@ export default class Products extends React.Component {
                             onChange={this.searchProducts}
                         />
                     </div>
-                    <Link onClick={() => this.props.setEditType('create')} to="/admin/products/add-product">Добавить продукт</Link>
+                    <Link
+                        className="add-product-link"
+                        onClick={() => this.props.setEditType('create')}
+                        to="/admin/products/add-product"
+                    >
+                        Добавить продукт
+                    </Link>
                 </div>
                 <h2
                     style={

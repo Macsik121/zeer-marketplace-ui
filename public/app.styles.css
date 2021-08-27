@@ -7534,6 +7534,26 @@ button.disabled {
     position: relative;
 }
 
+.admin-panel .products .search-bar .add-product-link {
+    margin-left: 25px;
+    background-color: #FF00006E;
+    padding: 10px 0;
+    font-size: 12px;
+    line-height: 18px;
+    text-decoration: none;
+    color: #fff;
+    transition: 300ms;
+    font-weight: 600;
+    width: 180px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.admin-panel .products .search-bar .add-product-link:hover {
+    background-color: #92191978;
+}
+
 .admin-panel .products .product .cover {
     width: 330px;
     border-radius: 10px;

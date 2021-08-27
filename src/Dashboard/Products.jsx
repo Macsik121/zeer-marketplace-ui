@@ -4,6 +4,19 @@ import { CircularProgress } from '@material-ui/core';
 import BoughtPeople from '../BoughtPeople.jsx';
 
 export default class Products extends React.Component {
+    componentDidUpdate() {
+        if (this.props.products.length > 0) {
+            const products = document.getElementById('products');
+            const images = products.querySelectorAll('.cover')
+            console.log(images);
+            images.forEach(image => {
+                if (image.complete && image.naturalHeight != 0 && image.naturalWidth != 0) {
+                    image.style.filter = 'blur(0px)';
+                }
+                console.log(image.complete);
+            });
+        }
+    }
     render() {
         const { buyProduct, isRequestMaking } = this.props;
         let style = {};
@@ -39,7 +52,7 @@ export default class Products extends React.Component {
             )
         });
         return (
-            <div className="products">
+            <div id="products" className="products">
                 <CircularProgress
                     style={
                         isRequestMaking

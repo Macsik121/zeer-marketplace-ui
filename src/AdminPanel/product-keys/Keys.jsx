@@ -20,21 +20,26 @@ class CreateKey extends React.Component {
         const form = document.forms.createKey;
         const name = form.nameKey;
         const daysAmount = form.amountDays;
-        const keysToAddAmount = form.amountActivations;
-        const activationsAmount = form.amountKeys;
+        const activationsAmount = form.amountActivations;
+        const keysToAddAmount = form.amountKeys;
         
         name.blur();
         daysAmount.blur();
         keysToAddAmount.blur();
         activationsAmount.blur();
 
-        const generatedKeyName = generateString(10, true, 5);
+        const generatedKeyNames = [];
+        for (let i = 0; i < +keysToAddAmount.value; i++) {
+            const generatedName = generateString(10, true, 5);
+            generatedKeyNames.push(generatedName);
+        }
 
         const user = jwtDecode(localStorage.getItem('token'));
+        console.log(generatedKeyNames);
 
         const vars = {
             key: {
-                name: name.value == '' ? generatedKeyName : name.value,
+                name: generatedKeyNames.length > 0 ? generatedKeyNames : [''],
                 daysAmount: +daysAmount.value,
                 keysToAddAmount: +keysToAddAmount.value,
                 activationsAmount: +activationsAmount.value
@@ -48,17 +53,8 @@ class CreateKey extends React.Component {
         }
 
         const result = await fetchData(`
-            mutation createKey($key: KeyInput!, $title: String!, $navigator: NavigatorInput, $username: String!) {
-                createKey(key: $key, title: $title, navigator: $navigator, username: $username) {
-                    key {
-                        name
-                        expiredInDays
-                        activationsAmount
-                        keysAmount
-                    }
-                    message
-                }
-            }
+            mutation createKeys($key: KeyInput!, $title: String!, $navigator: NavigatorInput, $username: String!) {
+                createKeys(key: $key, title: $title, navigator: $navigator, username: $username)            }
         `, vars);
 
         this.props.getProducts();

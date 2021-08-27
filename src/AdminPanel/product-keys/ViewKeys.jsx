@@ -145,21 +145,21 @@ class ViewKeys extends React.Component {
                             name
                             expiredInDays
                             activationsAmount
-                            keysAmount
+                            usedAmount
                             isUsed
                         }
                         active {
                             name
                             expiredInDays
                             activationsAmount
-                            keysAmount
+                            usedAmount
                             isUsed
                         }
                         unactive {
                             name
                             expiredInDays
                             activationsAmount
-                            keysAmount
+                            usedAmount
                             isUsed
                         }
                     }
@@ -236,7 +236,7 @@ class ViewKeys extends React.Component {
                 <div key={key.name} className="key">
                     <div className="name">{key.name}</div>
                     <div className="days-amount">{key.expiredInDays}</div>
-                    <div className="activations">{key.activationsAmount}/{key.keysAmount}</div>
+                    <div className="activations">{key.usedAmount}/{key.activationsAmount}</div>
                     <div className="is-used">{key.isUsed ? 'Да' : 'Нет'}</div>
                     <div className="action">
                         <button
