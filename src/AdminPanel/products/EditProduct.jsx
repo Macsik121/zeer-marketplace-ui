@@ -5,6 +5,11 @@ import fetch from 'isomorphic-fetch';
 import fetchData from '../../fetchData';
 import Product from '../../Product.jsx';
 
+const serverEndpoint = (
+    'https://zeer-marketplace-api-macsik121.herokuapp.com/graphql' ||
+    'http://localhost:3000/graphql'
+);
+
 class EditProduct extends React.Component {
     type = 'edit';
     constructor() {
@@ -114,7 +119,7 @@ class EditProduct extends React.Component {
         fd.append('imageURLdashboard', imageURLdashboard.files[0] ? imageURLdashboard.files[0] : '');
         fd.append('logo', logo.files[0] ? logo.files[0] : '');
 
-        await fetch('http://localhost:8080/uploaded-images', {
+        await fetch('/uploaded-images', {
             method: 'POST',
             body: fd
         });
@@ -198,7 +203,7 @@ class EditProduct extends React.Component {
         fd.append('imageURLdashboard', imageURLdashboard.files[0] ? imageURLdashboard.files[0] : '');
         fd.append('logo', logo.files[0] ? logo.files[0] : '');
 
-        await fetch('http://localhost:8080/uploaded-images', {
+        await fetch('/uploaded-images', {
             method: 'POST',
             body: fd
         });
