@@ -12,10 +12,17 @@ class CreatePromocode extends React.Component {
         this.state = {
             isRequestMaking: false,
             errorMessage: '.',
-            errorShown: false
+            errorShown: false,
+            scrollTo: 0
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.showError = this.showError.bind(this);
+    }
+    componentDidUpdate(_, prevState) {
+        const { scrollTop } = document.documentElement;
+        if (prevState.scrollTo != scrollTop) {
+            this.setState({ scrollTo: scrollTop });
+        }
     }
     showError(errorMessage) {
         this.setState({
@@ -107,7 +114,8 @@ class CreatePromocode extends React.Component {
         
         const {
             isRequestMaking,
-            errorShown
+            errorShown,
+            scrollTo
         } = this.state;
 
         const style = {...this.props.style};
@@ -116,7 +124,10 @@ class CreatePromocode extends React.Component {
         return (
             <div
                 className="create-promo-modal"
-                style={style}
+                style={{
+                    ...style,
+                    top: scrollTo + 250
+                }}
             >
                 <form
                     name="createPromocode"

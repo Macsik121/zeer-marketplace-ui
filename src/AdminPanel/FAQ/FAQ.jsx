@@ -8,9 +8,16 @@ class ConfirmDeleteSortModal extends React.Component {
     constructor() {
         super();
         this.state = {
-            isRequestMaking: false
+            isRequestMaking: false,
+            scrollTo: 0
         };
         this.handleDeleteSort = this.handleDeleteSort.bind(this);
+    }
+    componentDidUpdate(_, prevState) {
+        const { scrollTop } = document.documentElement;
+        if (prevState.scrollTo != scrollTop) {
+            this.setState({ scrollTo: scrollTop });
+        }
     }
     async handleDeleteSort() {
         this.setState({ isRequestMaking: true });
@@ -29,11 +36,14 @@ class ConfirmDeleteSortModal extends React.Component {
             sortToDelete,
             style
         } = this.props;
-        const { isRequestMaking } = this.state;
+        const { isRequestMaking, scrollTo } = this.state;
 
         return (
             <div
-                style={style}
+                style={{
+                    ...style,
+                    top: scrollTo + 150
+                }}
                 className="confirm-action"
             >
                 <div className="heading">
@@ -83,10 +93,17 @@ class CreateSort extends React.Component {
         super();
         this.state = {
             isRequestMaking: false,
-            answerTitleValue: ''
+            answerTitleValue: '',
+            scrollTo: 0
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleAnswerTitleChange = this.handleAnswerTitleChange.bind(this);
+    }
+    componentDidUpdate(_, prevState) {
+        const { scrollTop } = document.documentElement;
+        if (prevState.scrollTo != scrollTop) {
+            this.setState({ scrollTo: scrollTop });
+        }
     }
     async handleSubmit(e) {
         e.preventDefault();
@@ -125,7 +142,7 @@ class CreateSort extends React.Component {
     }
     render() {
         const { createSortShown } = this.props;
-        const { isRequestMaking } = this.state;
+        const { isRequestMaking, scrollTo } = this.state;
 
         return (
             <div
@@ -134,7 +151,7 @@ class CreateSort extends React.Component {
                     {
                         opacity: createSortShown ? 1 : 0,
                         transform: `translateY(${createSortShown ? 0 : '-150%'})`,
-                        top: createSortShown ? '30px' : 0,
+                        top: createSortShown ? `${30 + scrollTo}px` : 0,
                         pointerEvents: createSortShown ? 'all' : 'none',
                         pointerEvents: isRequestMaking ? 'none' : 'all'
                     }

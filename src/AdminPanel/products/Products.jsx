@@ -9,9 +9,16 @@ class ConfirmDeleteProduct extends React.Component {
     constructor() {
         super();
         this.state = {
-            isRequestMaking: false
+            isRequestMaking: false,
+            scrollTo: 0
         };
         this.deleteProduct = this.deleteProduct.bind(this);
+    }
+    componentDidUpdate(_, prevState) {
+        const { scrollTop } = document.documentElement;
+        if (prevState.scrollTo != scrollTop) {
+            this.setState({ scrollTo: scrollTop });
+        }
     }
     async deleteProduct() {
         this.setState({ isRequestMaking: true });
@@ -37,13 +44,16 @@ class ConfirmDeleteProduct extends React.Component {
             style
         } = this.props;
 
+        const { scrollTo } = this.state;
+
         return (
             <div
                 className="confirm-action"
                 style={
                     {
                         ...style,
-                        pointerEvents: this.state.isRequestMaking ? 'none' : 'all'
+                        pointerEvents: this.state.isRequestMaking ? 'none' : 'all',
+                        top: scrollTo + 350
                     }
                 }
             >

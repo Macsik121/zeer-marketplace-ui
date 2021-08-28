@@ -8163,7 +8163,6 @@ button.disabled {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 2px 0;
 }
 
 .admin-panel .product-news .news-wrap .table .changes .change .action .button {
@@ -8191,6 +8190,15 @@ button.disabled {
     height: 424px;
     margin-top: 195px;
     margin-left: 30px;
+}
+
+@media (max-width: 1500px) {
+    .admin-panel .product-news .news-wrap {
+        flex-direction: column;
+    }
+    .admin-panel .product-news .news-wrap .product {
+        margin: 195px auto 0;
+    }
 }
 
 .admin-panel .product-news .news-wrap .product .cover {

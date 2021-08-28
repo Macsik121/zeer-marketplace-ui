@@ -9,9 +9,16 @@ class CreateKey extends React.Component {
     constructor() {
         super();
         this.state = {
-            isRequestMaking: false
+            isRequestMaking: false,
+            scrollTo: 0
         };
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    componentDidUpdate(_, prevState) {
+        const { scrollTop } = document.documentElement;
+        if (prevState.scrollTo != scrollTop) {
+            this.setState({ scrollTo: scrollTop });
+        }
     }
     async handleSubmit(e) {
         this.setState({ isRequestMaking: true });
@@ -35,7 +42,6 @@ class CreateKey extends React.Component {
         }
 
         const user = jwtDecode(localStorage.getItem('token'));
-        console.log(generatedKeyNames);
 
         const vars = {
             key: {
@@ -70,10 +76,15 @@ class CreateKey extends React.Component {
             title
         } = this.props;
 
+        const { scrollTo } = this.state;
+
         return (
             <div
                 className="create-product-key-modal"
-                style={style}
+                style={{
+                    ...style,
+                    top: scrollTo + 150
+                }}
             >
                 <form
                     name="createKey"
