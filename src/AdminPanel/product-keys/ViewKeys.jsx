@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, NavLink } from 'react-router-dom';
 import { CircularProgress } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import jwtDecode from 'jwt-decode';
@@ -176,10 +176,10 @@ class ViewKeys extends React.Component {
     searchKeys(e) {
         const searchValue = e.target.value;
 
-        const { product, productCopy } = this.state;
-        const { all } = product.keys;
+        const { productCopy } = this.state;
 
         const allProductsToRender = [];
+        console.log(productCopy.length);
         productCopy.keys.all.map(key => {
             if (key.name.toLowerCase().includes(searchValue.toLowerCase())) {
                 allProductsToRender.push(key);
@@ -217,7 +217,7 @@ class ViewKeys extends React.Component {
             isRequestMaking,
             isDeleteKeyShown
         } = this.state;
-        
+
         const product = {...productCopy}
 
         const all = product.keys && product.keys.all ? product.keys.all : [];
@@ -231,26 +231,47 @@ class ViewKeys extends React.Component {
             }
         });
 
-        const productKeys = this.state.product.keys && this.state.product.keys.all.map(key => {
-            return (
-                <div key={key.name} className="key">
-                    <div className="name">{key.name}</div>
-                    <div className="days-amount">{key.expiredInDays}</div>
-                    <div className="activations">{key.usedAmount}/{key.activationsAmount}</div>
-                    <div className="is-used">{key.isUsed ? 'Да' : 'Нет'}</div>
-                    <div className="action">
-                        <button
-                            className="delete"
-                            onClick={() => {
-                                this.showDeleteKeyModal();
-                                this.setState({ keyToDelete: key });
-                            }}
-                        >
-                            Удалить
-                        </button>
+        const { page } = this.props.match.params;
+
+        const productKeys = this.state.product.keys && this.state.product.keys.all.map((key, i) => {
+            const renderingLimit = 15 * page;
+            let limitFrom = renderingLimit - 15;
+            if (i < renderingLimit && i >= limitFrom) {
+                return (
+                    <div key={key.name} className="key">
+                        <div className="name">{key.name}</div>
+                        <div className="days-amount">{key.expiredInDays}</div>
+                        <div className="activations">{key.usedAmount}/{key.activationsAmount}</div>
+                        <div className="is-used">{key.isUsed ? 'Да' : 'Нет'}</div>
+                        <div className="action">
+                            <button
+                                className="delete"
+                                onClick={() => {
+                                    this.showDeleteKeyModal();
+                                    this.setState({ keyToDelete: key });
+                                }}
+                            >
+                                Удалить
+                            </button>
+                        </div>
                     </div>
-                </div>
-            )
+                )
+            }
+        });
+
+        const pages = productKeys && productKeys.map((_, i) => {
+            productKeys.length > 6;
+            if (i % 15 == 0) {
+                return (
+                    <NavLink
+                        className="page-link"
+                        to={`/admin/keys/${product.title}/${i / 15 + 1}`}
+                        key={i}
+                    >
+                        {i / 15 + 1}
+                    </NavLink>
+                )
+            }
         });
 
         return (
@@ -329,6 +350,9 @@ class ViewKeys extends React.Component {
                             </div>
                             <div className="keys-of-product">
                                 {productKeys}
+                                <div className="pages">
+                                    {pages}
+                                </div>
                             </div>
                         </div>
                         <div

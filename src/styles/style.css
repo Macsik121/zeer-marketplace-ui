@@ -4334,12 +4334,12 @@ button.disabled {
     background-color: #92191978;
 }
 
-.admin-panel .users .users-list .all-users .pages {
+.admin-panel .pages {
     display: flex;
     padding: 10px;
 }
 
-.admin-panel .users .users-list .all-users .pages .page-link {
+.admin-panel .pages .page-link {
     font-weight: 500;
     font-size: 18px;
     letter-spacing: .1px;
@@ -4355,8 +4355,12 @@ button.disabled {
     border-radius: 5px;
 }
 
-.admin-panel .users .users-list .all-users .pages .page-link + .page-link {
+.admin-panel .pages .page-link + .page-link {
     margin-left: 7px;
+}
+
+.admin-panel .pages .page-link.active {
+    background-color: #92191978;
 }
 
 .admin-panel .edit-user {

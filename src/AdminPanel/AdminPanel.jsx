@@ -259,7 +259,7 @@ class AdminPanel extends React.Component {
                                 )}
                             />
                             <Route
-                                path="/admin/keys/:title"
+                                path="/admin/keys/:title/:page"
                                 render={() => (
                                     <ViewKeys
                                         renderSearchBar={this.renderSearchBar}

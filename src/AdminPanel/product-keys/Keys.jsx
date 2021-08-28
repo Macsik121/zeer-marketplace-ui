@@ -254,6 +254,7 @@ export default class Keys extends React.Component {
                     unactive.push(key);
                 }
             });
+
             return (
                 <div className="product" key={product.title}>
                     <img className="cover" src={product.imageURLdashboard} />
@@ -283,7 +284,7 @@ export default class Keys extends React.Component {
                             Создать ключ
                         </button>
                         <Link
-                            to={`/admin/keys/${product.title}`}
+                            to={`/admin/keys/${product.title}/1`}
                             className="watch-keys button"
                         >
                             Просмотр ключей
