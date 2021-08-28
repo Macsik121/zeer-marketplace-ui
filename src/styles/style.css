@@ -819,6 +819,7 @@ button.disabled {
 
 .dashboard .progress-bar {
     top: 150px;
+    z-index: 1;
 }
 
 .dashboard .nav {
@@ -1677,6 +1678,7 @@ button.disabled {
     color: #FAFAFB;
     max-height: 24px;
     overflow: hidden;
+    word-break: break-all;
 }
 
 .dashboard .main .products .product .description {
@@ -1753,6 +1755,7 @@ button.disabled {
 
 .info .general .product-wrap {
     position: relative;
+    transition: 300ms;
 }
 
 .info .general {
@@ -1953,6 +1956,7 @@ button.disabled {
     margin-top: 23px;
     width: 100%;
     min-height: 24px;
+    width: 330px;
 }
 
 .bought-people .nobody-bought {
@@ -2190,6 +2194,10 @@ button.disabled {
     position: relative;
 }
 
+.info .changes-log {
+    transition: 300ms;
+}
+
 .info .changes {
     background-color: #1C1C24;
     margin-top: 30px;
@@ -2327,6 +2335,7 @@ button.disabled {
     width: 100%;
     max-height: 24px;
     overflow: hidden;
+    word-break: break-all;
 }
 
 .dashboard .main .product-info .popular-products .popular-product .description {
@@ -2996,6 +3005,7 @@ button.disabled {
     font-size: 18px;
     font-weight: 600;
     cursor: text;
+    word-break: break-word;
 }
 
 .dashboard .main .FAQ .answers .answer .answer-rate {
@@ -4476,11 +4486,11 @@ button.disabled {
 
 .admin-panel .keys .products {
     display: flex;
-    justify-content: space-between;
     flex-wrap: wrap;
     transition: 300ms;
     margin: 0 auto;
     max-width: 1170px;
+    padding-bottom: 60px;
 }
 
 @media (max-width: 1400px) and (min-width: 1131px) {
@@ -4514,6 +4524,15 @@ button.disabled {
     background-color: #1C1C24;
     position: relative;
     border-radius: 10px;
+    margin-left: 30px;
+}
+
+.admin-panel .keys .products .product:first-of-type {
+    margin-left: 0;
+}
+
+.admin-panel .keys .products .product:nth-of-type(3n + 4) {
+    margin-left: 0;
 }
 
 .admin-panel .keys .products .product .cover {
@@ -4605,7 +4624,7 @@ button.disabled {
     display: flex;
     justify-content: center;
     transition: 350ms;
-    z-index: 2;
+    z-index: 3;
     display: flex;
     flex-direction: column;
 }
@@ -4869,10 +4888,9 @@ button.disabled {
 .admin-panel .promocodes .promocodes-wrap {
     transition: 300ms;
     display: flex;
-    justify-content: space-between;
     max-width: 1170px;
     flex-wrap: wrap;
-    padding: 0 0 30px;
+    padding: 0 0 60px;
     margin: 0 auto;
 }
 
@@ -4891,6 +4909,15 @@ button.disabled {
     position: relative;
     margin-top: 210px;
     border-radius: 10px;
+    margin-left: 30px;
+}
+
+.admin-panel .promocodes .promocodes-wrap .promocode:first-of-type {
+    margin-left: 0;
+}
+
+.admin-panel .promocodes .promocodes-wrap .promocode:nth-of-type(3n + 4) {
+    margin-left: 0;
 }
 
 @media (max-width: 1400px) {
@@ -5485,6 +5512,9 @@ button.disabled {
     color: #FAFAFB;
     text-align: center;
     margin-top: 30px;
+    padding: 0 10px;
+    max-width: 270px;
+    word-break: break-all;
 }
 
 .admin-panel .FAQ .sorts-wrap .answer .decisions-amount {
@@ -5710,6 +5740,7 @@ button.disabled {
 
 .admin-panel .view-answers .view-answers-wrap .sort {
     min-width: 270px;
+    max-width: 270px;
     height: 300px;
     display: flex;
     align-items: center;
@@ -5733,6 +5764,9 @@ button.disabled {
     font-size: 18px;
     line-height: 27px;
     text-align: center;
+    max-width: 270px;
+    padding: 0 10px;
+    word-break: break-all;
 }
 
 .admin-panel .view-answers .view-answers-wrap .sort .decisions-amount {
@@ -5911,11 +5945,12 @@ button.disabled {
     height: 31px;
     border: none;
     padding-left: 10px;
+    resize: none;
 }
 
 .admin-panel .view-answers .create-answer-modal .add-answer .field-wrap textarea {
     scrollbar-color: auto;
-    padding-top: 10px;
+    padding: 10px;
 }
 
 .admin-panel .view-answers .create-answer-modal .add-answer .field-wrap textarea::-webkit-scrollbar {
@@ -6507,7 +6542,6 @@ button.disabled {
     margin-top: 55px;
     max-width: 1170px;
     display: flex;
-    justify-content: space-between;
     flex-wrap: wrap;
     margin: 0 auto;
     padding-bottom: 60px;
@@ -6533,6 +6567,15 @@ button.disabled {
     padding: 165px 20px 20px;
     border-radius: 10px;
     position: relative;
+    margin-left: 30px;
+}
+
+.admin-panel .products .product:first-of-type {
+    margin-left: 0;
+}
+
+.admin-panel .products .product:nth-of-type(3n + 4) {
+    margin-left: 0;
 }
 
 .admin-panel .products .search-bar .add-product-link {
@@ -6576,6 +6619,7 @@ button.disabled {
     line-height: 24px;
     font-weight: 600;
     letter-spacing: .1px;
+    word-break: break-all;
 }
 
 .admin-panel .products .product .description {
@@ -6815,4 +6859,391 @@ button.disabled {
 
 .admin-panel .edit-product .editing-product-form .product-wrap .buttons .button.add-product:hover {
     background-color: rgb(0, 133, 255, .5);
+}
+
+.admin-panel .news {
+    padding-top: 10px;
+    position: relative;
+}
+
+.admin-panel .news h2 {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    letter-spacing: .1px;
+    text-align: center;
+}
+
+.admin-panel .news .products-wrap {
+    transition: 300ms;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    max-width: 1170px;
+    padding-bottom: 60px;
+}
+
+.admin-panel .news .products-wrap .product {
+    background-color: #1C1C24;
+    border-radius: 10px;
+    width: 370px;
+    height: 424px;
+    position: relative;
+    margin-top: 210px;
+    margin-left: 30px;
+    padding: 180px 20px 20px;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.admin-panel .news .products-wrap .product:nth-of-type(3n + 4) {
+    margin-left: 0;
+}
+
+.admin-panel .news .products-wrap .product:first-of-type {
+    margin-left: 0;
+}
+
+.admin-panel .news .products-wrap .product .cover {
+    width: 330px;
+    height: 330px;
+    border-radius: 10px;
+    border: 3px solid #44444F;
+    position: absolute;
+    top: -165px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+}
+
+.admin-panel .news .products-wrap .product .product-title {
+    display: flex;
+    justify-content: center;
+    max-height: 24px;
+    max-width: 330px;
+    overflow: hidden;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: .1px;
+}
+
+.admin-panel .news .products-wrap .product .content-wrap {
+    height: 172px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.admin-panel .news .products-wrap .product .buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.admin-panel .news .products-wrap .product .buttons .button {
+    width: 160px;
+    padding: 10px 0;
+    border-radius: 10px;
+    border: none;
+    color: #FAFAFB;
+    font-size: 12px;
+    line-height: 18px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 300ms;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+}
+
+.admin-panel .news .products-wrap .product .buttons .button.create-news {
+    background-color: #1E75FF;
+}
+
+.admin-panel .news .products-wrap .product .buttons .button.create-news:hover {
+    background-color: #1C6FF2;
+}
+
+.admin-panel .news .products-wrap .product .buttons .button.view-news {
+    background-color: #292932;
+}
+
+.admin-panel .news .products-wrap .product .buttons .button.view-news:hover {
+    background-color: #1F1F26;
+}
+
+.admin-panel .news .create-news-modal {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    z-index: 2;
+    transition: 300ms;
+    top: 30px;
+    left: 0;
+    right: 0;
+}
+
+.admin-panel .news .create-news-modal .create-news-form {
+    background-color: #1C1C24;
+    border-radius: 10px;
+    width: 425px;
+    padding: 20px 25px;
+}
+
+.admin-panel .news .create-news-modal .field-wrap {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+.admin-panel .news .create-news-modal .field-wrap label {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 36px;
+    letter-spacing: .1px;
+    text-align: center;
+}
+
+.admin-panel .news .create-news-modal .field-wrap .field {
+    border-radius: 8px;
+    border: none;
+    color: #1C1C24;
+    padding: 7px 15px;
+}
+
+.admin-panel .news .create-news-modal .field-wrap .news-description {
+    height: 200px;
+    resize: none;
+    padding: 15px;
+}
+
+.admin-panel .news .create-news-modal .save-news {
+    width: 100%;
+    background-color: #FF00006E;
+    border: none;
+    border-radius: 5px;
+    transition: 300ms;
+    cursor: pointer;
+    height: 30px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 36px;
+    letter-spacing: .1px;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.admin-panel .news .create-news-modal .save-news:hover {
+    background-color: #92191978;
+}
+
+.admin-panel .product-news {
+    padding: 10px 0 60px;
+}
+
+.admin-panel .product-news h2 {
+    opacity: 0;
+    transition: 300ms;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    letter-spacing: .1px;
+    text-align: center;
+}
+
+.admin-panel .product-news .news-wrap {
+    transition: 300ms;
+    display: flex;
+    padding: 0 30px;
+}
+
+.admin-panel .product-news .news-wrap .table {
+    width: 100%;
+    font-size: 18px;
+    line-height: 27px;
+    color: #fff;
+    margin-top: 30px;
+    word-break: break-word;
+}
+
+.admin-panel .product-news .news-wrap .table .heading {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.admin-panel .product-news .news-wrap .table .heading div {
+    display: flex;
+    justify-content: center;
+}
+
+.admin-panel .product-news .news-wrap .table .heading .description {
+    width: 350px;
+}
+
+.admin-panel .product-news .news-wrap .table .heading .version {
+    width: 70px;
+}
+
+.admin-panel .product-news .news-wrap .table .heading .date {
+    width: 110px;
+}
+
+.admin-panel .product-news .news-wrap .table .heading .action {
+    width: 140px;
+}
+
+.admin-panel .product-news .news-wrap .table .changes {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-panel .product-news .news-wrap .table .changes .change {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.admin-panel .product-news .news-wrap .table .changes .change:nth-of-type(2n + 1) {
+    background-color: #1C1C24;
+}
+
+.admin-panel .product-news .news-wrap .table .changes .change div {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    pointer-events: none;
+    user-select: none;
+}
+
+.admin-panel .product-news .news-wrap .table .changes .change .description {
+    width: 350px;
+    max-height: 27px;
+    overflow: hidden;
+}
+
+.admin-panel .product-news .news-wrap .table .changes .change .description.active {
+    overflow: visible;
+    max-height: 100%;
+}
+
+.admin-panel .product-news .news-wrap .table .changes .change .version {
+    width: 70px;
+}
+
+.admin-panel .product-news .news-wrap .table .changes .change .date {
+    width: 110px;
+}
+
+.admin-panel .product-news .news-wrap .table .changes .change .action {
+    width: 140px;
+    pointer-events: all;
+}
+
+.admin-panel .product-news .news-wrap .table .changes .change .action .button {
+    transition: 300ms;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    line-height: 27px;
+    width: 100%;
+    cursor: pointer;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2px 0;
+}
+
+.admin-panel .product-news .news-wrap .table .changes .change .action .button {
+    background-color: #FF00006E;
+}
+
+.admin-panel .product-news .news-wrap .table .changes .change .action .button:hover {
+    background-color: #92191978;
+}
+
+.admin-panel .product-news .news-wrap .product {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 180px 20px 20px;
+    position: relative;
+    background-color: #1C1C24;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 18px;
+    width: 370px;
+    min-width: 370px;
+    height: 424px;
+    margin-top: 195px;
+    margin-left: 30px;
+}
+
+.admin-panel .product-news .news-wrap .product .cover {
+    width: 330px;
+    height: 330px;
+    border-radius: 10px;
+    position: absolute;
+    top: -165px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    border: 3px solid #44444F;
+}
+
+.admin-panel .product-news .news-wrap .product .product-title {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: .1px;
+    color: #FAFAFB;
+}
+
+.admin-panel .product-news .news-wrap .product .content-wrap {
+    height: 172px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.admin-panel .product-news .news-wrap .product .buttons {
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+}
+
+.admin-panel .product-news .news-wrap .product .buttons .button {
+    width: 160px;
+    padding: 10px 0;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    color: #FAFAFB;
+    cursor: pointer;
+    transition: 300ms;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-panel .product-news .news-wrap .product .buttons .button.delete-all-news {
+    background-color: #1E75FF;
+}
+
+.admin-panel .product-news .news-wrap .product .buttons .button.delete-all-news:hover {
+    background-color: #1C6FF2;
 }

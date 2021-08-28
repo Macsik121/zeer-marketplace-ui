@@ -14,12 +14,21 @@ class ConfirmDeleteAnswer extends React.Component {
     }
     async deleteAnswer() {
         this.setState({ isRequestMaking: true });
+        const { match, answer, hideModal, getAnswers } = this.props;
+        const vars = {
+            sort: match.params.title,
+            title: answer.title
+        };
 
         await fetchData(`
+            mutation deleteAnswer($title: String!, $sort: String!) {
+                deleteAnswer(title: $title, sort: $sort)
+            }
+        `, vars);
 
-        `);
+        await getAnswers();
 
-        this.props.hideModal();
+        await hideModal();
 
         this.setState({ isRequestMaking: false });
     }
@@ -31,7 +40,7 @@ class ConfirmDeleteAnswer extends React.Component {
         } = this.props;
 
         const { isRequestMaking } = this.state;
-
+ 
         return (
             <div
                 className="confirm-action delete-answer"
@@ -81,14 +90,17 @@ class CreateAnswerModal extends React.Component {
         e.preventDefault();
         this.setState({ isRequestMaking: true });
         const form = document.forms.addAnswer;
-        const title = form.title.value;
-        const answer = form.description.value;
+        const title = form.title;
+        const answer = form.description;
         
+        title.blur();
+        answer.blur();
+
         const vars = {
             sort: this.props.sort.sort,
             answer: {
-                title,
-                answer
+                title: title.value,
+                answer: answer.value
             }
         };
 
@@ -105,7 +117,7 @@ class CreateAnswerModal extends React.Component {
         `, vars);
 
         await this.props.getAnswers();
-        this.props.hideModal();
+        await this.props.hideModal();
 
         this.setState({ isRequestMaking: false });
     }
@@ -121,7 +133,7 @@ class CreateAnswerModal extends React.Component {
                 className="create-answer-modal"
                 style={
                     {
-                        pointerEvents: isRequestMaking ? 'none' : modalShown ? 'all' : 'none',
+                        pointerEvents: isRequestMaking ? 'none' : 'all',
                         opacity: modalShown ? 1 : 0,
                         transform: `translateY(${modalShown ? 0 : '-145%'})`
                     }
@@ -130,7 +142,10 @@ class CreateAnswerModal extends React.Component {
                 <form onSubmit={this.createAnswer} name="addAnswer" className="add-answer">
                     <div className="field-wrap">
                         <label>Наиимаенование решения:</label>
-                        <input name="title" className="answer-title" />
+                        <input
+                            name="title"
+                            className="answer-title"
+                        />
                     </div>
                     <div className="field-wrap">
                         <label>Описание:</label>
@@ -269,6 +284,8 @@ class ViewAnswers extends React.Component {
                     modalShown={deleteAnswerShown}
                     hideModal={this.hideDeleteAnswer}
                     answer={answerToDelete}
+                    match={this.props.match}
+                    getAnswers={this.getAnswers}
                 />
                 <CircularProgress
                     className="progress-bar"

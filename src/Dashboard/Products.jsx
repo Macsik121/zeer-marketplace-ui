@@ -8,12 +8,10 @@ export default class Products extends React.Component {
         if (this.props.products.length > 0) {
             const products = document.getElementById('products');
             const images = products.querySelectorAll('.cover')
-            console.log(images);
             images.forEach(image => {
                 if (image.complete && image.naturalHeight != 0 && image.naturalWidth != 0) {
                     image.style.filter = 'blur(0px)';
                 }
-                console.log(image.complete);
             });
         }
     }

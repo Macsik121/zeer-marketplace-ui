@@ -22,8 +22,9 @@ class Product extends React.Component {
         this.calculateCost = this.calculateCost.bind(this);
     }
     async componentDidUpdate(prevProps) {
-        if (JSON.stringify(prevProps.product) != JSON.stringify(this.props.product)) {
-            this.setState({ product: this.props.product });
+        const { product } = this.props;
+        if (JSON.stringify(prevProps.product) != JSON.stringify(product)) {
+            this.setState({ product: product, changes: product.changes });
         }
     }
     async componentDidMount() {
@@ -87,7 +88,7 @@ class Product extends React.Component {
         this.setState({ showAllChanges: !this.state.showAllChanges });
     }
     renderChanges() {
-        const changes = this.state.changes.map((change, i) => {
+        const changes = !this.props.hideChanges && this.state.changes.map((change, i) => {
             if (!this.state.showAllChanges && i < 3) {
                 return (
                     <div key={change.version} className="change">
@@ -96,8 +97,7 @@ class Product extends React.Component {
                             <span className="created">{new Date(change.created).toLocaleDateString()}</span>
                         </div>
                         <div className="description">
-                            {change.description}. {' '}
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa error iure quis aspernatur, recusandae odio quasi nemo porro qui cum, rerum eaque ullam omnis eum obcaecati sit nostrum. Nisi, consequuntur.
+                            {change.description}.
                         </div>
                     </div>
                 )
@@ -109,14 +109,13 @@ class Product extends React.Component {
                             <span className="created">{new Date(change.created).toLocaleDateString()}</span>
                         </div>
                         <div className="description">
-                            {change.description}. {' '}
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa error iure quis aspernatur, recusandae odio quasi nemo porro qui cum, rerum eaque ullam omnis eum obcaecati sit nostrum. Nisi, consequuntur.
+                            {change.description}.
                         </div>
                     </div>
                 )
             }
         });
-        return changes;
+        return changes || [];
     }
     calculateCost(e) {
         this.setState({ choosenDropdown: e.target.textContent });
@@ -240,10 +239,15 @@ class Product extends React.Component {
             }
         }
 
-        console.log(product.imageURLdashboard);
-
         const productInfo = (
-            <div className="product-wrap">
+            <div
+                className="product-wrap"
+                style={
+                    {
+                        opacity: isRequestMaking ? 0 : this.props.isRequestMaking ? 0 : 1
+                    }
+                }
+            >
                 <div
                     className="cover"
                     style={
@@ -276,7 +280,7 @@ class Product extends React.Component {
                                     </span>
                                     <div className="circle" />
                                     <span className="current-version">
-                                        {this.state.changes[0]
+                                        {this.state.chagnes && this.state.changes[0]
                                             ? this.state.changes[0].version
                                             : '1,00'
                                         } версия
@@ -451,7 +455,9 @@ class Product extends React.Component {
         );
 
         return (
-            <div className="info">
+            <div
+                className="info"
+            >
                 {this.props.hideCircularProgress
                     ? ''
                     : (
@@ -459,7 +465,11 @@ class Product extends React.Component {
                             className="progress-bar"
                             style={
                                 {
-                                    display: isRequestMaking ? 'block' : 'none'
+                                    display: isRequestMaking
+                                        ? 'block'
+                                        : this.props.isRequestMaking
+                                            ? 'block'
+                                            : 'none'
                                 }
                             }
                         />
@@ -480,7 +490,7 @@ class Product extends React.Component {
                     className="general"
                     style={
                         {
-                            opacity: isRequestMaking ? 0 : 1,
+                            opacity: isRequestMaking ? 0 : this.props.isRequestMaking ? 0 : 1,
                             pointerEvents: isRequestMaking ? 'none' : this.props.isRequestMaking ? 'none' : 'all',
                             marginTop: this.props.hideh2 ? 0 : '30px',
                             ...this.props.style || ''
@@ -493,7 +503,8 @@ class Product extends React.Component {
                     className="changes-log"
                     style={
                         {
-                            display: this.props.hideChanges ? 'none' : 'block'
+                            opacity: this.props.hideChanges ? 0 : isRequestMaking ? 0 : this.props.isRequestMaking ? 0 : 1,
+                            pointerEvents: this.props.hideChanges ? 'none' : isRequestMaking ? 'none' : this.props.isRequestMaking ? 'none' : 'all',
                         }
                     }
                 >
@@ -503,8 +514,8 @@ class Product extends React.Component {
                             className="changes"
                             style={
                                 {
-                                    opacity: isRequestMaking ? 0 : 1,
-                                    pointerEvents: isRequestMaking ? 'none' : 'all'
+                                    opacity: isRequestMaking ? 0 : this.props.isRequestMaking ? 0 : 1,
+                                    pointerEvents: isRequestMaking ? 'none' : this.props.isRequestMaking ? 'none' : 'all'
                                 }
                             }
                         >

@@ -15,7 +15,8 @@ import ViewPromocodes from './promocodes/ViewPromocodes.jsx';
 import Products from './products/Products.jsx';
 import EditProduct from './products/EditProduct.jsx';
 import ResetBindings from './ResetBindings.jsx';
-import News from './News.jsx';
+import News from './news/News.jsx';
+import ViewNews from './news/ViewNews.jsx';
 import FAQ from './FAQ/FAQ.jsx';
 import ViewAnswers from './FAQ/ViewAnswers.jsx';
 import InjectLogs from './InjectLogs.jsx';
@@ -288,6 +289,10 @@ class AdminPanel extends React.Component {
                             <Route
                                 path="/admin/products/:title"
                                 render={() => <EditProduct type={this.state.productEditType} />}
+                            />
+                            <Route
+                                path="/admin/news/:title"
+                                render={() => <ViewNews />}
                             />
                             {routes}
                         </Switch>

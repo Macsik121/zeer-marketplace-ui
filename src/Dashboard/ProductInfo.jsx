@@ -10,29 +10,62 @@ class ProductInfo extends React.Component {
         super();
         this.state = {
             popularProducts: [],
-            isRequestMaking: false
+            isRequestMaking: false,
+            product: null
         };
     }
-    async componentDidUpdate(prevProps, prevState) {
-        if (prevProps.popularProducts != this.props.popularProducts) {
-            this.setState({
-                popularProducts: this.props.popularProducts
-            });
+    async componentDidUpdate(prevProps) {
+        const prevTitle = prevProps.match.params.title;
+        const { title } = this.props.match.params;
+        if (prevTitle != title) {
+            this.setState({ isRequestMaking: true });
+
+            const result = await fetchData(`
+                query getProduct($title: String!) {
+                    getProduct(title: $title) {
+                        id
+                        title
+                        productFor
+                        logo
+                        changes {
+                            version
+                            created
+                            description
+                        }
+                        imageURL
+                        imageURLdashboard
+                        workingTime
+                        reloading
+                        costPerDay
+                        description
+                        locks
+                        timeBought
+                        peopleBought {
+                            name
+                            avatar
+                        }
+                        characteristics {
+                            version
+                            osSupport
+                            cpuSupport
+                            gameMode
+                            developer
+                            supportedAntiCheats
+                        }
+                    }
+                }
+            `, { title });
+
+            this.setState({ isRequestMaking: false, product: result.getProduct })
         }
-        // if (JSON.stringify(prevState.product) != JSON.stringify(this.state.product)) {
-        //     await this.loadProduct();
-        // }
-    }
-    async componentDidMount() {
-        this.setState({ popularProducts: this.props.popularProducts });
     }
     render() {
-        const { isRequestMaking } = this.state;
+        const { isRequestMaking, product } = this.state;
         const { buyProduct } = this.props;
         const info = [];
         let renderedPopularProducts = [];
-        for (let i = 0; i < this.state.popularProducts.length; i++) {
-            const popProduct = this.state.popularProducts[i];
+        for (let i = 0; i < this.props.popularProducts.length; i++) {
+            const popProduct = this.props.popularProducts[i];
             if (i < 3) {
                 renderedPopularProducts.push(
                     <div key={popProduct.id} className="popular-product">
@@ -70,11 +103,7 @@ class ProductInfo extends React.Component {
                         hideCircularProgress={false}
                         hideh2={false}
                         isRequestMaking={isRequestMaking}
-                        style={
-                            {
-                                display: isRequestMaking ? 'none' : 'block'
-                            }
-                        }
+                        product={product}
                     />
                     <div className="popular-products">
                         <h2>Популярные продукты</h2>

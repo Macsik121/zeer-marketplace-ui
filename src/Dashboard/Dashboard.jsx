@@ -94,7 +94,7 @@ class Dashboard extends React.Component {
         user = this.state.user;
 
         this.getProducts();
-        this.getPopularProducts();
+        await this.getPopularProducts();
 
         const userAvatar = {};
         if (user.avatar && user.avatar.includes('#')) {

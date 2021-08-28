@@ -82,9 +82,11 @@ class CreateSort extends React.Component {
     constructor() {
         super();
         this.state = {
-            isRequestMaking: false
+            isRequestMaking: false,
+            answerTitleValue: ''
         }
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleAnswerTitleChange = this.handleAnswerTitleChange.bind(this);
     }
     async handleSubmit(e) {
         e.preventDefault();
@@ -117,6 +119,10 @@ class CreateSort extends React.Component {
             sort.focus();
         }
     }
+    handleAnswerTitleChange(e) {
+        if (e.target.value.toLowerCase().includes('/')) return;
+        this.setState({ answerTitleValue: e.target.value });
+    }
     render() {
         const { createSortShown } = this.props;
         const { isRequestMaking } = this.state;
@@ -141,7 +147,11 @@ class CreateSort extends React.Component {
                 >
                     <div className="field-wrap">
                         <label>Наименование раздела:</label>
-                        <input name="sortTitle" />
+                        <input
+                            name="sortTitle"
+                            onChange={this.handleAnswerTitleChange}
+                            value={this.state.answerTitleValue}
+                        />
                     </div>
                     <button className="add" type="submit">Добавить</button>
                 </form>
