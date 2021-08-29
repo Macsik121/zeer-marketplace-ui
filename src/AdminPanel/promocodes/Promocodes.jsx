@@ -214,7 +214,8 @@ export default class Promocodes extends React.Component {
             productToAddPromocode: {},
             helpMessageShown: false,
             calendarShown: false,
-            expiredInDate: ''
+            expiredInDate: '',
+            scrollTo: 0
         };
         this.searchProducts = this.searchProducts.bind(this);
         this.showCreatePromocodeModal = this.showCreatePromocodeModal.bind(this);
@@ -227,6 +228,12 @@ export default class Promocodes extends React.Component {
         this.setExpirationDate = this.setExpirationDate.bind(this);
         this.deleteExpirationDate = this.deleteExpirationDate.bind(this);
     };
+    componentDidUpdate(_, prevState) {
+        const { scrollTop } = document.documentElement;
+        if (prevState.scrollTo != scrollTop) {
+            this.setState({ scrollTo: scrollTop });
+        }
+    }
     async componentDidMount() {
         window.onkeydown = function(e) {
             if (e.keyCode == 27 && this.state.calendarShown) {
@@ -331,7 +338,8 @@ export default class Promocodes extends React.Component {
             isCreatePromocodeShown,
             productToAddPromocode,
             helpMessageShown,
-            calendarShown
+            calendarShown,
+            scrollTo
         } = this.state;
 
         const products = (
@@ -394,7 +402,8 @@ export default class Promocodes extends React.Component {
                     style={
                         {
                             opacity: calendarShown ? 1 : 0,
-                            pointerEvents: calendarShown ? 'all' : 'none'
+                            pointerEvents: calendarShown ? 'all' : 'none',
+                            top: scrollTo + 250
                         }
                     }
                     hideCalendar={this.hideCalendar}

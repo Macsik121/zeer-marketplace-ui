@@ -193,7 +193,7 @@ class Users extends React.Component {
         const users = this.state.users.length > 0 &&
             this.state.users.map((user, i) => {
                 return (
-                    <div key={user.name} className="user">
+                    <div key={user.email} className="user">
                         <span className="ID user-info">{user.id}</span>
                         <span className="login user-info">{user.name}</span>
                         <span className="e-mail user-info">{user.email}</span>

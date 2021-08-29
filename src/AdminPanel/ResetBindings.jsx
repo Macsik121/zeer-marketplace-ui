@@ -8,13 +8,19 @@ export default class ResetBindings extends React.Component {
         this.state = {
             resetBindingRequests: [],
             resetBindingRequestsCopy: [],
-            isRequestMaking: true
+            isRequestMaking: true,
+            filterBy: 'Все',
+            existingStatuses: ['Все', 'На рассмотрении', 'Принят', 'Отклонён'],
+            filterDropdownShown: false,
+            searchValue: ''
         };
         this.deleteAllRequests = this.deleteAllRequests.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
         this.getResetBindings = this.getResetBindings.bind(this);
         this.acceptResetBinding = this.acceptResetBinding.bind(this);
         this.rejectResetBinding = this.rejectResetBinding.bind(this);
+        this.filterByStatus = this.filterByStatus.bind(this);
+        this.toggleFilterDropdown = this.toggleFilterDropdown.bind(this);
     }
     async componentDidMount() {
         await this.getResetBindings();
@@ -56,48 +62,53 @@ export default class ResetBindings extends React.Component {
             isRequestMaking: false
         });
     }
+    filterByStatus(e) {
+        this.toggleFilterDropdown();
+        this.handleSearch({
+            target: {
+                value: ''
+            },
+            filterStatus: e.target.textContent
+        });
+        this.setState({ filterBy: e.target.textContent, searchValue: this.state.searchValue });
+    }
     filterRequest(request, searchValue) {
-        if (request.id.includes(searchValue)) {
+        if (request.id.toString().toLowerCase().trim().includes(searchValue)) {
             return request;
-        } else if (request.reason.includes(searchValue)) {
+        } else if (request.reason.toLowerCase().trim().includes(searchValue)) {
             return request;
-        } else if (request.ip.includes(searchValue)) {
+        } else if (request.ip.toLowerCase().trim().includes(searchValue)) {
             return request;
-        } else if (request.location.includes(searchValue)) {
+        } else if (request.location.toLowerCase().trim().includes(searchValue)) {
             return request;
         }
     }
     handleSearch(e) {
-        let searchValue = e.target.value;
-        searchValue = searchValue.toLowerCase().trim();
-        const { resetBindingRequestsCopy } = this.state;
-
-        const requestsToRender = [];
-
-        resetBindingRequestsCopy.map(request => {
-            for(const key in request) {
-                let currentEl = request[key];
-                if (key != 'date') {
-                    currentEl = currentEl.toString().toLowerCase().trim();
-                    request[key] = currentEl;
-                }
+        this.setState({ searchValue: e.target.value }, function() {
+            let searchValue = this.state.searchValue;
+            searchValue = searchValue.toLowerCase().trim();
+            const { resetBindingRequestsCopy } = this.state;
+    
+            const requestsToRender = [];
+    
+            resetBindingRequestsCopy.map(request => {
+                const result = this.filterRequest(request, searchValue);
+                if (result) requestsToRender.push(result);
+            });
+    
+            if (searchValue == '' && !e.filterStatus) {
+                this.setState({ resetBindingRequests: resetBindingRequestsCopy });
+            } else {
+                this.setState({ resetBindingRequests: requestsToRender });
             }
-            const result = this.filterRequest(request, searchValue);
-            if (result) requestsToRender.push(result);
         });
-
-        if (searchValue == '') {
-            this.setState({ resetBindingRequests: resetBindingRequestsCopy });
-        } else {
-            this.setState({ resetBindingRequests: requestsToRender });
-        }
     }
     async acceptResetBinding(name, number) {
         this.setState({ isRequestMaking: true });
 
         const vars = {
             name,
-            number
+            number: +number
         };
 
         await fetchData(`
@@ -119,7 +130,7 @@ export default class ResetBindings extends React.Component {
 
         const vars = {
             name,
-            number
+            number: +number
         };
 
         await fetchData(`
@@ -132,8 +143,16 @@ export default class ResetBindings extends React.Component {
 
         this.setState({ isRequestMaking: false });
     }
+    toggleFilterDropdown() {
+        this.setState({ filterDropdownShown: !this.state.filterDropdownShown });
+    }
     render() {
-        const { isRequestMaking } = this.state;
+        const {
+            isRequestMaking,
+            existingStatuses,
+            filterBy,
+            filterDropdownShown
+        } = this.state;
 
         const resetBindings = this.state.resetBindingRequests.map(request => {
             if (request.status.toLowerCase() == 'waiting') {
@@ -143,7 +162,7 @@ export default class ResetBindings extends React.Component {
             } else if (request.status.toLowerCase() == 'done') {
                 request.status = 'принят';
             }
-            return (
+            const requestToRender = (
                 <div key={new Date() - new Date(request.date)} className="reset-request">
                     <div className="number">{request.id}</div>
                     <div className="reason">{request.reason}</div>
@@ -182,8 +201,24 @@ export default class ResetBindings extends React.Component {
                         </button>
                     </div>
                 </div>
-            )
+            );
+
+            if (filterBy.toLowerCase() == 'все') {
+                return requestToRender;
+            } else if (filterBy.toLowerCase() == 'на рассмотрении' && request.status == 'на рассмотрении') {
+                return requestToRender;
+            } else if (filterBy.toLowerCase() == 'принят' && request.status == 'принят') {
+                return requestToRender;
+            } else if (filterBy.toLowerCase() == 'отклонён' && request.status == 'отклонён') {
+                return requestToRender;
+            }
         });
+
+        const sortBy = existingStatuses.map(status => (
+            <div onClick={this.filterByStatus} key={status} className="item">
+                {status}
+            </div>
+        ));
 
         return (
             <div className="reset-requests">
@@ -202,7 +237,34 @@ export default class ResetBindings extends React.Component {
                             type="text"
                             placeholder="Search here"
                             onChange={this.handleSearch}
+                            value={this.state.searchValue}
                         />
+                    </div>
+                    <div
+                        className="filter-by-status-dropdown"
+                    >
+                        <div onClick={this.toggleFilterDropdown} className="current-filter">
+                            {filterBy}
+                            <img
+                                className="arrow"
+                                src="/images/user-menu-arrow.png"
+                                style={
+                                    {
+                                        transform: `rotate(${filterDropdownShown ? '180deg' : 0})`
+                                    }
+                                }
+                            />
+                        </div>
+                        <div
+                            className="possible-filters"
+                            style={
+                                {
+                                    maxHeight: filterDropdownShown ? '155px' : 0
+                                }
+                            }
+                        >
+                            {sortBy}
+                        </div>
                     </div>
                     <button
                         className="delete-all-requests"

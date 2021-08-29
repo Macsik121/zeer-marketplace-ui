@@ -44,11 +44,12 @@ class CreateNews extends React.Component {
     }
     render() {
         const { isRequestMaking } = this.state;
+        const { style } = this.props;
 
         return (
             <div
                 className="create-news-modal"
-                style={{ ...this.props.style }}
+                style={{ ...style }}
             >
                 <form
                     onSubmit={this.createNews}
@@ -56,8 +57,16 @@ class CreateNews extends React.Component {
                     className="create-news-form"
                     style={
                         {
-                            opacity: this.props.isRequestMaking ? 0.5 : isRequestMaking ? 0.5 : 1,
-                            pointerEvents: this.props.isRequestMaking ? 'none' : isRequestMaking ? 'none' : 'all'
+                            opacity: this.props.isRequestMaking
+                                ? 0.5
+                                : isRequestMaking
+                                    ? 0.5
+                                    : style.opacity,
+                            pointerEvents: this.props.isRequestMaking
+                                ? 'none'
+                                : isRequestMaking
+                                    ? 'none'
+                                    : style.pointerEvents
                         }
                     }
                 >

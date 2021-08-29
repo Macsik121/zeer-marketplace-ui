@@ -1,17 +1,97 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { CircularProgress } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 import fetchData from '../../fetchData';
+
+class ConfirmDeleteNews extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            isRequestMaking: false
+        };
+        this.deleteNews = this.deleteNews.bind(this);
+    }
+    async deleteNews() {
+        this.setState({ isRequestMaking: true });
+        const {
+            product,
+            newsToDelete
+        } = this.props;
+        const vars = {
+            title: product.title,
+            changeTitle: newsToDelete.id
+        };
+ 
+        await fetchData(`
+            mutation deleteNews($title: String!, $changeTitle: Int!) {
+                deleteNews(title: $title, changeTitle: $changeTitle)
+            }
+        `, vars);
+
+        await this.props.getNews();
+
+        await this.props.hideModal();
+
+        this.setState({ isRequestMaking: false });
+    }
+    render() {
+        const { isRequestMaking } = this.state;
+        const {
+            style,
+            newsToDelete,
+            hideModal
+        } = this.props;
+
+        return (
+            <div
+                style={
+                    {
+                        opacity: isRequestMaking ? 0 : style.opacity,
+                        pointerEvents: isRequestMaking ? 'none' : style.pointerEvents,
+                        transform: style.transform
+                    }
+                }
+                className="confirm-action"
+            >
+                <div className="heading">
+                    <h2>Подтвердите действие</h2>
+                    <CloseIcon className="close-modal" onClick={hideModal} />
+                </div>
+                <div className="content">
+                    Вы действительно хотите удалить новость версии {newsToDelete.version}
+                </div>
+                <div className="buttons">
+                    <div className="button agree" onClick={this.deleteNews}>Да</div>
+                    <div className="button refuse" onClick={hideModal}>Нет</div>
+                </div>
+            </div>
+        )
+    }
+}
 
 class ViewNews extends React.Component {
     constructor() {
         super();
         this.state = {
             product: {},
-            isRequestMaking: true
+            newsToDelete: {},
+            isRequestMaking: true,
+            deleteNewsShown: false
         };
+        this.deleteAllNews = this.deleteAllNews.bind(this);
+        this.hideDeleteNews = this.hideDeleteNews.bind(this);
+        this.getNews = this.getNews.bind(this);
     }
     async componentDidMount() {
+        window.onkeydown = function(e) {
+            if (e.keyCode == 27) {
+                this.hideDeleteNews();
+            }
+        }.bind(this);
+        await this.getNews();
+    }
+    async getNews() {
         this.setState({ isRequestMaking: true });
         const { title } = this.props.match.params;
         const vars = {
@@ -27,6 +107,7 @@ class ViewNews extends React.Component {
                     productFor
                     imageURLdashboard
                     changes {
+                        id
                         version
                         created
                         description
@@ -40,16 +121,53 @@ class ViewNews extends React.Component {
     toggleClass(e) {
         e.target.childNodes[0].classList.toggle('active');
     }
-    render() {
-        const { isRequestMaking, product } = this.state;
+    async deleteAllNews() {
+        this.setState({ isRequestMaking: true });
+        const { title } = this.props.match.params;
 
-        const changes = product.changes && product.changes.map(change => (
-            <div onClick={this.toggleClass} key={change.version} className="change">
+        await fetchData(`
+            mutation deleteAllNews($title: String!) {
+                deleteAllNews(title: $title)
+            }
+        `, { title });
+
+        this.getNews();
+
+        this.setState({ isRequestMaking: false });
+    }
+    hideDeleteNews() {
+        this.setState({ deleteNewsShown: false });
+    }
+    render() {
+        const {
+            isRequestMaking,
+            product,
+            deleteNewsShown,
+            newsToDelete
+        } = this.state;
+
+        const changes = product.changes && product.changes.map((change, i) => (
+            <div onClick={this.toggleClass} key={change.id} className="change">
                 <div className="description">{change.description}</div>
                 <div className="version">{change.version}</div>
                 <div className="date">{new Date(change.created).toLocaleDateString()}</div>
                 <div className="action">
-                    <button className="button delete">Удалить</button>
+                    <button
+                        onClick={
+                            (e) => {
+                                e.stopPropagation();
+                                this.setState({ deleteNewsShown: true, newsToDelete: change });
+                            }
+                        }
+                        style={
+                            {
+                                pointerEvents: deleteNewsShown ? 'none' : 'all'
+                            }
+                        }
+                        className="button delete"
+                    >
+                        Удалить
+                    </button>
                 </div>
             </div>
         ));
@@ -64,7 +182,28 @@ class ViewNews extends React.Component {
                         }
                     }
                 />
-                <div className="search-bar">
+                <ConfirmDeleteNews
+                    style={
+                        {
+                            opacity: deleteNewsShown ? 1 : 0,
+                            pointerEvents: deleteNewsShown ? 'all' : 'none',
+                            transform: `translateY(${deleteNewsShown ? 0 : '-150%'})`
+                        }
+                    }
+                    product={product}
+                    newsToDelete={newsToDelete}
+                    hideModal={this.hideDeleteNews}
+                    getNews={this.getNews}
+                />
+                <div
+                    className="search-bar"
+                    style={
+                        {
+                            opacity: isRequestMaking ? 0 : deleteNewsShown ? 0.5 : 1,
+                            pointerEvents: deleteNewsShown ? 'none' : 'all'
+                        }
+                    }
+                >
                     <div className="search-field">
                         <img src="/images/search-icon-admin.png" />
                         <input
@@ -77,7 +216,8 @@ class ViewNews extends React.Component {
                 <h2
                     style={
                         {
-                            opacity: isRequestMaking ? 0 : 1
+                            opacity: isRequestMaking ? 0 : deleteNewsShown ? 0.5 : 1,
+                            pointerEvents: deleteNewsShown ? 'none' : 'all'
                         }
                     }
                 >
@@ -97,7 +237,8 @@ class ViewNews extends React.Component {
                     className="news-wrap"
                     style={
                         {
-                            opacity: isRequestMaking ? 0 : 1
+                            opacity: isRequestMaking ? 0 : deleteNewsShown ? 0.5 : 1,
+                            pointerEvents: deleteNewsShown ? 'none' : 'all'
                         }
                     }
                 >
@@ -123,7 +264,12 @@ class ViewNews extends React.Component {
                                 {product.changes ? product.changes.length : 0}
                             </div>
                             <div className="buttons">
-                                <button className="button delete-all-news">Удалить все новости</button>
+                                <button
+                                    className="button delete-all-news"
+                                    onClick={this.deleteAllNews}
+                                >
+                                    Удалить все новости
+                                </button>
                             </div>
                         </div>
                     </div>

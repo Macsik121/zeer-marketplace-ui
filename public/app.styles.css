@@ -7308,23 +7308,26 @@ button.disabled {
     justify-content: space-between;
     text-align: center;
     align-items: center;
-    height: 36px;
-    overflow: hidden;
+    max-height: 36px;
 }
 
-.admin-panel .action-logs .table .logs .log:hover {
-    height: auto;
+.admin-panel .action-logs .table .logs .log.active {
+    max-height: none;
 }
 
-.admin-panel .action-logs .table .logs .log:hover .action {
-    height: auto;
+.admin-panel .action-logs .table .logs .log.active div {
+    max-height: none;
 }
 
 .admin-panel .action-logs .table .logs .log div {
     display: flex;
     justify-content: center;
-    word-break: break-all;
+    word-break: break-word;
     width: 10%;
+    pointer-events: none;
+    user-select: none;
+    max-height: 36px;
+    overflow: hidden;
 }
 
 .admin-panel .action-logs .table .logs .log .date {
@@ -7359,6 +7362,57 @@ button.disabled {
 .admin-panel .reset-requests {
     padding-top: 10px;
     position: relative;
+}
+
+.admin-panel .reset-requests .search-bar .filter-by-status-dropdown {
+    width: 200px;
+    background-color: #FF00006E;
+    cursor: pointer;
+    margin-left: 25px;
+    user-select: none;
+    transition: 300ms;
+    position: relative;
+}
+
+.admin-panel .reset-requests .search-bar .filter-by-status-dropdown .current-filter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    font-weight: 600;
+    transition: 300ms;
+}
+
+.admin-panel .reset-requests .search-bar .filter-by-status-dropdown .current-filter:hover {
+    background-color: #691212;
+}
+
+.admin-panel .reset-requests .search-bar .filter-by-status-dropdown .current-filter .arrow {
+    width: 10px;
+    height: 7px;
+    transition: 200ms;
+}
+
+.admin-panel .reset-requests .search-bar .filter-by-status-dropdown .possible-filters {
+    position: absolute;
+    top: 38px;
+    left: 0;
+    width: 100%;
+    background-color: #FF00006E;
+    transition: 200ms;
+    overflow: hidden;
+    font-weight: 600;
+}
+
+.admin-panel .reset-requests .search-bar .filter-by-status-dropdown .possible-filters .item {
+    transition: 300ms;
+    padding: 10px;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.admin-panel .reset-requests .search-bar .filter-by-status-dropdown .possible-filters .item:hover {
+    background-color: #691212;
 }
 
 .admin-panel .reset-requests .search-bar .delete-all-requests {
@@ -7743,8 +7797,8 @@ button.disabled {
     padding-left: 10px;
     width: 100%;
     font-weight: 500;
-    font-size: 20px;
-    line-height: 36px;
+    font-size: 16px;
+    line-height: 18px;
     letter-spacing: .1px;
 }
 
@@ -7786,6 +7840,8 @@ button.disabled {
     height: 31px;
     padding: 0 15px;
     border-radius: 5px;
+    font-size: 16px;
+    line-height: 18px;
 }
 
 .admin-panel .edit-product .editing-product-form .change-product .upper-block-field .input-wrap .field {
@@ -8056,7 +8112,6 @@ button.disabled {
 }
 
 .admin-panel .product-news h2 {
-    opacity: 0;
     transition: 300ms;
     font-weight: 700;
     font-size: 24px;

@@ -1,8 +1,9 @@
 import React from 'react';
 import { CircularProgress } from '@material-ui/core';
+import { NavLink, withRouter } from 'react-router-dom';
 import fetchData from '../fetchData';
 
-export default class ActionLogs extends React.Component {
+class ActionLogs extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -104,8 +105,8 @@ export default class ActionLogs extends React.Component {
         }
     }
     searchLogs(e) {
-        let searchValue = e.target.value;
-        let searchValue2 = e.target.value2;
+        let searchValue = e.target.value.toLowerCase().trim();
+        let searchValue2 = e.target.value2.toLowerCase().trim();
         const {
             logsCopy,
             logs
@@ -168,6 +169,9 @@ export default class ActionLogs extends React.Component {
         }
         this.searchLogs(event);
     }
+    toggleClass(e) {
+        e.target.classList.toggle('active');
+    }
     render() {
         const {
             isRequestMaking,
@@ -176,18 +180,80 @@ export default class ActionLogs extends React.Component {
             searchByAction
         } = this.state;
 
-        const logs = this.state.logs.map(log => (
-            <div key={new Date() - new Date(log.date)} className="log">
-                <div className="date">{new Date(log.date).toLocaleString()}</div>
-                <div className="name">{log.name}</div>
-                <div className="location">{log.location}</div>
-                <div className="ip">{log.IP}</div>
-                <div className="browser">{log.browser}</div>
-                <div className="platform">{log.platform}</div>
-                <div className="action">{log.action}</div>
+        let logs = this.state.logs.map(log => (
+            <div
+                onClick={this.toggleClass}
+                key={new Date() - new Date(log.date)}
+                className="log"
+            >
+                <div
+                    onClick={(e) => e.stopPropagation()}
+                    className="date"
+                >
+                    {new Date(log.date).toLocaleString()}
+                </div>
+                <div
+                    onClick={(e) => e.stopPropagation()}
+                    className="name"
+                >
+                    {log.name}
+                </div>
+                <div
+                    onClick={(e) => e.stopPropagation()}
+                    className="location"
+                >
+                    {log.location}
+                </div>
+                <div
+                    onClick={(e) => e.stopPropagation()}
+                    className="ip"
+                >
+                    {log.IP}
+                </div>
+                <div
+                    onClick={(e) => e.stopPropagation()}
+                    className="browser"
+                >
+                    {log.browser}
+                </div>
+                <div
+                    onClick={(e) => e.stopPropagation()}
+                    className="platform"
+                >
+                    {log.platform}
+                </div>
+                <div
+                    onClick={(e) => e.stopPropagation()}
+                    className="action"
+                >
+                    {log.action}
+                </div>
             </div>
         ));
 
+        const { page } = this.props.match.params;
+        const pages = logs && logs.map((_, i) => {
+            if (i % 15 == 0) {
+                console.log(i);
+                return (
+                    <NavLink
+                        to={`/admin/logs/${i / 15 + 1}`}
+                        className="page-link"
+                        key={i}
+                    >
+                        {i / 15 + 1}
+                    </NavLink>
+                )
+            }
+        });
+
+        logs = logs.map((log, i) => {
+            const renderLimit = 15 * page;
+            const renderFrom = renderLimit - 15;
+            if (renderFrom <= i && i < renderLimit) {
+                return log;
+            }
+        });
 
         return (
             <div className="action-logs">
@@ -262,9 +328,14 @@ export default class ActionLogs extends React.Component {
                         <div className="logs">
                             {logs}
                         </div>
+                        <div className="pages">
+                            {pages}
+                        </div>
                     </div>
                 </div>
             </div>
         )
     }
 }
+
+export default withRouter(ActionLogs);

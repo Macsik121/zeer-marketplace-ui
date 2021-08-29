@@ -162,6 +162,7 @@ class Dashboard extends React.Component {
 
         if (resultUserExists.user.name == '') {
             localStorage.clear();
+            await this.props.getUser();
             this.props.history.push('/');
             return;
         }

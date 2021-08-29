@@ -46,7 +46,7 @@ class AdminPanel extends React.Component {
                     component: Users
                 },
                 {
-                    path: 'logs',
+                    path: 'logs/:page',
                     title: 'Логи действий',
                     component: ActionLogs
                 },
@@ -171,6 +171,15 @@ class AdminPanel extends React.Component {
                     >
                         {link.title}
                         <div className="border" />
+                    </NavLink>
+                )
+            } else if (link.path == 'logs/:page') {
+                return (
+                    <NavLink
+                        key={link.title}
+                        to="/admin/logs/1"
+                    >
+                        {link.title}
                     </NavLink>
                 )
             }
