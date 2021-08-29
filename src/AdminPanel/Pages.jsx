@@ -12,7 +12,8 @@ export default class Pages extends React.Component {
             limitPage: 0,
             hiddenPageLinks: [],
             pages: [],
-            searchValue: ''
+            searchValue: '',
+            itemsOnPage: 15
         };
         this.handleSearchPages = this.handleSearchPages.bind(this);
         this.toggleChooseAdditionalPages = this.toggleChooseAdditionalPages.bind(this);
@@ -20,8 +21,14 @@ export default class Pages extends React.Component {
     }
     componentDidUpdate(prevProps) {
         const { array, path, page } = this.props;
+        const itemsOnPage = this.props.itemsOnPage ? this.props.itemsOnPage : 15;
         if (prevProps.array != array) {
-            this.setState({ array, path, page: +page });
+            this.setState({
+                array,
+                path,
+                page: +page,
+                itemsOnPage
+            });
         }
     }
     componentDidMount() {
@@ -48,7 +55,8 @@ export default class Pages extends React.Component {
             page,
             chooseAdditionalPagesShown,
             array,
-            searchValue
+            searchValue,
+            itemsOnPage
         } = this.state;
         page = +page;
         const pages = [];
@@ -58,28 +66,32 @@ export default class Pages extends React.Component {
             const linkToRender = (
                 <NavLink
                     className="page-link"
-                    to={`/admin/${path}/${i / 15 + 1}`}
-                    key={i / 15 + 1}
+                    to={`/admin/${path}/${i / itemsOnPage + 1}`}
+                    key={i / itemsOnPage + 1}
                 >
-                    {i / 15 + 1}
+                    {i / itemsOnPage + 1}
                 </NavLink>
             );
-            if (i % 15 == 0 && i >= 45) {
-                hiddenPageLinks.push(i / 15 + 1);
+            if (i % itemsOnPage == 0 && i >= itemsOnPage * 3) {
+                hiddenPageLinks.push(i / itemsOnPage + 1);
                 limitPage = i;
                 return;
             }
-            if (i % 15 == 0) {
+            if (i % itemsOnPage == 0) {
                 pages.push(linkToRender);
                 limitPage = i;
             }
         });
-        limitPage = limitPage / 15 + 1;
-    
+        limitPage = limitPage / itemsOnPage + 1;
+
         if (pages.length + hiddenPageLinks.length > 3) {
             const hiddenPageLinksCopy = [...hiddenPageLinks];
-            hiddenPageLinksCopy.pop();
-            hiddenPageLinksCopy.pop();
+            if (hiddenPageLinksCopy.length == 2) {
+                hiddenPageLinksCopy.pop();
+            } else if (hiddenPageLinksCopy.length > 2) {
+                hiddenPageLinksCopy.pop();
+                hiddenPageLinksCopy.pop();
+            }
             const theRestPages = (
                 hiddenPageLinksCopy.map(currentPage => {
                     if (currentPage.toString().includes(searchValue)) {

@@ -234,11 +234,12 @@ class ActionLogs extends React.Component {
         ));
 
         const { page } = this.props.match.params;
-        const pages = <Pages array={logs} path="logs" page={page} />
+        const pages = <Pages array={logs} path="logs" page={page} itemsOnPage={20} />
 
+        const limit = 20;
         logs = logs.map((log, i) => {
-            const renderLimit = 15 * page;
-            const renderFrom = renderLimit - 15;
+            const renderLimit = limit * page;
+            const renderFrom = renderLimit - limit;
             if (renderFrom <= i && i < renderLimit) {
                 return log;
             }
@@ -305,17 +306,19 @@ class ActionLogs extends React.Component {
                     }
                 >
                     <div className="table">
-                        <div className="heading">
-                            <div className="date">Дата</div>
-                            <div className="name">Логин</div>
-                            <div className="location">Локация</div>
-                            <div className="ip">IP</div>
-                            <div className="browser">Браузер</div>
-                            <div className="platform">Платформа</div>
-                            <div className="action">Действие</div>
-                        </div>
-                        <div className="logs">
-                            {logs}
+                        <div className="table-wrap">
+                            <div className="heading">
+                                <div className="date">Дата</div>
+                                <div className="name">Логин</div>
+                                <div className="location">Локация</div>
+                                <div className="ip">IP</div>
+                                <div className="browser">Браузер</div>
+                                <div className="platform">Платформа</div>
+                                <div className="action">Действие</div>
+                            </div>
+                            <div className="logs">
+                                {logs}
+                            </div>
                         </div>
                         <div className="pages">
                             {pages}

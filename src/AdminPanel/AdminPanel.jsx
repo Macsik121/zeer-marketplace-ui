@@ -41,7 +41,7 @@ class AdminPanel extends React.Component {
                     component: Statistics
                 },
                 {
-                    path: 'users/page/:number',
+                    path: 'users/:page',
                     title: 'Пользователи',
                     component: Users
                 },
@@ -163,7 +163,7 @@ class AdminPanel extends React.Component {
         } = this.state;
 
         const navLinks = this.state.navLinks.map(link => {
-            if (link.path == 'users/page/:number') {
+            if (link.path == 'users/page/:page') {
                 return (
                     <NavLink
                         key={link.title}
@@ -173,11 +173,13 @@ class AdminPanel extends React.Component {
                         <div className="border" />
                     </NavLink>
                 )
-            } else if (link.path == 'logs/:page') {
+            } else if (link.path.toLowerCase().includes(':page')) {
+                let path = link.path.split(':');
+                path.pop();
                 return (
                     <NavLink
                         key={link.title}
-                        to="/admin/logs"
+                        to={`/admin/${path}`}
                     >
                         {link.title}
                         <div className="border" />
@@ -260,6 +262,7 @@ class AdminPanel extends React.Component {
                             <Redirect exact from="/admin" to="/admin/statistics" />
                             <Redirect exact from="/admin/users/page" to="/admin/users/page/1" />
                             <Redirect exact from="/admin/logs" to="/admin/logs/1" />
+                            <Redirect exact from="/admin/users" to="/admin/users/1" />
                             <Route
                                 path="/admin/users/edit-user/:username"
                                 render={() => (
