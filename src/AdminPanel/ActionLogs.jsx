@@ -1,7 +1,8 @@
 import React from 'react';
 import { CircularProgress } from '@material-ui/core';
-import { NavLink, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import fetchData from '../fetchData';
+import Pages from './Pages.jsx';
 
 class ActionLogs extends React.Component {
     constructor() {
@@ -158,6 +159,7 @@ class ActionLogs extends React.Component {
             }
         };
         this.searchLogs(event);
+        this.props.history.push('/admin/logs/1')
     };
     handleActionChange(e) {
         this.setState({ searchByAction: e.target.value });
@@ -232,20 +234,7 @@ class ActionLogs extends React.Component {
         ));
 
         const { page } = this.props.match.params;
-        const pages = logs && logs.map((_, i) => {
-            if (i % 15 == 0) {
-                console.log(i);
-                return (
-                    <NavLink
-                        to={`/admin/logs/${i / 15 + 1}`}
-                        className="page-link"
-                        key={i}
-                    >
-                        {i / 15 + 1}
-                    </NavLink>
-                )
-            }
-        });
+        const pages = <Pages array={logs} path="logs" page={page} />
 
         logs = logs.map((log, i) => {
             const renderLimit = 15 * page;

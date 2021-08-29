@@ -5356,6 +5356,9 @@ button.disabled {
     align-items: center;
     justify-content: center;
     border-radius: 5px;
+    user-select: none;
+    border: none;
+    cursor: pointer;
 }
 
 .admin-panel .pages .page-link + .page-link {
@@ -5364,6 +5367,112 @@ button.disabled {
 
 .admin-panel .pages .page-link.active {
     background-color: #92191978;
+}
+
+.admin-panel .pages .page-link.disabled {
+    background-color: #DFDFDF;
+    color: #9F9F9F;
+    pointer-events: none;
+}
+
+.admin-panel .pages .page-link.more-pages {
+    position: relative;
+    border-radius: 0;
+    cursor: default;
+}
+
+.admin-panel .pages .page-link.more-pages .three-dots-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.admin-panel .pages .page-link.more-pages .additional-pages-dropdown {
+    width: 150px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    line-height: 16.8px;
+    height: 130px;
+    background-color: #b30000;
+    overflow: auto;
+    top: -130px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    transition: 300ms;
+    scrollbar-color: rgba(255, 255, 255, .5) #b30000;
+}
+
+.admin-panel .pages .page-link.more-pages .additional-pages-dropdown::-webkit-scrollbar {
+    width: 16px;
+}
+
+.admin-panel .pages .page-link.more-pages .additional-pages-dropdown::-webkit-scrollbar-track {
+    background-color: #b30000;
+}
+
+.admin-panel .pages .page-link.more-pages .additional-pages-dropdown::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, .5);
+    border: 5px solid #b30000;
+}
+
+.admin-panel .pages .page-link.more-pages .additional-pages-dropdown .search-wrap {
+    padding: 10px;
+    max-width: 150px;
+    background-color: #b30000;
+}
+
+.admin-panel .pages .page-link.more-pages .additional-pages-dropdown .search-pages {
+    max-height: 20px;
+    width: 100%;
+    border: none;
+    padding: 5px;
+    font-size: 12px;
+}
+
+.admin-panel .pages .page-link.more-pages .additional-pages-dropdown .additional-pages {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-panel .pages .page-link.more-pages .additional-pages-dropdown .additional-pages .remained-page {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    padding: 10px;
+    background-color: #b30000;
+    transition: 200ms;
+    text-decoration: none;
+    color: #fff;
+}
+
+.admin-panel .pages .page-link.more-pages .additional-pages-dropdown .additional-pages .remained-page:hover {
+    background-color: #7e1616;
+}
+
+.admin-panel .pages .page-link.more-pages .additional-pages-dropdown .additional-pages .remained-page.active {
+    background-color: #701313;
+}
+
+.admin-panel .pages .page-link.disabled .switch-page {
+    filter: invert(0.5);
+}
+
+.admin-panel .pages .page-link .switch-page {
+    width: 7px;
+    height: 5px;
+}
+
+.admin-panel .pages .page-link .skip {
+    transform: rotate(-90deg);
+}
+
+.admin-panel .pages .page-link .back {
+    transform: rotate(90deg);
 }
 
 .admin-panel .edit-user {

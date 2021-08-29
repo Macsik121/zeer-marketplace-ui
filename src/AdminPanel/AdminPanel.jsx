@@ -177,9 +177,10 @@ class AdminPanel extends React.Component {
                 return (
                     <NavLink
                         key={link.title}
-                        to="/admin/logs/1"
+                        to="/admin/logs"
                     >
                         {link.title}
+                        <div className="border" />
                     </NavLink>
                 )
             }
@@ -258,6 +259,7 @@ class AdminPanel extends React.Component {
                         <Switch>
                             <Redirect exact from="/admin" to="/admin/statistics" />
                             <Redirect exact from="/admin/users/page" to="/admin/users/page/1" />
+                            <Redirect exact from="/admin/logs" to="/admin/logs/1" />
                             <Route
                                 path="/admin/users/edit-user/:username"
                                 render={() => (

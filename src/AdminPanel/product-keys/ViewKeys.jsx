@@ -4,6 +4,7 @@ import { CircularProgress } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import jwtDecode from 'jwt-decode';
 import fetchData from '../../fetchData';
+import Pages from '../Pages.jsx';
 
 class DeleteKey extends React.Component {
     constructor() {
@@ -179,7 +180,6 @@ class ViewKeys extends React.Component {
         const { productCopy } = this.state;
 
         const allProductsToRender = [];
-        console.log(productCopy.length);
         productCopy.keys.all.map(key => {
             if (key.name.toLowerCase().includes(searchValue.toLowerCase())) {
                 allProductsToRender.push(key);
@@ -191,6 +191,7 @@ class ViewKeys extends React.Component {
         } else {
             this.setState({ product: { keys: { all: allProductsToRender } } });
         }
+        this.props.history.push(`/admin/keys/${productCopy.title}/1`);
     }
     async handleDeleteAllKeys() {
         this.setState({ isRequestMaking: true });
@@ -255,21 +256,6 @@ class ViewKeys extends React.Component {
                             </button>
                         </div>
                     </div>
-                )
-            }
-        });
-
-        const pages = productKeys && productKeys.map((_, i) => {
-            productKeys.length > 6;
-            if (i % 15 == 0) {
-                return (
-                    <NavLink
-                        className="page-link"
-                        to={`/admin/keys/${product.title}/${i / 15 + 1}`}
-                        key={i}
-                    >
-                        {i / 15 + 1}
-                    </NavLink>
                 )
             }
         });
@@ -351,7 +337,11 @@ class ViewKeys extends React.Component {
                             <div className="keys-of-product">
                                 {productKeys}
                                 <div className="pages">
-                                    {pages}
+                                    <Pages
+                                        array={productKeys || []}
+                                        path={`keys/${product.title}`}
+                                        page={page}
+                                    />
                                 </div>
                             </div>
                         </div>
