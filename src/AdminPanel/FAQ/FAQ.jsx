@@ -27,8 +27,9 @@ class ConfirmDeleteSortModal extends React.Component {
             }
         `, { sort: this.props.sortToDelete.sort });
 
-        this.props.hideAgreeToDelete();
         await this.props.getAnswers();
+        await this.props.hideAgreeToDelete();
+
         this.setState({ isRequestMaking: false });
     }
     render() {
@@ -276,7 +277,7 @@ export default class FAQ extends React.Component {
                 </span>
                 <div className="buttons">
                     <Link
-                        to={`/admin/FAQ/${sort.sort}`}
+                        to={`/admin/FAQ/${sort.sort}/1`}
                         className="button view"
                     >
                         Просмотр

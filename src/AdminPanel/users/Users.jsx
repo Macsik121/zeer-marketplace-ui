@@ -3,6 +3,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { CircularProgress } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import fetchData from '../../fetchData';
+import Pages from '../Pages.jsx';
 
 function ConfirmationModal(props) {
     const {
@@ -128,6 +129,7 @@ class Users extends React.Component {
         let searchCondition = e.target.value;
         searchCondition = searchCondition.toLowerCase().trim();
 
+        this.props.history.push('/admin/users/1')
         const usersToRender = [];
 
         this.state.usersCopy.map(user => {
@@ -171,71 +173,62 @@ class Users extends React.Component {
             areUsersLoaded,
             isRequestMaking,
             userToDelete,
-            agreedToDeleteShown,
-            currentPage
+            agreedToDeleteShown
         } = this.state;
 
-        let usersPages = this.state.users.map((_, i) => {
-            if (i % 15 == 0) {
-                let pageNumber = i / 15;
-                return (
-                    <Link
-                        to={`/admin/users/page/${++pageNumber}`}
-                        className="page-link"
-                        key={i}
-                    >
-                        {pageNumber}
-                    </Link>
-                )
-            }
-        })
+        const { page } = this.props.match.params;
 
+        const limit = 15;
         const users = this.state.users.length > 0 &&
             this.state.users.map((user, i) => {
-                return (
-                    <div key={user.email} className="user">
-                        <span className="ID user-info">{user.id}</span>
-                        <span className="login user-info">{user.name}</span>
-                        <span className="e-mail user-info">{user.email}</span>
-                        <span className="registered-date user-info">{new Date(user.registeredDate).toLocaleDateString()}</span>
-                        <span
-                            className="subscription user-info"
-                            style={
-                                user.subscriptions.length > 0
-                                    ? { backgroundColor: '#04BE00' }
-                                    : { backgroundColor: '#DD4D4D78' }
-                            }
-                        >
-                            {
-                                user.subscriptions.length > 0
-                                    ? 'Активна'
-                                    : 'Неактивна'
-                            }
-                        </span>
-                        <div className="actions user-info">
-                            <Link
-                                to={`/admin/users/edit-user/${user.name}`}
-                                className="button edit"
-                            >
-                                Изменить
-                            </Link>
-                            <button
-                                type="button"
-                                className="button delete"
-                                onClick={
-                                    () => {
-                                        this.setState({
-                                            userToDelete: user,
-                                            agreedToDeleteShown: true
-                                        })
-                                    }
+                const renderLimit = limit * page;
+                const renderFrom = renderLimit - limit;
+                if (i < renderLimit && i >= renderFrom) {
+                    return (
+                        <div key={user.email} className="user">
+                            <span className="ID user-info">{user.id}</span>
+                            <span className="login user-info">{user.name}</span>
+                            <span className="e-mail user-info">{user.email}</span>
+                            <span className="registered-date user-info">{new Date(user.registeredDate).toLocaleDateString()}</span>
+                            <span
+                                className="subscription user-info"
+                                style={
+                                    user.subscriptions.length > 0
+                                        ? { backgroundColor: '#04BE00' }
+                                        : { backgroundColor: '#DD4D4D78' }
                                 }
                             >
-                                x
-                            </button>
+                                {
+                                    user.subscriptions.length > 0
+                                        ? 'Активна'
+                                        : 'Неактивна'
+                                }
+                            </span>
+                            <div className="actions user-info">
+                                <Link
+                                    to={`/admin/users/edit-user/${user.name}`}
+                                    className="button edit"
+                                >
+                                    Изменить
+                                </Link>
+                                <button
+                                    type="button"
+                                    className="button delete"
+                                    onClick={
+                                        () => {
+                                            this.setState({
+                                                userToDelete: user,
+                                                agreedToDeleteShown: true
+                                            })
+                                        }
+                                    }
+                                >
+                                    x
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                )
+                    )
+                }
             });
 
         return (
@@ -322,7 +315,7 @@ class Users extends React.Component {
                             {users}
                         </div>
                         <div className="pages">
-                            {usersPages}
+                            <Pages page={page} array={users} path="users" />
                         </div>
                     </div>
                 </div>

@@ -234,9 +234,10 @@ class ViewKeys extends React.Component {
 
         const { page } = this.props.match.params;
 
+        const limit = 15;
         const productKeys = this.state.product.keys && this.state.product.keys.all.map((key, i) => {
-            const renderingLimit = 15 * page;
-            let limitFrom = renderingLimit - 15;
+            const renderingLimit = limit * page;
+            let limitFrom = renderingLimit - limit;
             if (i < renderingLimit && i >= limitFrom) {
                 return (
                     <div key={key.name} className="key">

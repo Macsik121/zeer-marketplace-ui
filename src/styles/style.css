@@ -2003,6 +2003,8 @@ button.disabled {
     display: flex;
     align-items: center;
     margin-left: 10px;
+    width: 220px;
+    text-align: center;
 }
 
 .bought-people .bought-amount span {
@@ -5879,7 +5881,7 @@ button.disabled {
     text-align: center;
     max-width: 270px;
     padding: 0 10px;
-    word-break: break-all;
+    word-break: break-word;
 }
 
 .admin-panel .view-answers .view-answers-wrap .sort .decisions-amount {
@@ -5968,23 +5970,36 @@ button.disabled {
     justify-content: space-between;
     align-items: center;
     padding: 10px 15px;
+    max-height: 47px;
 }
 
 .admin-panel .view-answers .table .answers .answer:nth-of-type(2n) {
     background-color: #1C1C24;
 }
 
+.admin-panel .view-answers .table .answers .answer.active {
+    max-height: none;
+}
+
+.admin-panel .view-answers .table .answers .answer.active div {
+    max-height: none;
+}
+
 .admin-panel .view-answers .table .answers .answer div {
     display: flex;
     justify-content: center;
     text-align: center;
-    word-break: break-all;
+    word-break: break-word;
+    max-height: 27px;
+    overflow: hidden;
+    user-select: none;
+    pointer-events: none;
 }
 
 .admin-panel .view-answers .table .answers .answer .description {
     width: 300px;
     text-align: center;
-    word-break: break-all;
+    word-break: break-word;
 }
 
 .admin-panel .view-answers .table .answers .answer .title {
@@ -6353,7 +6368,7 @@ button.disabled {
     margin-top: 20px;
     transition: 300ms;
     height: calc(100% - 30px - 80px);
-    /* 100% - margin-top: 20px + 10px - footer: height: 80px */
+    /* 100% - margin-top: 20px + .action-logs: padding-top 10px - footer: height: 80px */
 }
 
 .admin-panel .action-logs .table {
@@ -6584,7 +6599,7 @@ button.disabled {
 }
 
 .admin-panel .reset-requests .reset-requests-wrap .heading .date {
-    width: 65px;
+    width: 75px;
 }
 
 .admin-panel .reset-requests .reset-requests-wrap .heading .ip {
@@ -6626,7 +6641,21 @@ button.disabled {
 .admin-panel .reset-requests .reset-requests-wrap .requests .reset-request div {
     display: flex;
     justify-content: center;
-    word-break: break-all;
+    align-items: center;
+    word-break: break-word;
+    overflow: hidden;
+    max-height: 23px;
+    pointer-events: none;
+    user-select: none;
+}
+
+.admin-panel .reset-requests .reset-requests-wrap .requests .reset-request.active {
+    max-height: none;
+}
+
+.admin-panel .reset-requests .reset-requests-wrap .requests .reset-request.active div {
+    max-height: none;
+    height: auto;
 }
 
 .admin-panel .reset-requests .reset-requests-wrap .requests .reset-request .number {
@@ -6635,10 +6664,12 @@ button.disabled {
 
 .admin-panel .reset-requests .reset-requests-wrap .requests .reset-request .reason {
     width: 220px;
+    max-height: 16.5px;
+    align-items: flex-start;
 }
 
 .admin-panel .reset-requests .reset-requests-wrap .requests .reset-request .date {
-    width: 65px;
+    width: 75px;
     word-break: inherit;
 }
 
@@ -6660,6 +6691,7 @@ button.disabled {
     width: 250px;
     display: flex;
     justify-content: space-between;
+    pointer-events: all;
 }
 
 .admin-panel .reset-requests .reset-requests-wrap .requests .reset-request .action .button {

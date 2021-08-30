@@ -188,7 +188,7 @@ export default class News extends React.Component {
                         </button>
                         <Link
                             className="button view-news"
-                            to={`/admin/news/${product.title}`}
+                            to={`/admin/news/${product.title}/1`}
                         >
                             Просмотр новостей
                         </Link>

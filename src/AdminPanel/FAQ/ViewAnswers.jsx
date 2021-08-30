@@ -3,6 +3,7 @@ import { CircularProgress } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import { withRouter } from 'react-router-dom';
 import fetchData from '../../fetchData';
+import Pages from '../Pages.jsx';
 
 class ConfirmDeleteAnswer extends React.Component {
     constructor() {
@@ -26,9 +27,9 @@ class ConfirmDeleteAnswer extends React.Component {
             }
         `, vars);
 
-        await getAnswers();
-
         await hideModal();
+
+        await getAnswers();
 
         this.setState({ isRequestMaking: false });
     }
@@ -116,8 +117,8 @@ class CreateAnswerModal extends React.Component {
             }
         `, vars);
 
-        await this.props.getAnswers();
         await this.props.hideModal();
+        await this.props.getAnswers();
 
         this.setState({ isRequestMaking: false });
     }
@@ -141,7 +142,7 @@ class CreateAnswerModal extends React.Component {
             >
                 <form onSubmit={this.createAnswer} name="addAnswer" className="add-answer">
                     <div className="field-wrap">
-                        <label>Наиимаенование решения:</label>
+                        <label>Наименование решения:</label>
                         <input
                             name="title"
                             className="answer-title"
@@ -225,7 +226,8 @@ class ViewAnswers extends React.Component {
     searchTabs(e) {
         let searchValue = e.target.value;
         searchValue = searchValue.toLowerCase().trim();
-        const { sortCopy } = this.state;
+        const { sortCopy, sort } = this.state;
+        this.props.history.push(`/admin/FAQ/${sort.sort}/1`);
 
         const answersToRender = [];
 
@@ -240,8 +242,16 @@ class ViewAnswers extends React.Component {
         if (searchValue == '') {
             this.setState({ sort: sortCopy });
         } else {
-            this.setState({ sort: { answers: answersToRender } });
+            this.setState({
+                sort: {
+                    ...sort,
+                    answers: answersToRender
+                }
+            });
         }
+    }
+    toggleActiveClass(e) {
+        e.target.classList.toggle('active');
     }
     render() {
         const {
@@ -253,24 +263,33 @@ class ViewAnswers extends React.Component {
             answerToDelete
         } = this.state;
 
-        const answers = sort.answers && sort.answers.map((answer, i) => (
-            <div key={i} className="answer">
-                <div className="description">{answer.answer}</div>
-                <div className="title">{answer.title}</div>
-                <div className="date">{new Date(answer.dateOfCreation).toLocaleDateString()}</div>
-                <div className="action">
-                    <button
-                        className="button delete"
-                        onClick={() => {
-                            this.setState({ answerToDelete: answer })
-                            this.showDeleteAnswer()
-                        }}
-                    >
-                        Удалить
-                    </button>
-                </div>
-            </div>
-        ));
+        const { page } = this.props.match.params;
+
+        const limit = 15;
+        const answers = sort.answers && sort.answers.map((answer, i) => {
+            const renderLimit = page * limit;
+            const renderFrom = renderLimit - limit;
+            if (i < renderLimit && i >= renderFrom) {
+                return (
+                    <div onClick={this.toggleActiveClass} key={i} className="answer">
+                        <div className="description">{answer.answer}</div>
+                        <div className="title">{answer.title}</div>
+                        <div className="date">{new Date(answer.dateOfCreation).toLocaleDateString()}</div>
+                        <div className="action">
+                            <button
+                                className="button delete"
+                                onClick={() => {
+                                    this.setState({ answerToDelete: answer })
+                                    this.showDeleteAnswer()
+                                }}
+                            >
+                                Удалить
+                            </button>
+                        </div>
+                    </div>
+                )
+            }
+        });
 
         return (
             <div className="view-answers">
@@ -342,6 +361,16 @@ class ViewAnswers extends React.Component {
                             </div>
                             <div className="answers">
                                 {answers}
+                            </div>
+                            <div className="pages">
+                                <Pages
+                                    page={page}
+                                    array={
+                                        Object.keys(sort).length > 0 &&
+                                            answers
+                                    }
+                                    path={`FAQ/${sort.sort && sort.sort}`}
+                                />
                             </div>
                         </div>
                         <div className="sort">

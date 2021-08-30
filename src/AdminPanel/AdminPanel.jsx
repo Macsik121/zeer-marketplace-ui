@@ -66,7 +66,7 @@ class AdminPanel extends React.Component {
                     component: Products
                 },
                 {
-                    path: 'reset-binding',
+                    path: 'reset-binding/:page',
                     title: 'Сброс привязки',
                     component: ResetBindings
                 },
@@ -260,9 +260,9 @@ class AdminPanel extends React.Component {
                     <div className="page">
                         <Switch>
                             <Redirect exact from="/admin" to="/admin/statistics" />
-                            <Redirect exact from="/admin/users/page" to="/admin/users/page/1" />
-                            <Redirect exact from="/admin/logs" to="/admin/logs/1" />
                             <Redirect exact from="/admin/users" to="/admin/users/1" />
+                            <Redirect exact from="/admin/logs" to="/admin/logs/1" />
+                            <Redirect exact from="/admin/reset-binding" to="/admin/reset-binding/1" />
                             <Route
                                 path="/admin/users/edit-user/:username"
                                 render={() => (
@@ -291,7 +291,7 @@ class AdminPanel extends React.Component {
                                 )}
                             />
                             <Route
-                                path="/admin/FAQ/:title"
+                                path="/admin/FAQ/:title/:page"
                                 render={() => (
                                     <ViewAnswers />
                                 )}
@@ -305,7 +305,7 @@ class AdminPanel extends React.Component {
                                 render={() => <EditProduct type={this.state.productEditType} />}
                             />
                             <Route
-                                path="/admin/news/:title"
+                                path="/admin/news/:title/:page"
                                 render={() => <ViewNews />}
                             />
                             {routes}

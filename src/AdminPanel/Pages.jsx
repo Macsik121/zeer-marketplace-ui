@@ -20,13 +20,15 @@ export default class Pages extends React.Component {
         this.hideChooseAdditionalPages = this.hideChooseAdditionalPages.bind(this);
     }
     componentDidUpdate(prevProps) {
-        const { array, path, page } = this.props;
+        let { path, page } = this.props;
+        const array = this.props.array ? this.props.array : [];
         const itemsOnPage = this.props.itemsOnPage ? this.props.itemsOnPage : 15;
+        page = +page;
         if (prevProps.array != array) {
             this.setState({
                 array,
                 path,
-                page: +page,
+                page,
                 itemsOnPage
             });
         }
@@ -37,7 +39,7 @@ export default class Pages extends React.Component {
         }.bind(this);
     }
     handleSearchPages(e) {
-        this.setState({ searchValue: e.target.value });
+        this.setState({ searchValue: e.target.value.trim() });
     }
     toggleChooseAdditionalPages() {
         const input = document.getElementById('search-pages');
@@ -61,64 +63,34 @@ export default class Pages extends React.Component {
         page = +page;
         const pages = [];
         let limitPage = 0;
-        const hiddenPageLinks = [];
+        const linksInDropdown = [];
         array.map((_, i) => {
             const linkToRender = (
                 <NavLink
-                    className="page-link"
+                    className="remained-page"
                     to={`/admin/${path}/${i / itemsOnPage + 1}`}
                     key={i / itemsOnPage + 1}
+                    onClick={this.hideChooseAdditionalPages}
                 >
                     {i / itemsOnPage + 1}
                 </NavLink>
             );
-            if (i % itemsOnPage == 0 && i >= itemsOnPage * 3) {
-                hiddenPageLinks.push(i / itemsOnPage + 1);
-                limitPage = i;
-                return;
-            }
             if (i % itemsOnPage == 0) {
-                pages.push(linkToRender);
+                const valueToSearch = i / itemsOnPage + 1;
+                if (valueToSearch.toString().includes(searchValue)) {
+                    linksInDropdown.push(linkToRender);
+                } else if (searchValue == '') {
+                    linksInDropdown.push(linkToRender);
+                }
                 limitPage = i;
             }
         });
         limitPage = limitPage / itemsOnPage + 1;
 
-        if (pages.length + hiddenPageLinks.length > 3) {
-            const hiddenPageLinksCopy = [...hiddenPageLinks];
-            if (hiddenPageLinksCopy.length == 2) {
-                hiddenPageLinksCopy.pop();
-            } else if (hiddenPageLinksCopy.length > 2) {
-                hiddenPageLinksCopy.pop();
-                hiddenPageLinksCopy.pop();
-            }
-            const theRestPages = (
-                hiddenPageLinksCopy.map(currentPage => {
-                    if (currentPage.toString().includes(searchValue)) {
-                        return (
-                            <NavLink
-                                to={`/admin/${path}/${currentPage}`}
-                                className="remained-page"
-                                key={currentPage}
-                                onClick={this.hideChooseAdditionalPages}
-                            >
-                                {currentPage}
-                            </NavLink>
-                        )
-                    } else if (searchValue == '') {
-                        return (
-                            <NavLink
-                                to={`/admin/${path}/${currentPage}`}
-                                className="remained-page"
-                                key={currentPage}
-                                onClick={this.hideChooseAdditionalPages}
-                            >
-                                {currentPage}
-                            </NavLink>
-                        )
-                    }
-                })
-            );
+        let result = array.length / itemsOnPage;
+        result = Math.ceil(result);
+
+        if (result > 4) {
             pages.push(
                 <button
                     className="page-link more-pages"
@@ -153,63 +125,160 @@ export default class Pages extends React.Component {
                         <div
                             className="additional-pages"
                         >
-                            {theRestPages}
+                            {linksInDropdown}
                         </div>
                     </div>
                 </button>
             );
         }
 
-        if (hiddenPageLinks.length > 2) {
-            const lastPage = hiddenPageLinks[hiddenPageLinks.length - 1];
-            const preLastPage = hiddenPageLinks[hiddenPageLinks.length - 2];
-        
-            pages.push(
+        const linksToAdd = [
+            <Link
+                className={`page-link ${page <= 2 ? 'disabled' : ''}`}
+                to={`/admin/${path}/${page - 2}`}
+                key="backTwoTimes"
+            >
+                <img
+                    className="back switch-page"
+                    src={'/images/categories-arrow-menu.png'}
+                />
+                <img
+                    className="back switch-page"
+                    src={'/images/categories-arrow-menu.png'}
+                />
+            </Link>,
+            <Link
+                className={`page-link ${page <= 1 ? 'disabled' : ''}`}
+                to={`/admin/${path}/${page - 1}`}
+                key="backOneTime"
+            >
+                <img
+                    className="back switch-page"
+                    src={'/images/categories-arrow-menu.png'}
+                />
+            </Link>,
+            <NavLink
+                to={`/admin/${path}/${
+                    page < 3
+                        ? 1
+                        : page >= limitPage - 1
+                            ? limitPage - 3
+                            : page - 2
+                    }`
+                }
+                className="page-link"
+                key="page - 2"
+            >
+                {
+                    page < 3
+                        ? 1
+                        : page >= limitPage - 1
+                            ? limitPage - 3
+                            : page - 2
+                }
+            </NavLink>
+        ];
+
+        if (result >= 2) {
+            linksToAdd.push(
                 <NavLink
+                    to={`/admin/${path}/${
+                        page < 3
+                            ? 2
+                            : page >= limitPage - 1
+                                ? limitPage - 2
+                                : page - 1
+                    }`}
                     className="page-link"
-                    to={`/admin/${path}/${preLastPage}`}
-                    key={preLastPage}
+                    key="page - 1"
                 >
-                    {preLastPage}
-                </NavLink>,
-                <NavLink
-                    className="page-link"
-                    to={`/admin/${path}/${lastPage}`}
-                    key={lastPage}
-                >
-                    {lastPage}
+                    {
+                        page < 3
+                            ? 2
+                            : page >= limitPage - 1
+                                ? limitPage - 2
+                                : page - 1
+                    }
                 </NavLink>
             );
         }
-    
-        if (pages.length > 0) {
-            pages.unshift(
-                <Link
-                    className={`page-link ${page <= 2 ? 'disabled' : ''}`}
-                    to={`/admin/${path}/${page - 2}`}
-                    key="backTwoTimes"
+
+        if (array.length > 0) {
+            pages.unshift(linksToAdd);
+        }
+
+        if (result >= 4) {
+            pages.push(
+                <NavLink
+                    to={
+                        `/admin/${path}/${
+                            page < 3
+                                ? 3
+                                : page + 1 < limitPage
+                                    ? page + 1
+                                    : limitPage - 1
+                        }`
+                    }
+                    className="page-link"
+                    key="page + 1"
                 >
-                        <img
-                            className="back switch-page"
-                            src={'/images/categories-arrow-menu.png'}
-                        />
-                        <img
-                            className="back switch-page"
-                            src={'/images/categories-arrow-menu.png'}
-                        />
-                </Link>,
-                <Link
-                    className={`page-link ${page <= 1 ? 'disabled' : ''}`}
-                    to={`/admin/${path}/${page - 1}`}
-                    key="backOneTime"
+                    {
+                        page < 3
+                            ? 3
+                            : page + 1 < limitPage
+                                ? page + 1
+                                : limitPage - 1
+                    }
+                </NavLink>,
+                <NavLink
+                    to={
+                        `/admin/${path}/${
+                            page < 3
+                                ? 4
+                                : page + 2 < limitPage
+                                    ? page + 2
+                                    : limitPage
+                        }`
+                    }
+                    className="page-link"
+                    key="page + 2"
                 >
-                    <img
-                        className="back switch-page"
-                        src={'/images/categories-arrow-menu.png'}
-                    />
-                </Link>
+                    {
+                        page < 3
+                            ? 4
+                            : page + 2 > limitPage
+                                ? limitPage
+                                : page + 2
+                    }
+                </NavLink>
             );
-        
+        } else if (result >= 3) {
+            pages.push(
+                <NavLink
+                    to={
+                        `/admin/${path}/${
+                            page < 3
+                                ? 3
+                                : page + 1 < limitPage
+                                    ? page + 1
+                                    : limitPage - 1
+                        }`
+                    }
+                    className="page-link"
+                    key="page + 1"
+                >
+                    {
+                        page < 3
+                            ? 3
+                            : page + 1 < limitPage
+                                ? page + 1
+                                : limitPage - 1
+                    }
+                </NavLink>
+            );
+        } 
+
+        if (array.length > 0) {
             pages.push(
                 <Link
                     className={`page-link ${page + 1 > limitPage ? 'disabled' : ''}`}
@@ -235,7 +304,7 @@ export default class Pages extends React.Component {
                 </Link>
             );
         }
-    
+
         return pages;
     }
 }

@@ -1,8 +1,10 @@
 import React from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { withRouter } from 'react-router-dom';
 import fetchData from '../fetchData';
+import Pages from './Pages.jsx';
 
-export default class ResetBindings extends React.Component {
+class ResetBindings extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -63,6 +65,7 @@ export default class ResetBindings extends React.Component {
         });
     }
     filterByStatus(e) {
+        this.props.history.push('/admin/reset-binding/1');
         this.toggleFilterDropdown();
         this.handleSearch({
             target: {
@@ -125,8 +128,8 @@ export default class ResetBindings extends React.Component {
         this.setState({ isRequestMaking: false });
     }
     async rejectResetBinding(name, number) {
-        number = +number;
         this.setState({ isRequestMaking: true });
+        number = +number;
 
         const vars = {
             name,
@@ -146,6 +149,9 @@ export default class ResetBindings extends React.Component {
     toggleFilterDropdown() {
         this.setState({ filterDropdownShown: !this.state.filterDropdownShown });
     }
+    toggleActiveClass(e) {
+        e.target.classList.toggle('active');
+    }
     render() {
         const {
             isRequestMaking,
@@ -154,7 +160,11 @@ export default class ResetBindings extends React.Component {
             filterDropdownShown
         } = this.state;
 
-        const resetBindings = this.state.resetBindingRequests.map(request => {
+        const { page } = this.props.match.params;
+
+        const limit = 15;
+        let resetBindings = [];
+        this.state.resetBindingRequests.map((request, i) => {
             if (request.status.toLowerCase() == 'waiting') {
                 request.status = 'на рассмотрении'
             } else if (request.status.toLowerCase() == 'unsuccessful') {
@@ -162,15 +172,28 @@ export default class ResetBindings extends React.Component {
             } else if (request.status.toLowerCase() == 'done') {
                 request.status = 'принят';
             }
+
             const requestToRender = (
-                <div key={new Date() - new Date(request.date)} className="reset-request">
+                <div
+                    onClick={this.toggleActiveClass}
+                    key={new Date() - new Date(request.date)}
+                    className="reset-request"
+                >
                     <div className="number">{request.id}</div>
                     <div className="reason">{request.reason}</div>
                     <div className="date">{new Date(request.date).toLocaleDateString()}</div>
                     <div className="ip">{request.ip || 'localhost'}</div>
                     <div className="location">{request.location || 'Москва'}</div>
                     <div className="status">{request.status}</div>
-                    <div className="action">
+                    <div
+                        className="action"
+                        style={
+                            {
+                                opacity: isRequestMaking ? 0 : 1,
+                                pointerEvents: isRequestMaking ? 'none' : 'all'
+                            }
+                        }
+                    >
                         <button
                             className={`
                                 button
@@ -203,23 +226,37 @@ export default class ResetBindings extends React.Component {
                 </div>
             );
 
-            if (filterBy.toLowerCase() == 'все') {
-                return requestToRender;
-            } else if (filterBy.toLowerCase() == 'на рассмотрении' && request.status == 'на рассмотрении') {
-                return requestToRender;
-            } else if (filterBy.toLowerCase() == 'принят' && request.status == 'принят') {
-                return requestToRender;
-            } else if (filterBy.toLowerCase() == 'отклонён' && request.status == 'отклонён') {
-                return requestToRender;
+            if (requestToRender) {
+                if (filterBy.toLowerCase() == 'все' ) {
+                    resetBindings.push(requestToRender);
+                } else if (filterBy.toLowerCase() == 'на рассмотрении' && request.status == 'на рассмотрении') {
+                    resetBindings.push(requestToRender);
+                } else if (filterBy.toLowerCase() == 'принят' && request.status == 'принят') {
+                    resetBindings.push(requestToRender);
+                } else if (filterBy.toLowerCase() == 'отклонён' && request.status == 'отклонён') {
+                    resetBindings.push(requestToRender);
+                }
             }
         });
 
+        resetBindings = resetBindings.map((request, i) => {
+            const renderLimit = limit * page;
+            const renderFrom = renderLimit - limit;
+
+            if (i >= renderFrom && i < renderLimit) {
+                return request;
+            }
+        });
         const sortBy = existingStatuses.map(status => (
             <div onClick={this.filterByStatus} key={status} className="item">
                 {status}
             </div>
         ));
 
+        console.log('isRequestMaking:', {
+            opacity: isRequestMaking ? 0 : 1,
+            pointerEvents: isRequestMaking ? 'none' : 'all'
+        });
         return (
             <div className="reset-requests">
                 <div
@@ -300,11 +337,24 @@ export default class ResetBindings extends React.Component {
                         <div className="status">статус</div>
                         <div className="action">действие</div>
                     </div>
-                    <div className="requests">
+                    <div
+                        className="requests"
+                        style={
+                            {
+                                opacity: isRequestMaking ? 0 : 1,
+                                pointerEvents: isRequestMaking ? 'none' : 'all'
+                            }
+                        }
+                    >
                         {resetBindings}
                     </div>
+                </div>
+                <div className="pages">
+                    <Pages page={page} array={resetBindings} path="reset-binding" />
                 </div>
             </div>
         )
     }
 }
+
+export default withRouter(ResetBindings);

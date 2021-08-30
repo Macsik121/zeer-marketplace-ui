@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { CircularProgress } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import fetchData from '../../fetchData';
+import Pages from '../Pages.jsx';
 
 class ConfirmDeleteNews extends React.Component {
     constructor() {
@@ -131,7 +132,7 @@ class ViewNews extends React.Component {
             }
         `, { title });
 
-        this.getNews();
+        await this.getNews();
 
         this.setState({ isRequestMaking: false });
     }
@@ -146,31 +147,40 @@ class ViewNews extends React.Component {
             newsToDelete
         } = this.state;
 
-        const changes = product.changes && product.changes.map((change, i) => (
-            <div onClick={this.toggleClass} key={change.id} className="change">
-                <div className="description">{change.description}</div>
-                <div className="version">{change.version}</div>
-                <div className="date">{new Date(change.created).toLocaleDateString()}</div>
-                <div className="action">
-                    <button
-                        onClick={
-                            (e) => {
-                                e.stopPropagation();
-                                this.setState({ deleteNewsShown: true, newsToDelete: change });
-                            }
-                        }
-                        style={
-                            {
-                                pointerEvents: deleteNewsShown ? 'none' : 'all'
-                            }
-                        }
-                        className="button delete"
-                    >
-                        Удалить
-                    </button>
-                </div>
-            </div>
-        ));
+        const { page } = this.props.match.params;
+
+        const limit = 15;
+        const changes = product.changes && product.changes.map((change, i) => {
+            const renderLimit = page * limit;
+            const renderFrom = renderLimit - limit;
+            if (i < renderLimit && i >= renderFrom) {
+                return (
+                    <div onClick={this.toggleClass} key={change.id} className="change">
+                        <div className="description">{change.description}</div>
+                        <div className="version">{change.version}</div>
+                        <div className="date">{new Date(change.created).toLocaleDateString()}</div>
+                        <div className="action">
+                            <button
+                                onClick={
+                                    (e) => {
+                                        e.stopPropagation();
+                                        this.setState({ deleteNewsShown: true, newsToDelete: change });
+                                    }
+                                }
+                                style={
+                                    {
+                                        pointerEvents: deleteNewsShown ? 'none' : 'all'
+                                    }
+                                }
+                                className="button delete"
+                            >
+                                Удалить
+                            </button>
+                        </div>
+                    </div>
+                )
+            }
+        });
 
         return (
             <div className="product-news">
@@ -251,6 +261,13 @@ class ViewNews extends React.Component {
                         </div>
                         <div className="changes">
                             {changes}
+                        </div>
+                        <div className="pages">
+                            <Pages
+                                page={page}
+                                array={Object.keys(product).length > 0 && changes}
+                                path={`news/${product.title}`}
+                            />
                         </div>
                     </div>
                     <div className="product">
