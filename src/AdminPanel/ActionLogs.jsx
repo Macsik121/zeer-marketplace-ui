@@ -234,7 +234,6 @@ class ActionLogs extends React.Component {
         ));
 
         const { page } = this.props.match.params;
-        const pages = <Pages array={logs} path="logs" page={page} itemsOnPage={20} />
 
         const limit = 20;
         logs = logs.map((log, i) => {
@@ -320,9 +319,7 @@ class ActionLogs extends React.Component {
                                 {logs}
                             </div>
                         </div>
-                        <div className="pages">
-                            {pages}
-                        </div>
+                        <Pages array={logs} path="logs" page={page} itemsOnPage={20} />
                     </div>
                 </div>
             </div>

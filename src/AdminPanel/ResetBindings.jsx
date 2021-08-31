@@ -91,6 +91,7 @@ class ResetBindings extends React.Component {
             let searchValue = this.state.searchValue;
             searchValue = searchValue.toLowerCase().trim();
             const { resetBindingRequestsCopy } = this.state;
+            this.props.history.push('/admin/reset-binding/1');
     
             const requestsToRender = [];
     
@@ -253,10 +254,6 @@ class ResetBindings extends React.Component {
             </div>
         ));
 
-        console.log('isRequestMaking:', {
-            opacity: isRequestMaking ? 0 : 1,
-            pointerEvents: isRequestMaking ? 'none' : 'all'
-        });
         return (
             <div className="reset-requests">
                 <div
@@ -349,9 +346,7 @@ class ResetBindings extends React.Component {
                         {resetBindings}
                     </div>
                 </div>
-                <div className="pages">
-                    <Pages page={page} array={resetBindings} path="reset-binding" />
-                </div>
+                <Pages page={page} array={resetBindings} path="reset-binding" />
             </div>
         )
     }

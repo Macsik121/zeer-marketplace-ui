@@ -45,6 +45,7 @@ class Product extends React.Component {
                         productFor
                         logo
                         changes {
+                            id
                             version
                             created
                             description
@@ -91,7 +92,7 @@ class Product extends React.Component {
         const changes = !this.props.hideChanges && this.state.changes.map((change, i) => {
             if (!this.state.showAllChanges && i < 3) {
                 return (
-                    <div key={change.version} className="change">
+                    <div key={change.id} className="change">
                         <div className="general">
                             <span className="version">{change.version} версия</span>
                             <span className="created">{new Date(change.created).toLocaleDateString()}</span>
@@ -103,7 +104,7 @@ class Product extends React.Component {
                 )
             } else if (this.state.showAllChanges) {
                 return (
-                    <div key={change.version} className="change">
+                    <div key={change.id} className="change">
                         <div className="general">
                             <span className="version">{change.version} версия</span>
                             <span className="created">{new Date(change.created).toLocaleDateString()}</span>
@@ -130,14 +131,16 @@ class Product extends React.Component {
 
         const { buyProduct } = this.props;
 
-        const costDropdown = calculatedCosts.map(costTime => (
-            <div className="item" key={costTime} onClick={this.calculateCost}>
-                {costTime}
-                {costTime == choosenDropdown &&
-                    <img className="cost-selected" src="/images/selected-cost.png" />
-                }
-            </div>
-        ));
+        const costDropdown = calculatedCosts.map(costTime => {
+            return (
+                <div className="item" key={costTime} onClick={this.calculateCost}>
+                    {costTime}
+                    {costTime == choosenDropdown &&
+                        <img className="cost-selected" src="/images/selected-cost.png" />
+                    }
+                </div>
+            )
+        });
         const changes = this.renderChanges();
         const productWorkingTime = new Date(product.workingTime);
         let createdDate;
@@ -290,7 +293,7 @@ class Product extends React.Component {
                         </div>
                         <div className="general-info">
                             {
-                                generalInformation.map(information => {
+                                generalInformation.map((information, i) => {
                                     if (information) {
                                         return (
                                             <div key={information.title} className="general-info-wrap">

@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 // libraries
-import 'normalize.css';
+import 'normalize.css/normalize.css';
 // import 'react-notifications/lib/notifications.css';
 // my styles
 import '../src/styles/notfound.css';

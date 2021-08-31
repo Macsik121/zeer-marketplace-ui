@@ -362,16 +362,14 @@ class ViewAnswers extends React.Component {
                             <div className="answers">
                                 {answers}
                             </div>
-                            <div className="pages">
-                                <Pages
-                                    page={page}
-                                    array={
-                                        Object.keys(sort).length > 0 &&
-                                            answers
-                                    }
-                                    path={`FAQ/${sort.sort && sort.sort}`}
-                                />
-                            </div>
+                            <Pages
+                                page={page}
+                                array={
+                                    Object.keys(sort).length > 0 &&
+                                        answers
+                                }
+                                path={`FAQ/${sort.sort && sort.sort}`}
+                            />
                         </div>
                         <div className="sort">
                             <div className="sort-title">

@@ -159,7 +159,7 @@ export default class Pages extends React.Component {
             </Link>,
             <NavLink
                 to={`/admin/${path}/${
-                    page < 3
+                    page <= 3
                         ? 1
                         : page >= limitPage - 1
                             ? limitPage - 3
@@ -170,7 +170,7 @@ export default class Pages extends React.Component {
                 key="page - 2"
             >
                 {
-                    page < 3
+                    page <= 3
                         ? 1
                         : page >= limitPage - 1
                             ? limitPage - 3
@@ -183,7 +183,7 @@ export default class Pages extends React.Component {
             linksToAdd.push(
                 <NavLink
                     to={`/admin/${path}/${
-                        page < 3
+                        page <= 3
                             ? 2
                             : page >= limitPage - 1
                                 ? limitPage - 2
@@ -193,7 +193,7 @@ export default class Pages extends React.Component {
                     key="page - 1"
                 >
                     {
-                        page < 3
+                        page <= 3
                             ? 2
                             : page >= limitPage - 1
                                 ? limitPage - 2
@@ -257,7 +257,7 @@ export default class Pages extends React.Component {
                 <NavLink
                     to={
                         `/admin/${path}/${
-                            page < 3
+                            page <= 3
                                 ? 3
                                 : page + 1 < limitPage
                                     ? page + 1
@@ -268,7 +268,7 @@ export default class Pages extends React.Component {
                     key="page + 1"
                 >
                     {
-                        page < 3
+                        page <= 3
                             ? 3
                             : page + 1 < limitPage
                                 ? page + 1
@@ -305,6 +305,10 @@ export default class Pages extends React.Component {
             );
         }
 
-        return pages;
+        return (
+            <div className="pages">
+                {pages}
+            </div>
+        );
     }
 }

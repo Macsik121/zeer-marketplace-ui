@@ -314,9 +314,7 @@ class Users extends React.Component {
                         >
                             {users}
                         </div>
-                        <div className="pages">
-                            <Pages page={page} array={users} path="users" />
-                        </div>
+                        <Pages page={page} array={users} path="users" />
                     </div>
                 </div>
             </div>

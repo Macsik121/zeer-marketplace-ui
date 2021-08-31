@@ -370,7 +370,7 @@ export default class Promocodes extends React.Component {
                             </button>
                             <Link
                                 className="button view-promocodes"
-                                to={`/admin/promocodes/${product.title}`}
+                                to={`/admin/promocodes/${product.title}/1`}
                             >
                                 Просмотр промокодов
                             </Link>

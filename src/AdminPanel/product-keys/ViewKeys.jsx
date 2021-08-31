@@ -337,13 +337,11 @@ class ViewKeys extends React.Component {
                             </div>
                             <div className="keys-of-product">
                                 {productKeys}
-                                <div className="pages">
-                                    <Pages
-                                        array={productKeys || []}
-                                        path={`keys/${product.title}`}
-                                        page={page}
-                                    />
-                                </div>
+                                <Pages
+                                    array={productKeys || []}
+                                    path={`keys/${product.title}`}
+                                    page={page}
+                                />
                             </div>
                         </div>
                         <div

@@ -7,9 +7,17 @@ class CreateNews extends React.Component {
     constructor() {
         super();
         this.state = {
-            isRequestMaking: false
+            isRequestMaking: false,
+            scrollTo: 0
         };
         this.createNews = this.createNews.bind(this);
+    }
+    componentDidUpdate() {
+        const { scrollTo } = this.state;
+        const { scrollTop } = document.documentElement;
+        if (scrollTo != scrollTop) {
+            this.setState({ scrollTo: scrollTop });
+        }
     }
     async createNews(e) {
         e.preventDefault();
@@ -43,13 +51,18 @@ class CreateNews extends React.Component {
         this.setState({ isRequestMaking: false });
     }
     render() {
-        const { isRequestMaking } = this.state;
+        const { isRequestMaking, scrollTo } = this.state;
         const { style } = this.props;
 
         return (
             <div
                 className="create-news-modal"
-                style={{ ...style }}
+                style={
+                    {
+                        ...style,
+                        top: scrollTo + 150
+                    }
+                }
             >
                 <form
                     onSubmit={this.createNews}

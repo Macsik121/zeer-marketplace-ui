@@ -262,13 +262,11 @@ class ViewNews extends React.Component {
                         <div className="changes">
                             {changes}
                         </div>
-                        <div className="pages">
-                            <Pages
-                                page={page}
-                                array={Object.keys(product).length > 0 && changes}
-                                path={`news/${product.title}`}
-                            />
-                        </div>
+                        <Pages
+                            page={page}
+                            array={Object.keys(product).length > 0 && changes}
+                            path={`news/${product.title}`}
+                        />
                     </div>
                     <div className="product">
                         <img className="cover" src={product.imageURLdashboard} />

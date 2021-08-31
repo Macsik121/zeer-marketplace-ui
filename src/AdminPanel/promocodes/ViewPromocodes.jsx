@@ -4,6 +4,7 @@ import { CircularProgress } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import jwtDecode from 'jwt-decode';
 import fetchData from '../../fetchData';
+import Pages from '../Pages.jsx';
 
 class ConfirmDeletePromo extends React.Component {
     constructor() {
@@ -227,29 +228,37 @@ class ViewPromocodes extends React.Component {
             deletePromocodeShown
         } = this.state;
 
+        const { page } = this.props.match.params;
+
         const activePromocodes = product.promocodes && product.promocodes.active.length;
         const unactivePromocodes = product.promocodes && product.promocodes.unactive.length;
 
-        const promocodes = product.promocodes && product.promocodes.all.map(promo => {
-            return (
-                <div key={promo.name} className="promocode">
-                    <div className="promo-name">{promo.name}</div>
-                    <div className="discount-percent">{promo.discountPercent}</div>
-                    <div className="activations-amount">{promo.activationsAmount}/{promo.promocodesAmount}</div>
-                    <div className="is-used">{promo.isUsed ? 'Да' : 'Нет'}</div>
-                    <div className="action">
-                        <button
-                            className="button delete"
-                            onClick={() => {
-                                this.showDeletePromo();
-                                this.setState({ promoToDelete: promo });
-                            }}
-                        >
-                            Удалить
-                        </button>
+        const limit = 15;
+
+        const promocodes = product.promocodes && product.promocodes.all.map((promo, i) => {
+            const renderLimit = page * limit;
+            const renderFrom = renderLimit - limit;
+            if (i < renderLimit && i >= renderFrom) {
+                return (
+                    <div key={promo.name} className="promocode">
+                        <div className="promo-name">{promo.name}</div>
+                        <div className="discount-percent">{promo.discountPercent}</div>
+                        <div className="activations-amount">{promo.activationsAmount}/{promo.promocodesAmount}</div>
+                        <div className="is-used">{promo.isUsed ? 'Да' : 'Нет'}</div>
+                        <div className="action">
+                            <button
+                                className="button delete"
+                                onClick={() => {
+                                    this.showDeletePromo();
+                                    this.setState({ promoToDelete: promo });
+                                }}
+                            >
+                                Удалить
+                            </button>
+                        </div>
                     </div>
-                </div>
-            )
+                )
+            }
         });
 
         return (
@@ -316,6 +325,11 @@ class ViewPromocodes extends React.Component {
                             <div className="promocodes">
                                 {promocodes}
                             </div>
+                            <Pages
+                                array={product.promocodes ? promocodes : []}
+                                path={`promocodes/${product.title}`}
+                                page={page}
+                            />
                         </div>
                         <div className="product">
                             <img className="cover" src={product.imageURLdashboard} />

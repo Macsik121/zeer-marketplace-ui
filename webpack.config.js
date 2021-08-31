@@ -2,11 +2,15 @@ const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const webpack = require('webpack');
 
 const browserConfig = {
     mode: 'development',
-    entry: { app: [ './browser/App.jsx' ] },
+    entry: {
+        app: './browser/App.jsx'
+    },
     output: {
         path: path.resolve(__dirname, 'public'),
         filename: '[name].bundle.js',
@@ -37,12 +41,8 @@ const browserConfig = {
                 ]
             },
             {
-                test: /\.css$/i,
+                test: /\.css$/,
                 use: [MiniCssExtractPlugin.loader, 'css-loader']
-            },
-            {
-                test: /\.s[ac]ss/i,
-                use: ["style-loader", "css-loader", "sass-loader",]
             },
             {
                 test: /\.(png|svg|jpg|jpeg|gif)$/i,
@@ -58,12 +58,13 @@ const browserConfig = {
         splitChunks: {
             chunks: 'all',
             name: 'vendor'
-        }
+        },
+        minimize: true,
+        minimizer: [new TerserPlugin(), new CssMinimizerPlugin()]
     },
     plugins: [
         new MiniCssExtractPlugin({
-            filename: '[name].styles.css',
-            linkType: 'text/css'
+            filename: '[name].styles.css'
         }),
         new CleanWebpackPlugin(),
         new webpack.DefinePlugin({

@@ -282,7 +282,7 @@ class AdminPanel extends React.Component {
                                 )}
                             />
                             <Route
-                                path="/admin/promocodes/:title"
+                                path="/admin/promocodes/:title/:page"
                                 render={() => (
                                     <ViewPromocodes
                                         renderSearchBar={this.renderSearchBar}
