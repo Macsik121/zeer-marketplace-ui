@@ -74,7 +74,10 @@ class ProductInfo extends React.Component {
                         <span className="description">{popProduct.description}</span>
                         <BoughtPeople people={popProduct.peopleBought} />
                         <div className="buttons">
-                            <button className="buy button" onClick={() => buyProduct(popProduct.title)}>
+                            <button
+                                className="buy button"
+                                onClick={() => buyProduct(popProduct.title)}
+                            >
                                 Купить
                             </button>
                             <Link

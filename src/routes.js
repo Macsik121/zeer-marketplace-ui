@@ -1,4 +1,4 @@
-import Home from './Home.jsx';
+import Home from './Home/Home.jsx';
 import NotFound from './NotFound.jsx';
 import Dashboard from './Dashboard/Dashboard.jsx';
 import AdminPanel from './AdminPanel/AdminPanel.jsx';

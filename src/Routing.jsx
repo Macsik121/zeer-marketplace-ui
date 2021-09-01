@@ -2,8 +2,6 @@ import jwtDecode from 'jwt-decode';
 import React from 'react';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import routes from './routes';
-import { fetchPopularProducts } from './PopularProducts.jsx';
-import fetchData from './fetchData';
 
 class Routing extends React.Component {
     constructor() {

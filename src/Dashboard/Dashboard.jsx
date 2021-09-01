@@ -1,9 +1,7 @@
 import React from 'react';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
-import fetch from 'isomorphic-fetch';
 import fetchData from '../fetchData';
-import generateString from '../generateString';
 import Lobby from './Lobby.jsx';
 import Products from './Products.jsx';
 import Subscriptions from './Subscriptions.jsx';
@@ -15,8 +13,10 @@ import Footer from '../Footer.jsx';
 import NavBar from './NavBar.jsx';
 import PasswordChangedNotification from './PasswordChangedNotif.jsx';
 import AgreementPrivacyNPolicy from '../AgreementModal.jsx';
-import { fetchPopularProducts } from '../PopularProducts.jsx';
+import fetchPopularProducts from '../PopularProducts';
 import ResetBinding from './ResetBinding.jsx';
+
+const uiEndpoint = 'http://localhost:8080';
 
 class Dashboard extends React.Component {
     constructor() {
@@ -210,13 +210,15 @@ class Dashboard extends React.Component {
         this.getProducts()
 
         this.setState({
-            userAvatar: { background: `url(${this.state.user.avatar}) center/cover no-repeat` }
+            userAvatar: {
+                background: `url(${this.state.user.avatar}) center/cover no-repeat`
+            }
         });
     }
-    async buyProduct(title, cost) {
+    async buyProduct(title = '', cost = 0, days = 30) {
         this.setState({ productsRequestMaking: true });
         window.location.href = `
-            https://paymaster.ru/payment/init?LMI_MERCHANT_ID=77aa76b8-1551-42c5-be5f-f49d6330260f&LMI_PAYMENT_AMOUNT=${cost}&LMI_CURRENCY=RUB&LMI_PAYMENT_DESC=Оплата%20товара%20${title}&LMI_SUCCESS_URL=localhost:8080/dashboard/subscriptions&LMI_FAIL_URL=localhost:8080/dashboard/products&LMI_SHOPPINGCART.ITEMS[N].NAME=${title}&LMI_SHOPPINGCART.ITEMS[N].QTY=1&LMI_SHOPPINGCART.ITEMS[N].PRICE=${cost}&LMI_SHOPPINGCART.ITEMS[N].TAX=no_vat
+            https://paymaster.ru/payment/init?LMI_MERCHANT_ID=77aa76b8-1551-42c5-be5f-f49d6330260f&LMI_PAYMENT_AMOUNT=${cost}&LMI_CURRENCY=RUB&LMI_PAYMENT_DESC=Оплата%20товара%20${title}%20на%20${days}%20${days == 1 ? 'день' : 'дней'}&LMI_SUCCESS_URL=${uiEndpoint}/dashboard/subscriptions&LMI_FAIL_URL=${uiEndpoint}/dashboard/products&LMI_SHOPPINGCART.ITEMS[N].NAME=${title}&LMI_SHOPPINGCART.ITEMS[N].QTY=1&LMI_SHOPPINGCART.ITEMS[N].PRICE=${cost}&LMI_SHOPPINGCART.ITEMS[N].TAX=no_vat&LMI_INVOICE_CONFIRMATION_URL=
         `;
         // const query = `
         //     mutation buyProduct($title: String!, $name: String!, $navigator: NavigatorInput) {

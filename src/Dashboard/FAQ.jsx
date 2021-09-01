@@ -195,8 +195,8 @@ export default class FAQ extends React.Component {
                             <img
                                 style={
                                     answer.isShown
-                                        ? {transform: 'rotate(90deg)'}
-                                        : {transform: 'rotate(0deg)'}
+                                        ? { transform: 'rotate(90deg)' }
+                                        : { transform: 'rotate(0deg)' }
                                 }
                                 className="answers-arrow"
                                 src="/images/Rectangle.png"

@@ -35,6 +35,11 @@ app.post('/uploaded-images', async (req, res) => {
     }
 });
 
+app.post('/confirmation-payment', (req, res) => {
+    console.log(req.url);
+    res.send('Ok');
+});
+
 app.get('*', render);
 
 app.listen(port, () => console.log(`Server has successfully started with port ${port}`));

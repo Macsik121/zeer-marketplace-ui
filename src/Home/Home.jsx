@@ -2,10 +2,11 @@ import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import SlickSlider from 'react-slick';
 import jwtDecode from 'jwt-decode';
-import { fetchPopularProducts, Product } from './PopularProducts.jsx';
+import Product from './PopularProducts.jsx';
+import fetchPopularProducts from '../PopularProducts';
 import Signin from './Signin.jsx';
 import Signup from './Signup.jsx';
-import AgreementPrivacyNPolicy from './AgreementModal.jsx';
+import AgreementPrivacyNPolicy from '../AgreementModal.jsx';
 import ForgotPassword from './ForgotPasswordModal.jsx';
 
 class Home extends React.Component {
@@ -70,7 +71,11 @@ class Home extends React.Component {
                     content: `Почувствуй, как твое преимущество
                     над врагом растет, а игра упрощается!`
                 }
-            ]
+            ],
+            contactsShown: false,
+            termsOfUseShown: false,
+            privacyPolicyShown: false,
+            dataProcessingShown: false
         };
         this.showLogin = this.showLogin.bind(this);
         this.hideLogin = this.hideLogin.bind(this);
@@ -84,6 +89,10 @@ class Home extends React.Component {
         this.showForgotPassword = this.showForgotPassword.bind(this);
         this.hideForgotPassword = this.hideForgotPassword.bind(this);
         this.toggleForgotPassword = this.toggleForgotPassword.bind(this);
+        this.hideContacts = this.hideContacts.bind(this);
+        this.hidePrivacyPolicy = this.hidePrivacyPolicy.bind(this);
+        this.hideTermsOfUse = this.hideTermsOfUse.bind(this);
+        this.hideDataProcessing = this.hideDataProcessing.bind(this);
     }
     async componentDidMount() {
         const token = localStorage.getItem('token');
@@ -101,6 +110,7 @@ class Home extends React.Component {
                 showingAgreement,
                 showingSignup
             } = this.state;
+
             if (e.keyCode == 27 && showingLogin && !showingForgotPassword) {
                 this.hideLogin();
             } else if (e.keyCode == 27 && showingForgotPassword) {
@@ -110,6 +120,12 @@ class Home extends React.Component {
                 this.hideAgreement();
             } else if (e.keyCode == 27 && showingSignup) {
                 this.hideSignup();
+            }
+            if (e.keyCode == 27) {
+                this.hideContacts();
+                this.hideTermsOfUse();
+                this.hidePrivacyPolicy();
+                this.hideDataProcessing();
             }
         }.bind(this);
         this.setState({
@@ -163,6 +179,20 @@ class Home extends React.Component {
     hideForgotPassword() {
         this.setState({ showingForgotPassword: false });
     }
+    hideContacts() {
+        this.setState({
+            contactsShown: false
+        });
+    }
+    hideTermsOfUse() {
+        this.setState({ termsOfUseShown: false });
+    }
+    hidePrivacyPolicy() {
+        this.setState({ privacyPolicyShown: false });
+    }
+    hideDataProcessing() {
+        this.setState({ dataProcessingShown: false });
+    }
     render() {
         const {
             products,
@@ -170,8 +200,13 @@ class Home extends React.Component {
             showingLogin,
             showingSignup,
             showingAgreement,
-            showingForgotPassword
+            showingForgotPassword,
+            contactsShown,
+            termsOfUseShown,
+            privacyPolicyShown,
+            dataProcessingShown
         } = this.state;
+
         const sliderSettings = {
             infinite: true,
             speed: 500,
@@ -187,6 +222,7 @@ class Home extends React.Component {
                 key={product.id}
             />
         ))
+
         const advantages = this.state.advantages.map((advantage, i) => (
             <div key={advantage.title} className={`advantage advantage${++i}`}>
                 <img className="img" src={advantage.imgURL} />
@@ -204,27 +240,58 @@ class Home extends React.Component {
             <div
                 className="home"
                 style={
-                    showingLogin || showingSignup
-                        ? {overflow: 'hidden', height: '100vh'}
-                        : {overflow: 'inherit', height: 'auto'}
+                    {
+                        overflow: (
+                            showingLogin || showingSignup
+                                ? 'hidden'
+                                : 'visible'
+                        ),
+                        height: (
+                            showingLogin || showingSignup
+                                ? '100vh'
+                                : 'auto'
+                        )
+                    }
                 }
             >
                 <div
                     className="header"
                     style={
-                        showingLogin || showingSignup
-                            ? {
-                                opacity: `
-                                    ${
-                                        showingForgotPassword || showingAgreement
-                                            ? '0.25'
-                                            : '0.5'
-                                    }
-                                `,
-                                transition: '500ms'
-                            }
-                            : {opacity: '1', transition: '500ms'}
-                        
+                        {
+                            opacity: (
+                                showingLogin ||
+                                showingSignup ||
+                                contactsShown ||
+                                termsOfUseShown ||
+                                privacyPolicyShown ||
+                                dataProcessingShown ||
+                                showingForgotPassword || showingAgreement
+                                    ? 0.5
+                                    : 1
+                            ),
+                            pointerEvents: (
+                                showingLogin ||
+                                showingSignup ||
+                                contactsShown ||
+                                termsOfUseShown ||
+                                privacyPolicyShown ||
+                                dataProcessingShown ||
+                                showingForgotPassword || showingAgreement
+                                    ? 'none'
+                                    : 'all'
+                            ),
+                            userSelect: (
+                                showingLogin ||
+                                showingSignup ||
+                                contactsShown ||
+                                termsOfUseShown ||
+                                privacyPolicyShown ||
+                                dataProcessingShown ||
+                                showingForgotPassword || showingAgreement
+                                    ? 'none'
+                                    : 'all'
+                            )
+                        }
                     }
                 >
                     <nav className="nav">
@@ -327,22 +394,40 @@ class Home extends React.Component {
                 />
                 <div
                     style={
-                        showingLogin || showingSignup
-                            ? {
-                                opacity: `
-                                    ${
-                                        showingForgotPassword || showingAgreement
-                                            ? '0.25'
-                                            : '0.5'
-                                    }
-
-                                `,
-                                transition: '500ms',
-                                pointerEvents: 'none',
-                                userSelect: 'none'
-                            }
-                            : {opacity: '1', transition: '500ms', 
-                            pointerEvents: 'all', userSelect: 'text'
+                        {
+                            opacity: (
+                                showingLogin ||
+                                showingSignup ||
+                                contactsShown ||
+                                termsOfUseShown ||
+                                privacyPolicyShown ||
+                                dataProcessingShown ||
+                                showingForgotPassword || showingAgreement
+                                    ? 0.5
+                                    : 1
+                            ),
+                            pointerEvents: (
+                                showingLogin ||
+                                showingSignup ||
+                                contactsShown ||
+                                termsOfUseShown ||
+                                privacyPolicyShown ||
+                                dataProcessingShown ||
+                                showingForgotPassword || showingAgreement
+                                    ? 'none'
+                                    : 'all'
+                            ),
+                            userSelect: (
+                                showingLogin ||
+                                showingSignup ||
+                                contactsShown ||
+                                termsOfUseShown ||
+                                privacyPolicyShown ||
+                                dataProcessingShown ||
+                                showingForgotPassword || showingAgreement
+                                    ? 'none'
+                                    : 'all'
+                            )
                         }
                     }
                     className="slider-wrap"
@@ -385,14 +470,45 @@ class Home extends React.Component {
                 </div>
                 <div
                     style={
-                        showingLogin
-                            ? {opacity: '.5', transition: '500ms'}
-                            : {opacity: '1', transition: '500ms'}
+                        {
+                            opacity: (
+                                showingLogin ||
+                                showingSignup ||
+                                contactsShown ||
+                                termsOfUseShown ||
+                                privacyPolicyShown ||
+                                dataProcessingShown ||
+                                showingForgotPassword || showingAgreement
+                                    ? 0.5
+                                    : 1
+                            ),
+                            pointerEvents: (
+                                showingLogin ||
+                                showingSignup ||
+                                contactsShown ||
+                                termsOfUseShown ||
+                                privacyPolicyShown ||
+                                dataProcessingShown ||
+                                showingForgotPassword || showingAgreement
+                                    ? 'none'
+                                    : 'all'
+                            ),
+                            userSelect: (
+                                showingLogin ||
+                                showingSignup ||
+                                contactsShown ||
+                                termsOfUseShown ||
+                                privacyPolicyShown ||
+                                dataProcessingShown ||
+                                showingForgotPassword || showingAgreement
+                                    ? 'none'
+                                    : 'all'
+                            )
+                        }
                     }
                     className="advantages"
                 >
                     <div className="container">
-                        {/* {advantages} */}
                         <div className="advantage advantage1">
                             <img className="img" src="/images/advantage1-icon.png" />
                             <h2 className="advantage-title">защита</h2>
@@ -476,7 +592,46 @@ class Home extends React.Component {
                 <div className="wrap footer-wrap">
                     <div className="footer-bg" />
                     <div className="footer-bottom-bg" />
-                    <div className="steps">
+                    <div
+                        className="steps"
+                        style={
+                            {
+                                opacity: (
+                                    showingLogin ||
+                                    showingSignup ||
+                                    contactsShown ||
+                                    termsOfUseShown ||
+                                    privacyPolicyShown ||
+                                    dataProcessingShown ||
+                                    showingForgotPassword || showingAgreement
+                                        ? 0.5
+                                        : 1
+                                ),
+                                pointerEvents: (
+                                    showingLogin ||
+                                    showingSignup ||
+                                    contactsShown ||
+                                    termsOfUseShown ||
+                                    privacyPolicyShown ||
+                                    dataProcessingShown ||
+                                    showingForgotPassword || showingAgreement
+                                        ? 'none'
+                                        : 'all'
+                                ),
+                                userSelect: (
+                                    showingLogin ||
+                                    showingSignup ||
+                                    contactsShown ||
+                                    termsOfUseShown ||
+                                    privacyPolicyShown ||
+                                    dataProcessingShown ||
+                                    showingForgotPassword || showingAgreement
+                                        ? 'none'
+                                        : 'all'
+                                )
+                            }
+                        }
+                    >
                         <div className="container">
                             <h2 className="instruction">Инструкция как купить</h2>
                             <div className="container">
@@ -525,18 +680,70 @@ class Home extends React.Component {
                     <footer
                         className="footer"
                         style={
-                            showingLogin
-                                ? {opacity: '.5', transition: '500ms'}
-                                : {opacity: '1', transition: '500ms'}
+                            {
+                                opacity: (
+                                    showingLogin ||
+                                    showingSignup ||
+                                    contactsShown ||
+                                    termsOfUseShown ||
+                                    privacyPolicyShown ||
+                                    dataProcessingShown ||
+                                    showingForgotPassword || showingAgreement
+                                        ? 0.5
+                                        : 1
+                                ),
+                                pointerEvents: (
+                                    showingLogin ||
+                                    showingSignup ||
+                                    contactsShown ||
+                                    termsOfUseShown ||
+                                    privacyPolicyShown ||
+                                    dataProcessingShown ||
+                                    showingForgotPassword || showingAgreement
+                                        ? 'none'
+                                        : 'all'
+                                ),
+                                userSelect: (
+                                    showingLogin ||
+                                    showingSignup ||
+                                    contactsShown ||
+                                    termsOfUseShown ||
+                                    privacyPolicyShown ||
+                                    dataProcessingShown ||
+                                    showingForgotPassword || showingAgreement
+                                        ? 'none'
+                                        : 'all'
+                                )
+                            }
                         }
                     >
                         <div className="footer-gray-line" />
                         <div className="wrap">
                             <div className="modal-buttons">
-                                <button className="button">контакты</button>
-                                <button className="button">пользовательское соглашение</button>
-                                <button className="button">политика конфиденциальности</button>
-                                <button className="button">обработка данных</button>
+                                <button
+                                    onClick={() => this.setState({ contactsShown: true })}
+                                    className="button"
+                                >
+                                    контакты
+                                </button>
+                                <button
+                                    className="button"
+                                    onClick={() => this.setState({ termsOfUseShown: true })}
+                                >
+                                    пользовательское соглашение
+                                </button>
+                                <button
+                                    className="button"
+                                    onClick={() => this.setState({ privacyPolicyShown: true })}
+                                >
+                                    политика конфиденциальности
+                                </button>
+                                <button
+                                    className="button"
+                                    onClick={() => this.setState({ dataProcessingShown: true })}
+                                >
+                                    обработка данных
+                                </button>
                             </div>
                             <div className="payment-methods">
                                 <img

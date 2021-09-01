@@ -1,14 +1,14 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import CloseIcon from '@material-ui/icons/Close';
-import fetchData from './fetchData';
+import fetchData from '../fetchData';
 
 class Signup extends React.Component {
     constructor() {
         super();
         this.state = {
-            formError: {message: '.'},
-            formErrorStyles: {opacity: '0'},
+            formError: { message: '.' },
+            formErrorStyles: { opacity: '0' },
             signUpAttempt: {},
             agreed: false,
             isPasswordShown: false,

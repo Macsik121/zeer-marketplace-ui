@@ -81,6 +81,10 @@ button.disabled {
     position: relative;
 }
 
+.home .header {
+    transition: 500ms;
+}
+
 .home .header .nav .nav-BG {
     background-image: url('../images/backgrounds/header.jpg');
     background-position: center center;
@@ -442,6 +446,10 @@ button.disabled {
     list-style-type: none;
 }
 
+.home .slider-wrap {
+    transition: 500ms;
+}
+
 .home .slider-wrap .info {
     display: flex;
     align-items: center;
@@ -524,6 +532,7 @@ button.disabled {
 .home .advantages {
     max-width: 100%;
     padding-bottom: 150px;
+    transition: 500ms;
 }
 
 .home .advantages .container {
@@ -651,6 +660,10 @@ button.disabled {
     text-align: center;
     width: 100%;
     font-family: Roboto, sans-serif;
+}
+
+.home .footer-wrap .steps {
+    transition: 500ms;
 }
 
 .home .steps .container:first-child {
@@ -799,6 +812,7 @@ button.disabled {
 
 .home .footer {
     margin-top: 150px;
+    transition: 500ms;
 }
 
 .home .footer .wrap {

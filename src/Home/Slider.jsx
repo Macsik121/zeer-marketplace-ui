@@ -1,7 +1,8 @@
 import React from 'react';
 import SlickSlider from 'react-slick';
-import fetchData from './fetchData.js';
-import {fetchPopularProducts, Product} from './PopularProducts.jsx';
+import fetchData from '../fetchData.js';
+import Product from '../PopularProducts.js';
+import fetchPopularProducts from '../PopularProducts';
 
 export default class Slider extends React.Component {
     constructor() {
@@ -46,7 +47,7 @@ export default class Slider extends React.Component {
             //     }
             // ]
         };
-        const {products} = this.state;
+        const { products } = this.state;
         const popProducts = products.map(product => (
             <Product
                 className={this.props.className}
@@ -59,7 +60,7 @@ export default class Slider extends React.Component {
             <div>
                 <SlickSlider className="slider" {...sliderSettings}>
                     {popProducts}
-                    {popProducts[1]}
+                    {popProducts}
                 </SlickSlider>
             </div>
         )
