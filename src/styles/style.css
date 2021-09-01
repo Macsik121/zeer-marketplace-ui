@@ -2153,7 +2153,7 @@ button.disabled {
     cursor: pointer;
 }
 
-.info .product .general .cost .calc-cost {
+.calc-cost {
     display: flex;
     align-items: center;
 }

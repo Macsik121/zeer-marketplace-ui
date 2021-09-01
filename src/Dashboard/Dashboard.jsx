@@ -1,7 +1,9 @@
 import React from 'react';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
+import fetch from 'isomorphic-fetch';
 import fetchData from '../fetchData';
+import generateString from '../generateString';
 import Lobby from './Lobby.jsx';
 import Products from './Products.jsx';
 import Subscriptions from './Subscriptions.jsx';
@@ -211,39 +213,42 @@ class Dashboard extends React.Component {
             userAvatar: { background: `url(${this.state.user.avatar}) center/cover no-repeat` }
         });
     }
-    async buyProduct(title) {
+    async buyProduct(title, cost) {
         this.setState({ productsRequestMaking: true });
-        const query = `
-            mutation buyProduct($title: String!, $name: String!, $navigator: NavigatorInput) {
-                buyProduct(title: $title, name: $name, navigator: $navigator) {
-                    id
-                    title
-                    productFor
-                    costPerDay
-                    peopleBought {
-                        avatar
-                        name
-                    }
-                }
-            }
+        window.location.href = `
+            https://paymaster.ru/payment/init?LMI_MERCHANT_ID=77aa76b8-1551-42c5-be5f-f49d6330260f&LMI_PAYMENT_AMOUNT=${cost}&LMI_CURRENCY=RUB&LMI_PAYMENT_DESC=Оплата%20товара%20${title}&LMI_SUCCESS_URL=localhost:8080/dashboard/subscriptions&LMI_FAIL_URL=localhost:8080/dashboard/products&LMI_SHOPPINGCART.ITEMS[N].NAME=${title}&LMI_SHOPPINGCART.ITEMS[N].QTY=1&LMI_SHOPPINGCART.ITEMS[N].PRICE=${cost}&LMI_SHOPPINGCART.ITEMS[N].TAX=no_vat
         `;
-        const user = jwtDecode(localStorage.getItem('token'));
+        // const query = `
+        //     mutation buyProduct($title: String!, $name: String!, $navigator: NavigatorInput) {
+        //         buyProduct(title: $title, name: $name, navigator: $navigator) {
+        //             id
+        //             title
+        //             productFor
+        //             costPerDay
+        //             peopleBought {
+        //                 avatar
+        //                 name
+        //             }
+        //         }
+        //     }
+        // `;
+        // const user = jwtDecode(localStorage.getItem('token'));
 
-        const vars = {
-            title,
-            name: user.name,
-            navigator: {
-                userAgent: navigator.userAgent,
-                platform: navigator.platform
-            }
-        };
+        // const vars = {
+        //     title,
+        //     name: user.name,
+        //     navigator: {
+        //         userAgent: navigator.userAgent,
+        //         platform: navigator.platform
+        //     }
+        // };
 
-        const result = await fetchData(query, vars);
+        // const result = await fetchData(query, vars);
         
-        this.props.history.push(`/dashboard/subscriptions`);
-        await this.getSubscriptions();
-        await this.getPopularProducts();
-        await this.getProducts();
+        // this.props.history.push(`/dashboard/subscriptions`);
+        // await this.getSubscriptions();
+        // await this.getPopularProducts();
+        // await this.getProducts();
         this.setState({ productsRequestMaking: false });
     }
     async getProducts() {

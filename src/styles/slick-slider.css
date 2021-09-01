@@ -147,6 +147,7 @@
 .popular-products-slider .popular-product .title {
     display: flex;
     margin-top: 20px;
+    transition: 300ms;
 }
 
 .popular-products-slider .popular-product .title .product-title {

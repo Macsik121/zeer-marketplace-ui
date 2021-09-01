@@ -35,7 +35,16 @@ export default class Lobby extends React.Component {
         if (this.props.popularProducts.length > 0) {
             popularProducts = this.props.popularProducts.map(product => {
                 return (
-                    <div className="popular-product" style={{width: '370px'}} key={product.id}>
+                    <div
+                        className="popular-product"
+                        style={
+                            {
+                                opacity: isRequestMaking ? 0 : 1,
+                                width: '370px'
+                            }
+                        }
+                        key={product.id}
+                    >
                         <img
                             className="cover"
                             style={{ width: '330px' }}
@@ -177,11 +186,6 @@ export default class Lobby extends React.Component {
                                         <SlickSlider
                                             className="popular-products-slider"
                                             {...sliderSettings}
-                                            style={
-                                                isRequestMaking
-                                                    ? { opacity: 0 }
-                                                    : { opacity: 1 }
-                                            }
                                         >
                                             {popularProducts}
                                             {popularProducts}

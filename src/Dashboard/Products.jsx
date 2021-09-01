@@ -39,7 +39,7 @@ export default class Products extends React.Component {
                     </div>
                     <BoughtPeople people={product.peopleBought} />
                     <div className="buttons">
-                        <button className="button buy" onClick={() => buyProduct(product.title)}>
+                        <button className="button buy" onClick={() => buyProduct(product.title, product.costPerDay * 30)}>
                             Купить
                         </button>
                         <Link className="button detailed" to={`/dashboard/products/${product.title}`}>
