@@ -9,7 +9,6 @@ import AgreementPrivacyNPolicy from './AgreementModal.jsx';
 import ForgotPassword from './ForgotPasswordModal.jsx';
 
 class Home extends React.Component {
-    _isMounted = false;
     constructor() {
         super();
         this.state = {
@@ -87,7 +86,6 @@ class Home extends React.Component {
         this.toggleForgotPassword = this.toggleForgotPassword.bind(this);
     }
     async componentDidMount() {
-        this._isMounted = true;
         const token = localStorage.getItem('token');
         if (token && token != '') {
             const user = jwtDecode(token);
@@ -115,12 +113,9 @@ class Home extends React.Component {
             }
         }.bind(this);
         this.setState({
-            products: await fetchPopularProducts(this._isMounted),
+            products: await fetchPopularProducts(),
             deviceWidth: window.innerWidth
         });
-    }
-    componentWillUnmount() {
-        this._isMounted = false;
     }
     toggleLogin() {
         this.setState({
@@ -536,7 +531,57 @@ class Home extends React.Component {
                         }
                     >
                         <div className="footer-gray-line" />
-                        <div className="container">
+                        <div className="wrap">
+                            <div className="modal-buttons">
+                                <button className="button">контакты</button>
+                                <button className="button">пользовательское соглашение</button>
+                                <button className="button">политика конфиденциальности</button>
+                                <button className="button">обработка данных</button>
+                            </div>
+                            <div className="payment-methods">
+                                <img
+                                    className="logo"
+                                    src="/images/paymaster-standart-logo.png"
+                                />
+                                <img
+                                    className="round-logo logo"
+                                    src="/images/vtb-logo.png"
+                                />
+                                <img
+                                    className="round-logo logo"
+                                    src="/images/brs-logo.png"
+                                />
+                                <img
+                                    className="round-logo logo"
+                                    src="/images/alfa-bank-logo.png"
+                                />
+                                <img
+                                    className="round-logo logo"
+                                    src="/images/webmoney-logo.png"
+                                />
+                                <img
+                                    className="round-logo logo"
+                                    src="/images/sbp-logo.png"
+                                />
+                                <img
+                                    className="round-logo logo"
+                                    src="/images/mastercard-logo.png"
+                                />
+                                <img
+                                    className="round-logo logo"
+                                    src="/images/maestro-logo.png"
+                                />
+                                <img
+                                    className="round-logo logo"
+                                    src="/images/visa-logo.png"
+                                />
+                                <img
+                                    className="logo"
+                                    src="/images/qiwi-logo.png"
+                                />
+                            </div>
+                        </div>
+                        {/* <div className="container">
                             <nav className="nav">
                                 <div className="black"></div>
                                 <div className="container">
@@ -571,7 +616,7 @@ class Home extends React.Component {
                                     </div>
                                 </div>
                             </nav>
-                        </div>
+                        </div> */}
                     </footer>
                 </div>
             </div>

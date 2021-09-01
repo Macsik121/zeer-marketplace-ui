@@ -801,14 +801,61 @@ button.disabled {
     margin-top: 150px;
 }
 
-.home .footer .nav {
+.home .footer .wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+}
+
+.home .footer .modal-buttons {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    z-index: 1;
+}
+
+.home .footer .modal-buttons .button {
+    width: auto;
+    font-size: 14px;
+    letter-spacing: 1px;
+    line-height: 35px;
+    color: #fff;
+    font-family: "Roboto", sans-serif;
+    background: transparent;
+    cursor: pointer;
+    border: none;
+    display: flex;
+    text-transform: uppercase;
+}
+
+.home .footer .wrap .payment-methods {
+    display: flex;
+    align-items: center;
+    z-index: 1;
+}
+
+.home .footer .wrap .logo + .logo {
+    margin-left: 10px;
+}
+
+.home .footer .wrap .round-logo {
+    width: 60px;
+    height: 60px;
+}
+
+.home .footer .modal-buttons .button:hover {
+    text-decoration: underline;
+}
+
+/* .home .footer .nav {
     height: auto;
     background: transparent;
 }
 
 .home .footer h2 {
     text-align: center;
-}
+} */
 
 .dashboard {
     width: 100%;
