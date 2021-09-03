@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { CircularProgress } from '@material-ui/core';
 import fetchData from './fetchData';
 import BoughtPeople from './BoughtPeople.jsx';
-// import ChoosingCostDropdown from './ChoosingCostDropdown.jsx';
+import ChoosingCostDropdown from './Dashboard/ChoosingCostDropdown.jsx';
 
 class Product extends React.Component {
     constructor() {
@@ -11,16 +11,17 @@ class Product extends React.Component {
         this.state = {
             isRequestMaking: false,
             product: {},
-            choosenDropdown: 'Ежемесячно',
-            calculatedCosts: ['Ежемесячно', 'Ежеквартально', 'Ежегодно'],
             changes: [],
             showAllChanges: false,
-            showDropdown: false
+            cost: 1,
+            choosenDropdown: 'Ежеквартально'
         };
         this.loadProduct = this.loadProduct.bind(this);
         this.showAllChanges = this.showAllChanges.bind(this);
         this.renderChanges = this.renderChanges.bind(this);
         this.calculateCost = this.calculateCost.bind(this);
+        this.getCost = this.getCost.bind(this);
+        this.getChoosenDropdown = this.getChoosenDropdown.bind(this);
     }
     async componentDidUpdate(prevProps) {
         const { product } = this.props;
@@ -82,7 +83,8 @@ class Product extends React.Component {
             this.setState({
                 product: getProduct,
                 changes,
-                isRequestMaking: false
+                isRequestMaking: false,
+                cost: getProduct.cost
             });
         }
     }
@@ -122,6 +124,12 @@ class Product extends React.Component {
     calculateCost(e) {
         this.setState({ choosenDropdown: e.target.textContent });
     }
+    getCost(cost) {
+        this.setState({ cost });
+    }
+    getChoosenDropdown(choosenDropdown) {
+        this.setState({ choosenDropdown });
+    }
     render() {
         const {
             product,
@@ -132,16 +140,6 @@ class Product extends React.Component {
 
         const { buyProduct } = this.props;
 
-        const costDropdown = calculatedCosts.map(costTime => {
-            return (
-                <div className="item" key={costTime} onClick={this.calculateCost}>
-                    {costTime}
-                    {costTime == choosenDropdown &&
-                        <img className="cost-selected" src="/images/selected-cost.png" />
-                    }
-                </div>
-            )
-        });
         const changes = this.renderChanges();
         const productWorkingTime = new Date(product.workingTime);
         let createdDate;
@@ -205,23 +203,6 @@ class Product extends React.Component {
                 createdDate = `${years} года`;
             } else if (lastYearsNumber >= 5) {
                 createdDate = `${years} лет`
-            }
-        }
-        let productCost;
-        if (product.costPerDay) {
-            productCost = (
-                <span className="cost">
-                    {product.costPerDay && product.costPerDay} &#8381; / День
-                </span>
-            );    
-        }
-        if (choosenDropdown) {
-            if (choosenDropdown == 'Ежеквартально') {
-                productCost = <span className="cost">{product.costPerDay && product.costPerDay} &#8381; / День</span>;
-            } else if (choosenDropdown == 'Ежемесячно') {
-                productCost = <span className="cost">{product.costPerDay && product.costPerDay * 30} &#8381; / Мес.</span>
-            } else if (choosenDropdown == 'Ежегодно') {
-                productCost = <span className="cost">{product.costPerDay && product.costPerDay * 30 * 12} &#8381; / Год</span>
             }
         }
 
@@ -383,8 +364,12 @@ class Product extends React.Component {
                                 </ul>
                             </div>
                             <div className="cost">
-                                {/* <ChoosingCostDropdown /> */}
-                                <div className="calc-cost">
+                                <ChoosingCostDropdown
+                                    getCost={this.getCost}
+                                    costPerDay={product.costPerDay}
+                                    getChoosenDropdown={this.getChoosenDropdown}
+                                />
+                                {/* <div className="calc-cost">
                                     <div
                                         className="dropdown"
                                         onClick={
@@ -431,7 +416,7 @@ class Product extends React.Component {
                                     <div className="calculated-cost">
                                         {productCost}
                                     </div>
-                                </div>
+                                </div> */}
                                 <div
                                     className="button"
                                     style={
@@ -442,19 +427,18 @@ class Product extends React.Component {
                                 >
                                     <button
                                         onClick={() => {
-                                            let cost = product.costPerDay;
-                                            let days = choosenDropdown.toLowerCase();
-                                            if (days == 'ежемесячно') {
-                                                cost = cost * 30;
-                                                days = 30;
-                                            } else if (days == 'ежегодно') {
-                                                cost = cost * 30 * 12;
-                                                days = 30 * 12;
-                                            } else if (days == 'ежеквартально') {
-                                                days = 1;
-                                            }
+                                            let { cost, choosenDropdown } = this.state;
+                                            const { costPerDay } = product;
+                                            let days = 1;
+                                            choosenDropdown = choosenDropdown.toLowerCase();
+                                            if (choosenDropdown == 'ежемесячно') days = 30;
+                                            if (choosenDropdown == 'ежегодно') days = 30 * 12; 
                                             if (buyProduct) {
-                                                buyProduct(product.title, cost, days);
+                                                buyProduct(
+                                                    product.title,
+                                                    cost * costPerDay,
+                                                    days
+                                                );
                                             }
                                             return;
                                         }}

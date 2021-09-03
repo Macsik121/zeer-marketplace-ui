@@ -37,12 +37,6 @@ class Signin extends React.Component {
         this.changeRememberMe = this.changeRememberMe.bind(this);
         this.toggleShowingPassword = this.toggleShowingPassword.bind(this);
     }
-    componentDidMount() {
-        if (localStorage.getItem('token') && localStorage.getItem('token') != '') {
-            const token = jwtDecode(localStorage.getItem('token'));
-            this.props.history.push(`/dashboard/${token.name}`);
-        }
-    }
     showError(message) {
         this.setState({
             formError: {

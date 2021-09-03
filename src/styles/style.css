@@ -1826,7 +1826,11 @@ button.disabled {
     transition: 300ms;
 }
 
-.info .general .cost .dropdown {
+.calc-cost {
+    display: flex;
+}
+
+.calc-cost .dropdown {
     width: 200px;
     cursor: pointer;
     position: relative;
@@ -1840,11 +1844,11 @@ button.disabled {
     transition: 200ms;
 }
 
-.info .general .cost .dropdown:hover {
+.calc-cost .dropdown:hover {
     background-color: #1E75FF;
 }
 
-.info .general .cost .calc-cost .calculated-time {
+.calc-cost .calculated-time {
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -1855,12 +1859,12 @@ button.disabled {
     letter-spacing: .1px;
 }
 
-.info .general .cost .calc-cost .calculated-time .dropdown-arrow {
+.calc-cost .calculated-time .dropdown-arrow {
     height: 5px;
     width: 8px;
 }
 
-.info .general .cost .dropdown .items {
+.calc-cost .dropdown .items {
     overflow: hidden;
     position: absolute;
     top: 45px;
@@ -1869,7 +1873,7 @@ button.disabled {
     width: calc(100% + 2px);
 }
 
-.info .general .cost .dropdown .items .item {
+.calc-cost .dropdown .items .item {
     border: 1px solid #1E75FF;
     border-top: none;
     border-bottom: none;
@@ -1882,33 +1886,34 @@ button.disabled {
     letter-spacing: .1px;
     background-color: rgba(41, 41, 50, 0.5);
     transition: 100ms;
+    cursor: pointer;
 }
 
-.info .general .cost .dropdown .items .item:hover {
+.calc-cost .dropdown .items .item:hover {
     background-color: rgba(41, 41, 50, 1);
 }
 
-.info .general .cost .dropdown .items .item:first-of-type {
+.calc-cost .dropdown .items .item:first-of-type {
     padding-top: 16px;
     margin-top: 4px;
 }
 
-.info .general .cost .dropdown .items .item:last-of-type {
+.calc-cost .dropdown .items .item:last-of-type {
     padding-bottom: 15px;
 }
 
-.info .general .cost .dropdown .items .item .cost-selected {
+.calc-cost .dropdown .items .item .cost-selected {
     height: 5px;
     width: 8px;
 }
 
-.info .general .cost .dropdown .items .item:last-of-type {
+.calc-cost .dropdown .items .item:last-of-type {
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
     border-bottom: 1px solid #1E75FF;
 }
 
-.info .general .cost .gray-line {
+.calc-cost .gray-line {
     height: 40px;
     min-width: 2px;
     background-color: #292932;
@@ -2208,10 +2213,6 @@ button.disabled {
     display: flex;
     align-items: center;
     justify-content: space-between;
-}
-
-.info .product .general .cost .dropdown .item {
-    cursor: pointer;
 }
 
 .calc-cost {
@@ -3932,10 +3933,10 @@ button.disabled {
     .dashboard .main .product-info .product .general .cost {
         flex-direction: column;
     }
-    .info .general .cost .calc-cost {
+    .calc-cost {
         flex-direction: column;
     }
-    .info .general .cost .gray-line {
+    .calc-cost .gray-line {
         display: none;
     }
     .footer .container {

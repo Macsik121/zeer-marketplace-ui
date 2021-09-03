@@ -76,6 +76,7 @@ class Dashboard extends React.Component {
         }
     }
     async componentDidMount() {
+        this.props.getUser();
         this.setState({ isMounted: true });
         const { history } = this.props;
         this.setState({ deviceWidth: window.innerWidth });
@@ -614,8 +615,8 @@ class Dashboard extends React.Component {
                 <Footer
                     style={
                         showingChangePassword || agreementShown
-                            ? {opacity: '.5', transition: '500ms', pointerEvents: 'none', userSelect: 'none'}
-                            : {opactiy: 1, transition: '500ms', pointerEvents: 'all', userSelect: 'text'}
+                            ? { opacity: '.5', transition: '500ms', pointerEvents: 'none', userSelect: 'none' }
+                            : { opactiy: 1, transition: '500ms', pointerEvents: 'all', userSelect: 'text' }
                     }
                 />
             </div>

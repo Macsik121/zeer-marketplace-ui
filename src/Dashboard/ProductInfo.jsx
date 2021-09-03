@@ -136,4 +136,4 @@ class ProductInfo extends React.Component {
     }
 }
 
-export default withRouter(ProductInfo, Product);
+export default withRouter(ProductInfo);
