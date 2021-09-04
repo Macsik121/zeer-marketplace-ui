@@ -128,7 +128,7 @@ class Product extends React.Component {
         this.setState({ cost }, () => console.log('updated cost:', this.state.cost));
     }
     getChoosenDropdown(choosenDropdown) {
-        this.setState({ choosenDropdown });
+        this.setState({ choosenDropdown }, () => console.log('choosen drop:', this.state.choosenDropdown));
     }
     render() {
         const {
@@ -431,7 +431,8 @@ class Product extends React.Component {
                                             let days = 1;
                                             choosenDropdown = choosenDropdown.toLowerCase();
                                             if (choosenDropdown == 'ежемесячно') days = 30;
-                                            if (choosenDropdown == 'ежегодно') days = 30 * 12; 
+                                            if (choosenDropdown == 'ежегодно') days = 30 * 12;
+                                            console.log(choosenDropdown + ':', days);
                                             if (buyProduct) {
                                                 buyProduct(
                                                     product.title,

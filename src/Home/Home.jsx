@@ -303,7 +303,7 @@ class Home extends React.Component {
                                 dataProcessingShown ||
                                 showingForgotPassword || showingAgreement
                                     ? 'none'
-                                    : 'all'
+                                    : 'text'
                             )
                         }
                     }
@@ -449,7 +449,7 @@ class Home extends React.Component {
                                 dataProcessingShown ||
                                 showingForgotPassword || showingAgreement
                                     ? 'none'
-                                    : 'all'
+                                    : 'text'
                             )
                         }
                     }
@@ -525,7 +525,7 @@ class Home extends React.Component {
                                 dataProcessingShown ||
                                 showingForgotPassword || showingAgreement
                                     ? 'none'
-                                    : 'all'
+                                    : 'text'
                             )
                         }
                     }
@@ -650,7 +650,7 @@ class Home extends React.Component {
                                     dataProcessingShown ||
                                     showingForgotPassword || showingAgreement
                                         ? 'none'
-                                        : 'all'
+                                        : 'text'
                                 )
                             }
                         }
@@ -735,7 +735,7 @@ class Home extends React.Component {
                                     dataProcessingShown ||
                                     showingForgotPassword || showingAgreement
                                         ? 'none'
-                                        : 'all'
+                                        : 'text'
                                 )
                             }
                         }

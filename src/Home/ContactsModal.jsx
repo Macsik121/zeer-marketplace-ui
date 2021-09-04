@@ -41,16 +41,20 @@ export default class Contacts extends React.Component {
                 <div className="table">
                     <h3 className="contacts-owner">ИП {contacts.owner}</h3>
                     <div className="info-wrap">
-                        <div className="info">
+                        <div className="information">
                             <div className="companyIE">ОГРНИП</div>
-                            <div className="tin">ИНН</div>
-                            <div className="email">Email</div>
-                            <div className="phone">Телефон</div>
-                        </div>
-                        <div className="values">
                             <div className="companyIE">{companyIE}</div>
+                        </div>
+                        <div className="information">
+                            <div className="tin">ИНН</div>
                             <div className="tin">{TIN}</div>
+                        </div>
+                        <div className="information">
+                            <div className="email">Email</div>
                             <div className="email">{email}</div>
+                        </div>
+                        <div className="information">
+                            <div className="phone">Телефон</div>
                             <div className="phone">{phone}</div>
                         </div>
                     </div>

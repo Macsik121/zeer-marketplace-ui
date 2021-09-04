@@ -16,7 +16,11 @@ export default class Products extends React.Component {
         }
     }
     render() {
-        const { buyProduct, isRequestMaking } = this.props;
+        const {
+            buyProduct,
+            isRequestMaking,
+            showChosingDays
+        } = this.props;
         let style = {};
         if (isRequestMaking) {
             style.opacity = 0;
@@ -39,7 +43,7 @@ export default class Products extends React.Component {
                     </div>
                     <BoughtPeople people={product.peopleBought} />
                     <div className="buttons">
-                        <button className="button buy" onClick={() => buyProduct(product.title, product.costPerDay * 30)}>
+                        <button className="button buy" onClick={showChosingDays}>
                             Купить
                         </button>
                         <Link className="button detailed" to={`/dashboard/products/${product.title}`}>

@@ -14,7 +14,6 @@ export default class ChoosingCostDropdown extends React.Component {
         const { choosenDropdown } = this.state;
         let cost = this.costInNumber(choosenDropdown);
         cost = cost * costPerDay;
-        console.log('cost from choosed', cost);
         if (costPerDay && prevProps.costPerDay != costPerDay) {
             if (getCost) getCost(cost);
         };
@@ -22,12 +21,11 @@ export default class ChoosingCostDropdown extends React.Component {
     calculateCost(cost) {
         const { choosenDropdown } = this.state;
         const { getCost, getChoosenDropdown, costPerDay } = this.props;
+        if (getChoosenDropdown) getChoosenDropdown(cost);
         this.setState({ choosenDropdown: cost });
         const newCost = this.costInNumber(cost);
-        console.log('cost;', cost)
         cost = newCost * costPerDay;
         if (getCost) getCost(cost);
-        if (getChoosenDropdown) getChoosenDropdown(choosenDropdown);
     }
     costInNumber(cost) {
         cost = cost.toLowerCase();

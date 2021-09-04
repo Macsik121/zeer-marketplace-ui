@@ -15,6 +15,7 @@ import PasswordChangedNotification from './PasswordChangedNotif.jsx';
 import AgreementPrivacyNPolicy from '../AgreementModal.jsx';
 import fetchPopularProducts from '../PopularProducts';
 import ResetBinding from './ResetBinding.jsx';
+import ChoosingCostModal from './ChoosingCostModal.jsx'
 
 const uiEndpoint = 'http://localhost:8080';
 
@@ -43,7 +44,8 @@ class Dashboard extends React.Component {
             answersFAQRequestMaking: true,
             subscriptionsRequestMaking: true,
             resetBindingRequestsRequestMaking: true,
-            isMounted: false
+            isMounted: false,
+            chooseDaysAmountShown: false
         }
         this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
@@ -60,6 +62,8 @@ class Dashboard extends React.Component {
         this.getResetRequests = this.getResetRequests.bind(this);
         this.makeResetRequest = this.makeResetRequest.bind(this);
         this.getUser = this.getUser.bind(this);
+        this.showChoosingDays = this.showChoosingDays.bind(this);
+        this.hideChoosingDays = this.hideChoosingDays.bind(this);
     }
     componentDidUpdate(_, prevState) {
         if (JSON.stringify(prevState.user) != JSON.stringify(this.state.user)) {
@@ -80,6 +84,11 @@ class Dashboard extends React.Component {
         this.setState({ isMounted: true });
         const { history } = this.props;
         this.setState({ deviceWidth: window.innerWidth });
+        window.onkeydown = function(e) {
+            if (e.keyCode == 27) {
+                this.hideChoosingDays();
+            }
+        }.bind(this);
         window.onkeypress = function(e) {
             if (e.keyCode == 13) {
                 this.hideModal();
@@ -421,6 +430,12 @@ class Dashboard extends React.Component {
     hideAgreement() {
         this.setState({ agreementShown: false });
     }
+    showChoosingDays() {
+        this.setState({ chooseDaysAmountShown: true });
+    }
+    hideChoosingDays() {
+        this.setState({ chooseDaysAmountShown: false });
+    }
     render() {
         const {
             showingChangePassword,
@@ -440,7 +455,8 @@ class Dashboard extends React.Component {
             answersFAQRequestMaking,
             subscriptionsRequestMaking,
             resetBindingRequestsRequestMaking,
-            isMounted
+            isMounted,
+            chooseDaysAmountShown
         } = this.state;
 
         return (
@@ -490,10 +506,18 @@ class Dashboard extends React.Component {
                 <AgreementPrivacyNPolicy
                     style={
                         agreementShown
-                            ? { transform: 'translateY(0)', transition: '400ms', opacity: 1, pointerEvents: 'all' }
-                            : { transform: 'translateY(-170%)', transition: '400ms', opacity: 0, pointerEvents: 'none' }
+                            ? { transform: 'translateY(0)', opacity: 1, pointerEvents: 'all' }
+                            : { transform: 'translateY(-170%)', opacity: 0, pointerEvents: 'none' }
                     }
                     hideAgreement={this.hideAgreement}
+                />
+                <ChoosingCostModal
+                    style={
+                        {
+                            opacity: chooseDaysAmountShown ? 1 : 0,
+                            pointerEvents: chooseDaysAmountShown ? 'all' : 'none'
+                        }
+                    }
                 />
                 <main
                     style={
@@ -521,9 +545,9 @@ class Dashboard extends React.Component {
                                 <Products
                                     products={products}
                                     getSubscriptions={this.getSubscriptions}
-                                    // getProducts={this.getProducts}
                                     buyProduct={this.buyProduct}
                                     isRequestMaking={productsRequestMaking}
+                                    showChosingDays={this.showChoosingDays}
                                 />
                             )}
                         />
