@@ -18,12 +18,6 @@ export default class ChoosingCostDropdown extends React.Component {
         if (costPerDay && prevProps.costPerDay != costPerDay) {
             if (getCost) getCost(cost);
         };
-        // if (costPerDay && prevProps.costPerDay && prevProps.costPerDay != costPerDay) {
-        //     if (getCost) getCost(costPerDay);
-        // }
-        // if (costPerDay && prevCost != cost) {
-        //     if (getCost) getCost(cost);
-        // }
     }
     calculateCost(cost) {
         const { choosenDropdown } = this.state;

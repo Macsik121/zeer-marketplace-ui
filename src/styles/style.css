@@ -862,14 +862,99 @@ button.disabled {
     text-decoration: underline;
 }
 
-/* .home .footer .nav {
-    height: auto;
-    background: transparent;
+.home .contacts-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 370px;
+    padding-top: 30px;
+    border-radius: 20px;
+    background-color: #1C1C24;
+    line-height: 36px;
+    font-weight: 600;
+    letter-spacing: .1px;
+    color: #FAFAFB;
+    transition: 300ms;
+    z-index: 2;
+    max-height: 450px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-.home .footer h2 {
+.home .contacts-modal .heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+}
+
+.home .contacts-modal .heading h3 {
+    font-size: 24px;
+}
+
+.home .contacts-modal .heading .close-icon {
+    fill: #1E75FF;
+    cursor: pointer;
+}
+
+.home .contacts-modal .table {
+    margin-top: 65px;
+}
+
+.home .contacts-modal .table .contacts-owner {
     text-align: center;
-} */
+}
+
+.home .contacts-modal .table .info-wrap {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #C4C4C4;
+}
+
+.home .contacts-modal .table .info-wrap .info {
+    width: 50%;
+}
+
+.home .contacts-modal .table .info-wrap .info div {
+    padding: 10px 0 10px 15px;
+    border: 1px solid #C4C4C4;
+    border-left: none;
+    word-break: break-all;
+}
+
+.home .contacts-modal .table .info-wrap .info div:last-of-type {
+    border-bottom: none;
+}
+
+.home .contacts-modal .table .info-wrap .info .email {
+    height: 90px;
+    display: flex;
+    align-items: center;
+}
+
+.home .contacts-modal .table .info-wrap .values {
+    width: 50%;
+}
+
+.home .contacts-modal .table .info-wrap .values div {
+    padding: 10px 0;
+    border: 1px solid #C4C4C4;
+    border-right: none;
+}
+
+.home .contacts-modal .table .info-wrap .values div:last-of-type {
+    border-bottom: none;
+}
+
+.home .contacts-modal .table .info-wrap .values .email {
+    height: 90px;
+    display: flex;
+    align-items: center;
+}
 
 .dashboard {
     width: 100%;

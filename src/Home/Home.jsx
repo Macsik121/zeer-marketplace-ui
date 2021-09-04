@@ -8,6 +8,7 @@ import Signin from './Signin.jsx';
 import Signup from './Signup.jsx';
 import AgreementPrivacyNPolicy from '../AgreementModal.jsx';
 import ForgotPassword from './ForgotPasswordModal.jsx';
+import Contacts from './ContactsModal.jsx';
 
 class Home extends React.Component {
     constructor() {
@@ -93,6 +94,7 @@ class Home extends React.Component {
         this.hidePrivacyPolicy = this.hidePrivacyPolicy.bind(this);
         this.hideTermsOfUse = this.hideTermsOfUse.bind(this);
         this.hideDataProcessing = this.hideDataProcessing.bind(this);
+        this.setAllContactsToHidden = this.setAllContactsToHidden.bind(this);
     }
     async componentDidMount() {
         const token = localStorage.getItem('token');
@@ -193,6 +195,12 @@ class Home extends React.Component {
     hideDataProcessing() {
         this.setState({ dataProcessingShown: false });
     }
+    setAllContactsToHidden() {
+        this.hideDataProcessing();
+        this.hidePrivacyPolicy();
+        this.hideTermsOfUse();
+        this.hideContacts();
+    }
     render() {
         const {
             products,
@@ -206,6 +214,12 @@ class Home extends React.Component {
             privacyPolicyShown,
             dataProcessingShown
         } = this.state;
+
+        const contactsModalShown = (
+            dataProcessingShown ||
+            termsOfUseShown ||
+            privacyPolicyShown || contactsShown
+        );
 
         const sliderSettings = {
             infinite: true,
@@ -378,19 +392,28 @@ class Home extends React.Component {
                 <AgreementPrivacyNPolicy
                     style={
                         showingAgreement
-                            ? {opacity: 1, transform: 'translateY(0)', top: 0}
-                            : {opacity: 0, transform: 'translateY(-170%)', top: '-100%'}
+                            ? { opacity: 1, transform: 'translateY(0)', top: 0 }
+                            : { opacity: 0, transform: 'translateY(-170%)', top: '-100%' }
                     }
                     hideAgreement={this.hideAgreement}
                 />
                 <ForgotPassword
                     style={
                         showingForgotPassword
-                            ? {opacity: 1, transform: 'translateY(0)'}
-                            : {opacity: 0, transform: 'translateY(-180%)'}
+                            ? { opacity: 1, transform: 'translateY(0)' }
+                            : { opacity: 0, transform: 'translateY(-180%)' }
                     }
                     hideForgotPassword={this.hideForgotPassword}
                     showLogin={this.showLogin}
+                />
+                <Contacts
+                    style={
+                        {
+                            opacity: contactsModalShown ? 1 : 0,
+                            transform: `translateY(${contactsModalShown ? 0 : '-150%'})`
+                        }
+                    }
+                    hideModal={this.setAllContactsToHidden}
                 />
                 <div
                     style={
