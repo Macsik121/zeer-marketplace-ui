@@ -9,23 +9,30 @@ export default class ChoosingCostDropdown extends React.Component {
             possibleCosts: ['Ежемесячно', 'Ежеквартально', 'Ежегодно']
         };
     }
-    componentDidUpdate(_, prevState) {
+    componentDidUpdate(prevProps, prevState) {
         const { getCost, costPerDay } = this.props;
         const { choosenDropdown } = this.state;
-        const days = this.costInNumber(choosenDropdown);
-        console.log(days);
-        const cost = days * costPerDay;
-        if (prevState.costPerDay != cost) {
-            if (getCost) getCost(costPerDay);
-            console.log(costPerDay);
-        }
+        let cost = this.costInNumber(choosenDropdown);
+        cost = cost * costPerDay;
+        console.log('cost from choosed', cost);
+        if (costPerDay && prevProps.costPerDay != costPerDay) {
+            if (getCost) getCost(cost);
+        };
+        // if (costPerDay && prevProps.costPerDay && prevProps.costPerDay != costPerDay) {
+        //     if (getCost) getCost(costPerDay);
+        // }
+        // if (costPerDay && prevCost != cost) {
+        //     if (getCost) getCost(cost);
+        // }
     }
     calculateCost(cost) {
         const { choosenDropdown } = this.state;
-        const { getCost, getChoosenDropdown } = this.props;
+        const { getCost, getChoosenDropdown, costPerDay } = this.props;
         this.setState({ choosenDropdown: cost });
         const newCost = this.costInNumber(cost);
-        if (getCost) getCost(newCost);
+        console.log('cost;', cost)
+        cost = newCost * costPerDay;
+        if (getCost) getCost(cost);
         if (getChoosenDropdown) getChoosenDropdown(choosenDropdown);
     }
     costInNumber(cost) {

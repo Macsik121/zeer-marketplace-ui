@@ -125,7 +125,7 @@ class Product extends React.Component {
         this.setState({ choosenDropdown: e.target.textContent });
     }
     getCost(cost) {
-        this.setState({ cost });
+        this.setState({ cost }, () => console.log('updated cost:', this.state.cost));
     }
     getChoosenDropdown(choosenDropdown) {
         this.setState({ choosenDropdown });
@@ -428,7 +428,6 @@ class Product extends React.Component {
                                     <button
                                         onClick={() => {
                                             let { cost, choosenDropdown } = this.state;
-                                            const { costPerDay } = product;
                                             let days = 1;
                                             choosenDropdown = choosenDropdown.toLowerCase();
                                             if (choosenDropdown == 'ежемесячно') days = 30;
@@ -436,7 +435,7 @@ class Product extends React.Component {
                                             if (buyProduct) {
                                                 buyProduct(
                                                     product.title,
-                                                    cost * costPerDay,
+                                                    cost,
                                                     days
                                                 );
                                             }
