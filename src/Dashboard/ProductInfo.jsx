@@ -61,7 +61,12 @@ class ProductInfo extends React.Component {
     }
     render() {
         const { isRequestMaking, product } = this.state;
-        const { buyProduct } = this.props;
+        const {
+            buyProduct,
+            showChoosingDays,
+            chooseDaysAmountShown
+        } = this.props;
+        console.log(chooseDaysAmountShown)
         const info = [];
         let renderedPopularProducts = [];
         for (let i = 0; i < this.props.popularProducts.length; i++) {
@@ -76,7 +81,7 @@ class ProductInfo extends React.Component {
                         <div className="buttons">
                             <button
                                 className="buy button"
-                                onClick={() => buyProduct(popProduct.title)}
+                                onClick={() => showChoosingDays(popProduct)}
                             >
                                 Купить
                             </button>
@@ -107,6 +112,7 @@ class ProductInfo extends React.Component {
                         hideh2={false}
                         isRequestMaking={isRequestMaking}
                         product={product}
+                        chooseDaysAmountShown={chooseDaysAmountShown}
                     />
                     <div className="popular-products">
                         <h2>Популярные продукты</h2>
@@ -122,7 +128,7 @@ class ProductInfo extends React.Component {
                             className="products"
                             style={
                                 {
-                                    pointerEvents: popularProducts.length > 0 ? 'all' : 'none',
+                                    pointerEvents: popularProducts.length > 0 ? chooseDaysAmountShown ? 'none' : 'all' : 'none',
                                     opacity: popularProducts.length > 0 ? 1 : 0
                                 }
                             }

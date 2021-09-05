@@ -141,7 +141,8 @@ class NavBar extends React.Component {
             toggleModal,
             hideModal,
             user,
-            userAvatar
+            userAvatar,
+            style
         } = this.props;
 
         const nav = navLinks.map(link => {
@@ -240,7 +241,10 @@ class NavBar extends React.Component {
         }
 
         return (
-            <nav className="nav">
+            <nav
+                className="nav"
+                style={style}
+            >
                 <div className="container">
                     <UserMenu
                         user={user}

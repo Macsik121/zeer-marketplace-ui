@@ -45,7 +45,8 @@ class Dashboard extends React.Component {
             subscriptionsRequestMaking: true,
             resetBindingRequestsRequestMaking: true,
             isMounted: false,
-            chooseDaysAmountShown: false
+            chooseDaysAmountShown: false,
+            productToBuy: {}
         }
         this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
@@ -86,7 +87,11 @@ class Dashboard extends React.Component {
         this.setState({ deviceWidth: window.innerWidth });
         window.onkeydown = function(e) {
             if (e.keyCode == 27) {
+                console.log(e.keyCode);
                 this.hideChoosingDays();
+                this.hideModal();
+                this.hideNotificationMessage();
+                this.hideAgreement();
             }
         }.bind(this);
         window.onkeypress = function(e) {
@@ -225,10 +230,10 @@ class Dashboard extends React.Component {
             }
         });
     }
-    async buyProduct(title = '', cost = 0, days = 30) {
+    async buyProduct(title = '', cost = 1, days = 30) {
         this.setState({ productsRequestMaking: true });
         window.location.href = `
-            https://paymaster.ru/payment/init?LMI_MERCHANT_ID=77aa76b8-1551-42c5-be5f-f49d6330260f&LMI_PAYMENT_AMOUNT=${cost}&LMI_CURRENCY=RUB&LMI_PAYMENT_DESC=Оплата%20товара%20${title}%20на%20${days}%20${days == 1 ? 'день' : 'дней'}&LMI_SUCCESS_URL=${uiEndpoint}/dashboard/subscriptions&LMI_FAIL_URL=${uiEndpoint}/dashboard/products&LMI_SHOPPINGCART.ITEMS[N].NAME=${title}&LMI_SHOPPINGCART.ITEMS[N].QTY=1&LMI_SHOPPINGCART.ITEMS[N].PRICE=${cost}&LMI_SHOPPINGCART.ITEMS[N].TAX=no_vat&LMI_INVOICE_CONFIRMATION_URL=
+            https://paymaster.ru/payment/init?LMI_MERCHANT_ID=77aa76b8-1551-42c5-be5f-f49d6330260f&LMI_PAYMENT_AMOUNT=${cost}&LMI_CURRENCY=RUB&LMI_PAYMENT_DESC=Оплата%20товара%20${title}%20на%20${days == 360 ? '1 год' : days}%20${days == 360 ? '' : days == 1 ? 'день' : 'дней'}&LMI_SUCCESS_URL=${uiEndpoint}/dashboard/subscriptions&LMI_FAIL_URL=${uiEndpoint}/dashboard/products&LMI_SHOPPINGCART.ITEMS[N].NAME=${title}&LMI_SHOPPINGCART.ITEMS[N].QTY=1&LMI_SHOPPINGCART.ITEMS[N].PRICE=${cost}&LMI_SHOPPINGCART.ITEMS[N].TAX=no_vat&LMI_INVOICE_CONFIRMATION_URL=
         `;
         // const query = `
         //     mutation buyProduct($title: String!, $name: String!, $navigator: NavigatorInput) {
@@ -430,8 +435,8 @@ class Dashboard extends React.Component {
     hideAgreement() {
         this.setState({ agreementShown: false });
     }
-    showChoosingDays() {
-        this.setState({ chooseDaysAmountShown: true });
+    showChoosingDays(productToBuy) {
+        this.setState({ chooseDaysAmountShown: true, productToBuy });
     }
     hideChoosingDays() {
         this.setState({ chooseDaysAmountShown: false });
@@ -456,7 +461,8 @@ class Dashboard extends React.Component {
             subscriptionsRequestMaking,
             resetBindingRequestsRequestMaking,
             isMounted,
-            chooseDaysAmountShown
+            chooseDaysAmountShown,
+            productToBuy
         } = this.state;
 
         return (
@@ -487,13 +493,35 @@ class Dashboard extends React.Component {
                         hideChangedPasswordNotification={this.hideNotificationMessage}
                         userAvatar={userAvatar}
                         getUser={this.props.getUser}
+                        style={
+                            chooseDaysAmountShown
+                                ? {
+                                    opacity: '.5',
+                                    pointerEvents: 'none',
+                                    userSelect: 'none'
+                                }
+                                : {
+                                    opactiy: 1,
+                                    pointerEvents: 'all',
+                                    userSelect: 'text',
+                                    opacity: isMounted ? 1 : 0
+                                }
+                        }
                     />
                 </header>
                 <ChangePassword
                     style={
                         showingChangePassword
-                            ? {opactiy: 1, transform: 'translateY(0)', top: 0}
-                            : {opactiy: 0, transform: 'translateY(-170%)', top: '-100%'}
+                            ? {
+                                opacity: 1,
+                                transform: 'translateY(0)',
+                                margin: 'auto'
+                            }
+                            : {
+                                opacity: 0,
+                                transform: 'translateY(-170%)',
+                                margin: '17vh auto 0'
+                            }
                     }
                     hideModal={this.hideModal}
                     setNotificationMessage={this.setNotificationMessage}
@@ -518,15 +546,17 @@ class Dashboard extends React.Component {
                             pointerEvents: chooseDaysAmountShown ? 'all' : 'none'
                         }
                     }
+                    hideModal={this.hideChoosingDays}
+                    buyProduct={this.buyProduct}
+                    product={productToBuy}
                 />
                 <main
                     style={
-                        showingChangePassword || agreementShown
+                        showingChangePassword || agreementShown || chooseDaysAmountShown
                             ? {
                                 opacity: '.5',
                                 pointerEvents: 'none',
-                                userSelect: 'none',
-                                opacity: isMounted ? 1 : 0
+                                userSelect: 'none'
                             }
                             : {
                                 opactiy: 1,
@@ -547,7 +577,8 @@ class Dashboard extends React.Component {
                                     getSubscriptions={this.getSubscriptions}
                                     buyProduct={this.buyProduct}
                                     isRequestMaking={productsRequestMaking}
-                                    showChosingDays={this.showChoosingDays}
+                                    showChoosingDays={this.showChoosingDays}
+                                    chooseDaysAmountShown={chooseDaysAmountShown}
                                 />
                             )}
                         />
@@ -570,6 +601,8 @@ class Dashboard extends React.Component {
                                         popularProducts={popularProducts}
                                         getPopularProducts={this.getPopularProducts}
                                         buyProduct={this.buyProduct}
+                                        showChoosingDays={this.showChoosingDays}
+                                        chooseDaysAmountShown={chooseDaysAmountShown}
                                     />
                                 )
                             }
@@ -630,6 +663,7 @@ class Dashboard extends React.Component {
                                         buyProduct={this.buyProduct}
                                         isRequestMaking={popularProductsRequestMaking}
                                         updateMount={this.updateMount}
+                                        showChoosingDays={this.showChoosingDays}
                                     />
                                 )
                             }
@@ -638,7 +672,7 @@ class Dashboard extends React.Component {
                 </main>
                 <Footer
                     style={
-                        showingChangePassword || agreementShown
+                        showingChangePassword || agreementShown || chooseDaysAmountShown
                             ? { opacity: '.5', transition: '500ms', pointerEvents: 'none', userSelect: 'none' }
                             : { opactiy: 1, transition: '500ms', pointerEvents: 'all', userSelect: 'text' }
                     }

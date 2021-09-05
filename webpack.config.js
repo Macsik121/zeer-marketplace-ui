@@ -59,8 +59,8 @@ const browserConfig = {
             chunks: 'all',
             name: 'vendor'
         },
-        minimize: true,
-        minimizer: [new TerserPlugin(), new CssMinimizerPlugin()]
+        // minimize: true,
+        // minimizer: [new TerserPlugin(), new CssMinimizerPlugin()]
     },
     plugins: [
         new MiniCssExtractPlugin({

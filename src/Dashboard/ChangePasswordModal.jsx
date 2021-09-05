@@ -119,8 +119,8 @@ export default class ChangePassword extends React.Component {
                             onClick={this.toggleNewPassword}
                             style={
                                 newPasswordShown
-                                    ? {display: 'none'}
-                                    : {display: 'block'}
+                                    ? { display: 'none' }
+                                    : { display: 'block' }
                             }
                         />
                     </div>

@@ -19,7 +19,8 @@ export default class Products extends React.Component {
         const {
             buyProduct,
             isRequestMaking,
-            showChosingDays
+            showChoosingDays,
+            chooseDaysAmountShown
         } = this.props;
         let style = {};
         if (isRequestMaking) {
@@ -30,6 +31,11 @@ export default class Products extends React.Component {
             style.opacity = 1;
             style.pointerEvents = 'all';
             style.userSelect = 'text';
+        }
+        if (chooseDaysAmountShown) {
+            style.pointerEvents = 'none';
+        } else {
+            style.pointerEvents = 'all';
         }
         const products = this.props.products.map(product => {
             return (
@@ -43,7 +49,10 @@ export default class Products extends React.Component {
                     </div>
                     <BoughtPeople people={product.peopleBought} />
                     <div className="buttons">
-                        <button className="button buy" onClick={showChosingDays}>
+                        <button
+                            className="button buy"
+                            onClick={() => showChoosingDays(product)}
+                        >
                             Купить
                         </button>
                         <Link className="button detailed" to={`/dashboard/products/${product.title}`}>
@@ -53,6 +62,7 @@ export default class Products extends React.Component {
                 </div>
             )
         });
+
         return (
             <div id="products" className="products">
                 <CircularProgress

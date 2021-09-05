@@ -10,8 +10,8 @@ export default function Lobby(props) {
         userAvatar,
         subscriptions,
         deviceWidth,
-        buyProduct,
-        isRequestMaking
+        isRequestMaking,
+        showChoosingDays
     } = props;
 
     const sliderSettings = {
@@ -54,7 +54,7 @@ export default function Lobby(props) {
                     <span className="description">{product.description}</span>
                     <BoughtPeople people={product.peopleBought} />
                     <div className="buttons">
-                        <button className="button" onClick={() => buyProduct(product.title)}>Купить</button>
+                        <button className="button" onClick={() => showChoosingDays(product)}>Купить</button>
                         <Link className="button" to={`/dashboard/products/${product.title}`}>Подробнее</Link>
                     </div>
                 </div>

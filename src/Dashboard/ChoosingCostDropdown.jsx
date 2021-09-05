@@ -41,6 +41,7 @@ export default class ChoosingCostDropdown extends React.Component {
             choosenDropdown,
             possibleCosts
         } = this.state;
+        const verticalLayout = this.props.verticalLayout ? this.props.verticalLayout : false;
 
         const costDropdown = possibleCosts.map(cost => (
             <div className="item" key={cost} onClick={() => this.calculateCost(cost)}>
@@ -71,6 +72,11 @@ export default class ChoosingCostDropdown extends React.Component {
         return (
             <div
                 className="calc-cost"
+                style={
+                    {
+                        flexDirection: verticalLayout ? 'column' : 'row'
+                    }
+                }
             >
                 <div
                     className="dropdown"
@@ -112,8 +118,22 @@ export default class ChoosingCostDropdown extends React.Component {
                         {costDropdown}
                     </div>
                 </div>
-                <div className="gray-line"></div>
-                <div className="calculated-cost">
+                <div
+                    className="gray-line"
+                    style={
+                        {
+                            display: verticalLayout ? 'none' : 'block'
+                        }
+                    }
+                />
+                <div
+                    className="calculated-cost"
+                    style={
+                        {
+                            marginTop: verticalLayout ? '15px' : 0
+                        }
+                    }
+                >
                     {productCost}
                 </div>
             </div>

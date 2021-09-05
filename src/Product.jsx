@@ -138,7 +138,7 @@ class Product extends React.Component {
             isRequestMaking
         } = this.state;
 
-        const { buyProduct } = this.props;
+        const { buyProduct, chooseDaysAmountShown } = this.props;
 
         const changes = this.renderChanges();
         const productWorkingTime = new Date(product.workingTime);
@@ -421,7 +421,11 @@ class Product extends React.Component {
                                     className="button"
                                     style={
                                         {
-                                            pointerEvents: this.props.isRequestMaking ? 'none' : 'all'
+                                            pointerEvents: (
+                                                this.props.isRequestMaking || chooseDaysAmountShown
+                                                    ? 'none'
+                                                    : 'all'
+                                            )
                                         }
                                     }
                                 >
@@ -490,8 +494,20 @@ class Product extends React.Component {
                     className="general"
                     style={
                         {
-                            opacity: isRequestMaking ? 0 : this.props.isRequestMaking ? 0 : 1,
-                            pointerEvents: isRequestMaking ? 'none' : this.props.isRequestMaking ? 'none' : 'all',
+                            opacity: (
+                                isRequestMaking
+                                    ? 0
+                                    : this.props.isRequestMaking
+                                        ? 0
+                                        : 1
+                            ),
+                            pointerEvents: (
+                                isRequestMaking || chooseDaysAmountShown
+                                    ? 'none'
+                                    : this.props.isRequestMaking
+                                        ? 'none'
+                                        : 'all'
+                            ),
                             marginTop: this.props.hideh2 ? 0 : '30px',
                             ...this.props.style || ''
                         }
@@ -503,8 +519,24 @@ class Product extends React.Component {
                     className="changes-log"
                     style={
                         {
-                            opacity: this.props.hideChanges ? 0 : isRequestMaking ? 0 : this.props.isRequestMaking ? 0 : 1,
-                            pointerEvents: this.props.hideChanges ? 'none' : isRequestMaking ? 'none' : this.props.isRequestMaking ? 'none' : 'all',
+                            opacity: (
+                                this.props.hideChanges
+                                    ? 0
+                                    : isRequestMaking
+                                        ? 0
+                                        : this.props.isRequestMaking
+                                            ? 0
+                                            : 1
+                            ),
+                            pointerEvents: (
+                                this.props.hideChanges || chooseDaysAmountShown
+                                    ? 'none'
+                                    : isRequestMaking
+                                        ? 'none'
+                                        : this.props.isRequestMaking
+                                            ? 'none'
+                                            : 'all'
+                            ),
                         }
                     }
                 >
@@ -514,8 +546,14 @@ class Product extends React.Component {
                             className="changes"
                             style={
                                 {
-                                    opacity: isRequestMaking ? 0 : this.props.isRequestMaking ? 0 : 1,
-                                    pointerEvents: isRequestMaking ? 'none' : this.props.isRequestMaking ? 'none' : 'all'
+                                    opacity: (
+                                        isRequestMaking
+                                            ? 0
+                                            : this.props.isRequestMaking
+                                                ? 0
+                                                : 1
+                                    ),
+                                    pointerEvents: isRequestMaking || chooseDaysAmountShown ? 'none' : this.props.isRequestMaking ? 'none' : 'all'
                                 }
                             }
                         >

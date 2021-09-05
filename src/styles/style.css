@@ -958,6 +958,7 @@ button.disabled {
 .dashboard .nav {
     border-bottom: 1px solid #3c3c4d;
     background: #1C1C24;
+    transition: 300ms;
 }
 
 .dashboard .nav .container {
@@ -1187,6 +1188,7 @@ button.disabled {
     height: 370px;
     box-shadow: 0px 0px 20px 5px #141313;
     transform: translateY(-170%);
+    opacity: 0;
 }
 
 .dashboard .password-changed-notif {
@@ -3892,6 +3894,79 @@ button.disabled {
     }
 }
 
+.choosing-cost-modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    z-index: 1;
+    width: 450px;
+    height: 400px;
+    background-color: #1C1C24;
+    border-radius: 15px;
+    padding: 30px;
+    transition: 200ms;
+}
+
+.choosing-cost-modal .heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.choosing-cost-modal .heading .close-icon {
+    fill: #1E75FF;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.choosing-cost-modal .choose-cost {
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    pointer-events: none;
+}
+
+.choosing-cost-modal .choose-cost .product-title {
+    pointer-events: all;
+}
+
+.choosing-cost-modal .choose-cost .calc-cost {
+    pointer-events: all;
+    margin-top: 15px;
+}
+
+.choosing-cost-modal .choose-cost .buy-product {
+    border-radius: 10px;
+    background-color: #1E75FF;
+    transition: 300ms;
+    border: none;
+    color: #FAFAFB;
+    width: 160px;
+    padding: 10px 0;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 18px;
+    cursor: pointer;
+    margin-top: 15px;
+    pointer-events: all;
+}
+
+.choosing-cost-modal .choose-cost .buy-product:hover {
+    background-color: #1C6FF2;
+}
+
 .home .footer {
     background: transparent;
 }
@@ -3899,6 +3974,7 @@ button.disabled {
 .general-footer {
     background-color: #1C1C24;
     border-top: 1px solid #292932;
+    transition: 300ms;
 }
 
 .general-footer .container {
