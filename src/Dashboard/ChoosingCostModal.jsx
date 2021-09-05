@@ -7,7 +7,7 @@ export default class ChoosingCostModal extends React.Component {
         super();
         this.state = {
             product: {},
-            choosenDropdown: '',
+            choosenDropdown: 'Ежеквартально',
             cost: 0
         };
         this.getChoosenDropdown = this.getChoosenDropdown.bind(this);
@@ -37,7 +37,7 @@ export default class ChoosingCostModal extends React.Component {
             cost
         } = this.state;
         const { costPerDay, title } = product;
-        let costToBuy
+        let costToBuy = product.cost && product.cost.perDay;
         if (product.cost) (
             costToBuy = choosenDropdown.toLowerCase() == 'ежемесячно'
                 ? product.cost.perMonth
