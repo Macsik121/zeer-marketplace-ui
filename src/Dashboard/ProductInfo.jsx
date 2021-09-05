@@ -13,51 +13,61 @@ class ProductInfo extends React.Component {
             isRequestMaking: false,
             product: null
         };
+        this.getProduct = this.getProduct.bind(this);
     }
     async componentDidUpdate(prevProps) {
         const prevTitle = prevProps.match.params.title;
         const { title } = this.props.match.params;
         if (prevTitle != title) {
-            this.setState({ isRequestMaking: true });
+            await this.getProduct();
+        }
+    }
+    async getProduct() {
+        this.setState({ isRequestMaking: true });
 
-            const result = await fetchData(`
-                query getProduct($title: String!) {
-                    getProduct(title: $title) {
-                        id
-                        title
-                        productFor
-                        logo
-                        changes {
-                            version
-                            created
-                            description
-                        }
-                        imageURL
-                        imageURLdashboard
-                        workingTime
-                        reloading
-                        costPerDay
+        const result = await fetchData(`
+            query getProduct($title: String!) {
+                getProduct(title: $title) {
+                    id
+                    title
+                    productFor
+                    logo
+                    changes {
+                        version
+                        created
                         description
-                        locks
-                        timeBought
-                        peopleBought {
-                            name
-                            avatar
-                        }
-                        characteristics {
-                            version
-                            osSupport
-                            cpuSupport
-                            gameMode
-                            developer
-                            supportedAntiCheats
-                        }
+                    }
+                    imageURL
+                    imageURLdashboard
+                    workingTime
+                    reloading
+                    costPerDay
+                    description
+                    locks
+                    timeBought
+                    peopleBought {
+                        name
+                        avatar
+                    }
+                    characteristics {
+                        version
+                        osSupport
+                        cpuSupport
+                        gameMode
+                        developer
+                        supportedAntiCheats
+                    }
+                    status
+                    cost {
+                        perDay
+                        perMonth
+                        perYear
                     }
                 }
-            `, { title });
+            }
+        `, { title });
 
-            this.setState({ isRequestMaking: false, product: result.getProduct })
-        }
+        this.setState({ isRequestMaking: false, product: result.getProduct })
     }
     render() {
         const { isRequestMaking, product } = this.state;
@@ -66,7 +76,6 @@ class ProductInfo extends React.Component {
             showChoosingDays,
             chooseDaysAmountShown
         } = this.props;
-        console.log(chooseDaysAmountShown)
         const info = [];
         let renderedPopularProducts = [];
         for (let i = 0; i < this.props.popularProducts.length; i++) {
@@ -80,7 +89,7 @@ class ProductInfo extends React.Component {
                         <BoughtPeople people={popProduct.peopleBought} />
                         <div className="buttons">
                             <button
-                                className="buy button"
+                                className={`buy button ${popProduct.status == 'onupdate' ? 'disabled' : ''}`}
                                 onClick={() => showChoosingDays(popProduct)}
                             >
                                 Купить

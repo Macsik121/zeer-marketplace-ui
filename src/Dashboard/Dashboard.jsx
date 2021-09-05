@@ -87,7 +87,6 @@ class Dashboard extends React.Component {
         this.setState({ deviceWidth: window.innerWidth });
         window.onkeydown = function(e) {
             if (e.keyCode == 27) {
-                console.log(e.keyCode);
                 this.hideChoosingDays();
                 this.hideModal();
                 this.hideNotificationMessage();
@@ -293,6 +292,7 @@ class Dashboard extends React.Component {
                         developer
                         supportedAntiCheats
                     }
+                    status
                 }
             }
         `);

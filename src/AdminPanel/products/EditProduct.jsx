@@ -5,11 +5,6 @@ import fetch from 'isomorphic-fetch';
 import fetchData from '../../fetchData';
 import Product from '../../Product.jsx';
 
-const serverEndpoint = (
-    'https://zeer-marketplace-api-macsik121.herokuapp.com/graphql' ||
-    'http://localhost:3000/graphql'
-);
-
 class EditProduct extends React.Component {
     type = 'edit';
     constructor() {
@@ -17,62 +12,83 @@ class EditProduct extends React.Component {
         this.state = {
             product: {},
             title: '',
-            isRequestMaking: true
+            isRequestMaking: true,
+            choosenEditingTime: 'Ежеквартально',
+            possibleEditingTime: ['Ежемесячно', 'Ежеквартально', 'Ежегодно'],
+            cost: 0,
+            chooseTimeShown: false
         };
         this.handleProductChange = this.handleProductChange.bind(this);
         this.handleCharacteristicsChange = this.handleCharacteristicsChange.bind(this);
         this.updateProduct = this.updateProduct.bind(this);
         this.handleUploadFile = this.handleUploadFile.bind(this);
         this.addProduct = this.addProduct.bind(this);
+        this.disableProduct = this.disableProduct.bind(this);
+        this.getProduct = this.getProduct.bind(this);
+        this.handleChangeCost = this.handleChangeCost.bind(this);
+        this.toggleChooseTime = this.toggleChooseTime.bind(this);
+        this.chooseTime = this.chooseTime.bind(this);
     }
     async componentDidMount() {
         if (Object.keys(this.props.match.params).length < 1) {
             this.type = 'create';
             this.setState({ isRequestMaking: false });
         } else if (this.type == 'edit') {
-            this.setState({ isRequestMaking: true });
-            const { title } = this.props.match.params;
-
-            const result = await fetchData(`
-                query getProduct($title: String!) {
-                    getProduct(title: $title) {
-                        id
-                        title
-                        productFor
-                        logo
-                        imageURL
-                        imageURLdashboard
-                        workingTime
-                        reloading
-                        costPerDay
-                        description
-                        locks
-                        timeBought
-                        peopleBought {
-                            name
-                            avatar
-                        }
-                        characteristics {
-                            version
-                            osSupport
-                            cpuSupport
-                            gameMode
-                            developer
-                            supportedAntiCheats
-                        }
-                    }
-                }
-            `, { title });
-            
-            this.setState({
-                isRequestMaking: false,
-                product: result.getProduct,
-                productCopy: result.getProduct,
-                title: result.getProduct.title
-            });
+            await this.getProduct();
         } else if (this.type == 'create') {
             this.setState({ product: {} });
         }
+    }
+    async getProduct() {
+        this.setState({ isRequestMaking: true });
+        const { title } = this.props.match.params;
+
+        const result = await fetchData(`
+            query getProduct($title: String!) {
+                getProduct(title: $title) {
+                    id
+                    title
+                    productFor
+                    logo
+                    imageURL
+                    imageURLdashboard
+                    workingTime
+                    reloading
+                    costPerDay
+                    description
+                    locks
+                    timeBought
+                    peopleBought {
+                        name
+                        avatar
+                    }
+                    characteristics {
+                        version
+                        osSupport
+                        cpuSupport
+                        gameMode
+                        developer
+                        supportedAntiCheats
+                    }
+                    status
+                    cost {
+                        perDay
+                        perMonth
+                        perYear
+                    }
+                }
+            }
+        `, { title });
+
+        const product = result.getProduct;
+
+        this.setState({
+            isRequestMaking: false,
+            product,
+            productCopy: product,
+            title: product.title
+        });
+        return result.getProduct.title;
     }
     handleProductChange(e) {
         if (e.target.name == 'title' && e.target.value.toLowerCase().includes('/')) {
@@ -112,6 +128,7 @@ class EditProduct extends React.Component {
         product.costPerDay = +product.costPerDay;
         product.oldTitle = this.state.title;
         product.newTitle = product.title;
+        product.status = 'undetect';
         delete product.title;
         const fd = new FormData();
 
@@ -135,6 +152,7 @@ class EditProduct extends React.Component {
             delete product.logo;
             product.logo = '/upload-images/' + logo.files[0].name;
         }
+        console.log(product);
 
         const result = await fetchData(`
             mutation editProduct($product: ProductInput!) {
@@ -163,15 +181,19 @@ class EditProduct extends React.Component {
                         developer
                         supportedAntiCheats
                     }
+                    status
+                    cost {
+                        perDay
+                        perMonth
+                        perYear
+                    }
                 }
             }
         `, { product });
 
-        this.setState({
-            isRequestMaking: false,
-            product: result.editProduct,
-            title: result.editProduct.title
-        });
+        const newTitle = result.editProduct.title;
+        this.props.history.push(`/admin/products/${newTitle}`);
+        await this.getProduct();
     }
     async handleUploadFile(event) {
         const file = event.target.files[0];
@@ -270,11 +292,68 @@ class EditProduct extends React.Component {
             isRequestMaking: false
         });
     }
+    async disableProduct() {
+        this.setState({ isRequestMaking: true });
+
+        const { title } = this.props.match.params;
+        const vars = {
+            title
+        };
+
+        await fetchData(`
+            mutation disableProduct($title: String!) {
+                disableProduct(title: $title)
+            }
+        `, vars);
+
+        await this.getProduct();
+        this.setState({ isRequestMaking: false });
+    }
+    handleChangeCost(e) {
+        const {
+            choosenEditingTime,
+            product
+        } = this.state;
+        let cost = +e.target.value;
+        let whatToEdit = 'perDay';
+        if (choosenEditingTime.toLowerCase() == 'ежемесячно') whatToEdit = 'perMonth'
+        else if (choosenEditingTime.toLowerCase() == 'ежегодно') whatToEdit = 'perYear'
+        this.setState({
+            cost: (
+                isNaN(cost)
+                    ? 0
+                    : cost
+            ),
+            product: {
+                ...product,
+                cost: {
+                    ...product.cost,
+                    [whatToEdit]: (
+                        isNaN(cost)
+                            ? 0
+                            : cost
+                    )
+                }
+            }
+        });
+    }
+    toggleChooseTime() {
+        this.setState({ chooseTimeShown: !this.state.chooseTimeShown });
+    }
+    chooseTime(e) {
+        this.setState({ choosenEditingTime: e.target.textContent });
+    }
     render() {
         const {
             isRequestMaking,
-            product
+            product,
+            choosenEditingTime,
+            possibleEditingTime,
+            chooseTimeShown
         } = this.state;
+        let whatToEdit = 'perDay';
+        if (choosenEditingTime.toLowerCase() == 'ежемесячно') whatToEdit = 'perMonth'
+        else if (choosenEditingTime.toLowerCase() == 'ежегодно') whatToEdit = 'perYear'
 
         return (
             <div className="edit-product">
@@ -435,7 +514,7 @@ class EditProduct extends React.Component {
                             <label>Режми игры:</label>
                             <input
                                 type="text"
-                                className="upper-block field"
+                                className="field"
                                 name="gameMode"
                                 value={
                                     product.characteristics &&
@@ -444,11 +523,11 @@ class EditProduct extends React.Component {
                                 onChange={this.handleCharacteristicsChange}
                             />
                         </div>
-                        <div className="field-wrap upper-block-field">
+                        <div className="field-wrap">
                             <label>Разработчик:</label>
                             <input
                                 type="text"
-                                className="upper-block field"
+                                className="field"
                                 name="developer"
                                 value={
                                     product.characteristics &&
@@ -457,11 +536,11 @@ class EditProduct extends React.Component {
                                 onChange={this.handleCharacteristicsChange}
                             />
                         </div>
-                        <div className="field-wrap upper-block-field">
+                        <div className="field-wrap">
                             <label>Поддерживаемые античиты:</label>
                             <input
                                 type="text"
-                                className="upper-block field"
+                                className="field"
                                 name="supportedAntiCheats"
                                 value={
                                     product.characteristics &&
@@ -469,6 +548,49 @@ class EditProduct extends React.Component {
                                 }
                                 onChange={this.handleCharacteristicsChange}
                             />
+                        </div>
+                        <div className="field-wrap">
+                            <label>Настройка цены:</label>
+                            <div className="edit-time-wrap">
+                                <div
+                                    className="choose-day-wrap"
+                                    onClick={this.toggleChooseTime}
+                                >
+                                    <input
+                                        type="text"
+                                        className="field choose-day"
+                                        value={choosenEditingTime}
+                                        onChange={this.handleCharacteristicsChange}
+                                        readOnly
+                                    />
+                                    <img className="arrow" src="/images/user-menu-arrow.png" />
+                                    <div
+                                        className="choose-day-dropdown"
+                                        style={
+                                            {
+                                                maxHeight: chooseTimeShown ? '90px' : 0,
+                                                pointerEvents: chooseTimeShown ? 'all' : 'none'
+                                            }
+                                        }
+                                    >
+                                        {possibleEditingTime.map(time => (
+                                            <span
+                                                className="time"
+                                                key={time}
+                                                onClick={this.chooseTime}
+                                            >
+                                                {time}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                                <input
+                                    type="text"
+                                    className="field"
+                                    value={product.cost && product.cost[whatToEdit]}
+                                    onChange={this.handleChangeCost}
+                                />
+                            </div>
                         </div>
                     </form>
                     <div className="product-wrap">
@@ -502,7 +624,12 @@ class EditProduct extends React.Component {
                                         >
                                             Сохранить изменения
                                         </button>
-                                        <button className="button off-the-product">Отключить продукт</button>
+                                        <button
+                                            className="button off-the-product"
+                                            onClick={this.disableProduct}
+                                        >
+                                            Отключить продукт
+                                        </button>
                                     </>
                                 ) : (
                                     <button

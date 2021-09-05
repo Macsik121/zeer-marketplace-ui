@@ -206,3 +206,9 @@
 .popular-products-slider .popular-product .buttons .button:first-child:hover {
     background-color: #1C6FF2;
 }
+
+.popular-products-slider .popular-product .buttons .button.disabled {
+    background-color: #DFDFDF;
+    color: #9F9F9F;
+    pointer-events: none;
+}

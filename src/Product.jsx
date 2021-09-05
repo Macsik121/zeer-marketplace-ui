@@ -72,6 +72,12 @@ class Product extends React.Component {
                             developer
                             supportedAntiCheats
                         }
+                        status
+                        cost {
+                            perDay
+                            perMonth
+                            perYear
+                        }
                     }
                 }
             `, { title });
@@ -125,16 +131,14 @@ class Product extends React.Component {
         this.setState({ choosenDropdown: e.target.textContent });
     }
     getCost(cost) {
-        this.setState({ cost }, () => console.log('updated cost:', this.state.cost));
+        this.setState({ cost });
     }
     getChoosenDropdown(choosenDropdown) {
-        this.setState({ choosenDropdown }, () => console.log('choosen drop:', this.state.choosenDropdown));
+        this.setState({ choosenDropdown });
     }
     render() {
         const {
             product,
-            choosenDropdown,
-            calculatedCosts,
             isRequestMaking
         } = this.state;
 
@@ -252,9 +256,36 @@ class Product extends React.Component {
                                 <BoughtPeople renderPeopleLimit={5} people={product.peopleBought} />
                             </div>
                             <div className="actions">
-                                <button className="undetect">
-                                    Undetect
-                                    <img className="ellipse" src="/images/Ellipse 1.png" />
+                                <button
+                                    className={`
+                                        status-button
+                                        ${
+                                            product.status == 'undetect'
+                                            ? 'undetect'
+                                            : product.status == 'onupdate'
+                                                ? 'onupdate'
+                                                : 'detect'
+                                        }
+                                    `}>
+                                    {
+                                        product.status == 'undetect'
+                                            ? 'Undetect'
+                                            : product.status == 'onupdate'
+                                                ? 'On update'
+                                                : 'Detect'
+                                    }
+                                    <img
+                                        className="ellipse"
+                                        src={`
+                                            /images/Ellipse ${
+                                                product.status == 'undetect'
+                                                    ? 1
+                                                    : product.status == 'onupdate'
+                                                        ? 2
+                                                        : 3
+                                            }.png
+                                        `}
+                                    />
                                 </button>
                                 <span className="last-update">
                                     <span className="createdDate">
@@ -368,55 +399,8 @@ class Product extends React.Component {
                                     getCost={this.getCost}
                                     costPerDay={product.costPerDay}
                                     getChoosenDropdown={this.getChoosenDropdown}
+                                    cost={product.cost}
                                 />
-                                {/* <div className="calc-cost">
-                                    <div
-                                        className="dropdown"
-                                        onClick={
-                                            function() {
-                                                this.setState({ showDropdown: !this.state.showDropdown })
-                                            }.bind(this)
-                                        }
-                                        style={
-                                            this.state.showDropdown
-                                                ? {
-                                                    borderBottomLeftRadius: 0,
-                                                    borderBottomRightRadius: 0,
-                                                    padding: '0 -1px'
-                                                }
-                                                : {
-                                                    borderBottomLeftRadius: '10px',
-                                                    borderBottomRightRadius: '10px',
-                                                    padding: '0 -1px'
-                                                }
-                                        }
-                                    >
-                                        <div className="calculated-time">
-                                            {choosenDropdown}
-                                            <img className="dropdown-arrow" src="/images/categories-arrow-menu.png" />
-                                        </div>
-                                        <div
-                                            className="items"
-                                            style={
-                                                this.state.showDropdown
-                                                    ? {
-                                                        maxHeight: '550px',
-                                                        transition: '350ms',
-                                                    }
-                                                    : {
-                                                        maxHeight: '0',
-                                                        transition: '200ms',
-                                                    }
-                                            }
-                                        >
-                                            {costDropdown}
-                                        </div>
-                                    </div>
-                                    <div className="gray-line"></div>
-                                    <div className="calculated-cost">
-                                        {productCost}
-                                    </div>
-                                </div> */}
                                 <div
                                     className="button"
                                     style={
@@ -436,7 +420,6 @@ class Product extends React.Component {
                                             choosenDropdown = choosenDropdown.toLowerCase();
                                             if (choosenDropdown == 'ежемесячно') days = 30;
                                             if (choosenDropdown == 'ежегодно') days = 30 * 12;
-                                            console.log(choosenDropdown + ':', days);
                                             if (buyProduct) {
                                                 buyProduct(
                                                     product.title,
@@ -446,7 +429,7 @@ class Product extends React.Component {
                                             }
                                             return;
                                         }}
-                                        className="buy-button"
+                                        className={`buy-button ${product.status == 'onupdate' ? 'disabled' : ''}`}
                                     >
                                         Купить
                                     </button>

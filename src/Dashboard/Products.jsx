@@ -50,7 +50,7 @@ export default class Products extends React.Component {
                     <BoughtPeople people={product.peopleBought} />
                     <div className="buttons">
                         <button
-                            className="button buy"
+                            className={`button buy ${product.status == 'onupdate' ? 'disabled' : ''}`}
                             onClick={() => showChoosingDays(product)}
                         >
                             Купить

@@ -19,7 +19,6 @@ export default class ChoosingCostDropdown extends React.Component {
         };
     }
     calculateCost(cost) {
-        const { choosenDropdown } = this.state;
         const { getCost, getChoosenDropdown, costPerDay } = this.props;
         if (getChoosenDropdown) getChoosenDropdown(cost);
         this.setState({ choosenDropdown: cost });
@@ -35,7 +34,7 @@ export default class ChoosingCostDropdown extends React.Component {
         return cost;
     }
     render() {
-        const { costPerDay } = this.props;
+        const { cost } = this.props;
         let {
             showDropdown,
             choosenDropdown,
@@ -58,14 +57,20 @@ export default class ChoosingCostDropdown extends React.Component {
 
         let productCost;
         (() => {
-            let choosenDropdownCopy = choosenDropdown;
-            choosenDropdownCopy = this.costInNumber(choosenDropdownCopy);
             productCost = (
                 <span className="cost">
-                    {costPerDay * choosenDropdownCopy}&#8381;&nbsp;/&nbsp;{
-                        choosenDropdownCopy == 1
+                    {
+                        cost
+                            ? choosenDropdown.toLowerCase() == 'ежеквартально'
+                                ? cost.perDay
+                                : choosenDropdown.toLowerCase() == 'ежемесячно'
+                                    ? cost.perMonth
+                                    : cost.perYear
+                            : ''
+                    }&#8381;&nbsp;/&nbsp;{
+                        choosenDropdown.toLowerCase() == 'ежеквартально'
                             ? 'День'
-                            : choosenDropdownCopy == 30
+                            : choosenDropdown.toLowerCase() == 'ежемесячно'
                                 ? 'Месяц'
                                 : 'Ежегодно'
                     }

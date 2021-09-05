@@ -24,6 +24,7 @@ async function fetchPopularProducts() {
                     developer
                     supportedAntiCheats
                 }
+                status
             }
         }
     `;

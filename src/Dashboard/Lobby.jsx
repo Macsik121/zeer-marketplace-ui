@@ -54,7 +54,12 @@ export default function Lobby(props) {
                     <span className="description">{product.description}</span>
                     <BoughtPeople people={product.peopleBought} />
                     <div className="buttons">
-                        <button className="button" onClick={() => showChoosingDays(product)}>Купить</button>
+                        <button
+                            className={`button ${product.status == 'onupdate' ? 'disabled' : ''}`}
+                            onClick={() => showChoosingDays(product)}
+                        >
+                            Купить
+                        </button>
                         <Link className="button" to={`/dashboard/products/${product.title}`}>Подробнее</Link>
                     </div>
                 </div>
