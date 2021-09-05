@@ -37,6 +37,14 @@ export default class ChoosingCostModal extends React.Component {
             cost
         } = this.state;
         const { costPerDay, title } = product;
+        let costToBuy
+        if (product.cost) (
+            costToBuy = choosenDropdown.toLowerCase() == 'ежемесячно'
+                ? product.cost.perMonth
+                : choosenDropdown.toLowerCase() == 'ежеквартально'
+                    ? product.cost.perDay
+                    : product.cost.perYear
+        )
 
         let days = 1;
         if (choosenDropdown.toLowerCase() == 'ежемесячно') {
@@ -61,10 +69,11 @@ export default class ChoosingCostModal extends React.Component {
                         costPerDay={costPerDay}
                         getChoosenDropdown={this.getChoosenDropdown}
                         getCost={this.getCost}
+                        cost={product.cost}
                     />
                     <button
                         className="buy-product"
-                        onClick={() => buyProduct(title, cost, days)}
+                        onClick={() => buyProduct(title, costToBuy, days)}
                     >
                         Купить
                     </button>

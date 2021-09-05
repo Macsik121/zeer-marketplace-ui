@@ -24,6 +24,7 @@ class ProductInfo extends React.Component {
     }
     async getProduct() {
         this.setState({ isRequestMaking: true });
+        const { title } = this.props.match.params;
 
         const result = await fetchData(`
             query getProduct($title: String!) {

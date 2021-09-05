@@ -25,6 +25,11 @@ async function fetchPopularProducts() {
                     supportedAntiCheats
                 }
                 status
+                cost {
+                    perDay
+                    perMonth
+                    perYear
+                }
             }
         }
     `;

@@ -293,6 +293,11 @@ class Dashboard extends React.Component {
                         supportedAntiCheats
                     }
                     status
+                    cost {
+                        perDay
+                        perMonth
+                        perYear
+                    }
                 }
             }
         `);

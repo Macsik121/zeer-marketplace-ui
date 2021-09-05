@@ -4,20 +4,8 @@ import { CircularProgress } from '@material-ui/core';
 import BoughtPeople from '../BoughtPeople.jsx';
 
 export default class Products extends React.Component {
-    componentDidUpdate() {
-        if (this.props.products.length > 0) {
-            const products = document.getElementById('products');
-            const images = products.querySelectorAll('.cover')
-            images.forEach(image => {
-                if (image.complete && image.naturalHeight != 0 && image.naturalWidth != 0) {
-                    image.style.filter = 'blur(0px)';
-                }
-            });
-        }
-    }
     render() {
         const {
-            buyProduct,
             isRequestMaking,
             showChoosingDays,
             chooseDaysAmountShown
