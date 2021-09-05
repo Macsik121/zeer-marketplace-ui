@@ -386,7 +386,10 @@ class EditProduct extends React.Component {
                                     value={product.costPerDay}
                                     name="costPerDay"
                                     onChange={this.handleProductChange}
-                                />&#8381;/День
+                                />
+                                <span className="per-day">
+                                    &#8381;/День
+                                </span>
                             </div>
                         </div>
                         <div className="field-wrap game-version-field">

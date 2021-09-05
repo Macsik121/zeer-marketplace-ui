@@ -44,7 +44,11 @@ export default class ChoosingCostDropdown extends React.Component {
         const verticalLayout = this.props.verticalLayout ? this.props.verticalLayout : false;
 
         const costDropdown = possibleCosts.map(cost => (
-            <div className="item" key={cost} onClick={() => this.calculateCost(cost)}>
+            <div
+                className="item"
+                key={cost}
+                onClick={() => this.calculateCost(cost)}
+            >
                 {cost}
                 {cost == choosenDropdown &&
                     <img className="cost-selected" src="/images/selected-cost.png" />

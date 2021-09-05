@@ -3947,6 +3947,14 @@ button.disabled {
     margin-top: 15px;
 }
 
+.choosing-cost-modal .choose-cost .calc-cost .dropdown .items .item {
+    background-color: rgb(40, 40, 60);
+}
+
+.choosing-cost-modal .choose-cost .calc-cost .dropdown .items .item:hover {
+    background-color: rgb(50, 50, 80);
+}
+
 .choosing-cost-modal .choose-cost .buy-product {
     border-radius: 10px;
     background-color: #1E75FF;
@@ -7211,7 +7219,7 @@ button.disabled {
     padding-left: 10px;
     width: 100%;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 18px;
     letter-spacing: .1px;
 }
@@ -7261,6 +7269,11 @@ button.disabled {
 .admin-panel .edit-product .editing-product-form .change-product .upper-block-field .input-wrap .field {
     border: none;
     height: 100%;
+}
+
+.admin-panel .edit-product .editing-product-form .change-product .upper-block-field .input-wrap .per-day {
+    min-width: 70px;
+    text-align: center;
 }
 
 .admin-panel .edit-product .editing-product-form .change-product .buttons .button {
