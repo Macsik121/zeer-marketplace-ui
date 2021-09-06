@@ -258,6 +258,7 @@ class NavBar extends React.Component {
                         hideChangedPasswordNotification={this.props.hideChangedPasswordNotification}
                         toggleModal={toggleModal}
                         hideModal={hideModal}
+                        setNewAvatar={this.props.setNewAvatar}
                     />
                     <ul className="links">
                         {navMenu}

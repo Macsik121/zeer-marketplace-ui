@@ -2138,11 +2138,16 @@ button.disabled {
     -webkit-box-shadow: 0px 0px 50px -5px #000000; 
     box-shadow: 0px 0px 50px -5px #000000;
     cursor: pointer;
-    z-index: 1;
+    z-index: 2;
 }
 
 .user-menu .dropdown {
     overflow: hidden;
+}
+
+.user-menu .dropdown button {
+    border: none;
+    width: 100%;
 }
 
 .user-menu .dropdown .item {
@@ -2153,18 +2158,12 @@ button.disabled {
     border: 1px solid #292932;
     border-bottom: 0;
     text-align: left;
-}
-
-.user-menu .dropdown .show-modal-change-password {
-    width: 100%;
-    border: none;
     color: rgba(255, 255, 255, .6);
+    transition: 100ms;
     cursor: pointer;
-    display: flex;
-    transition: 200ms;
 }
 
-.user-menu .dropdown .show-modal-change-password:hover {
+.user-menu .dropdown .item:hover {
     color: #fff;
 }
 
@@ -2172,10 +2171,22 @@ button.disabled {
     border-bottom: 1px solid #292932;
 }
 
+.user-menu .dropdown .item.change-avatar {
+    position: relative;
+}
+
+.user-menu .dropdown .item.change-avatar .choose-file {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+    opacity: 0;
+}
+
 .user-menu .dropdown a {
-    color: rgba(255, 255, 255, .6);
     text-decoration: none;
-    transition: 100ms;
 }
 
 .user-menu .dropdown a:hover {

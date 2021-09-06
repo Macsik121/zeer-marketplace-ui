@@ -415,11 +415,18 @@ class Product extends React.Component {
                                 >
                                     <button
                                         onClick={() => {
-                                            let { cost, choosenDropdown } = this.state;
+                                            let { choosenDropdown } = this.state;
                                             let days = 1;
+                                            let cost = product.cost && product.cost.perDay;
                                             choosenDropdown = choosenDropdown.toLowerCase();
-                                            if (choosenDropdown == 'ежемесячно') days = 30;
-                                            if (choosenDropdown == 'ежегодно') days = 30 * 12;
+                                            if (choosenDropdown == 'ежемесячно') {
+                                                days = 30;
+                                                if (product.cost) cost = product.cost.perMonth;
+                                            }
+                                            if (choosenDropdown == 'ежегодно') {
+                                                days = 30 * 12;
+                                                if (product.cost) cost = product.cost.perYear;
+                                            }
                                             if (buyProduct) {
                                                 buyProduct(
                                                     product.title,

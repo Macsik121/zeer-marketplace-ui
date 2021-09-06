@@ -7,8 +7,10 @@ class UserMenu extends React.Component {
     constructor() {
         super();
         this.state = {
-            user: {}
+            user: {},
+            selectedImage: ''
         };
+        this.changeAvatar = this.changeAvatar.bind(this);
     }
     async createLog() {
         const user = jwtDecode(localStorage.getItem('token'));
@@ -34,6 +36,15 @@ class UserMenu extends React.Component {
                 }
             }
         `, vars);
+    }
+    async changeAvatar(e) {
+        const {
+            setNewAvatar,
+            history
+        } = this.props;
+
+        history.push('/dashboard');
+        await setNewAvatar(e.target.files[0]);
     }
     render() {
         const {
@@ -102,29 +113,31 @@ class UserMenu extends React.Component {
                     className="dropdown"
                     style={
                         userDropdownShown
-                            ? {maxHeight: '550px', transition: '350ms'}
-                            : {maxHeight: 0, transition: '200ms'}
+                            ? { maxHeight: '550px', transition: '350ms' }
+                            : { maxHeight: 0, transition: '200ms' }
                     }
+                    onClick={() => {
+                        hiddenUserDropdown();
+
+                    }}
                 >
-                    <NavLink
-                        onClick={
-                            function() {
-                                hiddenUserDropdown();
-                            }.bind(this)
-                        }
-                        to="/dashboard/changeavatar"
-                    >
-                        <div className="item">
+                    <button>
+                        <div className="item change-avatar">
                             Установить новый аватар
+                            <input
+                                onChange={this.changeAvatar}
+                                type="file"
+                                className="choose-file"
+                            />
                         </div>
-                    </NavLink>
+                    </button>
                     <button
                         className="show-modal-change-password"
                         onClick={
                             function() {
-                                hiddenUserDropdown();
-                                hideChangedPasswordNotification();
-                                toggleModal();
+                                if (hiddenUserDropdown) hiddenUserDropdown();
+                                if (hideChangedPasswordNotification) hideChangedPasswordNotification();
+                                if (toggleModal) toggleModal();
                             }.bind(this)
                         }
                     >

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
+import { CircularProgress } from '@material-ui/core';
 import fetchData from '../fetchData';
 import Lobby from './Lobby.jsx';
 import Products from './Products.jsx';
 import Subscriptions from './Subscriptions.jsx';
 import FAQ from './FAQ.jsx';
-import SetNewAvatar from './SetNewAvatar.jsx';
 import ProductInfo from './ProductInfo.jsx';
 import ChangePassword from './ChangePasswordModal.jsx';
 import Footer from '../Footer.jsx';
@@ -46,7 +46,8 @@ class Dashboard extends React.Component {
             resetBindingRequestsRequestMaking: true,
             isMounted: false,
             chooseDaysAmountShown: false,
-            productToBuy: {}
+            productToBuy: {},
+            isRequestMaking: false
         }
         this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
@@ -81,6 +82,8 @@ class Dashboard extends React.Component {
         }
     }
     async componentDidMount() {
+        // const isCorrect = this.whetherPolyfill(8558);
+        // console.log(isCorrect);
         this.props.getUser();
         this.setState({ isMounted: true });
         const { history } = this.props;
@@ -161,7 +164,7 @@ class Dashboard extends React.Component {
     }
     async getUser(name) {
         const user = jwtDecode(localStorage.getItem('token'));
-        const resultUserExists = await fetchData(`
+        const result = await fetchData(`
             query user($name: String!) {
                 user(name: $name) {
                     email
@@ -176,58 +179,75 @@ class Dashboard extends React.Component {
             }
         `, { name: name && name != '' ? name : user.name });
 
-        if (resultUserExists.user.name == '') {
+        if (result.user.name == '') {
             localStorage.clear();
             await this.props.getUser();
             this.props.history.push('/');
             return;
         }
-        
-        this.setState({ user: resultUserExists.user });
+
+        this.setState({ user: result.user });
     }
-    async setNewAvatar(avatar) {
-        const user = jwtDecode(localStorage.getItem('token'));
-        const userWithNewAvatar = await fetchData(`
-            mutation changeAvatar($name: String!, $avatar: String!) {
-                changeAvatar(name: $name, avatar: $avatar)
-            }
-        `, {name: user.name, avatar});
-        localStorage.setItem('token', userWithNewAvatar.changeAvatar);
-        await fetchData(`
-            mutation updateBoughtIcon($name: String!) {
-                updateBoughtIcon(name: $name) {
-                    title
-                    costPerDay
-                    id
-                    productFor
-                    imageURLdashboard
-                    workingTime
-                    description
-                    peopleBought {
-                        name
-                        avatar
-                    }
-                    characteristics {
-                        version
-                        osSupport
-                        cpuSupport
-                        gameMode
-                        developer
-                        supportedAntiCheats
+    async setNewAvatar(file) {
+        let avatar = '';
+        const reader = new FileReader();
+
+        async function callback() {
+            this.setState({ isRequestMaking: true }, () => console.log(this.state.isRequestMaking));
+            const user = jwtDecode(localStorage.getItem('token'));
+            const userWithNewAvatar = await fetchData(`
+                mutation changeAvatar($name: String!, $avatar: String!) {
+                    changeAvatar(name: $name, avatar: $avatar)
+                }
+            `, { name: user.name, avatar });
+    
+            localStorage.setItem('token', userWithNewAvatar.changeAvatar);
+            await fetchData(`
+                mutation updateBoughtIcon($name: String!) {
+                    updateBoughtIcon(name: $name) {
+                        title
+                        costPerDay
+                        id
+                        productFor
+                        imageURLdashboard
+                        workingTime
+                        description
+                        peopleBought {
+                            name
+                            avatar
+                        }
+                        characteristics {
+                            version
+                            osSupport
+                            cpuSupport
+                            gameMode
+                            developer
+                            supportedAntiCheats
+                        }
                     }
                 }
-            }
-        `, { name: user.name });
+            `, { name: user.name });
+    
+            await this.getUser();
+            this.getPopularProducts();
+            this.getProducts()
+    
+            this.setState({
+                userAvatar: {
+                    background: `url(${avatar}) center/cover no-repeat`
+                }
+            });
+        };
+        callback = callback.bind(this);
 
-        await this.getUser();
-        this.getPopularProducts();
-        this.getProducts()
+        reader.onload = async function(e) {
+            this.setState({ isRequestMaking: true });
+            avatar = e.target.result;
+            await callback();
+            this.setState({ isRequestMaking: false })
+        }.bind(this);
 
-        this.setState({
-            userAvatar: {
-                background: `url(${this.state.user.avatar}) center/cover no-repeat`
-            }
-        });
+        reader.readAsDataURL(file);
     }
     async buyProduct(title = '', cost = 1, days = 30) {
         this.setState({ productsRequestMaking: true });
@@ -446,6 +466,20 @@ class Dashboard extends React.Component {
     hideChoosingDays() {
         this.setState({ chooseDaysAmountShown: false });
     }
+    whetherPolyfill(number) {
+        let isPolyfill = false;
+        number = number.toString();
+        const numberLength = number.length;
+        for(let i = 0; i < number.length; i++) {
+            if (number[i] == number[number.length - (i + 1)]) {
+                isPolyfill = true;
+            } else {
+                isPolyfill = false;
+                break;
+            }
+        }
+        return isPolyfill;
+    }
     render() {
         const {
             showingChangePassword,
@@ -467,14 +501,16 @@ class Dashboard extends React.Component {
             resetBindingRequestsRequestMaking,
             isMounted,
             chooseDaysAmountShown,
-            productToBuy
+            productToBuy,
+            isRequestMaking
         } = this.state;
+        console.log(isRequestMaking);
 
         return (
             <div
                 className="dashboard"
                 style={
-                    showingChangePassword || agreementShown
+                    showingChangePassword || agreementShown || isRequestMaking
                         ? { overflow: 'hidden', height: '100vh' }
                         : { overflow: 'inherit', height: 'auto' }
                 }
@@ -482,8 +518,18 @@ class Dashboard extends React.Component {
                 <header
                     style={
                         showingChangePassword || agreementShown
-                            ? {opacity: '.5', transition: '500ms', pointerEvents: 'none', userSelect: 'none'}
-                            : {opactiy: 1, transition: '500ms', pointerEvents: 'all', userSelect: 'text'}
+                            ? {
+                                opacity: '.5',
+                                transition: '500ms',
+                                pointerEvents: 'none',
+                                userSelect: 'none'
+                            }
+                            : {
+                                opactiy: 1,
+                                transition: '500ms',
+                                pointerEvents: 'all',
+                                userSelect: 'text'
+                            }
                     }
                     className="header"
                 >
@@ -498,8 +544,9 @@ class Dashboard extends React.Component {
                         hideChangedPasswordNotification={this.hideNotificationMessage}
                         userAvatar={userAvatar}
                         getUser={this.props.getUser}
+                        setNewAvatar={this.setNewAvatar}
                         style={
-                            chooseDaysAmountShown
+                            chooseDaysAmountShown || isRequestMaking
                                 ? {
                                     opacity: '.5',
                                     pointerEvents: 'none',
@@ -514,6 +561,14 @@ class Dashboard extends React.Component {
                         }
                     />
                 </header>
+                <CircularProgress
+                    className="progress-bar"
+                    style={
+                        {
+                            display: isRequestMaking ? 'block' : 'none'
+                        }
+                    }
+                />
                 <ChangePassword
                     style={
                         showingChangePassword
@@ -557,7 +612,9 @@ class Dashboard extends React.Component {
                 />
                 <main
                     style={
-                        showingChangePassword || agreementShown || chooseDaysAmountShown
+                        showingChangePassword ||
+                        agreementShown ||
+                        chooseDaysAmountShown || isRequestMaking
                             ? {
                                 opacity: '.5',
                                 pointerEvents: 'none',
@@ -643,17 +700,6 @@ class Dashboard extends React.Component {
                             }
                         />
                         <Route
-                            path="/dashboard/changeavatar"
-                            render={
-                                () => (
-                                    <SetNewAvatar
-                                        setNewAvatar={this.setNewAvatar}
-                                        getUser={this.getUser}
-                                    />
-                                )
-                            }
-                        />
-                        <Route
                             exact
                             path="/dashboard"
                             render={
@@ -677,9 +723,19 @@ class Dashboard extends React.Component {
                 </main>
                 <Footer
                     style={
-                        showingChangePassword || agreementShown || chooseDaysAmountShown
-                            ? { opacity: '.5', transition: '500ms', pointerEvents: 'none', userSelect: 'none' }
-                            : { opactiy: 1, transition: '500ms', pointerEvents: 'all', userSelect: 'text' }
+                        showingChangePassword || agreementShown || chooseDaysAmountShown || isRequestMaking
+                            ? {
+                                opacity: '.5',
+                                transition: '500ms',
+                                pointerEvents: 'none',
+                                userSelect: 'none'
+                            }
+                            : {
+                                opactiy: 1,
+                                transition: '500ms',
+                                pointerEvents: 'all',
+                                userSelect: 'text'
+                            }
                     }
                 />
             </div>
