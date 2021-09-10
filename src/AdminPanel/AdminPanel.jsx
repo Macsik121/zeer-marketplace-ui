@@ -1,6 +1,14 @@
 import React from 'react';
-import { Link, NavLink, Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import {
+    Link,
+    NavLink,
+    Switch,
+    Route,
+    Redirect,
+    withRouter
+} from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
+import { CircularProgress } from '@material-ui/core';
 import fetchData from '../fetchData.js';
 import UserMenu from '../UserMenu.jsx';
 import Footer from '../Footer.jsx';
@@ -34,6 +42,7 @@ class AdminPanel extends React.Component {
             users: [],
             SearchToRender: null,
             productEditType: 'edit',
+            isRequestMaking: false,
             navLinks: [
                 {
                     path: 'statistics',
@@ -102,6 +111,8 @@ class AdminPanel extends React.Component {
         this.logout = this.logout.bind(this);
         this.renderSearchBar = this.renderSearchBar.bind(this);
         this.setEditType = this.setEditType.bind(this);
+        this.getUser = this.getUser.bind(this);
+        this.updateAvatar = this.updateAvatar.bind(this);
     }
     async componentDidMount() {
         const token = localStorage.getItem('token');
@@ -138,6 +149,21 @@ class AdminPanel extends React.Component {
             user
         });
     }
+    updateAvatar() {
+        const user = jwtDecode(localStorage.getItem('token'));
+        const userAvatar = {};
+        if (user.avatar && user.avatar.includes('#')) {
+            userAvatar.background = user.avatar;
+            user.nameFirstChar = user.name.substring(0, 2);
+        } else {
+            userAvatar.background = `url("${user.avatar}") center/cover no-repeat`;
+            user.nameFirstChar = '';
+        }
+        this.setState({
+            userAvatar,
+            user
+        });
+    }
     logout() {
         this.props.history.push(`/dashboard`);
         return;
@@ -154,12 +180,18 @@ class AdminPanel extends React.Component {
     setEditType(type) {
         this.setState({ productEditType: type });
     }
+    getUser() {
+        const token = localStorage.getItem("token");
+        localStorage.setItem('token', token);
+        this.setState({ user: jwtDecode(token) });
+    }
     render() {
         const {
             userDropdownShown,
             userAvatar,
             user,
-            SearchToRender
+            SearchToRender,
+            isRequestMaking
         } = this.state;
 
         const navLinks = this.state.navLinks.map(link => {
@@ -231,88 +263,107 @@ class AdminPanel extends React.Component {
 
         return (
             <div className="admin-panel">
-                <div className="header">
-                    <div className="heading">
-                        <Link
-                            className="admin-title"
-                            to="/admin/statistics"
-                        >
-                            Админ панель
-                        </Link>
-                        {SearchToRender && SearchToRender}
+                <CircularProgress
+                    className="progress-bar"
+                    style={
+                        {
+                            display: isRequestMaking ? 'block' : 'none'
+                        }
+                    }
+                />
+                <div
+                    className="admin-panel-wrap"
+                    style={
+                        {
+                            opacity: isRequestMaking ? 0.5 : 1,
+                            pointerEvents: isRequestMaking ? 'none' : 'all'
+                        }
+                    }
+                >
+                    <div className="header">
+                        <div className="heading">
+                            <Link
+                                className="admin-title"
+                                to="/admin/statistics"
+                            >
+                                Админ панель
+                            </Link>
+                            {SearchToRender && SearchToRender}
+                        </div>
+                        <UserMenu
+                            user={user}
+                            userAvatar={userAvatar}
+                            userDropdownShown={userDropdownShown}
+                            hiddenUserDropdown={this.hideUserDropdown}
+                            toggleUserDropdown={this.toggleUserDropdown}
+                            logout={this.logout}
+                            _this={this}
+                        />
                     </div>
-                    <UserMenu
-                        user={user}
-                        userAvatar={userAvatar}
-                        userDropdownShown={userDropdownShown}
-                        hiddenUserDropdown={this.hideUserDropdown}
-                        toggleUserDropdown={this.toggleUserDropdown}
-                        logout={this.logout}
-                    />
-                </div>
-                <div className="main">
-                    <nav className="nav">
-                        <Link to="/admin/statistics">
-                            <img src="/images/zeer-logo.png" className="logo" />
-                        </Link>
-                        {navLinks}
-                    </nav>
-                    <div className="page">
-                        <Switch>
-                            <Redirect exact from="/admin" to="/admin/statistics" />
-                            <Redirect exact from="/admin/users" to="/admin/users/1" />
-                            <Redirect exact from="/admin/logs" to="/admin/logs/1" />
-                            <Redirect exact from="/admin/reset-binding" to="/admin/reset-binding/1" />
-                            <Route
-                                path="/admin/users/edit-user/:username"
-                                render={() => (
-                                    <EditUser
-                                        renderSearchBar={this.renderSearchBar}
-                                        SearchToRender={SearchToRender}
-                                    />
-                                )}
-                            />
-                            <Route
-                                path="/admin/keys/:title/:page"
-                                render={() => (
-                                    <ViewKeys
-                                        renderSearchBar={this.renderSearchBar}
-                                        SearchToRender={SearchToRender}
-                                    />
-                                )}
-                            />
-                            <Route
-                                path="/admin/promocodes/:title/:page"
-                                render={() => (
-                                    <ViewPromocodes
-                                        renderSearchBar={this.renderSearchBar}
-                                        SearchToRender={SearchToRender}
-                                    />
-                                )}
-                            />
-                            <Route
-                                path="/admin/FAQ/:title/:page"
-                                render={() => (
-                                    <ViewAnswers />
-                                )}
-                            />
-                            <Route
-                                path="/admin/products/add-product"
-                                render={() => <EditProduct type={this.state.productEditType} />}
-                            />
-                            <Route
-                                path="/admin/products/:title"
-                                render={() => <EditProduct type={this.state.productEditType} />}
-                            />
-                            <Route
-                                path="/admin/news/:title/:page"
-                                render={() => <ViewNews />}
-                            />
-                            {routes}
-                        </Switch>
+                    <div className="main">
+                        <nav className="nav">
+                            <Link to="/admin/statistics">
+                                <img src="/images/zeer-logo.png" className="logo" />
+                            </Link>
+                            {navLinks}
+                        </nav>
+                        <div className="page">
+                            <Switch>
+                                <Redirect exact from="/admin" to="/admin/statistics" />
+                                <Redirect exact from="/admin/users" to="/admin/users/1" />
+                                <Redirect exact from="/admin/logs" to="/admin/logs/1" />
+                                <Redirect exact from="/admin/reset-binding" to="/admin/reset-binding/1" />
+                                <Route
+                                    path="/admin/users/edit-user/:username"
+                                    render={() => (
+                                        <EditUser
+                                            renderSearchBar={this.renderSearchBar}
+                                            SearchToRender={SearchToRender}
+                                        />
+                                    )}
+                                />
+                                <Route
+                                    path="/admin/keys/:title/:page"
+                                    render={() => (
+                                        <ViewKeys
+                                            renderSearchBar={this.renderSearchBar}
+                                            SearchToRender={SearchToRender}
+                                        />
+                                    )}
+                                />
+                                <Route
+                                    path="/admin/promocodes/:title/:page"
+                                    render={() => (
+                                        <ViewPromocodes
+                                            renderSearchBar={this.renderSearchBar}
+                                            SearchToRender={SearchToRender}
+                                        />
+                                    )}
+                                />
+                                <Route
+                                    path="/admin/FAQ/:title/:page"
+                                    render={() => (
+                                        <ViewAnswers />
+                                    )}
+                                />
+                                <Route
+                                    path="/admin/products/add-product"
+                                    render={() => <EditProduct type={this.state.productEditType} />}
+                                />
+                                <Route
+                                    path="/admin/products/:title"
+                                    render={() => <EditProduct type={this.state.productEditType} />}
+                                />
+                                <Route
+                                    path="/admin/news/:title/:page"
+                                    render={() => <ViewNews />}
+                                />
+                                {routes}
+                            </Switch>
+                        </div>
                     </div>
+                    <Footer />
                 </div>
-                <Footer />
             </div>
         )
     }

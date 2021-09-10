@@ -50,7 +50,7 @@ export default class ChoosingCostModal extends React.Component {
         if (choosenDropdown.toLowerCase() == 'ежемесячно') {
             days = 30;
         } else if (choosenDropdown.toLowerCase() == 'ежегодно') {
-            days = 30 * 12;
+           days = 30 * 12;
         }
 
         return (
@@ -70,6 +70,7 @@ export default class ChoosingCostModal extends React.Component {
                         getChoosenDropdown={this.getChoosenDropdown}
                         getCost={this.getCost}
                         cost={product.cost}
+                        allCost={product.allCost}
                     />
                     <button
                         className="buy-product"

@@ -259,6 +259,7 @@ class NavBar extends React.Component {
                         toggleModal={toggleModal}
                         hideModal={hideModal}
                         setNewAvatar={this.props.setNewAvatar}
+                        _this={this.props._this}
                     />
                     <ul className="links">
                         {navMenu}

@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink, withRouter } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import fetchData from './fetchData';
+import setNewAvatar from './setNewAvatar';
 
 class UserMenu extends React.Component {
     constructor() {
@@ -39,12 +40,14 @@ class UserMenu extends React.Component {
     }
     async changeAvatar(e) {
         const {
-            setNewAvatar,
-            history
+            history,
+            _this,
+            location: { pathname }
         } = this.props;
 
-        history.push('/dashboard');
-        await setNewAvatar(e.target.files[0]);
+        if (pathname.includes('/dashboard')) history.push('/dashboard');
+        else if (pathname.includes('/admin')) history.push('/admin');
+        await setNewAvatar(e.target.files[0], _this);
     }
     render() {
         const {

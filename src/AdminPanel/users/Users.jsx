@@ -17,8 +17,8 @@ function ConfirmationModal(props) {
             className="confirm"
             style={
                 agreedToDeleteShown
-                    ? { opacity: 1, top: '30px' }
-                    : { opacity: 0, top: '-65%' }
+                    ? { opacity: 1 }
+                    : { opacity: 0 }
             }
         >
             <div className="heading">

@@ -2,6 +2,7 @@ import React from 'react';
 import { CircularProgress } from '@material-ui/core';
 import { withRouter } from 'react-router';
 import fetch from 'isomorphic-fetch';
+import DeleteIcon from '@material-ui/icons/Delete';
 import fetchData from '../../fetchData';
 import Product from '../../Product.jsx';
 
@@ -16,7 +17,19 @@ class EditProduct extends React.Component {
             choosenEditingTime: 'Ежеквартально',
             possibleEditingTime: ['Ежемесячно', 'Ежеквартально', 'Ежегодно'],
             cost: 0,
-            chooseTimeShown: false
+            chooseTimeShown: false,
+            menuTextToAdd: '',
+            costToAdd: 0,
+            costPerToAdd: '',
+            additionalMenuShown: false,
+            additionalMenu: [
+                {
+                    textContent: 'Протестировать'
+                }
+            ],
+            costMenuShown: false,
+            allCostLength: 0,
+            costToDelete: ''
         };
         this.handleProductChange = this.handleProductChange.bind(this);
         this.handleCharacteristicsChange = this.handleCharacteristicsChange.bind(this);
@@ -28,6 +41,11 @@ class EditProduct extends React.Component {
         this.handleChangeCost = this.handleChangeCost.bind(this);
         this.toggleChooseTime = this.toggleChooseTime.bind(this);
         this.chooseTime = this.chooseTime.bind(this);
+        this.addCostChange = this.addCostChange.bind(this);
+        this.addCost = this.addCost.bind(this);
+        this.toggleAdditionalMenu = this.toggleAdditionalMenu.bind(this);
+        this.testCost = this.testCost.bind(this);
+        this.toggleCostMenu = this.toggleCostMenu.bind(this);
     }
     async componentDidMount() {
         if (Object.keys(this.props.match.params).length < 1) {
@@ -58,6 +76,11 @@ class EditProduct extends React.Component {
                     description
                     locks
                     timeBought
+                    allCost {
+                        cost
+                        costPer
+                        menuText
+                    }
                     peopleBought {
                         name
                         avatar
@@ -86,7 +109,8 @@ class EditProduct extends React.Component {
             isRequestMaking: false,
             product,
             productCopy: product,
-            title: product.title
+            title: product.title,
+            allCostLength: product.allCost.length
         });
         return result.getProduct.title;
     }
@@ -152,7 +176,6 @@ class EditProduct extends React.Component {
             delete product.logo;
             product.logo = '/upload-images/' + logo.files[0].name;
         }
-        console.log(product);
 
         const result = await fetchData(`
             mutation editProduct($product: ProductInput!) {
@@ -315,27 +338,14 @@ class EditProduct extends React.Component {
             product
         } = this.state;
         let cost = +e.target.value;
-        let whatToEdit = 'perDay';
-        if (choosenEditingTime.toLowerCase() == 'ежемесячно') whatToEdit = 'perMonth'
-        else if (choosenEditingTime.toLowerCase() == 'ежегодно') whatToEdit = 'perYear'
-        this.setState({
-            cost: (
-                isNaN(cost)
-                    ? 0
-                    : cost
-            ),
-            product: {
-                ...product,
-                cost: {
-                    ...product.cost,
-                    [whatToEdit]: (
-                        isNaN(cost)
-                            ? 0
-                            : cost
-                    )
-                }
+
+        if (isNaN(cost)) cost = 0;
+        product.allCost.map((currentCost, i) => {
+            if (currentCost.menuText.toLowerCase() == choosenEditingTime.toLowerCase()) {
+                product.allCost[i].cost = cost;
             }
         });
+        this.setState({ product });
     }
     toggleChooseTime() {
         this.setState({ chooseTimeShown: !this.state.chooseTimeShown });
@@ -343,17 +353,142 @@ class EditProduct extends React.Component {
     chooseTime(e) {
         this.setState({ choosenEditingTime: e.target.textContent });
     }
+    addCostChange(e) {
+        const name = e.target.name;
+        let inputValue = e.target.value;
+        if (!isNaN(+inputValue)) {
+            inputValue = +inputValue;
+        }
+        // this.setState({
+        //     product: {
+        //         ...product,
+        //         allCost
+        //     }
+        // });
+        this.setState({ [name + 'ToAdd']: inputValue });
+    }
+    async addCost() {
+        this.setState({ isRequestMaking: true });
+        const {
+            costToAdd,
+            costPerToAdd,
+            menuTextToAdd
+        } = this.state;
+        const vars = {
+            title: this.props.match.params.title,
+            cost: {
+                cost: costToAdd,
+                costPer: costPerToAdd,
+                menuText: menuTextToAdd
+            }
+        };
+
+        const result = await fetchData(`
+            mutation addCost($title: String!, $cost: CostInput!) {
+                addCost(title: $title, cost: $cost)
+            }
+        `, vars);
+        await this.getProduct();
+
+        this.setState({ isRequestMaking: false });
+    }
+    toggleAdditionalMenu() {
+        this.setState({ additionalMenuShown: !this.state.additionalMenuShown });
+    }
+    toggleCostMenu() {
+        this.setState({ costMenuShown: !this.state.costMenuShown });
+    }
+    testCost() {
+        const {
+            costToAdd,
+            costPerToAdd,
+            menuTextToAdd,
+            product
+        } = this.state;
+        const cost = {
+            cost: costToAdd,
+            costPer: costPerToAdd,
+            menuText: menuTextToAdd
+        };
+        product.allCost.push(cost);
+        this.setState({ product });
+    }
+    async deleteCost(costToDelete) {
+        this.setState({ isRequestMaking: true });
+        const vars = {
+            title: this.props.match.params.title,
+            costTitle: costToDelete.menuText
+        };
+
+        const result = await fetchData(`
+            mutation deleteCost($title: String!, $costTitle: String!) {
+                deleteCost(title: $title, costTitle: $costTitle)
+            }
+        `, vars);
+        await this.getProduct();
+
+        this.setState({ isRequestMaking: false });
+    }
     render() {
         const {
             isRequestMaking,
             product,
             choosenEditingTime,
-            possibleEditingTime,
-            chooseTimeShown
+            chooseTimeShown,
+            additionalMenuShown,
+            additionalMenu
         } = this.state;
-        let whatToEdit = 'perDay';
-        if (choosenEditingTime.toLowerCase() == 'ежемесячно') whatToEdit = 'perMonth'
-        else if (choosenEditingTime.toLowerCase() == 'ежегодно') whatToEdit = 'perYear'
+
+        const { allCost } = product;
+        const menu = [];
+        if (allCost) {
+            allCost.map((cost, i) => {
+                menu.push(
+                    <span
+                        className="time"
+                        key={i}
+                        onClick={this.chooseTime}
+                        style={
+                            {
+                                pointerEvents: isRequestMaking ? 'none' : 'all'
+                            }
+                        }
+                    >
+                        {cost.menuText}
+                        <DeleteIcon
+                            onClick={e => {
+                                e.stopPropagation();
+                                this.deleteCost(cost);
+                            }}
+                            className="delete-icon"
+                        />
+                    </span>
+                )
+            })
+        };
+
+        let whatToEdit = choosenEditingTime;
+        product.allCost && product.allCost.map(cost => {
+            if (choosenEditingTime.toLowerCase() == cost.menuText.toLowerCase()) {
+                whatToEdit = cost.cost;
+            }
+        });
+
+        const additionalMenuItems = additionalMenu.map(item => {
+            let onClickEvent = () => '';
+            if (item.textContent == 'Протестировать') {
+                onClickEvent = this.testCost;
+            }
+            return (
+                <div
+                    className="cost-item"
+                    onClick={onClickEvent}
+                    key={item.textContent}
+                >
+                    {item.textContent}
+                </div>
+            )
+        });
 
         return (
             <div className="edit-product">
@@ -551,7 +686,14 @@ class EditProduct extends React.Component {
                         </div>
                         <div className="field-wrap">
                             <label>Настройка цены:</label>
-                            <div className="edit-time-wrap">
+                            <div
+                                className="edit-time-wrap"
+                                style={
+                                    {
+                                        borderBottomLeftRadius: chooseTimeShown ? 0 : '5px'
+                                    }
+                                }
+                            >
                                 <div
                                     className="choose-day-wrap"
                                     onClick={this.toggleChooseTime}
@@ -568,29 +710,86 @@ class EditProduct extends React.Component {
                                         className="choose-day-dropdown"
                                         style={
                                             {
-                                                maxHeight: chooseTimeShown ? '90px' : 0,
+                                                maxHeight: (
+                                                    chooseTimeShown
+                                                        ? `${(product.allCost
+                                                                ? product.allCost.length
+                                                                : 1) * 30 >= 240 ? 240 : (product.allCost ? product.allCost.length : 1) * 30
+                                                            }px`
+                                                        : 0
+                                                ),
+                                                overflow: product.allCost && product.allCost.length * 30 >= 240
+                                                    ? 'auto'
+                                                    : 'hidden',
                                                 pointerEvents: chooseTimeShown ? 'all' : 'none'
                                             }
                                         }
                                     >
-                                        {possibleEditingTime.map(time => (
-                                            <span
-                                                className="time"
-                                                key={time}
-                                                onClick={this.chooseTime}
-                                            >
-                                                {time}
-                                            </span>
-                                        ))}
+                                        {menu}
                                     </div>
                                 </div>
                                 <input
                                     type="text"
                                     className="field"
-                                    value={product.cost && product.cost[whatToEdit]}
+                                    value={whatToEdit}
+                                    name={choosenEditingTime}
                                     onChange={this.handleChangeCost}
                                 />
                             </div>
+                        </div>
+                        <div className="field-wrap">
+                            <label>Добавление цены:</label>
+                            <div className="add-cost-wrap">
+                                <input
+                                    type="text"
+                                    className="field"
+                                    name="cost"
+                                    placeholder="Цена..."
+                                    onChange={this.addCostChange}
+                                />
+                                <input
+                                    type="text"
+                                    className="field"
+                                    name="costPer"
+                                    placeholder="Цена за..."
+                                    onChange={this.addCostChange}
+                                />
+                                <input
+                                    type="text"
+                                    className="field"
+                                    name="menuText"
+                                    placeholder="Надпись в меню..."
+                                    onChange={this.addCostChange}
+                                />
+                                <div className="three-dots">
+                                    <div
+                                        className="three-dots-wrap"
+                                        onClick={this.toggleAdditionalMenu}
+                                    >
+                                        ...
+                                    </div>
+                                    <div
+                                        className="menu"
+                                        style={
+                                            {
+                                                opacity: additionalMenuShown ? 1 : 0,
+                                                pointerEvents: additionalMenuShown ? 'all' : 'none',
+                                                transform: `translateY(${additionalMenuShown ? 0 : '5px'})`,
+                                                top: `-${additionalMenu.length * 38}px`
+                                            }
+                                        }
+                                    >
+                                        {additionalMenuItems}
+                                    </div>
+                                </div>
+                            </div>
+                            <button
+                                type="button"
+                                className="add-cost"
+                                onClick={this.addCost}
+                            >
+                                Добавить цену
+                            </button>
                         </div>
                     </form>
                     <div className="product-wrap">

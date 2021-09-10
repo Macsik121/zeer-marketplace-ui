@@ -30,6 +30,11 @@ async function fetchPopularProducts() {
                     perMonth
                     perYear
                 }
+                allCost {
+                    cost
+                    costPer
+                    menuText
+                }
             }
         }
     `;

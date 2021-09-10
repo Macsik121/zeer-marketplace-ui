@@ -58,7 +58,6 @@ class Dashboard extends React.Component {
         this.getPopularProducts = this.getPopularProducts.bind(this);
         this.getProducts = this.getProducts.bind(this);
         this.buyProduct = this.buyProduct.bind(this);
-        this.setNewAvatar = this.setNewAvatar.bind(this);
         this.hideAgreement = this.hideAgreement.bind(this);
         this.toggleAgreement = this.toggleAgreement.bind(this);
         this.getResetRequests = this.getResetRequests.bind(this);
@@ -66,6 +65,7 @@ class Dashboard extends React.Component {
         this.getUser = this.getUser.bind(this);
         this.showChoosingDays = this.showChoosingDays.bind(this);
         this.hideChoosingDays = this.hideChoosingDays.bind(this);
+        this.toggleRequestMaking = this.toggleRequestMaking.bind(this);
     }
     componentDidUpdate(_, prevState) {
         if (JSON.stringify(prevState.user) != JSON.stringify(this.state.user)) {
@@ -82,8 +82,6 @@ class Dashboard extends React.Component {
         }
     }
     async componentDidMount() {
-        // const isCorrect = this.whetherPolyfill(8558);
-        // console.log(isCorrect);
         this.props.getUser();
         this.setState({ isMounted: true });
         const { history } = this.props;
@@ -188,107 +186,46 @@ class Dashboard extends React.Component {
 
         this.setState({ user: result.user });
     }
-    async setNewAvatar(file) {
-        let avatar = '';
-        const reader = new FileReader();
-
-        async function callback() {
-            this.setState({ isRequestMaking: true }, () => console.log(this.state.isRequestMaking));
-            const user = jwtDecode(localStorage.getItem('token'));
-            const userWithNewAvatar = await fetchData(`
-                mutation changeAvatar($name: String!, $avatar: String!) {
-                    changeAvatar(name: $name, avatar: $avatar)
-                }
-            `, { name: user.name, avatar });
-    
-            localStorage.setItem('token', userWithNewAvatar.changeAvatar);
-            await fetchData(`
-                mutation updateBoughtIcon($name: String!) {
-                    updateBoughtIcon(name: $name) {
-                        title
-                        costPerDay
-                        id
-                        productFor
-                        imageURLdashboard
-                        workingTime
-                        description
-                        peopleBought {
-                            name
-                            avatar
-                        }
-                        characteristics {
-                            version
-                            osSupport
-                            cpuSupport
-                            gameMode
-                            developer
-                            supportedAntiCheats
-                        }
+    async buyProduct(title = '', cost = 1, days = 30) {
+        // window.location.href = `
+        //     https://paymaster.ru/payment/init?LMI_MERCHANT_ID=77aa76b8-1551-42c5-be5f-f49d6330260f&LMI_PAYMENT_AMOUNT=${cost}&LMI_CURRENCY=RUB&LMI_PAYMENT_DESC=Оплата%20товара%20${title}%20на%20${days == 360 ? '1 год' : days}%20${days == 360 ? '' : days == 1 ? 'день' : 'дней'}&LMI_SUCCESS_URL=${uiEndpoint}/dashboard/subscriptions&LMI_FAIL_URL=${uiEndpoint}/dashboard/products&LMI_SHOPPINGCART.ITEMS[N].NAME=${title}&LMI_SHOPPINGCART.ITEMS[N].QTY=1&LMI_SHOPPINGCART.ITEMS[N].PRICE=${cost}&LMI_SHOPPINGCART.ITEMS[N].TAX=no_vat
+        // `;
+        this.setState({ productsRequestMaking: true });
+        const query = `
+            mutation buyProduct($title: String!, $name: String!, $navigator: NavigatorInput) {
+                buyProduct(title: $title, name: $name, navigator: $navigator) {
+                    id
+                    title
+                    productFor
+                    costPerDay
+                    peopleBought {
+                        avatar
+                        name
                     }
                 }
-            `, { name: user.name });
-    
-            await this.getUser();
-            this.getPopularProducts();
-            this.getProducts()
-    
-            this.setState({
-                userAvatar: {
-                    background: `url(${avatar}) center/cover no-repeat`
-                }
-            });
-        };
-        callback = callback.bind(this);
-
-        reader.onload = async function(e) {
-            this.setState({ isRequestMaking: true });
-            avatar = e.target.result;
-            await callback();
-            this.setState({ isRequestMaking: false })
-        }.bind(this);
-
-        reader.readAsDataURL(file);
-    }
-    async buyProduct(title = '', cost = 1, days = 30) {
-        this.setState({ productsRequestMaking: true });
-        window.location.href = `
-            https://paymaster.ru/payment/init?LMI_MERCHANT_ID=77aa76b8-1551-42c5-be5f-f49d6330260f&LMI_PAYMENT_AMOUNT=${cost}&LMI_CURRENCY=RUB&LMI_PAYMENT_DESC=Оплата%20товара%20${title}%20на%20${days == 360 ? '1 год' : days}%20${days == 360 ? '' : days == 1 ? 'день' : 'дней'}&LMI_SUCCESS_URL=${uiEndpoint}/dashboard/subscriptions&LMI_FAIL_URL=${uiEndpoint}/dashboard/products&LMI_SHOPPINGCART.ITEMS[N].NAME=${title}&LMI_SHOPPINGCART.ITEMS[N].QTY=1&LMI_SHOPPINGCART.ITEMS[N].PRICE=${cost}&LMI_SHOPPINGCART.ITEMS[N].TAX=no_vat&LMI_INVOICE_CONFIRMATION_URL=
+            }
         `;
-        // const query = `
-        //     mutation buyProduct($title: String!, $name: String!, $navigator: NavigatorInput) {
-        //         buyProduct(title: $title, name: $name, navigator: $navigator) {
-        //             id
-        //             title
-        //             productFor
-        //             costPerDay
-        //             peopleBought {
-        //                 avatar
-        //                 name
-        //             }
-        //         }
-        //     }
-        // `;
-        // const user = jwtDecode(localStorage.getItem('token'));
+        const user = jwtDecode(localStorage.getItem('token'));
 
-        // const vars = {
-        //     title,
-        //     name: user.name,
-        //     navigator: {
-        //         userAgent: navigator.userAgent,
-        //         platform: navigator.platform
-        //     }
-        // };
+        const vars = {
+            title,
+            name: user.name,
+            navigator: {
+                userAgent: navigator.userAgent,
+                platform: navigator.platform
+            }
+        };
 
-        // const result = await fetchData(query, vars);
+        const result = await fetchData(query, vars);
         
-        // this.props.history.push(`/dashboard/subscriptions`);
-        // await this.getSubscriptions();
-        // await this.getPopularProducts();
-        // await this.getProducts();
+        this.props.history.push('/dashboard/subscriptions');
+        await this.getSubscriptions();
+        await this.getPopularProducts();
+        await this.getProducts();
         this.setState({ productsRequestMaking: false });
     }
     async getProducts() {
-        this.setState({ productsRequestMaking: true })
+        this.setState({ productsRequestMaking: true });
         const result = await fetchData(`
             query {
                 products {
@@ -317,6 +254,11 @@ class Dashboard extends React.Component {
                         perDay
                         perMonth
                         perYear
+                    }
+                    allCost {
+                        cost
+                        costPer
+                        menuText
                     }
                 }
             }
@@ -466,19 +408,8 @@ class Dashboard extends React.Component {
     hideChoosingDays() {
         this.setState({ chooseDaysAmountShown: false });
     }
-    whetherPolyfill(number) {
-        let isPolyfill = false;
-        number = number.toString();
-        const numberLength = number.length;
-        for(let i = 0; i < number.length; i++) {
-            if (number[i] == number[number.length - (i + 1)]) {
-                isPolyfill = true;
-            } else {
-                isPolyfill = false;
-                break;
-            }
-        }
-        return isPolyfill;
+    toggleRequestMaking() {
+        this.setState({ isRequestMaking: !this.state.isRequestMaking });
     }
     render() {
         const {
@@ -504,7 +435,6 @@ class Dashboard extends React.Component {
             productToBuy,
             isRequestMaking
         } = this.state;
-        console.log(isRequestMaking);
 
         return (
             <div
@@ -544,7 +474,7 @@ class Dashboard extends React.Component {
                         hideChangedPasswordNotification={this.hideNotificationMessage}
                         userAvatar={userAvatar}
                         getUser={this.props.getUser}
-                        setNewAvatar={this.setNewAvatar}
+                        _this={this}
                         style={
                             chooseDaysAmountShown || isRequestMaking
                                 ? {

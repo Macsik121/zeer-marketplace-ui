@@ -60,6 +60,11 @@ class Product extends React.Component {
                         description
                         locks
                         timeBought
+                        allCost {
+                            cost
+                            costPer
+                            menuText
+                        }
                         peopleBought {
                             name
                             avatar
@@ -400,6 +405,7 @@ class Product extends React.Component {
                                     costPerDay={product.costPerDay}
                                     getChoosenDropdown={this.getChoosenDropdown}
                                     cost={product.cost}
+                                    allCost={product.allCost}
                                 />
                                 <div
                                     className="button"

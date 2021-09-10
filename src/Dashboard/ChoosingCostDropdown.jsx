@@ -5,78 +5,86 @@ export default class ChoosingCostDropdown extends React.Component {
         super();
         this.state = {
             showDropdown: false,
-            choosenDropdown: 'Ежеквартально',
-            possibleCosts: ['Ежемесячно', 'Ежеквартально', 'Ежегодно']
+            choosenDropdown: ''
         };
     }
     componentDidUpdate(prevProps, prevState) {
-        const { getCost, costPerDay } = this.props;
+        const { getCost, costPerDay, allCost } = this.props;
         const { choosenDropdown } = this.state;
-        let cost = this.costInNumber(choosenDropdown);
-        cost = cost * costPerDay;
-        if (costPerDay && prevProps.costPerDay != costPerDay) {
-            if (getCost) getCost(cost);
-        };
+        if (allCost && prevProps.allCost != allCost) {
+            this.setState({ choosenDropdown: allCost[0].menuText });
+        }
+        // if (costPerDay && prevProps.costPerDay != costPerDay) {
+        //     if (getCost) getCost(cost);
+        // };
     }
     calculateCost(cost) {
-        const { getCost, getChoosenDropdown, costPerDay } = this.props;
+        const { getCost, getChoosenDropdown } = this.props;
         if (getChoosenDropdown) getChoosenDropdown(cost);
         this.setState({ choosenDropdown: cost });
-        const newCost = this.costInNumber(cost);
-        cost = newCost * costPerDay;
         if (getCost) getCost(cost);
     }
-    costInNumber(cost) {
-        cost = cost.toLowerCase();
-        if (cost == 'ежеквартально') cost = 1;
-        else if (cost == 'ежемесячно') cost = 30;
-        else if (cost == 'ежегодно') cost = 30 * 12;
-        return cost;
-    }
     render() {
-        const { cost } = this.props;
+        const { cost, allCost } = this.props;
         let {
             showDropdown,
-            choosenDropdown,
-            possibleCosts
+            choosenDropdown
         } = this.state;
         const verticalLayout = this.props.verticalLayout ? this.props.verticalLayout : false;
 
-        const costDropdown = possibleCosts.map(cost => (
-            <div
-                className="item"
-                key={cost}
-                onClick={() => this.calculateCost(cost)}
-            >
-                {cost}
-                {cost == choosenDropdown &&
-                    <img className="cost-selected" src="/images/selected-cost.png" />
-                }
-            </div>
-        ));
+        let costDropdown = [];
+        if (allCost) {
+            costDropdown = allCost.map((cost, i) => (
+                <div
+                    className="item"
+                    key={i}
+                    onClick={() => this.calculateCost(cost.menuText)}
+                >
+                    {cost.menuText}
+                    {cost.menuText == choosenDropdown &&
+                        <img className="cost-selected" src="/images/selected-cost.png" />
+                    }
+                </div>
+            ));
+        }
 
         let productCost;
-        (() => {
-            productCost = (
-                <span className="cost">
-                    {
-                        cost
-                            ? choosenDropdown.toLowerCase() == 'ежеквартально'
-                                ? cost.perDay
-                                : choosenDropdown.toLowerCase() == 'ежемесячно'
-                                    ? cost.perMonth
-                                    : cost.perYear
-                            : ''
-                    }&#8381;&nbsp;/&nbsp;{
-                        choosenDropdown.toLowerCase() == 'ежеквартально'
-                            ? 'День'
-                            : choosenDropdown.toLowerCase() == 'ежемесячно'
-                                ? 'Месяц'
-                                : 'Ежегодно'
-                    }
-                </span>
-            )
-        })();
+        if (allCost) {
+            allCost.map(cost => {
+                if (cost.menuText == choosenDropdown) {
+                    productCost = (
+                        <span className="cost">
+                            {
+                                cost.cost
+                            }&#8381;&nbsp;/&nbsp;{
+                                cost.costPer
+                            }
+                        </span>
+                    )
+                }
+            });
+        }
+        // else {
+        //     productCost = (
+        //         <span className="cost">
+        //             {
+        //                 cost
+        //                     ? choosenDropdown.toLowerCase() == 'ежеквартально'
+        //                         ? cost.perDay
+        //                         : choosenDropdown.toLowerCase() == 'ежемесячно'
+        //                             ? cost.perMonth
+        //                             : cost.perYear
+        //                     : ''
+        //             }&#8381;&nbsp;/&nbsp;{
+        //                 choosenDropdown.toLowerCase() == 'ежеквартально'
+        //                     ? 'День'
+        //                     : choosenDropdown.toLowerCase() == 'ежемесячно'
+        //                         ? 'Месяц'
+        //                         : 'Ежегодно'
+        //             }
+        //         </span>
+        //     )
+        // }
 
         return (
             <div
