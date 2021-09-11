@@ -3,63 +3,41 @@ import jwtDecode from 'jwt-decode';
 
 export default async function setNewAvatar(file, _this, location) {
     _this.setState({ isRequestMaking: true });
-    let avatar = '';
-    const reader = new FileReader();
 
-    async function callback() {
-        _this.setState({ isRequestMaking: true });
-        const user = jwtDecode(localStorage.getItem('token'));
-        const userWithNewAvatar = await fetchData(`
-            mutation changeAvatar($name: String!, $avatar: String!) {
-                changeAvatar(name: $name, avatar: $avatar)
+    const user = jwtDecode(localStorage.getItem('token'));
+    let avatar = new File([file], user.name + '_' + file.name);
+    const fd = new FormData();
+    const name = '/upload-images/' + user.name + '_' + file.name;
+    // avatar.name = name;
+    fd.append('avatar', avatar);
+    console.log(fd.forEach(el => console.log(el)));
+    await fetch(`${__UI_SERVER_ENDPOINT__}/uploaded-images`, {
+        method: 'POST',
+        body: fd
+    });
+    const userWithNewAvatar = await fetchData(`
+        mutation changeAvatar($name: String!, $avatar: String!) {
+            changeAvatar(name: $name, avatar: $avatar)
+        }
+    `, { name: user.name, avatar: name });
+
+    localStorage.setItem('token', userWithNewAvatar.changeAvatar);
+    await fetchData(`
+        mutation updateBoughtIcon($name: String!) {
+            updateBoughtIcon(name: $name) {
+                title
             }
-        `, { name: user.name, avatar });
+        }
+    `, { name: user.name });
 
-        localStorage.setItem('token', userWithNewAvatar.changeAvatar);
-        await fetchData(`
-            mutation updateBoughtIcon($name: String!) {
-                updateBoughtIcon(name: $name) {
-                    title
-                    costPerDay
-                    id
-                    productFor
-                    imageURLdashboard
-                    workingTime
-                    description
-                    peopleBought {
-                        name
-                        avatar
-                    }
-                    characteristics {
-                        version
-                        osSupport
-                        cpuSupport
-                        gameMode
-                        developer
-                        supportedAntiCheats
-                    }
-                }
-            }
-        `, { name: user.name });
+    await _this.getUser();
+    if (_this.getPopularProducts) _this.getPopularProducts();
+    if (_this.getProducts) _this.getProducts();
 
-        await _this.getUser();
-        if (_this.getPopularProducts) _this.getPopularProducts();
-        if (_this.getProducts) _this.getProducts()
-
-        _this.setState({
-            userAvatar: {
-                background: `url(${avatar}) center/cover no-repeat`
-            }
-        });
-    };
-    callback = callback.bind(this);
-
-    reader.onload = async function(e) {
-        _this.setState({ isRequestMaking: true });
-        avatar = e.target.result;
-        await callback();
-        _this.setState({ isRequestMaking: false })
-    }.bind(_this);
-
-    reader.readAsDataURL(file);
+    _this.setState({
+        userAvatar: {
+            background: `url("${name}") center/cover no-repeat`
+        },
+        isRequestMaking: false
+    });
 }

@@ -60,7 +60,7 @@ class UserMenu extends React.Component {
             hideChangedPasswordNotification,
             toggleModal
         } = this.props;
-        
+
         return (
             <div
                 className="user-menu"

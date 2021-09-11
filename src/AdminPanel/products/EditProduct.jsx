@@ -762,12 +762,12 @@ class EditProduct extends React.Component {
                                     onChange={this.addCostChange}
                                 />
                                 <div className="three-dots">
-                                    <div
+                                    {/* <div
                                         className="three-dots-wrap"
                                         onClick={this.toggleAdditionalMenu}
                                     >
                                         ...
-                                    </div>
+                                    </div> */}
                                     <div
                                         className="menu"
                                         style={

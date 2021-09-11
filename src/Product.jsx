@@ -88,9 +88,9 @@ class Product extends React.Component {
             `, { title });
     
             const { getProduct } = resultProduct;
-    
+
             let { changes } = getProduct;
-    
+
             this.setState({
                 product: getProduct,
                 changes,
@@ -423,20 +423,16 @@ class Product extends React.Component {
                                         onClick={() => {
                                             let { choosenDropdown } = this.state;
                                             let days = 1;
-                                            let cost = product.cost && product.cost.perDay;
-                                            choosenDropdown = choosenDropdown.toLowerCase();
-                                            if (choosenDropdown == 'ежемесячно') {
-                                                days = 30;
-                                                if (product.cost) cost = product.cost.perMonth;
-                                            }
-                                            if (choosenDropdown == 'ежегодно') {
-                                                days = 30 * 12;
-                                                if (product.cost) cost = product.cost.perYear;
-                                            }
+                                            let productCost = 1;
+                                            product.allCost.map(cost => {
+                                                if (cost.menuText.toLowerCase() == choosenDropdown.toLowerCase()) {
+                                                    productCost = cost.cost;
+                                                }
+                                            });
                                             if (buyProduct) {
                                                 buyProduct(
                                                     product.title,
-                                                    cost,
+                                                    productCost,
                                                     days
                                                 );
                                             }

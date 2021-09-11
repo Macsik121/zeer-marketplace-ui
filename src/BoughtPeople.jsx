@@ -10,7 +10,7 @@ export default function BoughtPeople({ people, renderPeopleLimit = 3 }) {
                 if (person.avatar.includes('#')) {
                     userAvatar.background = `${person.avatar}`;
                 } else {
-                    userAvatar.background = `url(${person.avatar}) center/cover no-repeat`;
+                    userAvatar.background = `url("${person.avatar}") center/cover no-repeat`;
                 }
                 const style = {
                     background: userAvatar.background

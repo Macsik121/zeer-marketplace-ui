@@ -25,7 +25,8 @@ export default class Statistics extends React.Component {
                     value: 0
                 }
             ],
-            isRequestMaking: true
+            isRequestMaking: true,
+            purchases: []
         };
     }
     async componentDidMount() {
@@ -55,6 +56,24 @@ export default class Statistics extends React.Component {
 
         products = products.products;
 
+        let purchases = await fetchData(`
+            query {
+                purchases {
+                    date
+                    boughtTime
+                }
+            }          
+        `);
+
+        purchases = purchases.purchases;
+        const newPurchases = [];
+        purchases.map(purchase => {
+            purchase.value = purchase.boughtTime;
+            delete purchase.boughtTime;
+            newPurchases.push(purchase);
+        });
+        purchases = newPurchases;
+
         let subscriptionsAmount = 0;
         users.map(user => {
             subscriptionsAmount += user.subscriptions.length;
@@ -76,12 +95,17 @@ export default class Statistics extends React.Component {
             }
         });
 
-        this.setState({ isRequestMaking: false, statisticTabs });
+        this.setState({
+            isRequestMaking: false,
+            statisticTabs,
+            purchases
+        });
     }
     render() {
         const {
             isRequestMaking,
-            statisticTabs
+            statisticTabs,
+            purchases
         } = this.state;
 
         const tabs = statisticTabs.map(stat => (
@@ -114,11 +138,12 @@ export default class Statistics extends React.Component {
                         {tabs}
                     </div>
                     <div className="graphs">
-                        {/* <Graph
+                        <Graph
                             className="earned-today"
                             date={new Date()}
-                            leftIndicators={statisticTabs[3].value}
-                        /> */}
+                            array={purchases}
+                            graphColor={'#1f7a1f'}
+                        />
                     </div>
                 </div>
             </div>

@@ -64,6 +64,11 @@ class ProductInfo extends React.Component {
                         perMonth
                         perYear
                     }
+                    allCost {
+                        cost
+                        costPer
+                        menuText
+                    }
                 }
             }
         `, { title });

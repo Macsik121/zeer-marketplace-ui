@@ -5438,12 +5438,15 @@ button.disabled {
     color: #fff;
     border-radius: 12px;
     margin-top: var(--graph-margin-top);
-    padding: 20px;
 }
 
 .graph {
     padding: 20px;
     font-size: 13px;
+    /* height: 580px; */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 }
 
 .graph .graph-wrap {
@@ -5451,13 +5454,55 @@ button.disabled {
     justify-content: space-between;
 }
 
+.graph .graph-wrap .left-indicators {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    position: absolute;
+}
+
 .graph .graph-wrap .column-statistics {
-    width: 95%;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.graph .graph-wrap .column-statistics .graph-item {
+    width: 75px;
+    display: flex;
+    justify-content: center;
+}
+
+.graph .graph-wrap .column-statistics .graph-item .graph-column {
+    width: 15px;
+    cursor: pointer;
+}
+
+.graph .graph-wrap .column-statistics .graph-item .graph-date.hovered {
+    opacity: 1;
+}
+
+.graph .graph-wrap .column-statistics .graph-item .graph-date {
+    opacity: 0;
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    z-index: 1;
+}
+
+.graph .graph-wrap .column-statistics .graph-item .graph-column:hover {
+    opacity: .7;
 }
 
 .graph .bottom-indicators {
     display: flex;
     justify-content: space-between;
+    margin-top: 20px;
+}
+
+.graph .bottom-indicators .day {
+    width: 75px;
 }
 
 .admin-panel .users {
@@ -8315,12 +8360,21 @@ button.disabled {
 @media (max-width: 1500px) {
     .admin-panel .edit-product .editing-product-form {
         flex-direction: column;
-        max-width: 100%;
+        width: 100%;
     }
-    .admin-panel .edit-product .editing-product-form .change-product {
+    .admin-panel .admin-panel-wrap .main .editing-product-form .change-product {
         margin: 0 auto;
+        max-width: none;
+        width: 755px;
     }
     .admin-panel .edit-product .editing-product-form .info {
+        margin: 0 auto;
+    }
+    .admin-panel .edit-product .editing-product-form .product-wrap:first-child {
+        margin-top: 20px;
+    }
+    .admin-panel .edit-product .editing-product-form .product-wrap .buttons {
+        width: 755px;
         margin: 0 auto;
     }
 }

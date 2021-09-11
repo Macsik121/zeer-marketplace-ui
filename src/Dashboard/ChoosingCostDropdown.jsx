@@ -8,7 +8,7 @@ export default class ChoosingCostDropdown extends React.Component {
             choosenDropdown: ''
         };
     }
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         const { getCost, costPerDay, allCost } = this.props;
         const { choosenDropdown } = this.state;
         if (allCost && prevProps.allCost != allCost) {

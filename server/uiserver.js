@@ -17,16 +17,24 @@ app.use('/', express.static('public'));
 
 app.post('/uploaded-images', async (req, res) => {
     try {
+        let pathname = '';
         let imageURLdashboard = req.files && req.files.imageURLdashboard ? req.files.imageURLdashboard : '';
         let logo = req.files && req.files.logo ? req.files.logo : '';
-        console.log(req.files);
+        let avatar = req.files && req.files.avatar ? req.files.avatar : '';
         if (imageURLdashboard != '') {
-            imageURLdashboard.mv(path.resolve(__dirname, '../uploaded-images/' + imageURLdashboard.name));
-            console.log('imageURLdashboard.name:', imageURLdashboard.name);
+            const { name } = imageURLdashboard;
+            pathname = path.resolve(__dirname, '../uploaded-images/' + name);
+            imageURLdashboard.mv(pathname);
         }
         if (logo != '') {
-            logo.mv(path.resolve(__dirname, '../uploaded-images/' + logo.name));
-            console.log('logo.name:', logo.name);
+            const { name } = logo;
+            pathname = path.resolve(__dirname, '../uploaded-images/' + name);
+            logo.mv(pathname);
+        }
+        if (avatar != '') {
+            const { name } = avatar;
+            pathname = path.resolve(__dirname, '../uploaded-images/' + name);
+            avatar.mv(pathname);
         }
 
         res.send('Everything is ok');

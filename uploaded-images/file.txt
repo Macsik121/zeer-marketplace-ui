@@ -1,0 +1,1 @@
+This file is created to push uploaded-images folder to github.

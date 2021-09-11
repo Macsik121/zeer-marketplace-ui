@@ -18,6 +18,10 @@ export default class ChoosingCostModal extends React.Component {
         if (prevProps.product != product) {
             this.setState({ product });
         }
+        if (product.allCost && prevProps.product.allCost != product.allCost) {
+            console.log('product.allCost does not equal to prevprops.product.allCst');
+            this.setState({ choosenDropdown: product.allCost[0].menuText });
+        }
     }
     getChoosenDropdown(choosenDropdown) {
         this.setState({ choosenDropdown });
@@ -34,24 +38,18 @@ export default class ChoosingCostModal extends React.Component {
         const {
             product,
             choosenDropdown,
-            cost
         } = this.state;
         const { costPerDay, title } = product;
-        let costToBuy = product.cost && product.cost.perDay;
-        if (product.cost) (
-            costToBuy = choosenDropdown.toLowerCase() == 'ежемесячно'
-                ? product.cost.perMonth
-                : choosenDropdown.toLowerCase() == 'ежеквартально'
-                    ? product.cost.perDay
-                    : product.cost.perYear
-        )
+        let costToBuy = 1;
+        if (product.allCost) {
+            product.allCost.map(cost => {
+                if (cost.menuText.toLowerCase() == choosenDropdown.toLowerCase()) {
+                    costToBuy = cost.cost;
+                }
+            });
+        }
 
         let days = 1;
-        if (choosenDropdown.toLowerCase() == 'ежемесячно') {
-            days = 30;
-        } else if (choosenDropdown.toLowerCase() == 'ежегодно') {
-           days = 30 * 12;
-        }
 
         return (
             <div

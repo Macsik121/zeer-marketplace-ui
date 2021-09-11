@@ -1,3 +1,4 @@
 /node_modules/
 dist/
 uploaded-images/*
+!uploaded-images/*.txt
