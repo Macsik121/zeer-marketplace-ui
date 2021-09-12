@@ -14,8 +14,7 @@ class EditProduct extends React.Component {
             product: {},
             title: '',
             isRequestMaking: true,
-            choosenEditingTime: 'Ежеквартально',
-            possibleEditingTime: ['Ежемесячно', 'Ежеквартально', 'Ежегодно'],
+            choosenEditingTime: '',
             cost: 0,
             chooseTimeShown: false,
             menuTextToAdd: '',
@@ -46,6 +45,9 @@ class EditProduct extends React.Component {
         this.toggleAdditionalMenu = this.toggleAdditionalMenu.bind(this);
         this.testCost = this.testCost.bind(this);
         this.toggleCostMenu = this.toggleCostMenu.bind(this);
+    }
+    componentDidUpdate(prevProps) {
+        
     }
     async componentDidMount() {
         if (Object.keys(this.props.match.params).length < 1) {
@@ -684,113 +686,121 @@ class EditProduct extends React.Component {
                                 onChange={this.handleCharacteristicsChange}
                             />
                         </div>
-                        <div className="field-wrap">
-                            <label>Настройка цены:</label>
-                            <div
-                                className="edit-time-wrap"
-                                style={
-                                    {
-                                        borderBottomLeftRadius: chooseTimeShown ? 0 : '5px'
-                                    }
-                                }
-                            >
-                                <div
-                                    className="choose-day-wrap"
-                                    onClick={this.toggleChooseTime}
-                                >
-                                    <input
-                                        type="text"
-                                        className="field choose-day"
-                                        value={choosenEditingTime}
-                                        onChange={this.handleCharacteristicsChange}
-                                        readOnly
-                                    />
-                                    <img className="arrow" src="/images/user-menu-arrow.png" />
-                                    <div
-                                        className="choose-day-dropdown"
-                                        style={
-                                            {
-                                                maxHeight: (
-                                                    chooseTimeShown
-                                                        ? `${(product.allCost
-                                                                ? product.allCost.length
-                                                                : 1) * 30 >= 240 ? 240 : (product.allCost ? product.allCost.length : 1) * 30
-                                                            }px`
-                                                        : 0
-                                                ),
-                                                overflow: product.allCost && product.allCost.length * 30 >= 240
-                                                    ? 'auto'
-                                                    : 'hidden',
-                                                pointerEvents: chooseTimeShown ? 'all' : 'none'
-                                            }
-                                        }
-                                    >
-                                        {menu}
-                                    </div>
-                                </div>
-                                <input
-                                    type="text"
-                                    className="field"
-                                    value={whatToEdit}
-                                    name={choosenEditingTime}
-                                    onChange={this.handleChangeCost}
-                                />
-                            </div>
-                        </div>
-                        <div className="field-wrap">
-                            <label>Добавление цены:</label>
-                            <div className="add-cost-wrap">
-                                <input
-                                    type="text"
-                                    className="field"
-                                    name="cost"
-                                    placeholder="Цена..."
-                                    onChange={this.addCostChange}
-                                />
-                                <input
-                                    type="text"
-                                    className="field"
-                                    name="costPer"
-                                    placeholder="Цена за..."
-                                    onChange={this.addCostChange}
-                                />
-                                <input
-                                    type="text"
-                                    className="field"
-                                    name="menuText"
-                                    placeholder="Надпись в меню..."
-                                    onChange={this.addCostChange}
-                                />
-                                <div className="three-dots">
-                                    {/* <div
-                                        className="three-dots-wrap"
-                                        onClick={this.toggleAdditionalMenu}
-                                    >
-                                        ...
-                                    </div> */}
-                                    <div
-                                        className="menu"
-                                        style={
-                                            {
-                                                opacity: additionalMenuShown ? 1 : 0,
-                                                pointerEvents: additionalMenuShown ? 'all' : 'none',
-                                                transform: `translateY(${additionalMenuShown ? 0 : '5px'})`,
-                                                top: `-${additionalMenu.length * 38}px`
-                                            }
-                                        }
-                                    >
-                                        {additionalMenuItems}
-                                    </div>
-                                </div>
-                            </div>
-                            <button
-                                type="button"
-                                className="add-cost"
-                                onClick={this.addCost}
-                            >
-                                Добавить цену
-                            </button>
-                        </div>
+                        {
+                            this.type == 'edit'
+                                ? (
+                                    <>
+                                        <div className="field-wrap">
+                                            <label>Настройка цены:</label>
+                                            <div
+                                                className="edit-time-wrap"
+                                                style={
+                                                    {
+                                                        borderBottomLeftRadius: chooseTimeShown ? 0 : '5px'
+                                                    }
+                                                }
+                                            >
+                                                <div
+                                                    className="choose-day-wrap"
+                                                    onClick={this.toggleChooseTime}
+                                                >
+                                                    <input
+                                                        type="text"
+                                                        className="field choose-day"
+                                                        value={choosenEditingTime}
+                                                        onChange={this.handleCharacteristicsChange}
+                                                        readOnly
+                                                    />
+                                                    <img className="arrow" src="/images/user-menu-arrow.png" />
+                                                    <div
+                                                        className="choose-day-dropdown"
+                                                        style={
+                                                            {
+                                                                maxHeight: (
+                                                                    chooseTimeShown
+                                                                        ? `${(product.allCost
+                                                                                ? product.allCost.length
+                                                                                : 1) * 30 >= 240 ? 240 : (product.allCost ? product.allCost.length : 1) * 30
+                                                                            }px`
+                                                                        : 0
+                                                                ),
+                                                                overflow: product.allCost && product.allCost.length * 30 >= 240
+                                                                    ? 'auto'
+                                                                    : 'hidden',
+                                                                pointerEvents: chooseTimeShown ? 'all' : 'none'
+                                                            }
+                                                        }
+                                                    >
+                                                        {menu}
+                                                    </div>
+                                                </div>
+                                                <input
+                                                    type="text"
+                                                    className="field"
+                                                    value={whatToEdit}
+                                                    name={choosenEditingTime}
+                                                    onChange={this.handleChangeCost}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="field-wrap">
+                                            <label>Добавление цены:</label>
+                                            <div className="add-cost-wrap">
+                                                <input
+                                                    type="text"
+                                                    className="field"
+                                                    name="cost"
+                                                    placeholder="Цена..."
+                                                    onChange={this.addCostChange}
+                                                />
+                                                <input
+                                                    type="text"
+                                                    className="field"
+                                                    name="costPer"
+                                                    placeholder="Цена за..."
+                                                    onChange={this.addCostChange}
+                                                />
+                                                <input
+                                                    type="text"
+                                                    className="field"
+                                                    name="menuText"
+                                                    placeholder="Надпись в меню..."
+                                                    onChange={this.addCostChange}
+                                                />
+                                                <div className="three-dots">
+                                                    {/* <div
+                                                        className="three-dots-wrap"
+                                                        onClick={this.toggleAdditionalMenu}
+                                                    >
+                                                        ...
+                                                    </div> */}
+                                                    <div
+                                                        className="menu"
+                                                        style={
+                                                            {
+                                                                opacity: additionalMenuShown ? 1 : 0,
+                                                                pointerEvents: additionalMenuShown ? 'all' : 'none',
+                                                                transform: `translateY(${additionalMenuShown ? 0 : '5px'})`,
+                                                                top: `-${additionalMenu.length * 38}px`
+                                                            }
+                                                        }
+                                                    >
+                                                        {additionalMenuItems}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button
+                                                type="button"
+                                                className="add-cost"
+                                                onClick={this.addCost}
+                                            >
+                                                Добавить цену
+                                            </button>
+                                        </div>
+                                    </>
+                                )
+                                : ''
+                        }
                     </form>
                     <div className="product-wrap">
                         <Product

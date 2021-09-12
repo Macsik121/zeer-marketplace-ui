@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import SlickSlider from 'react-slick';
+import Slider from './Slider.jsx';
 import jwtDecode from 'jwt-decode';
 import Product from './PopularProducts.jsx';
 import fetchPopularProducts from '../PopularProducts';
@@ -131,7 +132,7 @@ class Home extends React.Component {
             }
         }.bind(this);
         this.setState({
-            products: await fetchPopularProducts(),
+            products: await fetchPopularProducts(4),
             deviceWidth: window.innerWidth
         });
     }
@@ -221,13 +222,6 @@ class Home extends React.Component {
             privacyPolicyShown || contactsShown
         );
 
-        const sliderSettings = {
-            infinite: true,
-            speed: 500,
-            slidesToShow: 4,
-            slidesToScroll: 4,
-            adaptiveHeight: true
-        };
         const popProducts = products.map(product => (
             <Product
                 className={this.props.className}
@@ -475,13 +469,7 @@ class Home extends React.Component {
                         {
                             deviceWidth > 650
                                 ? (
-                                    <SlickSlider
-                                        className="slider"
-                                        {...sliderSettings}
-                                    >
-                                        {popProducts}
-                                        {popProducts}
-                                    </SlickSlider>
+                                    <Slider />
                                 )
                                 : (
                                     <div className="pop-products">

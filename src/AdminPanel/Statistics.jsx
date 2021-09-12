@@ -143,6 +143,8 @@ export default class Statistics extends React.Component {
                             date={new Date()}
                             array={purchases}
                             graphColor={'#1f7a1f'}
+                            isRequestMaking={isRequestMaking}
+                            graphTheme="Заработано за сегодня"
                         />
                     </div>
                 </div>

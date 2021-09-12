@@ -7,7 +7,7 @@ function Product({
         <div
             className={`pop-product ${className}`}
             style={{
-                backgroundImage: `url(${styles.background})`,
+                backgroundImage: `url("${styles.background}")`,
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center center',
                 backgroundSize: 'cover'

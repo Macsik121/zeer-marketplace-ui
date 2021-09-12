@@ -41,7 +41,8 @@ class ConfirmDeleteProduct extends React.Component {
         const {
             product,
             hideModal,
-            style
+            style,
+            confirmActionShown
         } = this.props;
 
         const { scrollTo } = this.state;
@@ -52,8 +53,8 @@ class ConfirmDeleteProduct extends React.Component {
                 style={
                     {
                         ...style,
-                        pointerEvents: this.state.isRequestMaking ? 'none' : 'all',
-                        top: scrollTo + 350
+                        pointerEvents: this.state.isRequestMaking ? 'none' : confirmActionShown ? 'all' : 'none',
+                        top: scrollTo
                     }
                 }
             >
@@ -201,10 +202,10 @@ export default class Products extends React.Component {
                     style={
                         {
                             opacity: confirmActionShown ? 1 : 0,
-                            pointerEvents: confirmActionShown ? 'all' : 'none',
                             transform: `translateY(${confirmActionShown ? 0 : '-150%'})`
                         }
                     }
+                    confirmActionShown={confirmActionShown}
                     product={this.state.productToDelete}
                     hideModal={this.hideConfirmationModal}
                     getProducts={this.getProducts}

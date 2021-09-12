@@ -19,23 +19,35 @@ app.use('/', express.static('public'));
 app.post('/uploaded-images', async (req, res) => {
     try {
         let pathname = '';
-        let imageURLdashboard = req.files && req.files.imageURLdashboard ? req.files.imageURLdashboard : '';
-        let logo = req.files && req.files.logo ? req.files.logo : '';
-        let avatar = req.files && req.files.avatar ? req.files.avatar : '';
+        function whetherFileThere(img) {
+            return req.files && img ? img : '';
+        }
+        function newPathname(name) {
+            pathname = path.resolve(__dirname, '../uploaded-images/' + name);
+        }
+        let imageURLdashboard = whetherFileThere(req.files.imageURLdashboard);
+        let logo = whetherFileThere(req.files.logo);
+        let avatar = whetherFileThere(req.files.avatar);
+        let mainpageBG = whetherFileThere(req.files.mainBG);
         if (imageURLdashboard != '') {
             const { name } = imageURLdashboard;
-            pathname = path.resolve(__dirname, '../uploaded-images/' + name);
+            newPathname(name);
             imageURLdashboard.mv(pathname);
         }
         if (logo != '') {
             const { name } = logo;
-            pathname = path.resolve(__dirname, '../uploaded-images/' + name);
+            newPathname(name);
             logo.mv(pathname);
         }
         if (avatar != '') {
             const { name } = avatar;
-            pathname = path.resolve(__dirname, '../uploaded-images/' + name);
+            newPathname(name);
             avatar.mv(pathname);
+        }
+        if (mainpageBG != '') {
+            const { name } = mainpageBG;
+            newPathname(name);
+            mainpageBG.mv(pathname);
         }
 
         res.send('Everything is ok');

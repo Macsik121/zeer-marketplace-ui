@@ -144,7 +144,8 @@ class Product extends React.Component {
     render() {
         const {
             product,
-            isRequestMaking
+            isRequestMaking,
+            choosenDropdown
         } = this.state;
 
         const { buyProduct, chooseDaysAmountShown } = this.props;

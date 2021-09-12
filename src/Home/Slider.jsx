@@ -1,7 +1,6 @@
 import React from 'react';
 import SlickSlider from 'react-slick';
-import fetchData from '../fetchData.js';
-import Product from '../PopularProducts.js';
+import Product from './PopularProducts.jsx';
 import fetchPopularProducts from '../PopularProducts';
 
 export default class Slider extends React.Component {
@@ -12,24 +11,8 @@ export default class Slider extends React.Component {
         };
     }
     async componentDidMount() {
-        const popProducts = await fetchPopularProducts();
-        const allProducts = await fetchData(`
-                query {
-                    products {
-                        id
-                        title
-                        productFor
-                        costPerDay
-                        imageURL
-                    }
-                }
-            `);
-        if (popProducts.length < 4) {
-            for (let i = 0; i < 4; i++) {
-                popProducts[i] = allProducts.products[i];
-            }
-        }
-        this.setState({products: popProducts});
+        const popProducts = await fetchPopularProducts(4);
+        this.setState({ products: popProducts });
     }
     render() {
         const sliderSettings = {
@@ -37,15 +20,8 @@ export default class Slider extends React.Component {
             infinite: true,
             speed: 500,
             slidesToShow: 4,
-            adaptiveHeight: true,
-            // responsive: [
-            //     {
-            //         breakpoint: 600,
-            //         settings: {
-            //             slidesToShow: 3
-            //         }
-            //     }
-            // ]
+            slidesToScroll: 4,
+            adaptiveHeight: true
         };
         const { products } = this.state;
         const popProducts = products.map(product => (
@@ -57,12 +33,10 @@ export default class Slider extends React.Component {
             />
         ))
         return (
-            <div>
-                <SlickSlider className="slider" {...sliderSettings}>
-                    {popProducts}
-                    {popProducts}
-                </SlickSlider>
-            </div>
+            <SlickSlider className="slider" {...sliderSettings}>
+                {popProducts}
+                {popProducts}
+            </SlickSlider>
         )
     }
 }

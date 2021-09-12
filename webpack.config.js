@@ -15,7 +15,7 @@ const uiEndpoint = (
 );
 const apiEndpoint = (
     mode == 'development'
-        ? 'localhost:3000/graphql'
+        ? 'http://localhost:3000/graphql'
         : 'https://zeer-marketplace-api-macsik121.herokuapp.com/graphql'
 );
 

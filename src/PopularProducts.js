@@ -1,9 +1,9 @@
 import fetchData from './fetchData';
 
-async function fetchPopularProducts() {
+async function fetchPopularProducts(amountToGet = 3) {
     const query = `
-        query {
-            popularProducts {
+        query popularProducts($amountToGet: Int!) {
+            popularProducts(amountToGet: $amountToGet) {
                 title
                 costPerDay
                 id
@@ -39,7 +39,11 @@ async function fetchPopularProducts() {
         }
     `;
 
-    const result = await fetchData(query);
+    const vars = {
+        amountToGet
+    };
+
+    const result = await fetchData(query, vars);
     const products = result.popularProducts;
     return products;
 }
