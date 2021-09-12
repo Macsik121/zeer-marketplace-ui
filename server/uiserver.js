@@ -4,6 +4,7 @@ import express from 'express';
 import path from 'path';
 import fileUpload from 'express-fileupload';
 import render from './render.jsx';
+import cors from 'cors';
 const app = express();
 const port = process.env.PORT || 8000;
 

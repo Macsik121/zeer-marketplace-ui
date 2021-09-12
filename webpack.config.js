@@ -1,3 +1,4 @@
+require('dotenv').config();
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -6,8 +7,22 @@ const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const webpack = require('webpack');
 
+const mode = process.env.mode || 'development';
+const uiEndpoint = (
+    mode == 'development'
+        ? 'http://localhost:8080'
+        : 'https://zeer-marketplace-ui-macsik121.herokuapp.com'
+);
+const apiEndpoint = (
+    mode == 'development'
+        ? 'localhost:3000/graphql'
+        : 'https://zeer-marketplace-api-macsik121.herokuapp.com/graphql'
+);
+
+console.log(`uiEndpoint/apiEndpoint: ${uiEndpoint}/${apiEndpoint}`)
+
 const browserConfig = {
-    mode: 'development',
+    mode,
     entry: {
         app: './browser/App.jsx'
     },
@@ -59,8 +74,8 @@ const browserConfig = {
             chunks: 'all',
             name: 'vendor'
         },
-        minimize: true,
-        minimizer: [new TerserPlugin(), new CssMinimizerPlugin()]
+        minimize: mode == 'development' ? false : true,
+        minimizer: mode == 'development' ? [] : [new TerserPlugin(), new CssMinimizerPlugin()]
     },
     plugins: [
         new MiniCssExtractPlugin({
@@ -69,21 +84,15 @@ const browserConfig = {
         new CleanWebpackPlugin(),
         new webpack.DefinePlugin({
             __isBrowser__: true,
-            __SERVER_ENDPOINT_ADDRESS__: JSON.stringify(
-                'https://zeer-marketplace-api-macsik121.herokuapp.com/graphql' ||
-                'localhost:3000/graphql'
-            ),
-            __UI_SERVER_ENDPOINT__: JSON.stringify(
-                'https://zeer-marketplace-ui-macsik121.herokuapp.com' ||
-                'http://localhost:8080'
-            )
+            __SERVER_ENDPOINT_ADDRESS__: JSON.stringify(apiEndpoint),
+            __UI_SERVER_ENDPOINT__: JSON.stringify(uiEndpoint)
         })
     ]
 };
 
 const serverConfig = {
-    mode: 'development',
-    entry: { server: [ './server/uiserver.js' ] },
+    mode,
+    entry: { server: './server/uiserver.js' },
     target: 'node',
     externals: [nodeExternals()],
     output: {
