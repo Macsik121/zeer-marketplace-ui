@@ -60,7 +60,9 @@ export default class Graph extends React.Component {
                 theBiggestValue = nextElement.value;
             }
         }
-        console.log(scaleY);
+        theBiggestValue = Math.ceil(theBiggestValue / 100) * 100;
+        let middleValue = theBiggestValue / 2;
+        console.log('the biggest value:', theBiggestValue);
 
         const graph = array.map((element, i) => (
             <div
@@ -79,21 +81,14 @@ export default class Graph extends React.Component {
                     style={
                         {
                             backgroundColor: graphColor,
-                            height: `${element.value * 3}px`,
-                            transform: scaleY
+                            transform: scaleY,
+                            // height: `${theBiggestValue / element.value * 100}px`
+                            height: `${element.value * 2}px`
                         }
                     }
-                    onMouseEnter={e => {
-                        e.target.parentNode.childNodes[0].classList.add('hovered');
-                    }}
-                    onMouseLeave={e => {
-                        e.target.parentNode.childNodes[0].classList.remove('hovered');
-                    }}
-                    onMouseMove={e => {
-                        const date = document.getElementById('graph-value' + (i + 1).toString());
-                        const rect = e.target.getBoundingClientRect();
-                        date.style.top = `${e.pageY - rect.top}px`;
-                        date.style.left = `${e.pageX - rect.left}px`;
+                    onClick={() => {
+                        const graphValue = document.getElementById('graph-value' + (i + 1).toString());
+                        graphValue.classList.toggle('active');
                     }}
                 />
             </div>
@@ -110,7 +105,11 @@ export default class Graph extends React.Component {
                         &nbsp;-&nbsp;<div className="label">{graphTheme}</div>
                     </div>
                     <div className="left-indicators">
-                        {theBiggestValue}
+                        <div className="left-indicators-wrap">
+                            <div className="the-biggest indicator">{theBiggestValue}</div>
+                            <div className="middle indicator">{middleValue}</div>
+                            <div className="zero indicator">0</div>
+                        </div>
                     </div>
                     <div className="column-statistics">
                         {graph}

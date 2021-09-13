@@ -5199,12 +5199,13 @@ button.disabled {
 
 .admin-panel .header .heading {
     display: flex;
+    width: 212px;
+    justify-content: center;
     font-weight: 500;
     letter-spacing: .1px;
     font-size: 24px;
     line-height: 36px;
     height: 70px;
-    padding-left: 15px;
 }
 
 .admin-panel .header .heading .admin-title {
@@ -5213,7 +5214,6 @@ button.disabled {
     height: 100%;
     display: flex;
     align-items: center;
-    padding-right: 15px;
 }
 
 .admin-panel .search-bar {
@@ -5448,6 +5448,7 @@ button.disabled {
     flex-direction: column;
     justify-content: flex-end;
     border-radius: 12px;
+    --graph-theme-height: 15px;
 }
 
 .graph .graph-theme {
@@ -5455,6 +5456,7 @@ button.disabled {
     top: 0;
     right: 0;
     display: flex;
+    height: var(--graph-theme-height);
 }
 
 .graph .graph-theme .graph-color {
@@ -5463,21 +5465,28 @@ button.disabled {
 }
 
 .graph .left-indicators {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
     position: absolute;
     top: 0;
     left: -5px;
-    padding-right: 5px;
-    border-right: 1px solid #fff;
     height: 100%;
+    display: flex;
+    align-items: flex-end;
+}
+
+.graph .left-indicators .left-indicators-wrap {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    border-right: 1px solid #fff;
+    align-items: center;
+    padding-left: 4px;
+    height: calc(100%);
 }
 
 .graph .graph-wrap {
     display: flex;
     justify-content: space-between;
-    height: 100%;
+    height: 200px;
     position: relative;
 }
 
@@ -5492,6 +5501,7 @@ button.disabled {
     width: 75px;
     display: flex;
     justify-content: center;
+    position: relative;
 }
 
 .graph .graph-wrap .column-statistics .graph-item .graph-column {
@@ -5505,11 +5515,18 @@ button.disabled {
 }
 
 .graph .graph-wrap .column-statistics .graph-item .graph-value {
-    opacity: 0;
+    opacity: 1;
     position: absolute;
     pointer-events: none;
     user-select: none;
     z-index: 1;
+    top: -20px;
+    right: 20px;
+    display: none;
+}
+
+.graph .graph-wrap .column-statistics .graph-item .graph-value.active {
+    display: block;
 }
 
 .graph .graph-wrap .column-statistics .graph-item .graph-column:hover {
@@ -9146,16 +9163,63 @@ button.disabled {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    line-height: 36px;
+    letter-spacing: .1px;
+    font-weight: 500;
+    font-size: 16px;
 }
 
 .admin-panel .settings .loader-action {
     display: flex;
     flex-direction: column;
     width: 270px;
+    margin: 0 auto;
+}
+
+@media (max-width: 1341px) {
+    .admin-panel .settings .loader-action {
+        width: 860px;
+    }
 }
 
 .admin-panel .settings .loader-action .action {
     margin-top: 25px;
+    background-color: #1C1C24;
+    width: 270px;
+    border-radius: 20px;
+    padding: 35px 15px 30px;
+}
+
+.admin-panel .settings .loader-action .action h3 {
+    text-align: center;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.admin-panel .settings .loader-action .action .field {
+    width: 100%;
+    border-radius: 5px;
+    height: 36px;
+    border: none;
+    color: #1C1C24;
+    padding-left: 10px;
+    margin-top: 20px;
+}
+
+.admin-panel .settings .loader-action .action .button {
+    background-color: #FF00006E;
+    transition: 300ms;
+    border: none;
+    width: 100%;
+    padding: 10px 0;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.admin-panel .settings .loader-action .action .button:hover {
+    background-color: #92191978;
 }
 
 .admin-panel .settings .products-action {
@@ -9170,18 +9234,12 @@ button.disabled {
 
 .admin-panel .settings .products-action .edit-products .product {
     width: 270px;
-    margin-left: 20px;
+    margin-left: 25px;
     background-color: #1C1C24;
     border: 1px solid #292932;
     border-radius: 20px;
     padding: 15px;
     margin-top: 25px;
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 36px;
-    letter-spacing: .1px;
-    font-weight: 500;
-    font-size: 16px;
 }
 
 .admin-panel .settings .products-action .edit-products .product:first-of-type {
@@ -9194,6 +9252,7 @@ button.disabled {
 
 .admin-panel .settings .products-action .edit-products .product h3 {
     text-align: center;
+    font-weight: 700;
 }
 
 .admin-panel .settings .products-action .edit-products .product .button {
@@ -9235,5 +9294,9 @@ button.disabled {
     color: #1C1C24;
     padding-left: 10px;
     border: none;
+}
+
+.admin-panel .settings .products-action .edit-products .product .save-changes {
+    margin-top: 40px;
 }
 

@@ -168,9 +168,14 @@ export default class Settings extends React.Component {
                             <input
                                 type="text"
                                 name="loaderVersion"
-                                className="loader-version"
+                                className="loader-version field"
                             />
-                            <button type="submit">Сохранить</button>
+                            <button
+                                className="button save"
+                                type="submit"
+                            >
+                                Сохранить
+                            </button>
                         </form>
                     </div>
                     <div className="products-action">
