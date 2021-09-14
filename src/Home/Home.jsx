@@ -99,13 +99,13 @@ class Home extends React.Component {
     }
     async componentDidMount() {
         const token = localStorage.getItem('token');
-        if (token && token != '') {
-            const user = jwtDecode(token);
-            this.props.history.push('/dashboard');
-            return;
-        } else {
-            this.props.user && this.props.getUser();
-        }
+        // if (token && token != '') {
+        //     const user = jwtDecode(token);
+        //     this.props.history.push('/dashboard');
+        //     return;
+        // } else {
+        //     this.props.user && this.props.getUser();
+        // }
         window.onkeydown = function(e) {
             const {
                 showingLogin,
@@ -238,12 +238,13 @@ class Home extends React.Component {
                 <span className="content">{advantage.content}</span>
                 <img className="character" src={advantage.characterURL} />
                 <div className="bottom-line" />
-                {++i % 2 == 1 &&
+                {i + 1 % 2 == 1 &&
                     <div className="even-bg" />
                 }
                 <div className="background" />
             </div>
         ));
+
         return (
             <div
                 className="home"
@@ -469,7 +470,7 @@ class Home extends React.Component {
                         {
                             deviceWidth > 650
                                 ? (
-                                    <Slider />
+                                    <Slider showLogin={this.showLogin} />
                                 )
                                 : (
                                     <div className="pop-products">

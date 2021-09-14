@@ -46,9 +46,6 @@ class EditProduct extends React.Component {
         this.testCost = this.testCost.bind(this);
         this.toggleCostMenu = this.toggleCostMenu.bind(this);
     }
-    componentDidUpdate(prevProps) {
-        
-    }
     async componentDidMount() {
         if (Object.keys(this.props.match.params).length < 1) {
             this.type = 'create';
@@ -112,7 +109,8 @@ class EditProduct extends React.Component {
             product,
             productCopy: product,
             title: product.title,
-            allCostLength: product.allCost.length
+            allCostLength: product.allCost.length,
+            choosenEditingTime: product.allCost[0] ? product.allCost[0].menuText : ''
         });
         return result.getProduct.title;
     }
@@ -249,7 +247,8 @@ class EditProduct extends React.Component {
             active: [],
             unactive: []
         };
-        product.costPerDay = +product.costPerDay;
+        product.costPerDay = +product.costPerDay || 0;
+        product.title = product.title || 'product';
         const form = document.forms.updateProduct;
         const imageURLdashboard = form.imageURLdashboard;
         const logo = form.logo;

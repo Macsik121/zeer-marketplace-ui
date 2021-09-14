@@ -4,7 +4,6 @@ import express from 'express';
 import path from 'path';
 import fileUpload from 'express-fileupload';
 import render from './render.jsx';
-import cors from 'cors';
 const app = express();
 const port = process.env.PORT || 8000;
 
@@ -18,6 +17,9 @@ app.use('/', express.static('public'));
 
 app.post('/uploaded-images', async (req, res) => {
     try {
+        if (!req.files) {
+            req.files = {};
+        }
         let pathname = '';
         function whetherFileThere(img) {
             return req.files && img ? img : '';

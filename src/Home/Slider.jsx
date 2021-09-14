@@ -2,6 +2,39 @@ import React from 'react';
 import SlickSlider from 'react-slick';
 import Product from './PopularProducts.jsx';
 import fetchPopularProducts from '../PopularProducts';
+import { Link } from 'react-router-dom';
+
+function RenderProductOnclick({
+    children,
+    product,
+    showLogin,
+    locationOnclick
+}) {
+    const token = localStorage.getItem('token');
+    const renderOnclick = (
+        token
+            ? (
+                <Link
+                    className="link-to"
+                    to={locationOnclick}
+                    key={product.title}
+                >
+                    {children}
+                </Link>
+            )
+            : (
+                <button
+                    type="button"
+                    className="link-to"
+                    onClick={showLogin}
+                    key={product.title}
+                >
+                    {children}
+                </button>
+            )
+    )
+    return renderOnclick;
+}
 
 export default class Slider extends React.Component {
     constructor() {
@@ -24,16 +57,28 @@ export default class Slider extends React.Component {
             adaptiveHeight: true
         };
         const { products } = this.state;
-        const popProducts = products.map(product => (
-            <Product
-                className={this.props.className}
-                styles={{background: product.imageURL}}
+        const popProducts = products.map((product, i) => (
+            <RenderProductOnclick
+                children={
+                    <Product
+                        className={this.props.className}
+                        styles={{ background: product.imageURL }}
+                        product={product}
+                        key={product.id}
+                    />
+                }
                 product={product}
-                key={product.id}
+                showLogin={this.props.showLogin}
+                i={i}
+                locationOnclick={product.locationOnclick}
             />
-        ))
+        ));
+
         return (
-            <SlickSlider className="slider" {...sliderSettings}>
+            <SlickSlider
+                className="slider"
+                {...sliderSettings}
+            >
                 {popProducts}
                 {popProducts}
             </SlickSlider>

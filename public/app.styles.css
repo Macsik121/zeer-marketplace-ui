@@ -1507,8 +1507,17 @@ button.disabled {
     width: 270px;
     height: 360px;
     position: relative;
-    z-index: -2;
     font-family: Roboto, sans-serif;
+    color: #fff;
+    z-index: 1;
+}
+
+.home .slider .link-to {
+    width: 100%;
+    height: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 
 .home .slider .pop-product .pop-product-blackBG {
@@ -1518,25 +1527,35 @@ button.disabled {
     width: 100%;
     height: 100%;
     background-image: linear-gradient(transparent, #000);
-    z-index: -1;
+    z-index: 2;
 }
 
-.home .slider .pop-product .cost {
+.home .slider .pop-product .general {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin-left: 40px;
+    margin-bottom: 40px;
+    z-index: 2;
+}
+
+.home .slider .pop-product .general .cost {
     margin-top: 225px;
     color: #fa0707;
     font-weight: 500;
     font-family: Roboto, sans-serif;
     font-size: 16px;
+    display: flex;
 }
 
-.home .slider .pop-product .title {
+.home .slider .pop-product .general .title {
     text-transform: uppercase;
     font-weight: 700;
     font-family: Roboto, sans-serif;
     font-size: 16px;
     margin-top: 10px;
-    font-family: Roboto, sans-serif;
     letter-spacing: 1px;
+    display: flex;
 }
 
 .home .advantages {
@@ -5521,7 +5540,6 @@ button.disabled {
     user-select: none;
     z-index: 1;
     top: -20px;
-    right: 20px;
     display: none;
 }
 
@@ -7467,7 +7485,6 @@ button.disabled {
     max-height: 27px;
     overflow: hidden;
     user-select: none;
-    pointer-events: none;
 }
 
 .admin-panel .view-answers .table .answers .answer .description {

@@ -12,6 +12,7 @@ export default class Settings extends React.Component {
         };
         this.handleCostChange = this.handleCostChange.bind(this);
         this.saveProductChanges = this.saveProductChanges.bind(this);
+        this.handleOnclickURLchange = this.handleOnclickURLchange.bind(this);
     }
     async componentDidMount() {
         this.setState({ isRequestMaking: true });
@@ -19,8 +20,9 @@ export default class Settings extends React.Component {
             query {
                 products {
                     id
-                    costPerDay
+                    costPerDayInfo
                     title
+                    locationOnclick
                 }
             }
         `);
@@ -29,7 +31,12 @@ export default class Settings extends React.Component {
 
         this.setState({ products, isRequestMaking: false });
     }
-    async saveProductChanges(e, title, costPerDay) {
+    async saveProductChanges(
+        e,
+        title,
+        costPerDayInfo,
+        locationOnclick
+    ) {
         e.preventDefault();
         this.setState({ isRequestMaking: true });
         const form = document.forms['saveChanges' + title];
@@ -39,12 +46,21 @@ export default class Settings extends React.Component {
         }
         const vars = {
             title,
-            costPerDay
+            costPerDayInfo,
+            locationOnclick
         };
 
         const result = await fetchData(`
-            mutation ($title: String!, $costPerDay: Int!) {
-                saveCostChanges(title: $title, costPerDay: $costPerDay)
+            mutation (
+                $title: String!,
+                $costPerDayInfo: Int!,
+                $locationOnclick: String!
+            ) {
+                saveCostChanges(
+                    title: $title,
+                    costPerDayInfo: $costPerDayInfo,
+                    locationOnclick: $locationOnclick
+                )
             }
         `, vars);
 
@@ -80,9 +96,22 @@ export default class Settings extends React.Component {
         products.map(product => {
             if (product.title == title) {
                 const newCost = +e.target.value;
-                product.costPerDay = isNaN(newCost) ? 0 : newCost;
+                product.costPerDayInfo = isNaN(newCost) ? 0 : newCost;
             }
         });
+
+        this.setState({ products });
+    }
+    handleOnclickURLchange(e, product) {
+        const { title } = product;
+        const { products } = this.state;
+
+        products.map(product => {
+            if (product.title == title) {
+                product.locationOnclick = e.target.value;
+            }
+        });
+
         this.setState({ products });
     }
     render() {
@@ -97,7 +126,8 @@ export default class Settings extends React.Component {
                             this.saveProductChanges(
                                 e,
                                 product.title,
-                                product.costPerDay
+                                product.costPerDayInfo,
+                                product.locationOnclick
                             )
                         )}
                         name={`saveChanges${product.title}`}
@@ -120,7 +150,7 @@ export default class Settings extends React.Component {
                                 type="text"
                                 className="field"
                                 name="costFrom"
-                                value={product.costPerDay}
+                                value={product.costPerDayInfo}
                                 onChange={(e) => this.handleCostChange(e, product)}
                             />
                         </div>
@@ -130,6 +160,8 @@ export default class Settings extends React.Component {
                                 type="text"
                                 className="field"
                                 name="clickLink"
+                                value={product.locationOnclick}
+                                onChange={(e) => this.handleOnclickURLchange(e, product)}
                             />
                         </div>
                         <button

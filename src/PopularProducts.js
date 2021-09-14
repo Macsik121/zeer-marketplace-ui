@@ -6,25 +6,18 @@ async function fetchPopularProducts(amountToGet = 3) {
             popularProducts(amountToGet: $amountToGet) {
                 title
                 costPerDay
+                costPerDayInfo
                 id
                 productFor
                 workingTime
                 description
+                locationOnclick
                 imageURL
                 imageURLdashboard
                 peopleBought {
                     name
                     avatar
                 }
-                characteristics {
-                    version
-                    osSupport
-                    cpuSupport
-                    gameMode
-                    developer
-                    supportedAntiCheats
-                }
-                status
                 cost {
                     perDay
                     perMonth

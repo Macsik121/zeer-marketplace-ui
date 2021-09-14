@@ -278,9 +278,10 @@ class ViewAnswers extends React.Component {
                         <div className="action">
                             <button
                                 className="button delete"
-                                onClick={() => {
-                                    this.setState({ answerToDelete: answer })
-                                    this.showDeleteAnswer()
+                                onClick={e => {
+                                    e.stopPropagation();
+                                    this.setState({ answerToDelete: answer });
+                                    this.showDeleteAnswer();
                                 }}
                             >
                                 Удалить
