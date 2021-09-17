@@ -76,6 +76,17 @@ export default class Graph extends React.Component {
                 className="graph-item"
             >
                 <div
+                    className="graph-value"
+                    id={"graph-value" + (i + 1).toString()}
+                    style={
+                        {
+                            bottom: element.value || element.value == 0 ? element.value / theBiggestValue * 100 + 2 + '%' : 2 + 'px'
+                        }
+                    }
+                >
+                    {element.value}
+                </div>
+                <div
                     className="graph-column"
                     id="graph-column"
                     style={
@@ -91,14 +102,7 @@ export default class Graph extends React.Component {
                         const graphValue = document.getElementById('graph-value' + (i + 1).toString());
                         graphValue.classList.toggle('active');
                     }}
-                >
-                    <div
-                        className="graph-value"
-                        id={"graph-value" + (i + 1).toString()}
-                    >
-                        {element.value}
-                    </div>
-                </div>
+                />
             </div>
         ));
 

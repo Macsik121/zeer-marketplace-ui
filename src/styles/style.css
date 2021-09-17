@@ -4528,7 +4528,6 @@ button.disabled {
     pointer-events: none;
     user-select: none;
     z-index: 1;
-    top: -20px;
     display: none;
 }
 
