@@ -10,6 +10,7 @@ class EditUser extends React.Component {
             user: {},
             isUserGotten: false
         };
+        this.handleActivelyUntilChange = this.handleActivelyUntilChange.bind(this);
     }
     async componentDidMount() {
         const { match, SearchToRender, renderSearchBar } = this.props;
@@ -27,10 +28,15 @@ class EditUser extends React.Component {
                             isFreezed
                         }
                         title
-                        imageURL
                         activelyUntil
+                        imageURL
+                        productFor
                     }
-                    isAdmin
+                    status {
+                        isAdmin
+                        simpleUser
+                        isBanned
+                    }
                 }
             }
         `;
@@ -38,8 +44,47 @@ class EditUser extends React.Component {
         const result = await fetchData(query, { name: username });
         this.setState({ user: result.user, isUserGotten: true });
     }
+    handleActivelyUntilChange(e) {
+        const { name, value } = e.target;
+
+        const { user } = this.state;
+        this.setState({
+            user: {
+                ...user,
+                subscriptions: {
+                    ...user.subscriptions,
+                    [name]: value
+                }
+            }
+        });
+    }
+    // handleActivelyUntilFocus(e) {
+    //     e.target.value = 
+    // }
     render() {
         const { user, isUserGotten } = this.state;
+
+        const products = user.subscriptions && user.subscriptions.map(sub => (
+            <div className="product">
+                <img className="cover" src={sub.imageURL} />
+                <div className="product-title">
+                    {sub.title}{' | '}{sub.productFor}
+                </div>
+                <div className="edit-actively-until">
+                    <label className="label">Подписка активна:</label>
+                    <input
+                        type="text"
+                        name={products.title}
+                        onChange={this.handleActivelyUntilChange}
+                        value={new Date(sub.activelyUntil).toISOString()}
+                    />
+                </div>
+                <div className="buttons">
+                    <button className="button save">Сохранить</button>
+                    <button className="button freeze">Заморозить</button>
+                </div>
+            </div>
+        ));
 
         return (
             <div className="edit-user">
@@ -61,10 +106,10 @@ class EditUser extends React.Component {
                 >
                     <h2>Редактирование пользователя {user.name}</h2>
                     <div className="user-subscriptions">
-
+                        {products}
                     </div>
                     <div className="edit-forms">
-                        <form className="edit-user">
+                        <form className="edit-user-form">
 
                         </form>
                         <form className="edit-user-password">

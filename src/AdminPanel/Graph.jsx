@@ -26,7 +26,7 @@ export default class Graph extends React.Component {
         } = this.props;
         const { scaleY } = this.state;
 
-        const weekDays = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+        const weekDays = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
         const months = [
             'Янв', 'Фев',
             'Март', 'Апр', 'Май',
@@ -34,23 +34,22 @@ export default class Graph extends React.Component {
             'Сент', 'Окт', 'Ноябрь',
             'Дек'
         ];
-    
-        const daysOfWeek = [];
-        for (let i = 0; i < weekDays.length; i++) {
-            daysOfWeek.push({
-                weekDay: weekDays[i],
-                month: months[date.getMonth()],
-                date: i + 1
-            });
-        }
 
-        const week = daysOfWeek.map((day, i) => (
-            <div key={i} className="day">
-                {day.month}.&nbsp;
-                {day.weekDay},&nbsp;
-                {day.date}
-            </div>
-        ));
+        const week = array.map((el, i) => {
+            let elDate;
+            if (el.date) elDate = new Date(el.date);
+            else {
+                elDate = new Date();
+                elDate.setDate(new Date().getDate() - new Date().getDay() + i);
+            };
+            return (
+                <div key={new Date() - elDate || i} className="day">
+                    {months[elDate.getMonth()]}.&nbsp;
+                    {weekDays[elDate.getDay()]},&nbsp;
+                    {elDate.getDate()}
+                </div>
+            )
+        });
 
         let theBiggestValue = 0;
         for (let i = 0; i < array.length; i++) {
@@ -62,11 +61,10 @@ export default class Graph extends React.Component {
         }
         theBiggestValue = Math.ceil(theBiggestValue / 100) * 100;
         let middleValue = theBiggestValue / 2;
-        console.log('the biggest value:', theBiggestValue);
 
         const graph = array.map((element, i) => (
             <div
-                key={new Date() - new Date(element.date)}
+                key={i}
                 className="graph-item"
             >
                 <div
@@ -82,8 +80,9 @@ export default class Graph extends React.Component {
                         {
                             backgroundColor: graphColor,
                             transform: scaleY,
-                            // height: `${theBiggestValue / element.value * 100}px`
-                            height: `${element.value * 2}px`
+                            height: `${element.value || element.value == 0 ? element.value * 2 : 2}px`,
+                            opacity: element.value || element.value == 0 ? 1 : 0,
+                            pointerEvents: element.value || element.value == 0 ? 'all' : 'none'
                         }
                     }
                     onClick={() => {

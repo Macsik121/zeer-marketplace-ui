@@ -5548,7 +5548,7 @@ button.disabled {
 }
 
 .graph .graph-wrap .column-statistics .graph-item .graph-column:hover {
-    opacity: .7;
+    filter: opacity(.5);
 }
 
 .graph .bottom-indicators {
@@ -5946,6 +5946,42 @@ button.disabled {
     line-height: 36px;
     color: #fff;
     letter-spacing: .1px;
+}
+
+.admin-panel .edit-user .user-subscriptions {
+    width: 860px;
+}
+
+.admin-panel .edit-user .user-subscriptions .product {
+    width: 270px;
+    padding: 20px;
+    background-color: #1C1C24;
+    border-radius: 10px;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: .1px;
+    font-weight: 500;
+}
+
+.admin-panel .edit-user .user-subscriptions .product .cover {
+    width: 100%;
+    height: 230px;
+}
+
+.admin-panel .edit-user .user-subscriptions .product .product-title {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.admin-panel .edit-user .user-subscriptions .product .buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.admin-panel .edit-user .user-subscriptions .product .buttons .button {
+    width: 120px;
+    padding: 5px 0;
 }
 
 .admin-panel .keys {
@@ -9105,6 +9141,7 @@ button.disabled {
     right: 0;
     margin: 0 auto;
     border: 3px solid #44444F;
+    border-radius: 10px;
 }
 
 .admin-panel .product-news .news-wrap .product .product-title {

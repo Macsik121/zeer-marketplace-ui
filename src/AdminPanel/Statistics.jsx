@@ -56,14 +56,27 @@ export default class Statistics extends React.Component {
 
         products = products.products;
 
+        const currentDate = new Date();
+        const currentYear = new Date().getFullYear();
+        const currentMonth = new Date().getMonth() + 1;
+        const currentDay = new Date().getDay();
+        currentDate.setDate(currentDate.getDate() - currentDay);
+
+        const vars = {
+            week: {
+                from: new Date(new Date(currentDate).toISOString().substr(0, 10)),
+                to: new Date(`${currentYear}/${currentMonth}/${currentDate.getDate() + 7}`)
+            }
+        };
+
         let purchases = await fetchData(`
-            query {
-                purchases {
+            query purchases($week: WeekInput) {
+                purchases(week: $week) {
                     date
                     boughtTime
                 }
-            }          
-        `);
+            }
+        `, vars);
 
         purchases = purchases.purchases;
         const newPurchases = [];
