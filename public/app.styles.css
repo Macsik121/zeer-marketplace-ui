@@ -5521,16 +5521,15 @@ button.disabled {
     display: flex;
     justify-content: center;
     position: relative;
+    height: 100%;
+    align-items: flex-end;
 }
 
 .graph .graph-wrap .column-statistics .graph-item .graph-column {
     width: 15px;
     cursor: pointer;
     transition: transform 300ms ease-in 3s;
-}
-
-.graph .graph-wrap .column-statistics .graph-item .graph-value.hovered {
-    opacity: 1;
+    position: relative;
 }
 
 .graph .graph-wrap .column-statistics .graph-item .graph-value {

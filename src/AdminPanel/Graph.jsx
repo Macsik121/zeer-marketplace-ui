@@ -18,7 +18,6 @@ export default class Graph extends React.Component {
         const {
             className,
             style,
-            date,
             array,
             graphColor,
             isRequestMaking,
@@ -51,14 +50,23 @@ export default class Graph extends React.Component {
             )
         });
 
-        let theBiggestValue = 0;
-        for (let i = 0; i < array.length; i++) {
-            const element = array[i];
-            const nextElement = array[i + 1];
-            if (nextElement && element.value < nextElement.value) {
-                theBiggestValue = nextElement.value;
-            }
-        }
+        const allValues = [1];
+        array && array.map(el => {
+            allValues.push(el.value);
+        });
+        let theBiggestValue = Math.max(...allValues);
+        // for (let i = 0; i < array.length; i++) {
+        //     const element = array[i];
+        //     const nextElement = array[i + 1] ? array[i + 1] : { value: null };
+        //     if (element.value && nextElement.value) {
+        //         if (element.value > nextElement.value) {
+        //             theBiggestValue = element.value;
+        //         } else if (element.value < nextElement.value) {
+        //             theBiggestValue = nextElement.value;
+        //         }
+        //         console.log(theBiggestValue);
+        //     };
+        // }
         theBiggestValue = Math.ceil(theBiggestValue / 100) * 100;
         let middleValue = theBiggestValue / 2;
 
@@ -68,19 +76,13 @@ export default class Graph extends React.Component {
                 className="graph-item"
             >
                 <div
-                    className="graph-value"
-                    id={"graph-value" + (i + 1).toString()}
-                >
-                    {element.value}
-                </div>
-                <div
                     className="graph-column"
-                    id={"graph-column"}
+                    id="graph-column"
                     style={
                         {
                             backgroundColor: graphColor,
                             transform: scaleY,
-                            height: `${element.value || element.value == 0 ? element.value * 2 : 2}px`,
+                            height: `${element.value || element.value == 0 ? element.value / theBiggestValue * 100 + '%' : 2 + 'px'}`,
                             opacity: element.value || element.value == 0 ? 1 : 0,
                             pointerEvents: element.value || element.value == 0 ? 'all' : 'none'
                         }
@@ -89,7 +91,14 @@ export default class Graph extends React.Component {
                         const graphValue = document.getElementById('graph-value' + (i + 1).toString());
                         graphValue.classList.toggle('active');
                     }}
-                />
+                >
+                    <div
+                        className="graph-value"
+                        id={"graph-value" + (i + 1).toString()}
+                    >
+                        {element.value}
+                    </div>
+                </div>
             </div>
         ));
 
