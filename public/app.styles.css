@@ -5930,11 +5930,26 @@ button.disabled {
 
 .admin-panel .edit-user {
     position: relative;
-    padding-top: var(--padding-top-page);
+    padding: var(--padding-top-page) 0 calc(var(--padding-top-page) * 2);
 }
 
 .admin-panel .edit-user .edit-user-wrap {
     transition: 300ms;
+    display: flex;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+@media (max-width: 1550px) {
+    .admin-panel .edit-user .edit-user-wrap {
+        flex-direction: column;
+    }
+    .admin-panel .edit-user .user-subscriptions {
+        margin: 0 auto;
+    }
+    .admin-panel .edit-user .edit-user-wrap .edit-forms {
+        margin: 40px auto 0;
+    }
 }
 
 .admin-panel .edit-user h2 {
@@ -5948,38 +5963,169 @@ button.disabled {
 
 .admin-panel .edit-user .user-subscriptions {
     width: 860px;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .admin-panel .edit-user .user-subscriptions .product {
-    width: 270px;
-    padding: 20px;
+    width: 275px;
+    height: 355px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 15px;
     background-color: #1C1C24;
     border-radius: 10px;
     font-size: 16px;
     line-height: 24px;
     letter-spacing: .1px;
     font-weight: 500;
+    position: relative;
+    margin-top: 180px;
+    margin-left: 17px;
+}
+
+.admin-panel .edit-user .user-subscriptions .product:first-child {
+    margin-left: 0;
+}
+
+.admin-panel .edit-user .user-subscriptions .product:nth-child(3n + 4) {
+    margin-left: 0;
 }
 
 .admin-panel .edit-user .user-subscriptions .product .cover {
-    width: 100%;
-    height: 230px;
+    width: 250px;
+    height: 275px;
+    border-radius: 10px;
+    border: 3px solid #44444F;
+    position: absolute;
+    top: -40%;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
 }
 
 .admin-panel .edit-user .user-subscriptions .product .product-title {
     width: 100%;
     display: flex;
     justify-content: center;
+    margin-top: 15px;
+    font-weight: 600;
+}
+
+.admin-panel .edit-user .user-subscriptions .product .field-wrap {
+    margin-top: 25px;
+}
+
+.admin-panel .edit-user .user-subscriptions .product .field-wrap .field {
+    width: 100%;
+    border-radius: 5px;
+    color: #1C1C24;
+    border: none;
+    padding: 5px 5px 5px 10px;
+    font-size: 15px;
+}
+
+.admin-panel .edit-user .user-subscriptions .product .reset-freeze-cooldown {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    user-select: none;
+    cursor: pointer;
+}
+
+.admin-panel .edit-user .user-subscriptions .product .reset-freeze-cooldown .label {
+    cursor: pointer;
+    font-size: 15.5px;
+}
+
+.admin-panel .edit-user .user-subscriptions .product .reset-freeze-cooldown .checkbox {
+    cursor: pointer
 }
 
 .admin-panel .edit-user .user-subscriptions .product .buttons {
     display: flex;
     justify-content: space-between;
+    margin-top: 25px;
 }
 
 .admin-panel .edit-user .user-subscriptions .product .buttons .button {
     width: 120px;
     padding: 5px 0;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 21px;
+    color: #fff;
+    border-radius: 10px;
+    transition: 300ms;
+    border: none;
+    cursor: pointer;
+}
+
+.admin-panel .edit-user .user-subscriptions .product .buttons .save {
+    background-color: #1E75FF;
+}
+
+.admin-panel .edit-user .user-subscriptions .product .buttons .save:hover {
+    background-color: #1C6FF2;
+}
+
+.admin-panel .edit-user .user-subscriptions .product .buttons .freeze {
+    background-color: #292932;
+}
+
+.admin-panel .edit-user .user-subscriptions .product .buttons .freeze:hover {
+    background-color: #1F1F26;
+}
+
+.admin-panel .edit-user .edit-forms {
+    width: 405px;
+    margin: 40px 0 0 33px;
+}
+
+.admin-panel .edit-user .edit-forms .form {
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 36px;
+    letter-spacing: .1px;
+    padding: 5px 13px 20px;
+    background-color: #1C1C24;
+}
+
+.admin-panel .edit-user .edit-forms .form + .form {
+    margin-top: 25px;
+}
+
+.admin-panel .edit-user .edit-forms .form .field-wrap {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+}
+
+.admin-panel .edit-user .edit-forms .form .field-wrap .field {
+    height: 30px;
+    color: #1C1C24;
+    padding-left: 10px;
+    border-radius: 8px;
+    border: none;
+}
+
+.admin-panel .edit-user .edit-forms .form .save-changes {
+    width: 100%;
+    color: #fff;
+    background-color: #FF00006E;
+    transition: 300ms;
+    border: none;
+    padding: 5px 0;
+    border-radius: 5px;
+    margin-top: 25px;
+    cursor: pointer;
+}
+
+.admin-panel .edit-user .edit-forms .form .save-changes:hover {
+    background-color: #92191978;
 }
 
 .admin-panel .keys {

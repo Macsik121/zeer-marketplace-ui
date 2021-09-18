@@ -12,6 +12,7 @@ function ConfirmationModal(props) {
         hideModal,
         deleteUser
     } = props;
+
     return (
         <div
             className="confirm"

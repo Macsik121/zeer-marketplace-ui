@@ -11,7 +11,23 @@ class EditProduct extends React.Component {
     constructor() {
         super();
         this.state = {
-            product: {},
+            product: {
+                title: '',
+                productFor: '',
+                description: '',
+                workingTime: '',
+                locks: '',
+                reloading: '',
+                costPerDay: '',
+                characteristics: {
+                    version: '',
+                    osSupport: '',
+                    cpuSupport: '',
+                    gameMode: '',
+                    supportedAntiCheats: '',
+                    developer: ''
+                }
+            },
             title: '',
             isRequestMaking: true,
             choosenEditingTime: '',
