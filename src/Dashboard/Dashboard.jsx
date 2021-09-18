@@ -360,7 +360,9 @@ class Dashboard extends React.Component {
     }
     async getResetRequests() {
         this.setState({ resetBindingRequestsRequestMaking: true });
-        const user = jwtDecode(localStorage.getItem('token'));
+        let user;
+        if (localStorage.getItem('token')) user = jwtDecode(localStorage.getItem('token'));
+        else return;
         const result = await fetchData(`
             query getResetRequests($name: String!) {
                 getResetRequests(name: $name) {

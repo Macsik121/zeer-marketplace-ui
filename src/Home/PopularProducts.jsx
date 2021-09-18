@@ -3,7 +3,8 @@ import React from 'react';
 function Product({
     product,
     styles,
-    className
+    className,
+    _key = ''
 }) {
     return (
         <div
@@ -14,6 +15,7 @@ function Product({
                 backgroundPosition: 'center center',
                 backgroundSize: 'cover'
             }}
+            // key={_key}
         >
             <div className="pop-product-blackBG" />
             <img src="/images/red-dot.png" />

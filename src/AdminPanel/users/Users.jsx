@@ -126,6 +126,9 @@ class Users extends React.Component {
     hideConfirmDeleteUser() {
         this.setState({ agreedToDeleteShown: false });
     }
+    toggleBand(e) {
+        e.target.classList.toggle('active');
+    }
     searchUsers(e) {
         let searchCondition = e.target.value;
         searchCondition = searchCondition.toLowerCase().trim();
@@ -139,7 +142,7 @@ class Users extends React.Component {
                     usersToRender.push(user);
                 } else if (user.status.simpleUser && searchCondition.includes('обычный пользователь')) {
                     usersToRender.push(user);
-                } else if (user.status.isBanned && searchCondition.includes('забаненные')) {
+                } else if (user.status.isBanned && searchCondition.includes('забаненный')) {
                     usersToRender.push(user);
                 }
             } else {
@@ -186,11 +189,32 @@ class Users extends React.Component {
                 const renderFrom = renderLimit - limit;
                 if (i < renderLimit && i >= renderFrom) {
                     return (
-                        <div key={user.email} className="user">
-                            <span className="ID user-info">{user.id}</span>
-                            <span className="login user-info">{user.name}</span>
-                            <span className="e-mail user-info">{user.email}</span>
-                            <span className="registered-date user-info">{new Date(user.registeredDate).toLocaleDateString()}</span>
+                        <div
+                            onClick={this.toggleBand}
+                            key={user.email}
+                            className="user"
+                        >
+                            <span
+                                className="ID user-info"
+                            >
+                                {user.id}
+                            </span>
+                            <span
+                                className="login user-info"
+                                onClick={e => e.stopPropagation()}
+                            >
+                                {user.name}
+                            </span>
+                            <span
+                                className="e-mail user-info"
+                            >
+                                {user.email}
+                            </span>
+                            <span
+                                className="registered-date user-info"
+                            >
+                                {new Date(user.registeredDate).toLocaleDateString()}
+                            </span>
                             <span
                                 className="subscription user-info"
                                 style={
@@ -198,6 +222,7 @@ class Users extends React.Component {
                                         ? { backgroundColor: '#04BE00' }
                                         : { backgroundColor: '#DD4D4D78' }
                                 }
+                                onClick={e => e.stopPropagation()}
                             >
                                 {
                                     user.subscriptions.length > 0
@@ -205,7 +230,10 @@ class Users extends React.Component {
                                         : 'Неактивна'
                                 }
                             </span>
-                            <div className="actions user-info">
+                            <div
+                                className="actions user-info"
+                                onClick={e => e.stopPropagation()}
+                            >
                                 <Link
                                     to={`/admin/users/edit-user/${user.name}`}
                                     className="button edit"

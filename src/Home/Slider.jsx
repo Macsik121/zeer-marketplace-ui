@@ -6,9 +6,9 @@ import { Link } from 'react-router-dom';
 
 function RenderProductOnclick({
     children,
-    product,
     showLogin,
-    locationOnclick
+    locationOnclick,
+    i
 }) {
     const token = localStorage.getItem('token');
     const renderOnclick = (
@@ -17,7 +17,7 @@ function RenderProductOnclick({
                 <Link
                     className="link-to"
                     to={locationOnclick}
-                    key={product.title}
+                    key={i}
                 >
                     {children}
                 </Link>
@@ -27,7 +27,7 @@ function RenderProductOnclick({
                     type="button"
                     className="link-to"
                     onClick={showLogin}
-                    key={product.title}
+                    key={i}
                 >
                     {children}
                 </button>
@@ -64,12 +64,12 @@ export default class Slider extends React.Component {
                         className={this.props.className}
                         styles={{ background: product.imageURL }}
                         product={product}
-                        key={product.id}
+                        // _key={product.title}
                     />
                 }
-                product={product}
                 showLogin={this.props.showLogin}
                 i={i}
+                product={product}
                 locationOnclick={product.locationOnclick}
             />
         ));

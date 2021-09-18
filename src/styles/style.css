@@ -47,8 +47,9 @@ body {
 form input {
     font-family: Roboto, sans-serif;
     color: #FAFAFB;
+    --input-font-size: 14px;
     line-height: 16px;
-    font-size: 14px;
+    font-size: var(--input-font-size);
     letter-spacing: .1px;
 }
 
@@ -4707,6 +4708,16 @@ button.disabled {
     align-items: center;
     text-align: center;
     padding: 2px 0;
+    max-height: 40px;
+    overflow: hidden;
+}
+
+.admin-panel .users .users-list .all-users .user.active {
+    max-height: none;
+}
+
+.admin-panel .users .users-list .all-users .user.active .login {
+    max-height: none;
 }
 
 .admin-panel .users .users-list .all-users .user:nth-child(2n) {
@@ -4720,6 +4731,7 @@ button.disabled {
     letter-spacing: .1px;
     font-weight: 500;
     color: #fff;
+    pointer-events: none;
 }
 
 .admin-panel .users .users-list .all-users .user .ID {
@@ -4732,6 +4744,8 @@ button.disabled {
     width: 170px;
     display: flex;
     justify-content: center;
+    max-height: 36px;
+    overflow: hidden;
 }
 
 .admin-panel .users .users-list .all-users .user .e-mail {
@@ -4750,11 +4764,13 @@ button.disabled {
     width: 110px;
     display: flex;
     justify-content: center;
+    user-select: none;
 }
 
 .admin-panel .users .users-list .all-users .user .actions {
     width: 160px;
     display: flex;
+    pointer-events: all;
 }
 
 .admin-panel .users .users-list .all-users .user .actions .button {
@@ -5001,6 +5017,8 @@ button.disabled {
     justify-content: center;
     margin-top: 15px;
     font-weight: 600;
+    height: 24px;
+    overflow: hidden;
 }
 
 .admin-panel .edit-user .user-subscriptions .product .field-wrap {
@@ -5092,14 +5110,68 @@ button.disabled {
     display: flex;
     flex-direction: column;
     margin-top: 5px;
+    --field-height: 30px;
+    --field-bg: #fff;
+    --field-padding-left: 10px;
+    --field-border-radius: 8px;
+}
+
+.admin-panel .edit-user .edit-forms .form .role-wrap {
+    position: relative;
+}
+
+.admin-panel .edit-user .edit-forms .form .role-wrap .menu-wrap {
+    display: flex;
+    align-items: center;
+    position: relative;
+    user-select: none;
+    cursor: pointer;
+}
+
+.admin-panel .edit-user .edit-forms .form .role-wrap .menu-wrap .role {
+    width: 100%;
+    cursor: pointer;
+    user-select: none;
+}
+
+.admin-panel .edit-user .edit-forms .form .role-wrap .menu-wrap .menu-arrow {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    bottom: 0;
+    margin: auto 0;
+}
+
+.admin-panel .edit-user .edit-forms .form .role-wrap .role-menu {
+    position: absolute;
+    top: var(--field-height);
+    left: 0;
+    font-size: 14px;
+    line-height: 16px;
+    max-height: 0;
+    overflow: hidden;
+    transition: 200ms;
+    border-bottom-left-radius: var(--field-border-radius);
+    border-bottom-right-radius: var(--field-border-radius);
+}
+
+.admin-panel .edit-user .edit-forms .form .role-wrap .role-menu .menu-item {
+    padding: 5px var(--field-padding-left);
+    background-color: var(--field-bg);
+    color: #1C1C24;
+}
+
+.admin-panel .edit-user .edit-forms .form .role-wrap .role-menu .menu-item:hover {
+    filter: invert(1);
 }
 
 .admin-panel .edit-user .edit-forms .form .field-wrap .field {
-    height: 30px;
+    height: var(--field-height);
     color: #1C1C24;
-    padding-left: 10px;
-    border-radius: 8px;
+    padding-left: var(--field-padding-left);
+    border-radius: var(--field-border-radius);
     border: none;
+    background-color: var(--field-bg);
 }
 
 .admin-panel .edit-user .edit-forms .form .save-changes {
@@ -6655,6 +6727,7 @@ button.disabled {
     max-height: 27px;
     overflow: hidden;
     user-select: none;
+    pointer-events: none;
 }
 
 .admin-panel .view-answers .table .answers .answer .description {
@@ -6673,6 +6746,7 @@ button.disabled {
 
 .admin-panel .view-answers .table .answers .answer .action {
     width: 140px;
+    pointer-events: all;
 }
 
 .admin-panel .view-answers .table .answers .answer .action .button {
