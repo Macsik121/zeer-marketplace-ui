@@ -135,7 +135,11 @@ export default class Subscriptions extends React.Component {
         keyName.value = '';
         await this.props.getSubscriptions();
         this.setState({ isRequestSent: false });
-        createNotification('success', result.activateKey);
+        if (result.activateKey == 'Такого ключа не существует') {
+            createNotification('error', result.activateKey);
+        } else {
+            createNotification('success', result.activateKey);
+        }
     }
     showMessageModal() {
         this.setState({ isMessageShown: true });
