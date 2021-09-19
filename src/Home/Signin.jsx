@@ -112,18 +112,17 @@ class Signin extends React.Component {
         this.setState({ signInAttempt: res.signIn });
         const { signInAttempt } = this.state;
 
-        localStorage.setItem('token', signInAttempt.token)
-        if (signInAttempt.token != '' && localStorage.getItem('token') != '') {
-            this.props.getUser();
-            const token = jwtDecode(localStorage.getItem('token'));
-            this.props.history.push('/dashboard');
-            createNotification('info', 'Авторизация прошла успешно');
+        if (signInAttempt.token != '') {
+            localStorage.setItem('token', signInAttempt.token);
+            const result = await this.props.getUser();
+            if (result) {
+                this.props.history.push('/dashboard');
+                createNotification('info', 'Авторизация прошла успешно');
+            }
             this.enableSubmitButton();
-            return;
         } else {
             this.showError(signInAttempt.message);
             this.enableSubmitButton();
-            return;
         }
     }
     handleFocusInput() {

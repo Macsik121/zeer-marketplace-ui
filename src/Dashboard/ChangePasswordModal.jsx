@@ -48,7 +48,10 @@ export default class ChangePassword extends React.Component {
                     name: $name,
                     oldPassword: $oldPassword,
                     newPassword: $newPassword
-                )
+                ) {
+                    success
+                    message
+                }
             }
         `
 
@@ -58,12 +61,13 @@ export default class ChangePassword extends React.Component {
             newPassword
         };
 
-        const result = await fetchData(query, vars);
-        if (result.changePassword == 'Вы успешно поменяли пароль') {
-            createNotification('success', 'Вы успешно поменяли пароль!');
+        const response = await fetchData(query, vars);
+        const { message, success } = response.changePassword;
+        if (success) {
+            createNotification('success', message);
             this.props.hideModal();
         } else {
-            this.showError(result.changePassword);
+            this.showError(message);
         }
         this.setState({ requestMaking: false });
     }

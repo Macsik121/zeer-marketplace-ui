@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { CircularProgress } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import jwtDecode from 'jwt-decode';
 import createNotification from '../../createNotification';
 import fetchData from '../../fetchData';
 import Pages from '../Pages.jsx';
@@ -113,17 +114,27 @@ class Users extends React.Component {
     async deleteUser(name) {
         this.setState({ isRequestMaking: true });
 
+        const user = jwtDecode(localStorage.getItem('token'));
         const { userAgent, platform } = navigator;
         const vars = {
             name,
             navigator: {
                 userAgent,
                 platform
-            }
+            },
+            adminName: user.name
         };
         await fetchData(`
-            mutation deleteUser($name: String!) {
-                deleteUser(name: $name)
+            mutation deleteUser(
+                $name: String!,
+                $navigator: NavigatorInput!,
+                $adminName: String!
+            ) {
+                deleteUser(
+                    name: $name,
+                    navigator: $navigator,
+                    adminName: $adminName
+                )
             }
         `, vars);
 

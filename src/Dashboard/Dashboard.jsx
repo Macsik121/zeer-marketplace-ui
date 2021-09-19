@@ -187,8 +187,18 @@ class Dashboard extends React.Component {
         this.setState({ productsRequestMaking: true });
 
         const query = `
-            mutation buyProduct($title: String!, $name: String!, $navigator: NavigatorInput) {
-                buyProduct(title: $title, name: $name, navigator: $navigator) {
+            mutation buyProduct(
+                $title: String!,
+                $name: String!,
+                $navigator: NavigatorInput,
+                $productCost: Int!
+            ) {
+                buyProduct(
+                    title: $title,
+                    name: $name,
+                    navigator: $navigator,
+                    productCost: $productCost
+                ) {
                     id
                     title
                     productFor
@@ -208,14 +218,15 @@ class Dashboard extends React.Component {
             navigator: {
                 userAgent: navigator.userAgent,
                 platform: navigator.platform
-            }
+            },
+            productCost: cost
         };
 
         const result = await fetchData(query, vars);
 
-        this.props.history.push('/dashboard/subscriptions');
-        createNotification('success', `Поздравляем, вы купили продкут ${title}!`);
         await this.getSubscriptions();
+        this.props.history.push('/dashboard/subscriptions');
+        createNotification('success', `Поздравляем, вы купили продукт ${title}!`);
         await this.getPopularProducts();
         await this.getProducts();
         this.setState({ productsRequestMaking: false });

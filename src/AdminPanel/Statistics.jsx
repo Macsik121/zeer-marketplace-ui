@@ -26,7 +26,8 @@ export default class Statistics extends React.Component {
                 }
             ],
             isRequestMaking: true,
-            purchases: []
+            purchases: [],
+            profit: []
         };
     }
     async componentDidMount() {
@@ -39,6 +40,9 @@ export default class Statistics extends React.Component {
                     name
                     subscriptions {
                         title
+                    }
+                    status {
+                        isBanned
                     }
                 }
             }
@@ -77,9 +81,20 @@ export default class Statistics extends React.Component {
                 }
             }
         `, vars);
+        let profit = await fetchData(`
+            query profit($week: WeekInput!) {
+                profit(week: $week) {
+                    date
+                    cost
+                }
+            }
+        `, vars);
 
         purchases = purchases.purchases;
+        profit = profit.profit;
+
         const newPurchases = [];
+        const newProfit = [];
         purchases.map(purchase => {
             purchase.value = purchase.boughtTime;
             delete purchase.boughtTime;
@@ -87,16 +102,28 @@ export default class Statistics extends React.Component {
         });
         purchases = newPurchases;
 
+        profit.map(currentProfit => {
+            currentProfit.value = currentProfit.cost;
+            delete currentProfit.cost;
+            newProfit.push(currentProfit);
+        });
+
         let subscriptionsAmount = 0;
         users.map(user => {
             subscriptionsAmount += user.subscriptions.length;
         });
 
         let earnedToday = 0;
-        products.map(product => {
-            earnedToday += product.timeBought;
+        profit.map(currentProfit => {
+            earnedToday += currentProfit.value;
         });
 
+        let bannedUsersAmount = 0;
+        users.map(user => {
+            if (user.status.isBanned) {
+                bannedUsersAmount++;
+            }
+        });
         statisticTabs.map(stat => {
             let { title } = stat;
             if (title == 'Всего пользователей') {
@@ -105,28 +132,47 @@ export default class Statistics extends React.Component {
                 stat.value = subscriptionsAmount;
             } else if (title == 'Заработано за сегодня') {
                 stat.value = earnedToday;
+            } else if (title == 'Баны') {
+                stat.value = bannedUsersAmount;
             }
         });
 
         this.setState({
             isRequestMaking: false,
             statisticTabs,
-            purchases
+            purchases,
+            profit
         });
     }
     render() {
         const {
             isRequestMaking,
             statisticTabs,
-            purchases
+            purchases,
+            profit
         } = this.state;
 
-        const tabs = statisticTabs.map(stat => (
-            <div key={stat.title} className="tab">
-                <h3 className="stat-title">{stat.title}</h3>
-                <span className="stat-value">{stat.value}</span>
-            </div>
-        ));
+        const tabs = statisticTabs.map(stat => {
+            if (stat.title == 'Заработано за сегодня') {
+                return (
+                    <div key={stat.title} className="tab">
+                        <h3 className="stat-title">{stat.title}</h3>
+                        <span
+                            className="stat-value"
+                        >
+                            {stat.value}
+                            <span style={{ fontSize: '24px', color: '#515151' }}>&#8381;</span>
+                        </span>
+                    </div>
+                )
+            }
+            return (
+                <div key={stat.title} className="tab">
+                    <h3 className="stat-title">{stat.title}</h3>
+                    <span className="stat-value">{stat.value}</span>
+                </div>
+            )
+        });
 
         return (
             <div className="statistics">
@@ -153,9 +199,15 @@ export default class Statistics extends React.Component {
                     <div className="graphs">
                         <Graph
                             className="earned-today"
-                            date={new Date()}
                             array={purchases}
                             graphColor={'#1f7a1f'}
+                            isRequestMaking={isRequestMaking}
+                            graphTheme="Совершено покупок за сегодня"
+                        />
+                        <Graph
+                            className="profit"
+                            array={profit}
+                            graphColor={'#fff'}
                             isRequestMaking={isRequestMaking}
                             graphTheme="Заработано за сегодня"
                         />

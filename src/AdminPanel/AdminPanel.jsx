@@ -115,6 +115,7 @@ class AdminPanel extends React.Component {
         this.updateAvatar = this.updateAvatar.bind(this);
     }
     async componentDidMount() {
+        this.props.getUser();
         const token = localStorage.getItem('token');
         const user = jwtDecode(token);
         const resultUserExists = await fetchData(`

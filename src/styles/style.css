@@ -5045,6 +5045,7 @@ button.disabled {
     justify-content: space-between;
     user-select: none;
     cursor: pointer;
+    align-items: center;
 }
 
 .admin-panel .edit-user .user-subscriptions .product .reset-freeze-cooldown .label {
@@ -5053,7 +5054,9 @@ button.disabled {
 }
 
 .admin-panel .edit-user .user-subscriptions .product .reset-freeze-cooldown .checkbox {
-    cursor: pointer
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
 }
 
 .admin-panel .edit-user .user-subscriptions .product .buttons {

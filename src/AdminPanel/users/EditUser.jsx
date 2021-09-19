@@ -25,11 +25,16 @@ class EditUser extends React.Component {
         this.editUserPassword = this.editUserPassword.bind(this);
         this.changeUserRole = this.changeUserRole.bind(this);
         this.toggleRoleMenu = this.toggleRoleMenu.bind(this);
+        this.changeActivelyUntil = this.changeActivelyUntil.bind(this);
+        this.getUser = this.getUser.bind(this);
     }
     async componentDidMount() {
-        const { match, SearchToRender, renderSearchBar } = this.props;
-        SearchToRender && renderSearchBar(null);
-        const username = match.params.username;
+        await this.getUser();
+    }
+    async getUser() {
+        this.setState({ isUserGotten: false });
+
+        const username = this.props.match.params.username;
         const query = `
             query user($name: String!) {
                 user(name: $name) {
@@ -68,6 +73,8 @@ class EditUser extends React.Component {
             oldUsername: user.name,
             userStatuses
         });
+
+        this.setState({ isUserGotten: true });
     }
     handleActivelyUntilChange(e) {
         let { name, value } = e.target;
@@ -246,6 +253,44 @@ class EditUser extends React.Component {
     toggleRoleMenu() {
         this.setState({ chooseRoleShown: !this.state.chooseRoleShown });
     }
+    async changeActivelyUntil(activelyUntil, title) {
+        this.setState({ isUserGotten: false });
+        const { name } = this.state.user;
+        
+        const vars = {
+            title,
+            date: (
+                new Date(activelyUntil).getTime()
+                    ? new Date(activelyUntil).toISOString().substr(0, 10)
+                    : ''
+            ),
+            name
+        };
+        const query = `
+            mutation updateSubscriptionTime(
+                $title: String!,
+                $date: String!,
+                $name: String!
+            ) {
+                updateSubscriptionTime(
+                    title: $title,
+                    date: $date,
+                    name: $name
+                ) {
+                    message
+                    success
+                }
+            }
+        `;
+
+        const result = await fetchData(query, vars);
+
+        this.setState({ isUserGotten: true });
+        const { message, success } = result.updateSubscriptionTime;
+        if (success) createNotification('success', message);
+        else createNotification('error', message); 
+        await this.getUser();
+    }
     render() {
         const {
             user,
@@ -254,36 +299,50 @@ class EditUser extends React.Component {
             userStatuses
         } = this.state;
 
-        const products = user.subscriptions && user.subscriptions.map(sub => (
-            <div key={sub.title} className="product">
-                <img className="cover" src={sub.imageURL} />
-                <div className="product-title">
-                    {sub.title}{' | '}{sub.productFor}
+        const products = user.subscriptions && user.subscriptions.map(sub => {
+            const {
+                title,
+                activelyUntil,
+                productFor,
+                imageURL
+            } = sub;
+
+            return (
+                <div key={sub.title} className="product">
+                    <img className="cover" src={imageURL} />
+                    <div className="product-title">
+                        {title}{' | '}{productFor}
+                    </div>
+                    <div className="edit-actively-until-form field-wrap">
+                        <label className="label">Подписка активна:</label>
+                        <input
+                            type="text"
+                            name={title}
+                            value={
+                                new Date(activelyUntil).getTime() && activelyUntil.length == 10
+                                    ? new Date(activelyUntil).toISOString().substr(0, 10)
+                                    : activelyUntil
+                            }
+                            onChange={this.handleActivelyUntilChange}
+                            className="edit-actively-until field"
+                        />
+                    </div>
+                    <div className="reset-freeze-cooldown">
+                        <input type="checkbox" className="checkbox" />
+                        <label className="label">сброс кулдауна заморозки</label>
+                    </div>
+                    <div className="buttons">
+                        <button
+                            className="button save"
+                            onClick={() => this.changeActivelyUntil(activelyUntil, title)}
+                        >
+                            Сохранить
+                        </button>
+                        <button className="button freeze">Заморозить</button>
+                    </div>
                 </div>
-                <div className="edit-actively-until-form field-wrap">
-                    <label className="label">Подписка активна:</label>
-                    <input
-                        type="text"
-                        name={sub.title}
-                        value={
-                            new Date(sub.activelyUntil).getTime() && sub.activelyUntil.length == 10
-                                ? new Date(sub.activelyUntil).toISOString().substr(0, 10)
-                                : sub.activelyUntil
-                        }
-                        onChange={this.handleActivelyUntilChange}
-                        className="edit-actively-until field"
-                    />
-                </div>
-                <div className="reset-freeze-cooldown">
-                    <input type="checkbox" className="checkbox" />
-                    <label className="label">сброс кулдауна заморозки</label>
-                </div>
-                <div className="buttons">
-                    <button className="button save">Сохранить</button>
-                    <button className="button freeze">Заморозить</button>
-                </div>
-            </div>
-        ));
+            )
+        });
 
         const menuContent = userStatuses.map(status => {
             if (status == 'isAdmin') status = 'Админ';
