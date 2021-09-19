@@ -1,7 +1,6 @@
 require('dotenv').config();
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
@@ -60,7 +59,7 @@ const browserConfig = {
                 use: [MiniCssExtractPlugin.loader, 'css-loader']
             },
             {
-                test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                test: /\.(png|svg|jpg|jpeg|gif|eot|ttf|woff)$/i,
                 loader: 'file-loader',
                 options: {
                     outputPath: 'images',
@@ -81,7 +80,6 @@ const browserConfig = {
         new MiniCssExtractPlugin({
             filename: '[name].styles.css'
         }),
-        new CleanWebpackPlugin(),
         new webpack.DefinePlugin({
             __isBrowser__: true,
             __SERVER_ENDPOINT_ADDRESS__: JSON.stringify(apiEndpoint),

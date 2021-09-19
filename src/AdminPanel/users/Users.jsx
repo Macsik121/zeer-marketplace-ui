@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { CircularProgress } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import createNotification from '../../createNotification';
 import fetchData from '../../fetchData';
 import Pages from '../Pages.jsx';
 
@@ -17,9 +18,10 @@ function ConfirmationModal(props) {
         <div
             className="confirm"
             style={
-                agreedToDeleteShown
-                    ? { opacity: 1, top: 0 }
-                    : { opacity: 0, top: '-310px' }
+                {
+                    opacity: agreedToDeleteShown ? 1 : 0,
+                    top: agreedToDeleteShown ? 0 : '-310px'
+                }
             }
         >
             <div className="heading">
@@ -54,7 +56,6 @@ class Users extends React.Component {
             user: {},
             userToDelete: {},
             areUsersLoaded: false,
-            deletedUserMessage: '',
             isRequestMaking: false,
             searchOnlyRoles: false,
             agreedToDeleteShown: false,
@@ -82,6 +83,7 @@ class Users extends React.Component {
         await this.getUsers();
     }
     async getUsers() {
+        this.setState({ areUsersLoaded: false });
         const users = await fetchData(`
             query {
                 getUsers {
@@ -110,15 +112,25 @@ class Users extends React.Component {
     }
     async deleteUser(name) {
         this.setState({ isRequestMaking: true });
-        const deletedUserMessage = await fetchData(`
+
+        const { userAgent, platform } = navigator;
+        const vars = {
+            name,
+            navigator: {
+                userAgent,
+                platform
+            }
+        };
+        await fetchData(`
             mutation deleteUser($name: String!) {
                 deleteUser(name: $name)
             }
-        `, { name });
+        `, vars);
 
         await this.getUsers();
+        createNotification('success', `Вы успешно удалили пользователя ${name}`);
 
-        this.setState({ deletedUserMessage, isRequestMaking: false });
+        this.setState({ isRequestMaking: false });
     }
     toggleSearchOnlyRoles() {
         this.setState({ searchOnlyRoles: !this.state.searchOnlyRoles });

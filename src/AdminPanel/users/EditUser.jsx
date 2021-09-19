@@ -1,8 +1,9 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
-import fetchData from '../../fetchData';
 import { CircularProgress } from '@material-ui/core';
+import createNotification from '../../createNotification';
+import fetchData from '../../fetchData';
 
 class EditUser extends React.Component {
     constructor() {
@@ -58,6 +59,9 @@ class EditUser extends React.Component {
         const { user } = result;
         const userStatuses = [];
         Object.keys(user.status).map(status => userStatuses.push(status));
+        user.subscriptions.map(sub => {
+            sub.activelyUntil = new Date(sub.activelyUntil).toISOString().substr(0, 10);
+        });
         this.setState({
             user,
             isUserGotten: true,
@@ -72,7 +76,6 @@ class EditUser extends React.Component {
         const subscriptions = [...user.subscriptions];
         subscriptions.map(sub => {
             if (sub.title.toLowerCase() == name) {
-                
                 sub.activelyUntil = (
                     new Date(value).getTime() && value.length == 10
                         ? new Date(value).toISOString().substr(0, 10)
@@ -102,7 +105,6 @@ class EditUser extends React.Component {
         e.preventDefault();
 
         this.setState({ isUserGotten: false });
-
         const { oldUsername } = this.state;
         const { status } = this.state.user;
         let role = 'simpleUser';
@@ -115,12 +117,19 @@ class EditUser extends React.Component {
         const name = form.name.value;
         const email = form.email.value;
 
+        const adminUser = jwtDecode(localStorage.getItem('token'));
+        const { platform, userAgent } = navigator;
         const vars = {
             name,
             email,
             oldName: oldUsername,
             hwid: '',
-            role
+            role,
+            navigator: {
+                platform,
+                userAgent
+            },
+            adminName: adminUser.name
         };
         const result = await fetchData(`
             mutation editUser(
@@ -128,14 +137,18 @@ class EditUser extends React.Component {
                 $name: String!,
                 $email: String!,
                 $hwid: String!,
-                $role: String!
+                $role: String!,
+                $navigator: NavigatorInput!,
+                $adminName: String!
             ) {
                 editUser(
                     oldName: $oldName,
                     name: $name,
                     email: $email,
                     hwid: $hwid,
-                    role: $role
+                    role: $role,
+                    navigator: $navigator,
+                    adminName: $adminName
                 ) {
                     id
                     name
@@ -163,6 +176,9 @@ class EditUser extends React.Component {
             }
         `, vars);
 
+        if (result == '') {
+            return '';
+        }
         const user = result.editUser;
         const userStatuses = [];
         Object.keys(user.status).map(status => userStatuses.push(status));
@@ -173,6 +189,7 @@ class EditUser extends React.Component {
             userStatuses
         });
         this.props.history.push(`/admin/users/edit-user/${user.name}`);
+        createNotification('info', `Вы отредактировали пользователя ${oldUsername}`);
     }
     async editUserPassword(e) {
         e.preventDefault();
@@ -249,7 +266,7 @@ class EditUser extends React.Component {
                         type="text"
                         name={sub.title}
                         value={
-                            new Date(sub.activelyUntil).getTime()
+                            new Date(sub.activelyUntil).getTime() && sub.activelyUntil.length == 10
                                 ? new Date(sub.activelyUntil).toISOString().substr(0, 10)
                                 : sub.activelyUntil
                         }
@@ -356,7 +373,7 @@ class EditUser extends React.Component {
                                                     ? 'Забанненый'
                                                     : user.status.simpleUser
                                                         ? 'Обычный пользователь'
-                                                        : 'Неизвестно'
+                                                        : 'Неизвестный'
                                         }
                                         readOnly
                                         style={
@@ -365,13 +382,19 @@ class EditUser extends React.Component {
                                                     chooseRoleShown
                                                         ? 0
                                                         : '8px'
-                                                )
+                                                ),
+                                                transition: chooseRoleShown ? '0s' : '750ms'
                                             }
                                         }
                                     />
                                     <img
                                         src="/images/user-menu-arrow.png"
                                         className="menu-arrow"
+                                        style={
+                                            {
+                                                transform: `rotate(${chooseRoleShown ? 180 : 0}deg)`
+                                            }
+                                        }
                                     />
                                     <div
                                         className="role-menu"

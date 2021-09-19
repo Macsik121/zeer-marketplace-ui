@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink, withRouter } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
+import createNotification from './createNotification';
 import fetchData from './fetchData';
 import setNewAvatar from './setNewAvatar';
 
@@ -121,7 +122,6 @@ class UserMenu extends React.Component {
                     }
                     onClick={() => {
                         hiddenUserDropdown();
-
                     }}
                 >
                     <button>
@@ -171,6 +171,7 @@ class UserMenu extends React.Component {
                             const { path } = this.props.match;
                             if (path == '/dashboard' && path != '/admin') {
                                 this.createLog();
+                                createNotification('info', 'Вы вышли из аккаунта');
                             }
                             logout();
                         }}

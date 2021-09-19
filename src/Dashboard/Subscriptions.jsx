@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { CircularProgress } from '@material-ui/core';
 import jwtDecode from 'jwt-decode';
 import fetchData from '../fetchData';
+import createNotification from '../createNotification';
 
 function MessageModal({ message, style }) {
     return (
@@ -116,25 +117,25 @@ export default class Subscriptions extends React.Component {
         keyName.blur();
 
         const user = jwtDecode(localStorage.getItem('token'));
-
-        const result = await fetchData(`
-            mutation activateKey($username: String!, $keyName: String!, $navigator: NavigatorInput) {
-                activateKey(username: $username, keyName: $keyName, navigator: $navigator)
-            }
-        `, {
+        const vars = {
             username: user.name,
             keyName: keyName.value,
             navigator: {
                 userAgent: navigator.userAgent,
                 platform: navigator.platform
             }
-        });
+        };
+
+        const result = await fetchData(`
+            mutation activateKey($username: String!, $keyName: String!, $navigator: NavigatorInput) {
+                activateKey(username: $username, keyName: $keyName, navigator: $navigator)
+            }
+        `, vars);
 
         keyName.value = '';
-        console.log(this.props.getSubscriptions);
         await this.props.getSubscriptions();
-        this.setState({ isRequestSent: false, message: result.activateKey });
-        this.showMessageModal();
+        this.setState({ isRequestSent: false });
+        createNotification('success', result.activateKey);
     }
     showMessageModal() {
         this.setState({ isMessageShown: true });

@@ -1271,6 +1271,10 @@ button.disabled {
     flex-direction: column;
 }
 
+.dashboard .change-password .form fieldset {
+    padding: 0;
+}
+
 .dashboard .change-password .form .field-wrap {
     position: relative;
 }
@@ -1351,6 +1355,7 @@ button.disabled {
     margin-top: 20px;
     padding: 15px 0;
     cursor: pointer;
+    width: 100%;
 }
 
 .dashboard .main {
@@ -5140,6 +5145,7 @@ button.disabled {
     right: 10px;
     bottom: 0;
     margin: auto 0;
+    transition: 200ms;
 }
 
 .admin-panel .edit-user .edit-forms .form .role-wrap .role-menu {

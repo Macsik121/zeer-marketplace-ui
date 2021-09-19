@@ -1,6 +1,7 @@
 import { CircularProgress } from '@material-ui/core';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import createNotification from '../createNotification';
 
 export default class ResetBinding extends React.Component {
     constructor() {
@@ -66,6 +67,7 @@ export default class ResetBinding extends React.Component {
 
         await this.props.makeResetRequest(reason);
         form.reason.value = '';
+        createNotification('success', 'Вы успешно подали запрос на сброс привязки!');
         this.setState({ isFormDisabled: false });
     }
     handleFocus() {

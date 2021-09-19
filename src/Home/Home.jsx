@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import SlickSlider from 'react-slick';
 import Slider from './Slider.jsx';
-import jwtDecode from 'jwt-decode';
 import Product from './PopularProducts.jsx';
 import fetchPopularProducts from '../PopularProducts';
 import Signin from './Signin.jsx';

@@ -2,6 +2,7 @@ import React from 'react';
 import { CircularProgress } from '@material-ui/core';
 import { withRouter } from 'react-router';
 import fetch from 'isomorphic-fetch';
+import jwtDecode from 'jwt-decode';
 import DeleteIcon from '@material-ui/icons/Delete';
 import fetchData from '../../fetchData';
 import Product from '../../Product.jsx';
@@ -193,9 +194,29 @@ class EditProduct extends React.Component {
             product.logo = '/upload-images/' + logo.files[0].name;
         }
 
+        const user = jwtDecode(localStorage.getItem('token'));
+        const { userAgent, platform } = navigator;
+        const vars = {
+            product,
+            navigator: {
+                userAgent,
+                platform
+            },
+            adminName: user.name
+        };
+        console.log(vars);
+
         const result = await fetchData(`
-            mutation editProduct($product: ProductInput!) {
-                editProduct(product: $product) {
+            mutation editProduct(
+                $product: ProductInput!,
+                $adminName: String!,
+                $navigator: NavigatorInput!
+            ) {
+                editProduct(
+                    product: $product,
+                    adminName: $adminName,
+                    navigator: $navigator
+                ) {
                     id
                     title
                     productFor
@@ -228,7 +249,7 @@ class EditProduct extends React.Component {
                     }
                 }
             }
-        `, { product });
+        `, vars);
 
         const newTitle = result.editProduct.title;
         this.props.history.push(`/admin/products/${newTitle}`);
@@ -295,9 +316,28 @@ class EditProduct extends React.Component {
             product.logo = '';
         }
 
+        const { platform, userAgent } = navigator;
+        const user = jwtDecode(localStorage.getItem('token'));
+        const vars = {
+            product,
+            navigator: {
+                platform,
+                userAgent
+            },
+            adminName: user.name
+        };
+
         const result = await fetchData(`
-            mutation createProduct($product: ProductInput!) {
-                createProduct(product: $product) {
+            mutation createProduct(
+                $product: ProductInput!,
+                $navigator: NavigatorInput!,
+                $adminName: String!
+            ) {
+                createProduct(
+                    product: $product,
+                    navigator: $navigator,
+                    adminName: $adminName
+                ) {
                     id
                     title
                     productFor
@@ -324,7 +364,7 @@ class EditProduct extends React.Component {
                     }
                 }
             }
-        `, { product });
+        `, vars);
 
         this.setState({
             product: result.createProduct,

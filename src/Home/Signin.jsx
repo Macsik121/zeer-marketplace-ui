@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import CloseIcon from '@material-ui/icons/Close';
+import createNotification from '../createNotification';
 import fetchData from '../fetchData';
 
 function SigninHeader(props) {
@@ -116,6 +117,7 @@ class Signin extends React.Component {
             this.props.getUser();
             const token = jwtDecode(localStorage.getItem('token'));
             this.props.history.push('/dashboard');
+            createNotification('info', 'Авторизация прошла успешно');
             this.enableSubmitButton();
             return;
         } else {

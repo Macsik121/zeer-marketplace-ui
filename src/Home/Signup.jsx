@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import CloseIcon from '@material-ui/icons/Close';
 import fetchData from '../fetchData';
+import createNotification from '../createNotification';
 
 class Signup extends React.Component {
     constructor() {
@@ -141,6 +142,7 @@ class Signup extends React.Component {
             localStorage.setItem('token', signUpAttempt.token);
             this.props.getUser();
             this.props.history.push('/dashboard');
+            createNotification('success', 'Вы успешно зарегестрированы!');
             this.setState({ isRequestMaking: false });
             return;
         } else {

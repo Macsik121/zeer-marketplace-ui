@@ -2,6 +2,7 @@ import React from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Link } from 'react-router-dom';
 import CloseIcon from '@material-ui/icons/Close';
+import jwtDecode from 'jwt-decode';
 import fetchData from '../../fetchData';
 import BoughtPeople from '../../BoughtPeople.jsx';
 
@@ -22,13 +23,28 @@ class ConfirmDeleteProduct extends React.Component {
     }
     async deleteProduct() {
         this.setState({ isRequestMaking: true });
+        const { platform, userAgent } = navigator;
+        const user = jwtDecode(localStorage.getItem('token'));
         const vars = {
-            title: this.props.product.title
+            title: this.props.product.title,
+            navigator: {
+                platform,
+                userAgent
+            },
+            name: user.name
         };
 
         await fetchData(`
-            mutation deleteProduct($title: String!) {
-                deleteProduct(title: $title)
+            mutation deleteProduct(
+                $title: String!,
+                $name: String!,
+                $navigator: NavigatorInput!
+            ) {
+                deleteProduct(
+                    title: $title,
+                    name: $name,
+                    navigator: $navigator
+                )
             }
         `, vars);
 

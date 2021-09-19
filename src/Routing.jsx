@@ -1,6 +1,7 @@
 import jwtDecode from 'jwt-decode';
 import React from 'react';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import { NotificationContainer } from 'react-notifications';
 import routes from './routes';
 
 class Routing extends React.Component {
@@ -30,37 +31,40 @@ class Routing extends React.Component {
         } = this.state;
         
         return (
-            <Switch>
-                {user && user.status && !user.status.isAdmin &&
-                    <Redirect from="/admin" to="/dashboard" />
-                }
-                {user && user.status && !user.status.isAdmin &&
-                    <Redirect from="/admin" to="/" />
-                }
-                {/* {user &&
-                    <Redirect exact from="/" to="/dashboard" />
-                } */}
-                {/* {!user &&
-                    <Redirect from="/dashboard" to="/" />
-                } */}
-                {routes.map(route => {
-                    return (
-                        <Route
-                            path={route.path}
-                            render={
-                                () => (
-                                    <route.component user={user} getUser={this.getUser} />
-                                )
-                            }
-                            // component={() => (
-                            //     <route.component user={user} getUser={this.getUser} />
-                            // )}
-                            // {...route}
-                            key={route.path}
-                        />
+            <>
+                <NotificationContainer />
+                <Switch>
+                    {user && user.status && !user.status.isAdmin &&
+                        <Redirect from="/admin" to="/dashboard" />
+                    }
+                    {user && user.status && !user.status.isAdmin &&
+                        <Redirect from="/admin" to="/" />
+                    }
+                    {/* {user &&
+                        <Redirect exact from="/" to="/dashboard" />
+                    } */}
+                    {/* {!user &&
+                        <Redirect from="/dashboard" to="/" />
+                    } */}
+                    {routes.map(route => {
+                        return (
+                            <Route
+                                path={route.path}
+                                render={
+                                    () => (
+                                        <route.component user={user} getUser={this.getUser} />
+                                    )
+                                }
+                                // component={() => (
+                                //     <route.component user={user} getUser={this.getUser} />
+                                // )}
+                                // {...route}
+                                key={route.path}
+                            />
+                        )}
                     )}
-                )}
-            </Switch>
+                </Switch>
+            </>
         )
     }
 }

@@ -3,6 +3,7 @@ import { Switch, Route, withRouter } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import { CircularProgress } from '@material-ui/core';
 import fetchData from '../fetchData';
+import createNotification from '../createNotification';
 import Lobby from './Lobby.jsx';
 import Products from './Products.jsx';
 import Subscriptions from './Subscriptions.jsx';
@@ -11,7 +12,6 @@ import ProductInfo from './ProductInfo.jsx';
 import ChangePassword from './ChangePasswordModal.jsx';
 import Footer from '../Footer.jsx';
 import NavBar from './NavBar.jsx';
-import PasswordChangedNotification from './PasswordChangedNotif.jsx';
 import AgreementPrivacyNPolicy from '../AgreementModal.jsx';
 import fetchPopularProducts from '../PopularProducts';
 import ResetBinding from './ResetBinding.jsx';
@@ -53,7 +53,6 @@ class Dashboard extends React.Component {
         this.hideModal = this.hideModal.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
         this.setNotificationMessage = this.setNotificationMessage.bind(this);
-        this.hideNotificationMessage = this.hideNotificationMessage.bind(this);
         this.getSubscriptions = this.getSubscriptions.bind(this);
         this.getPopularProducts = this.getPopularProducts.bind(this);
         this.getProducts = this.getProducts.bind(this);
@@ -90,12 +89,7 @@ class Dashboard extends React.Component {
             if (e.keyCode == 27) {
                 this.hideChoosingDays();
                 this.hideModal();
-                this.hideNotificationMessage();
                 this.hideAgreement();
-            }
-        }.bind(this);
-        window.onkeypress = function(e) {
-            if (e.keyCode == 13) {
                 this.hideModal();
                 this.hideAgreement();
             }
@@ -191,6 +185,7 @@ class Dashboard extends React.Component {
         //     https://paymaster.ru/payment/init?LMI_MERCHANT_ID=77aa76b8-1551-42c5-be5f-f49d6330260f&LMI_PAYMENT_AMOUNT=${cost}&LMI_CURRENCY=RUB&LMI_PAYMENT_DESC=Оплата%20товара%20${title}%20на%20${days == 360 ? '1 год' : days}%20${days == 360 ? '' : days == 1 ? 'день' : 'дней'}&LMI_SUCCESS_URL=${uiEndpoint}/dashboard/subscriptions&LMI_FAIL_URL=${uiEndpoint}/dashboard/products&LMI_SHOPPINGCART.ITEMS[N].NAME=${title}&LMI_SHOPPINGCART.ITEMS[N].QTY=1&LMI_SHOPPINGCART.ITEMS[N].PRICE=${cost}&LMI_SHOPPINGCART.ITEMS[N].TAX=no_vat
         // `;
         this.setState({ productsRequestMaking: true });
+
         const query = `
             mutation buyProduct($title: String!, $name: String!, $navigator: NavigatorInput) {
                 buyProduct(title: $title, name: $name, navigator: $navigator) {
@@ -217,8 +212,9 @@ class Dashboard extends React.Component {
         };
 
         const result = await fetchData(query, vars);
-        
+
         this.props.history.push('/dashboard/subscriptions');
+        createNotification('success', `Поздравляем, вы купили продкут ${title}!`);
         await this.getSubscriptions();
         await this.getPopularProducts();
         await this.getProducts();
@@ -392,9 +388,6 @@ class Dashboard extends React.Component {
             passwordChangedNotificationShown: true
         });
     }
-    hideNotificationMessage() {
-        this.setState({ passwordChangedNotificationShown: false });
-    }
     toggleAgreement() {
         this.setState({ agreementShown: !this.state.agreementShown });
     }
@@ -417,8 +410,6 @@ class Dashboard extends React.Component {
         const {
             showingChangePassword,
             deviceWidth,
-            passwordChangedNotification,
-            passwordChangedNotificationShown,
             agreementShown,
             answersFAQ,
             user,
@@ -471,9 +462,7 @@ class Dashboard extends React.Component {
                         match={this.props.match}
                         selectedImage={this.props.selectedImage}
                         toggleModal={this.toggleModal}
-                        hideModal={this.hideModal}
                         showingChangePassword={showingChangePassword}
-                        hideChangedPasswordNotification={this.hideNotificationMessage}
                         userAvatar={userAvatar}
                         getUser={this.props.getUser}
                         _this={this}
@@ -507,21 +496,18 @@ class Dashboard extends React.Component {
                             ? {
                                 opacity: 1,
                                 transform: 'translateY(0)',
-                                margin: 'auto'
+                                margin: 'auto',
+                                pointerEvents: 'all'
                             }
                             : {
                                 opacity: 0,
                                 transform: 'translateY(-170%)',
-                                margin: '17vh auto 0'
+                                margin: '17vh auto 0',
+                                pointerEvents: 'none'
                             }
                     }
+                    modalShown={showingChangePassword}
                     hideModal={this.hideModal}
-                    setNotificationMessage={this.setNotificationMessage}
-                />
-                <PasswordChangedNotification
-                    passwordChangedNotification={passwordChangedNotification}
-                    passwordChangedNotificationShown={passwordChangedNotificationShown}
-                    hideNotificationMessage={this.hideNotificationMessage}
                 />
                 <AgreementPrivacyNPolicy
                     style={
