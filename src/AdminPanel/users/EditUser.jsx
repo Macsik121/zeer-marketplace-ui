@@ -328,7 +328,12 @@ class EditUser extends React.Component {
                         />
                     </div>
                     <div className="reset-freeze-cooldown">
-                        <input type="checkbox" className="checkbox" />
+                        <div className="checkbox-wrap">
+                            <input type="checkbox" className="checkbox" onChange={e => console.log(e.target.checked)} />
+                            <div className="checkbox-checked">
+                                <img src="/images/check-mark.png" className="check-mark" />
+                            </div>
+                        </div>
                         <label className="label">сброс кулдауна заморозки</label>
                     </div>
                     <div className="buttons">

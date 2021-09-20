@@ -113,10 +113,7 @@ export default class Statistics extends React.Component {
             subscriptionsAmount += user.subscriptions.length;
         });
 
-        let earnedToday = 0;
-        profit.map(currentProfit => {
-            earnedToday += currentProfit.value;
-        });
+        const earnedToday = profit[new Date().getDay()].value;
 
         let bannedUsersAmount = 0;
         users.map(user => {
@@ -200,14 +197,14 @@ export default class Statistics extends React.Component {
                         <Graph
                             className="earned-today"
                             array={purchases}
-                            graphColor={'#1f7a1f'}
+                            graphColor={'rgb(0, 153, 51)'}
                             isRequestMaking={isRequestMaking}
                             graphTheme="Совершено покупок за сегодня"
                         />
                         <Graph
                             className="profit"
                             array={profit}
-                            graphColor={'#fff'}
+                            graphColor={'#0047b3'}
                             isRequestMaking={isRequestMaking}
                             graphTheme="Заработано за сегодня"
                         />

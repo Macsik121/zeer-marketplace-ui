@@ -307,27 +307,40 @@ class Users extends React.Component {
                         }
                     }
                 >
-                    <div className="search-field">
-                        <img src="/images/search-icon-admin.png" />
-                        <input
-                            type="text"
-                            placeholder="Search here"
-                            onChange={this.searchUsers}
-                        />
-                    </div>
-                    <div className="checkbox-wrap">
-                        <div className="checkbox">
+                    <div className="search-bar-wrap">
+                        <div className="search-field">
+                            <img src="/images/search-icon-admin.png" />
                             <input
-                                onChange={this.toggleSearchOnlyRoles}
-                                type="checkbox"
-                                checked={this.state.searchOnlyRoles}
-                            />
-                            <div
-                                className="checkbox-bg"
-                                onClick={this.toggleSearchOnlyRoles}
+                                type="text"
+                                placeholder="Search here"
+                                onChange={this.searchUsers}
                             />
                         </div>
-                        <span>Только по ролям</span>
+                        <div className="checkbox-wrap">
+                            <div className="checkbox">
+                                <input
+                                    onChange={this.toggleSearchOnlyRoles}
+                                    type="checkbox"
+                                    checked={this.state.searchOnlyRoles}
+                                />
+                                <div
+                                    className="checkbox-bg"
+                                    onClick={this.toggleSearchOnlyRoles}
+                                />
+                            </div>
+                            <span>Только по ролям</span>
+                        </div>
+                    </div>
+                    <div
+                        className="info-notif"
+                        onClick={() => {
+                            createNotification(
+                                'info',
+                                'Чтобы искать пользователей по ролям вам нужно активировать "Только по ролям" и: 1. Чтобы найти всех админов вписать: админ; 2. Найти всех забаненныx пользователей вписать: забаненный; 3. Найти всех обычныx пользователей вписать: Обычный пользователь'
+                            );
+                        }}
+                    >
+                        i
                     </div>
                 </div>
                 <h2>Пользователи</h2>

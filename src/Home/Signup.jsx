@@ -202,7 +202,16 @@ class Signup extends React.Component {
                     <label style={formErrorStyles} className="error">
                         {formError.message}
                     </label>
-                    <form name="signup" onSubmit={this.handleSubmit} className="signup-form form">
+                    <form
+                        name="signup"
+                        onSubmit={this.handleSubmit}
+                        className="signup-form form"
+                        style={
+                            {
+                                opacity: isRequestMaking ? 0.5 : 1
+                            }
+                        }
+                    >
                         <div className="field-wrap">
                             <input required="required" onFocus={this.handleFieldFocus} name="name" className="field" />
                             <label>
