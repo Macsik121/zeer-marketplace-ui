@@ -10,472 +10,556 @@ class InjectLogs extends React.Component {
             requestMaking: false,
             searchLogs: '',
             searchByAction: '',
-            logs: []
+            logs: [],
+            logsCopy: []
         };
         this.handleSearchChange = this.handleSearchChange.bind(this);
         this.handleActionChange = this.handleActionChange.bind(this);
     }
     componentDidMount() {
+        const logs = [
+            {
+                name: 'Max',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'Max',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Регистрация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'Max',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Покупка чего-то в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'Max',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Что-то ещё делал в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username4',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username5',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'urenasdf88',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'Macsik121',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'Maksim',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'Max',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'Soemone',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'One more user',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'I want something just like this',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'Maksim',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Покупка продукта в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+            {
+                name: 'username',
+                location: 'Moscow',
+                ip: '11.111.111.11',
+                idSteam: 'alskdfjp9o325lrjkhvcx980y235',
+                platform: 'Windows 10',
+                action: 'Авторизация в лоадере',
+                date: new Date()
+            },
+        ];
         this.setState({
-            logs: [
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-                {
-                    name: 'username',
-                    location: 'Moscow',
-                    ip: '11.111.111.11',
-                    idSteam: 'alskdfjp9o325lrjkhvcx980y235',
-                    platform: 'Windows 10',
-                    action: 'Авторизация в лоадере',
-                    date: new Date()
-                },
-            ]
+            logs,
+            logsCopy: logs
         });
     }
+    filterLog(log, searchValue) {
+        searchValue = searchValue.toLowerCase();
+        if (
+            log.name.toLowerCase().includes(searchValue) ||
+            log.location.toLowerCase().includes(searchValue) ||
+            log.ip.includes(searchValue) ||
+            log.idSteam.toLowerCase().includes(searchValue)
+        ) {
+            return log;
+        } else {
+            return null;
+        }
+    }
     handleSearchChange(e) {
-        this.setState({ searchLogs: e.target.value });
+        this.props.history.push('/admin/inject-logs/1');
+        this.setState({ searchLogs: e.target.value }, () => {
+            let {
+                searchLogs,
+                searchByAction,
+                logsCopy
+            } = this.state;
+            searchLogs = searchLogs.toLowerCase();
+            const logsToRender = [];
+
+            searchByAction = searchByAction.toLowerCase();
+            logsCopy.map(log => {
+                let result = null;
+                if (searchLogs != '' && searchByAction != '') {
+                    let resultLog = this.filterLog(log, searchLogs);
+                    if (resultLog && resultLog.action.toLowerCase().includes(searchByAction)) {
+                        logsToRender.push(resultLog);
+                    }
+                } else if (searchLogs != '') {
+                    result = this.filterLog(log, searchLogs);
+                    if (result) {
+                        logsToRender.push(log);
+                    }
+                } else if (searchByAction != '') {
+                    if (log.action.toLowerCase().includes(searchByAction)) {
+                        result = true;
+                    }
+                    if (result) {
+                        logsToRender.push(log);
+                    }
+                }
+            });
+
+            if (searchByAction == '' && searchLogs == '') this.setState({ logs: logsCopy });
+            else this.setState({ logs: logsToRender });
+        });
     }
     handleActionChange(e) {
-        this.setState({ searchByAction: e.target.value });
+        this.setState({ searchByAction: e.target.value }, () => {
+            let {
+                searchByAction,
+                searchLogs,
+                logsCopy
+            } = this.state;
+            const logsToRender = [];
+
+            searchByAction = searchByAction.toLowerCase();
+            logsCopy.map(log => {
+                let result = null;
+                if (searchLogs != '' && searchByAction != '') {
+                    let resultLog = this.filterLog(log, searchLogs);
+                    if (resultLog && resultLog.action.toLowerCase().includes(searchByAction)) {
+                        logsToRender.push(resultLog);
+                    }
+                } else if (searchLogs != '') {
+                    result = this.filterLog(log, searchLogs);
+                    if (result) {
+                        logsToRender.push(log);
+                    }
+                } else if (searchByAction != '') {
+                    if (log.action.toLowerCase().includes(searchByAction)) {
+                        result = true;
+                    }
+                    if (result) {
+                        logsToRender.push(log);
+                    }
+                }
+            });
+
+            if (searchByAction == '' && searchLogs == '') this.setState({ logs: logsCopy });
+            else this.setState({ logs: logsToRender });
+        });
     }
     toggleActiveClass(e) {
         e.target.classList.toggle('active');
