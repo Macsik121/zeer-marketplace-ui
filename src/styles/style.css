@@ -4247,12 +4247,15 @@ button.disabled {
 
 .admin-panel .search-bar .search-field {
     width: 315px;
-    padding-left: 35px;
     background-color: #F8F8F8;
     border-radius: 8px;
     padding: 15px;
     display: flex;
     align-items: center;
+}
+
+.admin-panel .search-bar .search-field.action-search {
+    padding-left: 5px;
 }
 
 .admin-panel .search-bar .search-field input {
@@ -7174,7 +7177,7 @@ button.disabled {
     padding-left: 5px;
 }
 
-.admin-panel .action-logs .search .clean-logs {
+.admin-panel .search .clean-logs {
     background-color: #FF000070;
     border: none;
     border-radius: 5px;
@@ -7188,7 +7191,7 @@ button.disabled {
     line-height: 27px;
 }
 
-.admin-panel .action-logs .search .clean-logs:hover {
+.admin-panel .search .clean-logs:hover {
     background-color: #92191978;
 }
 
@@ -7234,25 +7237,9 @@ button.disabled {
     width: 15%;
 }
 
-/* .admin-panel .action-logs .table .heading .name {
-    width: 130px;
-}
-
-.admin-panel .action-logs .table .heading .location {
-    width: 100px;
-} */
-
 .admin-panel .action-logs .table .heading .ip {
     width: 15%;
 }
-/* 
-.admin-panel .action-logs .table .heading .browser {
-    width: 140px;
-}
-
-.admin-panel .action-logs .table .heading .platform {
-    width: 140px;
-} */
 
 .admin-panel .action-logs .table .heading .action {
     width: 20%;
@@ -7297,30 +7284,17 @@ button.disabled {
 .admin-panel .action-logs .table .logs .log .date {
     width: 15%;
 }
-/* 
-.admin-panel .action-logs .table .logs .log .name {
-    width: 130px;
-}
-
-.admin-panel .action-logs .table .logs .log .location {
-    width: 100px;
-} */
 
 .admin-panel .action-logs .table .logs .log .ip {
     width: 15%;
 }
 
-/* .admin-panel .action-logs .table .logs .log .browser {
-    width: 140px;
+.admin-panel .action-logs .table .logs .log .action {
+    width: 20%;
 }
-
-.admin-panel .action-logs .table .logs .log .platform {
-    width: 140px;
-} */
 
 .admin-panel .action-logs .table .logs .log .action {
     width: 20%;
-    /* height: 36px; */
 }
 
 .admin-panel .reset-requests {
@@ -8505,6 +8479,54 @@ button.disabled {
     padding: var(--padding-top-page) 0 calc(var(--padding-top-page) * 2);
 }
 
+.admin-panel .inject-logs h2 {
+    text-align: center;
+    font-size: 24px;
+    line-height: 36px;
+    font-weight: 700;
+    letter-spacing: .1px;
+}
+
+.admin-panel .inject-logs .table .heading .location {
+    width: 100px;
+}
+
+.admin-panel .inject-logs .table .heading .ip {
+    width: 100px;
+}
+
+.admin-panel .inject-logs .table .heading .id-steam {
+    width: 115px;
+}
+
+.admin-panel .inject-logs .table .heading .platform {
+    width: 135px;
+}
+
+.admin-panel .inject-logs .table .heading .action {
+    width: 210px;
+}
+
+.admin-panel .inject-logs .table .table-content .log .location {
+    width: 100px
+}
+
+.admin-panel .inject-logs .table .table-content .log .ip {
+    width: 100px;
+}
+
+.admin-panel .inject-logs .table .table-content .log .id-steam {
+    width: 115px;
+}
+
+.admin-panel .inject-logs .table .table-content .log .platform {
+    width: 135px;
+}
+
+.admin-panel .inject-logs .table .table-content .log .action {
+    width: 210px;
+}
+
 .admin-panel .crash-logs {
     padding: var(--padding-top-page) 0 calc(var(--padding-top-page) * 2);
 }
@@ -8517,22 +8539,125 @@ button.disabled {
     letter-spacing: .1px;
 }
 
-.admin-panel .crash-logs .search .clean-logs {
-    background-color: #FF000070;
-    border: none;
-    border-radius: 5px;
-    padding: 12px 0;
-    width: 180px;
-    cursor: pointer;
-    transition: 300ms;
-    color: #fff;
-    margin-left: 10px;
-    font-size: 18px;
-    line-height: 27px;
+.admin-panel .crash-logs .table .heading .code-error {
+    width: 145px;
 }
 
-.admin-panel .crash-logs .search .clean-logs:hover {
+.admin-panel .crash-logs .table .heading .error-description {
+    width: 220px;
+}
+
+.admin-panel .crash-logs .table .heading .playing-time {
+    width: 155px;
+}
+
+.admin-panel .crash-logs .table .heading .action {
+    width: 150px;
+}
+
+.admin-panel .crash-logs .table .table-content .log .code-error {
+    width: 145px;
+}
+
+.admin-panel .crash-logs .table .table-content .log .error-description {
+    width: 220px;
+}
+
+.admin-panel .crash-logs .table .table-content .log .playing-time {
+    width: 155px;
+}
+
+.admin-panel .crash-logs .table .table-content .log .action {
+    width: 150px;
+    pointer-events: all;
+}
+
+.admin-panel .crash-logs .table .table-content .log .action .button {
+    background-color: #FF000061;
+    width: 100%;
+    height: 28px;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    transition: 300ms;
+}
+
+.admin-panel .crash-logs .table .table-content .log .action .button:hover {
     background-color: #92191978;
+}
+
+.admin-panel .logs .table {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 36px;
+    letter-spacing: .1px;
+    color: #fff;
+    margin-top: 20px;
+}
+
+.admin-panel .logs .table .heading {
+    display: flex;
+    background-color: #1C1C24;
+    font-weight: 700;
+    font-size: 20px;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+
+.admin-panel .logs .table .heading div {
+    display: flex;
+    justify-content: center;
+    word-wrap: break-word;
+}
+
+.admin-panel .logs .table .heading .date {
+    width: 159px;
+}
+
+.admin-panel .logs .table .heading .login {
+    width: 150px;
+}
+
+.admin-panel .logs .table .table-content .log .date {
+    width: 159px;
+}
+
+.admin-panel .logs .table .table-content .log .login {
+    width: 150px;
+}
+
+.admin-panel .logs .table-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-panel .logs .table-content .log {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.admin-panel .logs .table-content .log:nth-child(2n) {
+    background-color: #1C1C24;
+}
+
+.admin-panel .logs .table-content .log div {
+    max-height: 36px;
+    overflow: hidden;
+    word-break: break-word;
+    display: flex;
+    text-align: center;
+    pointer-events: none;
+    justify-content: center;
+}
+
+.admin-panel .logs .table-content .log.active {
+    max-height: none;
+}
+
+.admin-panel .logs .table-content .log.active div {
+    max-height: none;
 }
 
 .admin-panel .settings {

@@ -113,7 +113,7 @@ export default class Statistics extends React.Component {
             subscriptionsAmount += user.subscriptions.length;
         });
 
-        const earnedToday = profit[new Date().getDay()].value;
+        const earnedToday = profit[new Date().getDay()].value || 0;
 
         let bannedUsersAmount = 0;
         users.map(user => {

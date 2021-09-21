@@ -90,12 +90,12 @@ class AdminPanel extends React.Component {
                     component: FAQ
                 },
                 {
-                    path: 'inject-logs',
+                    path: 'inject-logs/:page',
                     title: 'Логи инжекта',
                     component: InjectLogs
                 },
                 {
-                    path: 'crash-logs',
+                    path: 'crash-logs/:page',
                     title: 'Логи крашей',
                     component: CrashLogs
                 },
@@ -196,17 +196,7 @@ class AdminPanel extends React.Component {
         } = this.state;
 
         const navLinks = this.state.navLinks.map(link => {
-            if (link.path == 'users/page/:page') {
-                return (
-                    <NavLink
-                        key={link.title}
-                        to={`/admin/users`}
-                    >
-                        {link.title}
-                        <div className="border" />
-                    </NavLink>
-                )
-            } else if (link.path.toLowerCase().includes(':page')) {
+            if (link.path.toLowerCase().includes(':page')) {
                 let path = link.path.split(':');
                 path.pop();
                 return (
@@ -231,23 +221,6 @@ class AdminPanel extends React.Component {
         });
 
         const routes = this.state.navLinks.map(link => {
-            if (link.path == 'users/page/:number') {
-                return (
-                    <Route
-                        path={`/admin/users`}
-                        render={() => <link.component />}
-                        key={link.title}
-                    />
-                )
-            } else if (link.path == 'products') {
-                return (
-                    <Route
-                        path='/admin/products'
-                        render={() => <link.component setEditType={this.setEditType} />}
-                        key={link.title}
-                    />
-                )
-            }
             return (
                 <Route
                     path={`/admin/${link.path}`}
@@ -314,6 +287,8 @@ class AdminPanel extends React.Component {
                                 <Redirect exact from="/admin/users" to="/admin/users/1" />
                                 <Redirect exact from="/admin/logs" to="/admin/logs/1" />
                                 <Redirect exact from="/admin/reset-binding" to="/admin/reset-binding/1" />
+                                <Redirect exact from="/admin/inject-logs" to="/admin/inject-logs/1" />
+                                <Redirect exact from="/admin/crash-logs" to="/admin/crash-logs/1" />
                                 <Route
                                     path="/admin/users/edit-user/:username"
                                     render={() => (

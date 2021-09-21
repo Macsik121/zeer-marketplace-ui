@@ -319,7 +319,12 @@ class ActionLogs extends React.Component {
                                 {logs}
                             </div>
                         </div>
-                        <Pages array={logs} path="logs" page={page} itemsOnPage={20} />
+                        <Pages
+                            array={logs}
+                            path="logs"
+                            page={page}
+                            itemsOnPage={20}
+                        />
                     </div>
                 </div>
             </div>
