@@ -4,6 +4,7 @@ import jwtDecode from 'jwt-decode';
 import { CircularProgress } from '@material-ui/core';
 import createNotification from '../../createNotification';
 import fetchData from '../../fetchData';
+import Calendar from '../../Calendar.jsx';
 
 class EditUser extends React.Component {
     constructor() {
@@ -17,9 +18,10 @@ class EditUser extends React.Component {
             userStatuses: [],
             oldUsername: '',
             isUserGotten: false,
-            chooseRoleShown: false
+            chooseRoleShown: false,
+            calendarShown: false,
+            productName: ''
         };
-        this.handleActivelyUntilChange = this.handleActivelyUntilChange.bind(this);
         this.handleChangeUserData = this.handleChangeUserData.bind(this);
         this.editUser = this.editUser.bind(this);
         this.editUserPassword = this.editUserPassword.bind(this);
@@ -27,6 +29,8 @@ class EditUser extends React.Component {
         this.toggleRoleMenu = this.toggleRoleMenu.bind(this);
         this.changeActivelyUntil = this.changeActivelyUntil.bind(this);
         this.getUser = this.getUser.bind(this);
+        this.hideCalendar = this.hideCalendar.bind(this);
+        this.setDate = this.setDate.bind(this);
     }
     async componentDidMount() {
         await this.getUser();
@@ -75,28 +79,6 @@ class EditUser extends React.Component {
         });
 
         this.setState({ isUserGotten: true });
-    }
-    handleActivelyUntilChange(e) {
-        let { name, value } = e.target;
-        name = name.toLowerCase();
-        const { user } = this.state;
-        const subscriptions = [...user.subscriptions];
-        subscriptions.map(sub => {
-            if (sub.title.toLowerCase() == name) {
-                sub.activelyUntil = (
-                    new Date(value).getTime() && value.length == 10
-                        ? new Date(value).toISOString().substr(0, 10)
-                        : value
-                );
-            }
-        });
-
-        this.setState({
-            user: {
-                ...user,
-                subscriptions
-            }
-        });
     }
     handleChangeUserData(e) {
         const { name, value } = e.target;
@@ -285,18 +267,40 @@ class EditUser extends React.Component {
 
         const result = await fetchData(query, vars);
 
+        await this.getUser();
         this.setState({ isUserGotten: true });
         const { message, success } = result.updateSubscriptionTime;
         if (success) createNotification('success', message);
         else createNotification('error', message); 
-        await this.getUser();
+    }
+    hideCalendar() {
+        this.setState({ calendarShown: false });
+    }
+    setDate(date) {
+        const { productName, user } = this.state;
+        const subscriptionsCopy = [...user.subscriptions];
+        subscriptionsCopy.map(sub => {
+            if (sub.title.toLowerCase() == productName.toLowerCase()) {
+                sub.activelyUntil = new Date(date).toISOString().substr(0, 10);
+            }
+        });
+
+        this.setState({
+            user: {
+                ...user,
+                subscriptions: subscriptionsCopy
+            }
+        });
+        this.hideCalendar();
     }
     render() {
         const {
             user,
             isUserGotten,
             chooseRoleShown,
-            userStatuses
+            userStatuses,
+            calendarShown,
+
         } = this.state;
 
         const products = user.subscriptions && user.subscriptions.map(sub => {
@@ -323,8 +327,14 @@ class EditUser extends React.Component {
                                     ? new Date(activelyUntil).toISOString().substr(0, 10)
                                     : activelyUntil
                             }
-                            onChange={this.handleActivelyUntilChange}
                             className="edit-actively-until field"
+                            readOnly
+                            onClick={e => {
+                                this.setState({
+                                    calendarShown: true,
+                                    productName: e.target.name
+                                });
+                            }}
                         />
                     </div>
                     <div className="reset-freeze-cooldown">
@@ -375,13 +385,19 @@ class EditUser extends React.Component {
                             : { display: 'block' }
                     }
                 />
+                <Calendar
+                    calendarShown={calendarShown}
+                    hideCalendar={this.hideCalendar}
+                    setDate={this.setDate}
+                />
                 <h2>Редактирование пользователя {user.name}</h2>
                 <div
                     className="edit-user-wrap"
                     style={
-                        isUserGotten
-                            ? { opacity: 1, pointerEvents: 'all' }
-                            : { opacity: 0, pointerEvents: 'none' }
+                        {
+                            opacity: calendarShown ? .5 : isUserGotten ? 1 : 0,
+                            pointerEvents: calendarShown ? 'none' : isUserGotten ? 'all' : 'none',
+                        }
                     }
                 >
                     <div className="user-subscriptions">

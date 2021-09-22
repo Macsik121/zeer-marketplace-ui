@@ -109,7 +109,8 @@ class CreatePromocode extends React.Component {
             product,
             helpMessageShown,
             hideHelpMessage,
-            expiredInDate
+            expiredInDate,
+            modalShown
         } = this.props
         
         const {
@@ -119,7 +120,7 @@ class CreatePromocode extends React.Component {
         } = this.state;
 
         const style = {...this.props.style};
-        style.pointerEvents = isRequestMaking ? 'none' : 'all';
+        style.pointerEvents = isRequestMaking ? 'none' : modalShown ? 'all' : 'none';
 
         return (
             <div
@@ -225,7 +226,7 @@ export default class Promocodes extends React.Component {
         this.hideHelpMessage = this.hideHelpMessage.bind(this);
         this.showCalendar = this.showCalendar.bind(this);
         this.hideCalendar = this.hideCalendar.bind(this);
-        this.setExpirationDate = this.setExpirationDate.bind(this);
+        this.setDate = this.setDate.bind(this);
         this.deleteExpirationDate = this.deleteExpirationDate.bind(this);
     };
     componentDidUpdate(_, prevState) {
@@ -236,10 +237,11 @@ export default class Promocodes extends React.Component {
     }
     async componentDidMount() {
         window.onkeydown = function(e) {
-            if (e.keyCode == 27 && this.state.calendarShown) {
+            if (e.keyCode == 27) {
+                if (!this.state.calendarShown) {
+                    this.hideCreatePromocodeModal();
+                }
                 this.hideCalendar();
-            } else if (e.keyCode == 27) {
-                this.hideCreatePromocodeModal();
             }
         }.bind(this);
         await this.getProducts();
@@ -326,7 +328,7 @@ export default class Promocodes extends React.Component {
     hideCalendar() {
         this.setState({ calendarShown: false });
     }
-    setExpirationDate(date) {
+    setDate(date) {
         this.setState({ expiredInDate: new Date(date), calendarShown: false });
     }
     deleteExpirationDate() {
@@ -397,6 +399,7 @@ export default class Promocodes extends React.Component {
                     hideHelpMessage={this.hideHelpMessage}
                     showCalendar={this.showCalendar}
                     expiredInDate={this.state.expiredInDate}
+                    modalShown={isCreatePromocodeShown}
                 />
                 <Calendar
                     style={
@@ -407,7 +410,7 @@ export default class Promocodes extends React.Component {
                         }
                     }
                     hideCalendar={this.hideCalendar}
-                    setExpirationDate={this.setExpirationDate}
+                    setDate={this.setDate}
                     calendarShown={calendarShown}
                 />
                 <div

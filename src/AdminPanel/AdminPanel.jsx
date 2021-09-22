@@ -221,6 +221,19 @@ class AdminPanel extends React.Component {
         });
 
         const routes = this.state.navLinks.map(link => {
+            if (link.path == 'products') {
+                return (
+                    <Route
+                        path={`/admin/${link.path}`}
+                        render={() => (
+                            <link.component
+                                setEditType={this.setEditType}
+                            />
+                        )}
+                        key={link.title}
+                    />
+                )
+            }
             return (
                 <Route
                     path={`/admin/${link.path}`}
@@ -324,11 +337,21 @@ class AdminPanel extends React.Component {
                                 />
                                 <Route
                                     path="/admin/products/add-product"
-                                    render={() => <EditProduct type={this.state.productEditType} />}
+                                    render={() => (
+                                        <EditProduct
+                                            type={this.state.productEditType}
+                                            setEditType={this.setEditType}
+                                        />
+                                    )}
                                 />
                                 <Route
                                     path="/admin/products/:title"
-                                    render={() => <EditProduct type={this.state.productEditType} />}
+                                    render={() => (
+                                        <EditProduct
+                                            type={this.state.productEditType}
+                                            setEditType={this.setEditType}
+                                        />
+                                    )}
                                 />
                                 <Route
                                     path="/admin/news/:title/:page"

@@ -68,6 +68,8 @@ export default class Subscriptions extends React.Component {
                             isActive
                             isFreezed
                         }
+                        freezeTime
+                        wasFreezed
                     }
                 }
             }
@@ -162,26 +164,40 @@ export default class Subscriptions extends React.Component {
             if (!showAll && i > 5) {
                 return;
             }
+            const {
+                status,
+                imageURL,
+                title,
+                productFor,
+                activelyUntil,
+                freezeTime,
+                wasFreezed,
+            } = sub;
+            console.log(sub);
+            const freezeConditions = (
+                wasFreezed && new Date(freezeTime).getTime() - new Date().getTime() >= 0
+            );
+            console.log(freezeConditions);
             if (!sub.status.isExpired) {
                 activeSubs.push(
-                    <div key={sub.title} className="subscription">
+                    <div key={title} className="subscription">
                         <img
                             style={
-                                sub.status.isFreezed
+                                status.isFreezed
                                     ? { mixBlendMode: 'luminosity' }
                                     : { mixBlendMode: 'inherit' }
                             }
-                            src={sub.imageURL ? sub.imageURL : ""}
+                            src={imageURL ? imageURL : ""}
                             className="subscription-icon"
                         />
                         <div className="content">
                             <h3 className="sub-title">
-                                {sub.title}{' | '}{sub.productFor}
+                                {title}{' | '}{productFor}
                             </h3>
                             <span className="active-until">
                                 {`
                                     Активно до
-                                    ${new Date(sub.activelyUntil).toLocaleDateString()}
+                                    ${new Date(activelyUntil).toLocaleDateString()}
                                 `}
                             </span>
                             {sub.status.isActive &&
@@ -193,12 +209,37 @@ export default class Subscriptions extends React.Component {
                                             <button
                                                 className="button freeze"
                                                 onClick={this.freezeSubscription}
+                                                onMouseEnter={e => {
+                                                    e.target.style.background = 'rgba(255, 255, 255, .1)';
+                                                }}
+                                                onMouseLeave={e => {
+                                                    e.target.style.background = null;
+                                                }}
+                                                style={
+                                                    {
+                                                        background: (
+                                                            freezeConditions
+                                                                ? '#dfdfdf'
+                                                                : 'transparent'
+                                                        ),
+                                                        pointerEvents: (
+                                                            freezeConditions
+                                                                ? 'none'
+                                                                : 'all'
+                                                        ),
+                                                        color: (
+                                                            freezeConditions
+                                                                ? '#1C1C24'
+                                                                : '#fafafb'
+                                                        )
+                                                    }
+                                                }
                                             >
                                                 Заморозить
                                             </button>
                                         </div>
                                         <Link
-                                            to={`/dashboard/products/${sub.title}`}
+                                            to={`/dashboard/products/${title}`}
                                             className="product-info"
                                         >
                                             i
@@ -206,7 +247,7 @@ export default class Subscriptions extends React.Component {
                                     </div>
                                 </div>
                             }
-                            {sub.status.isFreezed &&
+                            {status.isFreezed &&
                                 <div className="status-content freezed">
                                     <label className="freezed status">Заморожен</label>
                                     <div className="buttons-wrap">
@@ -220,7 +261,7 @@ export default class Subscriptions extends React.Component {
                                             </button>
                                         </div>
                                         <Link
-                                            to={`/dashboard/products/${sub.title}`}
+                                            to={`/dashboard/products/${title}`}
                                             className="product-info"
                                         >
                                             i
@@ -233,14 +274,14 @@ export default class Subscriptions extends React.Component {
                 )
             } else {
                 expiredSubs.push(
-                    <div key={sub.title} className="subscription">
+                    <div key={title} className="subscription">
                         <img
-                            src={sub.imageURL || ''}
+                            src={imageURL || ''}
                             style={{ border: '3px solid #FC5A5A' }}
                             className="subscription-icon"
                         />
                         <div className="content">
-                            <h3 className="sub-title">{sub.title}{' | '}{sub.productFor}</h3>
+                            <h3 className="sub-title">{title}{' | '}{productFor}</h3>
                             <span className="overdue">Просроченo</span>
                             <div className="status-content expired">
                                 <label className="status payment-required">
@@ -256,7 +297,7 @@ export default class Subscriptions extends React.Component {
                                         </button>
                                     </div>
                                     <Link
-                                        to={`/dashboard/products/${sub.title}`}
+                                        to={`/dashboard/products/${title}`}
                                         className="product-info"
                                     >
                                         i

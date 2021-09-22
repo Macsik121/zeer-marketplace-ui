@@ -4,10 +4,11 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 function generateDayOfWeek(
     year = new Date().getFullYear(),
-    month = new Date().getMonth()
+    month = new Date().getMonth() + 1,
+    day = new Date().getDay()
 ) {
     return (
-        new Date(`${year}-${month}-1`).getDay()
+        new Date(`${year}-${month}-${day}`).getDay()
     )
 }
 
@@ -28,7 +29,7 @@ function generateDays(
     );
 }
 
-export default class ChooseDateCalendar extends React.Component {
+export default class Calendar extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -40,10 +41,10 @@ export default class ChooseDateCalendar extends React.Component {
                 "Декабрь"
             ],
             daysOfWeek: [
+                "Воскресенье",
                 "Понедельник", "Вторник",
                 "Среда", "Четверг",
-                "Пятница", "Суббота",
-                "Воскресенье"
+                "Пятница", "Суббота"
             ],
             currentDay: new Date().getDate(),
             currentMonth: new Date().getMonth(),
@@ -67,6 +68,18 @@ export default class ChooseDateCalendar extends React.Component {
         this.chooseYear = this.chooseYear.bind(this);
         this.chooseDay = this.chooseDay.bind(this);
     }
+    componentDidUpdate() {
+        if (!this.state.chooseYearShown && !this.state.chooseDateShown) {
+            this.setState({ chooseDateShown: true });
+        }
+    }
+    componentDidMount() {
+        window.onkeydown = function(e) {
+            if (e.keyCode == 27) {
+                this.props.hideCalendar();
+            }
+        }.bind(this);
+    }
     switchNextMonth() {
         let { currentMonth, currentYear, currentDay } = this.state;
         currentMonth++;
@@ -75,17 +88,16 @@ export default class ChooseDateCalendar extends React.Component {
             this.setState({
                 currentMonth,
                 currentDate: newDate,
-                daysOfCurrentMonth: generateDays(currentYear, currentMonth),
-                currentDayOfWeek: generateDayOfWeek(currentYear, currentMonth)
+                daysOfCurrentMonth: generateDays(currentYear, currentMonth)
             });
         } else {
             newDate = new Date(`${currentYear}-01-01`)
             this.setState({
                 currentMonth: 0,
-                currentYear,
+                currentYear: currentYear + 1,
                 currentDate: newDate,
                 daysOfCurrentMonth: generateDays(currentYear, 1),
-                activeYear: currentYear
+                activeYear: currentYear + 1
             });
         }
     }
@@ -129,8 +141,7 @@ export default class ChooseDateCalendar extends React.Component {
     }
     chooseDay(e) {
         let { currentYear, currentMonth } = this.state;
-        const date = `${currentYear}-${++currentMonth}-${e.target.textContent}`;
-        console.log(new Date(date).getDay());
+        const date = `${currentYear}-${currentMonth + 1}-${e.target.textContent}`;
         this.setState({
             currentDay: e.target.textContent,
             activeDay: e.target.textContent,
@@ -143,14 +154,12 @@ export default class ChooseDateCalendar extends React.Component {
         let {
             currentMonth,
             months,
-            currentDate,
             currentYear,
             currentDay,
             daysOfWeek,
             activeMonth,
             activeYear,
             activeDay,
-            activeDate,
             chooseYearShown,
             chooseDateShown,
             daysOfCurrentMonth,
@@ -158,8 +167,16 @@ export default class ChooseDateCalendar extends React.Component {
         } = this.state;
 
         const {
-            calendarShown
+            calendarShown,
+            hideCalendar,
+            setDate
         } = this.props;
+        const style = this.props.style || (
+            {
+                pointerEvents: calendarShown ? 'all' : 'none',
+                opacity: calendarShown ? 1 : 0
+            }
+        )
 
         const days = daysOfCurrentMonth.map(day => {
             return (
@@ -167,35 +184,45 @@ export default class ChooseDateCalendar extends React.Component {
                     key={day}
                     className={`
                         day
-                        ${++day == activeDay && activeMonth == currentMonth
+                        ${day + 1 == activeDay && activeMonth == currentMonth
                             && 'active-day'
                         }`
                     }
                     onClick={this.chooseDay}
                 >
-                    {day}
+                    {day + 1}
                 </div>
             )
         });
 
-        // let skipTimes = currentDayOfWeek;
-        // skipTimes++;
-        // for(
-        //     let i = 0;
-        //     i <= skipTimes;
-        //     i++
-        // ) {
-        //     days.unshift(
-        //         <div key={++days.length} className="day empty-day">{i}</div>
-        //     );
-        // }
+        const skipDays = [];
+        const skipDaysDate = (
+            new Date(`${
+                currentYear
+            }-${
+                currentMonth + 1
+            }-01`)
+        );
+        let skipDay = skipDaysDate.getDay();
 
-        currentDayOfWeek--;
+        if (skipDay == 0) skipDay = 7;
+        for(
+            let i = 0;
+            i < skipDay;
+            i++
+        ) {
+            skipDays.push(
+                <div key={i} className="day day-hidden">
+                    {i}
+                </div>
+            );
+        }
+        skipDays.pop();
 
         return (
             <div
                 className="calendar"
-                style={this.props.style}
+                style={style}
             >
                 <div className="current-date">
                     <div className="year">
@@ -240,6 +267,7 @@ export default class ChooseDateCalendar extends React.Component {
                     >
                         {function() {
                             const years = [
+                                2018, 2019, 2020,
                                 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030,
                                 2031, 2032, 2033, 2034, 2035, 2036, 2037, 2038, 2039, 2040,
                                 2041, 2042, 2043, 2044, 2045, 2046, 2047, 2048, 2049, 2050,
@@ -248,20 +276,9 @@ export default class ChooseDateCalendar extends React.Component {
                                 2071, 2072, 2073, 2074, 2075, 2076, 2077, 2078, 2079, 2080
                             ];
                             return years.map(year => {
-                                if (year == activeYear) {
-                                    return (
-                                        <span
-                                            className="choose-year active-year"
-                                            key={year}
-                                            onClick={this.chooseYear}
-                                        >
-                                            {year}
-                                        </span>
-                                    )
-                                }
                                 return (
                                     <span
-                                        className="choose-year"
+                                        className={`choose-year ${year == activeYear ? 'active-year' : ''}`}
                                         key={year}
                                         onClick={this.chooseYear}
                                     >
@@ -308,6 +325,7 @@ export default class ChooseDateCalendar extends React.Component {
                                 <div className="day-of-week sunday">Вс</div>
                             </div>
                             <div className="table-body">
+                                {skipDays}
                                 {days}
                             </div>
                         </div>
@@ -318,7 +336,7 @@ export default class ChooseDateCalendar extends React.Component {
                         className="set-date button"
                         onClick={() => {
                             const date = `${currentYear}-${++currentMonth}-${currentDay}`;
-                            this.props.setExpirationDate(date);
+                            setDate(date);
                         }}
                     >
                         установить
@@ -330,7 +348,7 @@ export default class ChooseDateCalendar extends React.Component {
                                 chooseYearShown: false,
                                 chooseDateShown: false
                             });
-                            this.props.hideCalendar();
+                            hideCalendar();
                         }}
                     >
                         отмена

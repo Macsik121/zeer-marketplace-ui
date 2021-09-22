@@ -6214,6 +6214,7 @@ button.disabled {
     border: none;
     padding: 5px 5px 5px 10px;
     font-size: 15px;
+    cursor: pointer;
 }
 
 .admin-panel .edit-user .user-subscriptions .product .reset-freeze-cooldown {
@@ -8086,7 +8087,7 @@ button.disabled {
     background-color: #92191978;
 }
 
-.admin-panel .promocodes .calendar {
+.admin-panel .calendar {
     display: flex;
     flex-direction: column;
     width: 500px;
@@ -8101,24 +8102,24 @@ button.disabled {
     z-index: 2;
 }
 
-.admin-panel .promocodes .calendar .current-date {
+.admin-panel .calendar .current-date {
     display: flex;
     flex-direction: column;
     background-color: #363644;
     padding: 20px;
 }
 
-.admin-panel .promocodes .calendar .current-date .year {
+.admin-panel .calendar .current-date .year {
     color: rgba(255, 255, 255, .6);
     position: relative;
 }
 
-.admin-panel .promocodes .calendar .current-date .year .active-year {
+.admin-panel .calendar .current-date .year .active-year {
     cursor: pointer;
     transition: 200ms;
 }
 
-.admin-panel .promocodes .calendar .choose-date-body .year {
+.admin-panel .calendar .choose-date-body .year {
     display: flex;
     flex-direction: column;
     word-wrap: break-word;
@@ -8133,20 +8134,20 @@ button.disabled {
     width: 100%;
 }
 
-.admin-panel .promocodes .calendar .choose-date-body .year::-webkit-scrollbar {
+.admin-panel .calendar .choose-date-body .year::-webkit-scrollbar {
     width: 15px;
 }
 
-.admin-panel .promocodes .calendar .choose-date-body .year::-webkit-scrollbar-track {
+.admin-panel .calendar .choose-date-body .year::-webkit-scrollbar-track {
     background-color: #1C1C24;
 }
 
-.admin-panel .promocodes .calendar .choose-date-body .year::-webkit-scrollbar-thumb {
+.admin-panel .calendar .choose-date-body .year::-webkit-scrollbar-thumb {
     background-color: #363644;
     border: 4px solid #1C1C24;
 }
 
-.admin-panel .promocodes .calendar .choose-date-body .year .choose-year {
+.admin-panel .calendar .choose-date-body .year .choose-year {
     display: flex;
     justify-content: center;
     font-size: 18px;
@@ -8156,23 +8157,23 @@ button.disabled {
     transition: 200ms;
 }
 
-.admin-panel .promocodes .calendar .choose-date-body .year .choose-year:hover {
+.admin-panel .calendar .choose-date-body .year .choose-year:hover {
     background-color: rgba(54, 54, 68, .25);
 }
 
-.admin-panel .promocodes .calendar .choose-date-body .year .choose-year.active-year {
+.admin-panel .calendar .choose-date-body .year .choose-year.active-year {
     color: #0d47a1;
     font-size: 24px;
 }
 
-.admin-panel .promocodes .calendar .choose-date-body .days-date {
+.admin-panel .calendar .choose-date-body .days-date {
     position: absolute;
     width: 100%;
     height: 100%;
     padding: 15px 20px;
 }
 
-.admin-panel .promocodes .calendar .current-date .day {
+.admin-panel .calendar .current-date .day {
     display: flex;
     margin-top: 5px;
     font-size: 24px;
@@ -8184,7 +8185,7 @@ button.disabled {
     transition: 200ms;
 }
 
-.admin-panel .promocodes .calendar .heading {
+.admin-panel .calendar .heading {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -8192,24 +8193,24 @@ button.disabled {
     transition: 300ms;
 }
 
-.admin-panel .promocodes .calendar .heading .switch-month {
+.admin-panel .calendar .heading .switch-month {
     user-select: none;
     cursor: pointer;
     width: 15px;
     height: 15px;
 }
 
-.admin-panel .promocodes .calendar .table {
+.admin-panel .calendar .table {
     margin-top: 15px;
     font-size: 14px;
 }
 
-.admin-panel .promocodes .calendar .table .table-head {
+.admin-panel .calendar .table .table-head {
     display: flex;
     justify-content: space-between;
 }
 
-.admin-panel .promocodes .calendar .table .table-head div {
+.admin-panel .calendar .table .table-head div {
     text-transform: lowercase;
     color: rgba(255, 255, 255, .6);
     width: 65px;
@@ -8217,12 +8218,17 @@ button.disabled {
     justify-content: center;
 }
 
-.admin-panel .promocodes .calendar .table .table-body {
+.admin-panel .calendar .table .table-body {
     display: flex;
     flex-wrap: wrap;
 }
 
-.admin-panel .promocodes .calendar .table .table-body .day {
+.admin-panel .calendar .table .table-body .day-hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.admin-panel .calendar .table .table-body .day {
     width: 65.7px;
     display: flex;
     justify-content: center;
@@ -8233,42 +8239,42 @@ button.disabled {
     transition: opacity 300ms ease-in-out;
 }
 
-.admin-panel .promocodes .calendar .table .table-body .day:hover {
+.admin-panel .calendar .table .table-body .day:hover {
     opacity: .6;
 }
 
-.admin-panel .promocodes .calendar .table .table-body .day.active-day {
+.admin-panel .calendar .table .table-body .day.active-day {
     color: #0d47a1;
 }
 
-.admin-panel .promocodes .calendar .table .table-body .day.empty-day {
+.admin-panel .calendar .table .table-body .day.empty-day {
     opacity: 0;
     pointer-events: none;
     transition: 0s;
 }
 
-.admin-panel .promocodes .calendar .choose-date-body {
+.admin-panel .calendar .choose-date-body {
     height: 100%;
     position: relative;
 }
 
-.admin-panel .promocodes .calendar .heading .date {
+.admin-panel .calendar .heading .date {
     display: flex;
 }
 
-.admin-panel .promocodes .calendar .heading .date .current-date {
+.admin-panel .calendar .heading .date .current-date {
     background: none;
     padding: 0;
 }
 
-.admin-panel .promocodes .calendar .buttons {
+.admin-panel .calendar .buttons {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     padding: 0 20px 20px;
 }
 
-.admin-panel .promocodes .calendar .buttons .button {
+.admin-panel .calendar .buttons .button {
     background: transparent;
     border: none;
     text-transform: uppercase;
@@ -8279,7 +8285,7 @@ button.disabled {
     letter-spacing: -.1px;
 }
 
-.admin-panel .promocodes .calendar .buttons .button + .button {
+.admin-panel .calendar .buttons .button + .button {
     margin-top: 20px;
 }
 
