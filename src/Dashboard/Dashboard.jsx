@@ -305,6 +305,8 @@ class Dashboard extends React.Component {
                             title
                             imageURL
                             productFor
+                            wasFreezed
+                            freezeTime
                         }
                         active {
                             status {
@@ -316,6 +318,8 @@ class Dashboard extends React.Component {
                             title
                             imageURL
                             productFor
+                            wasFreezed
+                            freezeTime
                         }
                         overdue {
                             status {
@@ -327,6 +331,8 @@ class Dashboard extends React.Component {
                             title
                             imageURL
                             productFor
+                            wasFreezed
+                            freezeTime
                         }
                     }
                 }

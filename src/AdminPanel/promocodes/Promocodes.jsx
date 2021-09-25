@@ -125,10 +125,7 @@ class CreatePromocode extends React.Component {
         return (
             <div
                 className="create-promo-modal"
-                style={{
-                    ...style,
-                    top: scrollTo + 250
-                }}
+                style={style}
             >
                 <form
                     name="createPromocode"
@@ -388,8 +385,8 @@ export default class Promocodes extends React.Component {
                     style={
                         {
                             opacity: isCreatePromocodeShown ? 1 : 0,
-                            transform: `translateY(${isCreatePromocodeShown ? 0 : '-200%'})`,
-                            top: isCreatePromocodeShown ? '30px' : 0
+                            transform: `translateY(${isCreatePromocodeShown ? 0 : '-100%'})`,
+                            pointerEvents: isCreatePromocodeShown ? 'all' : 'none'
                         }
                     }
                     product={productToAddPromocode}
@@ -402,13 +399,6 @@ export default class Promocodes extends React.Component {
                     modalShown={isCreatePromocodeShown}
                 />
                 <Calendar
-                    style={
-                        {
-                            opacity: calendarShown ? 1 : 0,
-                            pointerEvents: calendarShown ? 'all' : 'none',
-                            top: scrollTo + 250
-                        }
-                    }
                     hideCalendar={this.hideCalendar}
                     setDate={this.setDate}
                     calendarShown={calendarShown}

@@ -20,7 +20,8 @@ class EditUser extends React.Component {
             isUserGotten: false,
             chooseRoleShown: false,
             calendarShown: false,
-            productName: ''
+            productName: '',
+            products: []
         };
         this.handleChangeUserData = this.handleChangeUserData.bind(this);
         this.editUser = this.editUser.bind(this);
@@ -31,6 +32,7 @@ class EditUser extends React.Component {
         this.getUser = this.getUser.bind(this);
         this.hideCalendar = this.hideCalendar.bind(this);
         this.setDate = this.setDate.bind(this);
+        this.freezeUserSubscription = this.freezeUserSubscription.bind(this);
     }
     async componentDidMount() {
         await this.getUser();
@@ -54,6 +56,8 @@ class EditUser extends React.Component {
                         activelyUntil
                         imageURL
                         productFor
+                        wasFreezed
+                        freezeTime
                     }
                     status {
                         isAdmin
@@ -70,6 +74,7 @@ class EditUser extends React.Component {
         Object.keys(user.status).map(status => userStatuses.push(status));
         user.subscriptions.map(sub => {
             sub.activelyUntil = new Date(sub.activelyUntil).toISOString().substr(0, 10);
+            sub.resetCooldown = false;
         });
         this.setState({
             user,
@@ -235,28 +240,50 @@ class EditUser extends React.Component {
     toggleRoleMenu() {
         this.setState({ chooseRoleShown: !this.state.chooseRoleShown });
     }
-    async changeActivelyUntil(activelyUntil, title) {
+    async changeActivelyUntil(subscription) {
         this.setState({ isUserGotten: false });
         const { name } = this.state.user;
-        
+        const { activelyUntil } = subscription;
+        const freezed = subscription.wasFreezed;
+
         const vars = {
-            title,
             date: (
                 new Date(activelyUntil).getTime()
                     ? new Date(activelyUntil).toISOString().substr(0, 10)
                     : ''
             ),
+            subscription,
             name
         };
+        await fetchData(`
+            mutation resetFreezeCooldown(
+                $title: String!,
+                $name: String!
+            ) {
+                resetFreezeCooldown(
+                    title: $title,
+                    name: $name
+                ) {
+                    message
+                    success
+                }
+            }
+        `, {
+            title: subscription.title,
+            name
+        });
+        delete subscription.resetCooldown;
+        delete subscription.wasFreezed;
+        delete subscription.freezeTime;
         const query = `
             mutation updateSubscriptionTime(
-                $title: String!,
                 $date: String!,
+                $subscription: SubscriptionInput!,
                 $name: String!
             ) {
                 updateSubscriptionTime(
-                    title: $title,
                     date: $date,
+                    subscription: $subscription,
                     name: $name
                 ) {
                     message
@@ -293,6 +320,30 @@ class EditUser extends React.Component {
         });
         this.hideCalendar();
     }
+    async freezeUserSubscription(title) {
+        this.setState({ isUserGotten: false });
+        const name = this.props.match.params.username;
+        console.log(name);
+
+        const vars = {
+            name,
+            title
+        };
+        const result = await fetchData(`
+            mutation freezeSubscription($name: String!, $title: String!) {
+                freezeSubscription(name: $name, title: $title) {
+                    message
+                    success
+                }
+            }
+        `, vars);
+
+        createNotification(
+            'success',
+            `Подписка ${title} у пользователя ${name} успешно заморожена!`
+        );
+        this.setState({ isUserGotten: true });
+    }
     render() {
         const {
             user,
@@ -308,7 +359,8 @@ class EditUser extends React.Component {
                 title,
                 activelyUntil,
                 productFor,
-                imageURL
+                imageURL,
+                resetCooldown
             } = sub;
 
             return (
@@ -339,7 +391,34 @@ class EditUser extends React.Component {
                     </div>
                     <div className="reset-freeze-cooldown">
                         <div className="checkbox-wrap">
-                            <input type="checkbox" className="checkbox" onChange={e => console.log(e.target.checked)} />
+                            <input
+                                type="checkbox"
+                                className="checkbox"
+                                onChange={e => {
+                                    const {
+                                        user
+                                    } = this.state;
+                                    const { subscriptions } = user;
+                                    const { name } = e.target;
+                                    let subIndex = 0;
+                                    for(let i = 0; i < subscriptions.length; i++) {
+                                        const sub = subscriptions[i];
+                                        if (sub.title == name) {
+                                            subIndex = i;
+                                            break;
+                                        }
+                                    }
+                                    subscriptions[subIndex].resetCooldown = !subscriptions[subIndex].resetCooldown;
+                                    this.setState({
+                                        user: {
+                                            ...user,
+                                            subscriptions
+                                        }
+                                    });
+                                }}
+                                value={resetCooldown}
+                                name={sub.title}
+                            />
                             <div className="checkbox-checked">
                                 <img src="/images/check-mark.png" className="check-mark" />
                             </div>
@@ -349,11 +428,16 @@ class EditUser extends React.Component {
                     <div className="buttons">
                         <button
                             className="button save"
-                            onClick={() => this.changeActivelyUntil(activelyUntil, title)}
+                            onClick={() => this.changeActivelyUntil(sub)}
                         >
                             Сохранить
                         </button>
-                        <button className="button freeze">Заморозить</button>
+                        <button
+                            className="button freeze"
+                            onClick={() => this.freezeUserSubscription(title)}
+                        >
+                            Заморозить
+                        </button>
                     </div>
                 </div>
             )

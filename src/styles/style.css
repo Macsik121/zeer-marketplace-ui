@@ -5091,13 +5091,13 @@ button.disabled {
 .admin-panel .edit-user .user-subscriptions .product .reset-freeze-cooldown {
     margin-top: 15px;
     display: flex;
-    justify-content: space-between;
     user-select: none;
     align-items: center;
 }
 
 .admin-panel .edit-user .user-subscriptions .product .reset-freeze-cooldown .label {
     font-size: 15.5px;
+    margin-left: 5px;
 }
 
 .admin-panel .edit-user .user-subscriptions .product .reset-freeze-cooldown .checkbox-wrap {
@@ -5950,9 +5950,9 @@ button.disabled {
 }
 
 .admin-panel .promocodes .create-promo-modal {
-    position: absolute;
+    position: fixed;
     top: 30px;
-    left: 0;
+    left: 212px;
     right: 0;
     margin: 0 auto;
     transition: 450ms;
@@ -6963,9 +6963,9 @@ button.disabled {
     flex-direction: column;
     width: 500px;
     height: 500px;
-    position: absolute;
-    top: 30px;
-    left: 0;
+    position: fixed;
+    top: 60px;
+    left: 212px;
     right: 0;
     margin: 0 auto;
     transition: 350ms;

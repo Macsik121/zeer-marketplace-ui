@@ -59,18 +59,8 @@ export default class Subscriptions extends React.Component {
         const query = `
             mutation unfreezeSubscription($name: String!, $title: String!) {
                 unfreezeSubscription(name: $name, title: $title) {
-                    subscriptions {
-                        title
-                        productFor
-                        activelyUntil
-                        status {
-                            isExpired
-                            isActive
-                            isFreezed
-                        }
-                        freezeTime
-                        wasFreezed
-                    }
+                    success
+                    message
                 }
             }
         `;
@@ -90,16 +80,8 @@ export default class Subscriptions extends React.Component {
         const query = `
             mutation freezeSubscription($name: String!, $title: String!) {
                 freezeSubscription(name: $name, title: $title) {
-                    subscriptions {
-                        title
-                        productFor
-                        activelyUntil
-                        status {
-                            isExpired
-                            isActive
-                            isFreezed
-                        }
-                    }
+                    message
+                    success
                 }
             }
         `;
@@ -108,6 +90,13 @@ export default class Subscriptions extends React.Component {
             title
         };
         await fetchData(query, vars);
+        const dateAccess = new Date().setMonth(new Date().getMonth() + 1);
+        createNotification(
+            'info',
+            `Вы заморозили подписку. Теперь она будет доступна ${
+                new Date(dateAccess).toLocaleString()
+            }`
+        );
         await this.props.getSubscriptions();
         this.setState({ isRequestSent: false });
     }
@@ -129,19 +118,23 @@ export default class Subscriptions extends React.Component {
         };
 
         const result = await fetchData(`
-            mutation activateKey($username: String!, $keyName: String!, $navigator: NavigatorInput) {
-                activateKey(username: $username, keyName: $keyName, navigator: $navigator)
+            mutation activateKey(
+                $username: String!,
+                $keyName: String!,
+                $navigator: NavigatorInput
+            ) {
+                activateKey(
+                    username: $username,
+                    keyName: $keyName,
+                    navigator: $navigator
+                )
             }
         `, vars);
 
         keyName.value = '';
         await this.props.getSubscriptions();
         this.setState({ isRequestSent: false });
-        if (result.activateKey == 'Такого ключа не существует') {
-            createNotification('error', result.activateKey);
-        } else {
-            createNotification('success', result.activateKey);
-        }
+        createNotification(result.success ? 'success' : 'error', result.activateKey);
     }
     showMessageModal() {
         this.setState({ isMessageShown: true });
@@ -173,11 +166,10 @@ export default class Subscriptions extends React.Component {
                 freezeTime,
                 wasFreezed,
             } = sub;
-            console.log(sub);
-            const freezeConditions = (
-                wasFreezed && new Date(freezeTime).getTime() - new Date().getTime() >= 0
-            );
-            console.log(freezeConditions);
+            const freezeConditions = wasFreezed;
+            // (
+            //     wasFreezed && new Date(freezeTime).getTime() - new Date().getTime() >= 0
+            // );
             if (!sub.status.isExpired) {
                 activeSubs.push(
                     <div key={title} className="subscription">
@@ -209,12 +201,6 @@ export default class Subscriptions extends React.Component {
                                             <button
                                                 className="button freeze"
                                                 onClick={this.freezeSubscription}
-                                                onMouseEnter={e => {
-                                                    e.target.style.background = 'rgba(255, 255, 255, .1)';
-                                                }}
-                                                onMouseLeave={e => {
-                                                    e.target.style.background = null;
-                                                }}
                                                 style={
                                                     {
                                                         background: (
@@ -229,7 +215,7 @@ export default class Subscriptions extends React.Component {
                                                         ),
                                                         color: (
                                                             freezeConditions
-                                                                ? '#1C1C24'
+                                                                ? 'rgb(100, 100, 100)'
                                                                 : '#fafafb'
                                                         )
                                                     }
@@ -378,7 +364,7 @@ export default class Subscriptions extends React.Component {
                                         <label>
                                             Показано {`${activeSubs.length} `}
                                             подписок из
-                                            {` ${
+                                            {`${
                                                 subscriptions.all &&
                                                     subscriptions.all.length - subscriptions.overdue.length
                                             }`}
@@ -389,8 +375,8 @@ export default class Subscriptions extends React.Component {
                                     <div className="show-all-wrap">
                                         <label style={{ margin: 0 }}>
                                             Показано {activeSubs.length}
-                                            &nbsp;подписок из
-                                            &nbsp;{subscriptions.all && subscriptions.all.length - subscriptions.overdue.length}
+                                            &nbsp;подписок из&nbsp;
+                                            {subscriptions.all && subscriptions.all.length - subscriptions.overdue.length}
                                         </label>
                                     </div>
                                 )
