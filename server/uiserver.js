@@ -10,7 +10,7 @@ import webpackConfig from '../webpack.config';
 import render from './render.jsx';
 const app = express();
 const port = process.env.PORT || 8000;
-const compiler = webpack(webpackConfig);
+// const compiler = webpack(webpackConfig);
 
 app.use(express.json());
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
