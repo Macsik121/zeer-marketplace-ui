@@ -57,7 +57,7 @@ export default class Calendar extends React.Component {
             activeDate: new Date(),
             chooseYearShown: false,
             chooseDateShown: true,
-            currentDayOfWeek: generateDayOfWeek()
+            currentDayOfWeek: new Date().getDay()
         };
         this.switchNextMonth = this.switchNextMonth.bind(this);
         this.switchPrevMonth = this.switchPrevMonth.bind(this);

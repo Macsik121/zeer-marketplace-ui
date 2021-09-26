@@ -65,11 +65,14 @@ export default class Statistics extends React.Component {
         const currentMonth = new Date().getMonth() + 1;
         const currentDay = new Date().getDay();
         currentDate.setDate(currentDate.getDate() - currentDay);
+        const from = new Date(new Date(currentDate).toISOString().substr(0, 10));
+        const to = new Date(from);
+        to.setDate(from.getDate() + 7);
 
         const vars = {
             week: {
-                from: new Date(new Date(currentDate).toISOString().substr(0, 10)),
-                to: new Date(`${currentYear}/${currentMonth}/${currentDate.getDate() + 7}`)
+                from,
+                to
             }
         };
 

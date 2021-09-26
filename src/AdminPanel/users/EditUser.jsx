@@ -13,7 +13,8 @@ class EditUser extends React.Component {
             user: {
                 name: '',
                 email: '',
-                status: {}
+                status: {},
+                subscriptions: []
             },
             userStatuses: [],
             oldUsername: '',
@@ -33,9 +34,33 @@ class EditUser extends React.Component {
         this.hideCalendar = this.hideCalendar.bind(this);
         this.setDate = this.setDate.bind(this);
         this.freezeUserSubscription = this.freezeUserSubscription.bind(this);
+        this.showCalendar = this.showCalendar.bind(this);
+        this.issueSubscription = this.issueSubscription.bind(this);
     }
     async componentDidMount() {
+        this.setState({ isUserGotten: false });
+
+        const result = await fetchData(`
+            query {
+                products {
+                    id
+                    title
+                    productFor
+                    imageURLdashboard
+                }
+            }
+        `);
+
+        const products = result.products;
+        products.map(product => {
+            product.activelyUntil = '';
+        });
+
         await this.getUser();
+        this.setState({
+            isUserGotten: true,
+            products
+        });
     }
     async getUser() {
         this.setState({ isUserGotten: false });
@@ -304,26 +329,43 @@ class EditUser extends React.Component {
         this.setState({ calendarShown: false });
     }
     setDate(date) {
-        const { productName, user } = this.state;
-        const subscriptionsCopy = [...user.subscriptions];
-        subscriptionsCopy.map(sub => {
+        const {
+            productName,
+            user
+        } = this.state;
+        const subscriptions = [...user.subscriptions];
+        const products = [...this.state.products];
+        const dateToSet = new Date(date).toISOString().substr(0, 10);
+        let subExists = false;
+        for(let i = 0; i < user.subscriptions.length; i++) {
+            const sub = subscriptions[i];
             if (sub.title.toLowerCase() == productName.toLowerCase()) {
-                sub.activelyUntil = new Date(date).toISOString().substr(0, 10);
+                sub.activelyUntil = dateToSet;
+                subExists = true;
+                break;
             }
-        });
+        }
 
-        this.setState({
-            user: {
-                ...user,
-                subscriptions: subscriptionsCopy
-            }
-        });
+        if (subExists) {
+            this.setState({
+                user: {
+                    ...user,
+                    subscriptions
+                }
+            });
+        } else {
+            products.map(product => {
+                if (product.title == productName) {
+                    product.activelyUntil = dateToSet;
+                }
+            });
+            this.setState({ products });
+        };
         this.hideCalendar();
     }
     async freezeUserSubscription(title) {
         this.setState({ isUserGotten: false });
         const name = this.props.match.params.username;
-        console.log(name);
 
         const vars = {
             name,
@@ -340,8 +382,66 @@ class EditUser extends React.Component {
 
         createNotification(
             'success',
-            `Подписка ${title} у пользователя ${name} успешно заморожена!`
+            `Вы успешно заморозили продукт ${title} у пользователя ${name}`
         );
+        this.setState({ isUserGotten: true });
+    }
+    showCalendar(e) {
+        const { name } = e.target;
+        this.setState({
+            calendarShown: true,
+            productName: name
+        });
+    }
+    async issueSubscription(title) {
+        const name = this.props.match.params.username;
+        this.setState({ isUserGotten: false });
+        let matchedProduct = {};
+        const { products } = this.state;
+        for(let i = 0; i < products.length; i++) {
+            const product = products[i];
+            if (product.title == title) {
+                matchedProduct = product;
+                break;
+            }
+        }
+        const {
+            activelyUntil,
+            productFor,
+            imageURL
+        } = matchedProduct;
+
+        const subscription = {
+            title,
+            activelyUntil,
+            productFor,
+            imageURL,
+            wasFreezed: false,
+            freezeTime: new Date(),
+            status: {
+                isActive: true,
+                isExpired: false,
+                isFreezed: false
+            }
+        };
+
+        const query = `
+            mutation issueSubscription($name: String!, $subscription: SubscriptionInput!) {
+                issueSubscription(name: $name, subscription: $subscription) {
+                    message
+                    success
+                }
+            }
+        `;
+        const vars = {
+            name,
+            subscription
+        };
+        let result = await fetchData(query, vars);
+        result = result.issueSubscription;
+
+        createNotification(result.success ? 'success' : 'error', result.message);
+        await this.getUser();
         this.setState({ isUserGotten: true });
     }
     render() {
@@ -350,11 +450,54 @@ class EditUser extends React.Component {
             isUserGotten,
             chooseRoleShown,
             userStatuses,
-            calendarShown,
-
+            calendarShown
         } = this.state;
 
-        const products = user.subscriptions && user.subscriptions.map(sub => {
+        const products = this.state.products.map((product, i) => {
+            const {
+                title,
+                imageURLdashboard,
+                productFor,
+                activelyUntil
+            } = product;
+
+            return (
+                <div key={i} className="product">
+                    <img className="cover" src={imageURLdashboard} />
+                    <div className="product-title">
+                        {title}{' | '}{productFor}
+                    </div>
+                    <div className="edit-actively-until-form field-wrap">
+                        <label className="label">Подписка активна:</label>
+                        <input
+                            type="text"
+                            name={title}
+                            value={
+                                activelyUntil == ''
+                                    ? 'Этой подписки у пользователя не существует.'
+                                    : (
+                                        new Date(activelyUntil)
+                                            .toISOString()
+                                            .substr(0, 10)
+                                    )
+                            }
+                            className="edit-actively-until field"
+                            readOnly
+                            onClick={this.showCalendar}
+                        />
+                    </div>
+                    <div className="buttons">
+                        <button
+                            className="button save"
+                            onClick={() => this.issueSubscription(title)}
+                        >
+                            Сохранить
+                        </button>
+                    </div>
+                </div>
+            )
+        });
+        let subscriptions = user.subscriptions && user.subscriptions.map(sub => {
             const {
                 title,
                 activelyUntil,
@@ -364,7 +507,7 @@ class EditUser extends React.Component {
             } = sub;
 
             return (
-                <div key={sub.title} className="product">
+                <div key={title} className="product">
                     <img className="cover" src={imageURL} />
                     <div className="product-title">
                         {title}{' | '}{productFor}
@@ -381,12 +524,7 @@ class EditUser extends React.Component {
                             }
                             className="edit-actively-until field"
                             readOnly
-                            onClick={e => {
-                                this.setState({
-                                    calendarShown: true,
-                                    productName: e.target.name
-                                });
-                            }}
+                            onClick={this.showCalendar}
                         />
                     </div>
                     <div className="reset-freeze-cooldown">
@@ -443,6 +581,28 @@ class EditUser extends React.Component {
             )
         });
 
+        if (subscriptions.length > 0) {
+            for(let i = 0; i < this.state .products.length; i++) {
+                const product = this.state.products[i];
+                let subscriptionExists = false;
+                for(let j = 0; j < user.subscriptions.length; j++) {
+                    const subscription = user.subscriptions[j];
+                    if (
+                        product.title == subscription.title &&
+                        product.productFor == subscription.productFor
+                    ) {
+                        subscriptionExists = true;
+                        break;
+                    }
+                }
+                if (!subscriptionExists) {
+                    subscriptions.push(products[i]);
+                }
+            }
+        } else {
+            subscriptions = products;
+        }
+
         const menuContent = userStatuses.map(status => {
             if (status == 'isAdmin') status = 'Админ';
             else if (status == 'isBanned') status = 'Забаненный';
@@ -485,7 +645,7 @@ class EditUser extends React.Component {
                     }
                 >
                     <div className="user-subscriptions">
-                        {products}
+                        {subscriptions}
                     </div>
                     <div className="edit-forms">
                         <form
