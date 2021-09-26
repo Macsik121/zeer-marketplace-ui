@@ -91,6 +91,10 @@ export default class Subscriptions extends React.Component {
         };
         await fetchData(query, vars);
         const dateAccess = new Date().setMonth(new Date().getMonth() + 1);
+        createNotification(
+            'info',
+            `Вы заморозили подписку ${title}`
+        );
         await this.props.getSubscriptions();
         this.setState({ isRequestSent: false });
     }
