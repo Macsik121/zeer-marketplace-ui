@@ -6,12 +6,12 @@ import fileUpload from 'express-fileupload';
 // import webpack from 'webpack';
 // import webpackDevMiddleware from 'webpack-dev-middleware';
 // import webpackHotMiddleware from 'webpack-hot-middleware';
-import webpackConfig from '../webpack.config';
+// import webpackConfig from '../webpack.config';
 import render from './render.jsx';
 const app = express();
 const port = process.env.PORT || 8000;
 // const compiler = webpack(webpackConfig);
-app
+
 app.use(express.json());
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
