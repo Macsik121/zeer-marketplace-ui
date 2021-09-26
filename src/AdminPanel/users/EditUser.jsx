@@ -95,6 +95,7 @@ class EditUser extends React.Component {
 
         const result = await fetchData(query, { name: username });
         const { user } = result;
+        console.log(user);
         const userStatuses = [];
         Object.keys(user.status).map(status => userStatuses.push(status));
         user.subscriptions.map(sub => {
@@ -408,14 +409,14 @@ class EditUser extends React.Component {
         const {
             activelyUntil,
             productFor,
-            imageURL
+            imageURLdashboard
         } = matchedProduct;
 
         const subscription = {
             title,
             activelyUntil,
             productFor,
-            imageURL,
+            imageURL: imageURLdashboard,
             wasFreezed: false,
             freezeTime: new Date(),
             status: {
@@ -474,7 +475,7 @@ class EditUser extends React.Component {
                             name={title}
                             value={
                                 activelyUntil == ''
-                                    ? 'Этой подписки у пользователя не существует.'
+                                    ? new Date('1980-01-01').toISOString().substr(0, 10)
                                     : (
                                         new Date(activelyUntil)
                                             .toISOString()
@@ -505,6 +506,7 @@ class EditUser extends React.Component {
                 imageURL,
                 resetCooldown
             } = sub;
+            console.log(sub);
 
             return (
                 <div key={title} className="product">
