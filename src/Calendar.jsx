@@ -337,6 +337,21 @@ export default class Calendar extends React.Component {
                         onClick={() => {
                             const date = `${currentYear}-${++currentMonth}-${currentDay}`;
                             setDate(date);
+                            const currentDate = new Date();
+                            const day = currentDate.getDate();
+                            const dayOfWeek = currentDate.getDay();
+                            const month = currentDate.getMonth();
+                            const year = currentDate.getFullYear();
+                            this.setState({
+                                currentDay: day,
+                                currentDayOfWeek: dayOfWeek,
+                                currentMonth: month,
+                                currentYear: year,
+                                activeDay: day,
+                                activeMonth: month,
+                                activeYear: year,
+                                activeDate: new Date()
+                            });
                         }}
                     >
                         установить
