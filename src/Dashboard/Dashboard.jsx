@@ -3,7 +3,7 @@ import { Switch, Route, withRouter } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import { CircularProgress } from '@material-ui/core';
 import fetchData from '../fetchData';
-import createNotification from '../createNotification';
+import store from '../store';
 import Lobby from './Lobby.jsx';
 import Products from './Products.jsx';
 import Subscriptions from './Subscriptions.jsx';
@@ -17,7 +17,7 @@ import fetchPopularProducts from '../PopularProducts';
 import ResetBinding from './ResetBinding.jsx';
 import ChoosingCostModal from './ChoosingCostModal.jsx'
 
-const uiEndpoint = 'http://localhost:8080';
+const uiEndpoint = store.__UI_SERVER_ENDPOINT__;
 
 class Dashboard extends React.Component {
     constructor() {
@@ -181,37 +181,7 @@ class Dashboard extends React.Component {
         this.setState({ user: result.user });
     }
     async buyProduct(title = '', cost = 1, days = 30) {
-        // window.location.href = `
-        //     https://paymaster.ru/payment/init?LMI_MERCHANT_ID=77aa76b8-1551-42c5-be5f-f49d6330260f&LMI_PAYMENT_AMOUNT=${cost}&LMI_CURRENCY=RUB&LMI_PAYMENT_DESC=Оплата%20товара%20${title}%20на%20${days == 360 ? '1 год' : days}%20${days == 360 ? '' : days == 1 ? 'день' : 'дней'}&LMI_SUCCESS_URL=${uiEndpoint}/dashboard/subscriptions&LMI_FAIL_URL=${uiEndpoint}/dashboard/products&LMI_SHOPPINGCART.ITEMS[N].NAME=${title}&LMI_SHOPPINGCART.ITEMS[N].QTY=1&LMI_SHOPPINGCART.ITEMS[N].PRICE=${cost}&LMI_SHOPPINGCART.ITEMS[N].TAX=no_vat
-        // `;
-        this.setState({ productsRequestMaking: true });
-
-        const query = `
-            mutation buyProduct(
-                $title: String!,
-                $name: String!,
-                $navigator: NavigatorInput,
-                $productCost: Int!
-            ) {
-                buyProduct(
-                    title: $title,
-                    name: $name,
-                    navigator: $navigator,
-                    productCost: $productCost
-                ) {
-                    id
-                    title
-                    productFor
-                    costPerDay
-                    peopleBought {
-                        avatar
-                        name
-                    }
-                }
-            }
-        `;
         const user = jwtDecode(localStorage.getItem('token'));
-
         const vars = {
             title,
             name: user.name,
@@ -221,15 +191,44 @@ class Dashboard extends React.Component {
             },
             productCost: cost
         };
+        window.location.href = `
+            https://paymaster.ru/payment/init?LMI_MERCHANT_ID=77aa76b8-1551-42c5-be5f-f49d6330260f&LMI_PAYMENT_AMOUNT=${cost}&LMI_CURRENCY=RUB&LMI_PAYMENT_DESC=Оплата%20товара%20${title}%20на%20${days == 360 ? '1 год' : days}%20${days == 360 ? '' : days == 1 ? 'день' : 'дней'}&LMI_SUCCESS_URL=${uiEndpoint}/confirmation-payment/${vars.name}/${vars.title}/${vars.productCost}/${vars.navigator.platform}/left_ditch&LMI_FAIL_URL=${uiEndpoint}/failure-payment&LMI_SHOPPINGCART.ITEMS[N].NAME=${title}&LMI_SHOPPINGCART.ITEMS[N].QTY=1&LMI_SHOPPINGCART.ITEMS[N].PRICE=${cost}&LMI_SHOPPINGCART.ITEMS[N].TAX=no_vat
+        `;
+        // this.setState({ productsRequestMaking: true });
 
-        const result = await fetchData(query, vars);
+        // const query = `
+            // mutation buyProduct(
+            //     $title: String!,
+            //     $name: String!,
+            //     $navigator: NavigatorInput,
+            //     $productCost: Int!
+            // ) {
+            //     buyProduct(
+            //         title: $title,
+            //         name: $name,
+            //         navigator: $navigator,
+            //         productCost: $productCost
+            //     ) {
+            //         id
+            //         title
+            //         productFor
+            //         costPerDay
+            //         peopleBought {
+            //             avatar
+            //             name
+            //         }
+            //     }
+            // }
+        // `;
 
-        await this.getSubscriptions();
-        this.props.history.push('/dashboard/subscriptions');
-        createNotification('success', `Поздравляем, вы купили продукт ${title}!`);
-        await this.getPopularProducts();
-        await this.getProducts();
-        this.setState({ productsRequestMaking: false });
+        // const result = await fetchData(query, vars);
+
+        // await this.getSubscriptions();
+        // this.props.history.push('/dashboard/subscriptions');
+        // createNotification('success', `Поздравляем, вы купили продукт ${title}!`);
+        // await this.getPopularProducts();
+        // await this.getProducts();
+        // this.setState({ productsRequestMaking: false });
     }
     async getProducts() {
         this.setState({ productsRequestMaking: true });

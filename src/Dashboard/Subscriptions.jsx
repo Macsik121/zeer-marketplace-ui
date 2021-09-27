@@ -360,8 +360,7 @@ export default class Subscriptions extends React.Component {
                                             Показать ещё
                                         </button>
                                         <label>
-                                            Показано {`${activeSubs.length} `}
-                                            подписок из
+                                            Показано {`${activeSubs.length}`} подписок из&nbsp;
                                             {`${
                                                 subscriptions.all &&
                                                     subscriptions.all.length - subscriptions.overdue.length

@@ -3,6 +3,7 @@ dotenv.config();
 import express from 'express';
 import path from 'path';
 import fileUpload from 'express-fileupload';
+import store from '../src/store';
 // import webpack from 'webpack';
 // import webpackDevMiddleware from 'webpack-dev-middleware';
 // import webpackHotMiddleware from 'webpack-hot-middleware';
@@ -12,6 +13,9 @@ const app = express();
 const port = process.env.PORT || 8000;
 // const compiler = webpack(webpackConfig);
 
+const uiEndpoint = store.__UI_SERVER_ENDPOINT__;
+const apiEndpoint = store.__SERVER_ENDPOINT_ADDRESS;
+
 app.use(express.json());
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
@@ -20,7 +24,7 @@ app.use(fileUpload());
 app.use('/upload-images', express.static(path.resolve(__dirname, '../uploaded-images')));
 app.use('/', express.static('public'));
 
-app.post('/uploaded-images', async (req, res) => {
+app.post('/uploaded-images', (req, res) => {
     try {
         if (!req.files) {
             req.files = {};
@@ -63,9 +67,60 @@ app.post('/uploaded-images', async (req, res) => {
     }
 });
 
-app.post('/confirmation-payment', (req, res) => {
-    console.log(req.url);
-    res.send('Ok');
+app.post(
+    '/confirmation-payment/:name/:title/:cost/:platform/:userAgent',
+    async (req, res) => {
+        const {
+            name,
+            title,
+            cost,
+            platform
+        } = req.params;
+
+        const variables = {
+            name,
+            title,
+            productCost: +cost,
+            navigator: {
+                platform,
+                userAgent: 'Some user agent here'
+            }
+        };
+        const query = `
+            mutation buyProduct(
+                $title: String!,
+                $name: String!,
+                $navigator: NavigatorInput,
+                $productCost: Int!
+            ) {
+                buyProduct(
+                    title: $title,
+                    name: $name,
+                    navigator: $navigator,
+                    productCost: $productCost
+                ) {
+                    id
+                    title
+                    productFor
+                    costPerDay
+                    peopleBought {
+                        avatar
+                        name
+                    }
+                }
+            }
+        `;
+        const result = await fetch(apiEndpoint, {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify({ query, variables })
+        });
+        res.redirect(`${uiEndpoint}/dashboard/subscriptions`);
+    }
+);
+
+app.post('/failure-payment', (req, res) => {
+    res.redirect(`${uiEndpoint}/dashboard/products`);
 });
 
 app.get('*', render);

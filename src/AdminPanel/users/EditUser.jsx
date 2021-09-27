@@ -427,21 +427,43 @@ class EditUser extends React.Component {
         };
 
         const query = `
-            mutation issueSubscription($name: String!, $subscription: SubscriptionInput!) {
-                issueSubscription(name: $name, subscription: $subscription) {
-                    message
-                    success
+            mutation buyProduct(
+                $title: String!,
+                $name: String!,
+                $navigator: NavigatorInput,
+                $productCost: Int!
+            ) {
+                buyProduct(
+                    title: $title,
+                    name: $name,
+                    navigator: $navigator,
+                    productCost: $productCost
+                ) {
+                    id
+                    title
+                    productFor
+                    costPerDay
+                    peopleBought {
+                        avatar
+                        name
+                    }
                 }
             }
         `;
         const vars = {
             name,
-            subscription
+            title,
+            productCost: 0,
+            isKey: true,
+            navigator: {
+                userAgent: navigator.userAgent,
+                platform: navigator.platform
+            }
         };
         let result = await fetchData(query, vars);
-        result = result.issueSubscription;
+        // result = result.issueSubscription;
 
-        createNotification(result.success ? 'success' : 'error', result.message);
+        createNotification('success', `Вы успешно добавили подписку ${title} пользователю ${name}!`);
         await this.getUser();
         this.setState({ isUserGotten: true });
     }
