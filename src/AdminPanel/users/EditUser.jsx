@@ -95,7 +95,6 @@ class EditUser extends React.Component {
 
         const result = await fetchData(query, { name: username });
         const { user } = result;
-        console.log(user);
         const userStatuses = [];
         Object.keys(user.status).map(status => userStatuses.push(status));
         user.subscriptions.map(sub => {
@@ -431,13 +430,17 @@ class EditUser extends React.Component {
                 $title: String!,
                 $name: String!,
                 $navigator: NavigatorInput,
-                $productCost: Int!
+                $productCost: Int!,
+                $issueSub: Boolean,!
+                $activelyUntilDate: Date!
             ) {
                 buyProduct(
                     title: $title,
                     name: $name,
                     navigator: $navigator,
-                    productCost: $productCost
+                    productCost: $productCost,
+                    issueSub: $issueSub,
+                    activelyUntilDate: $activelyUntilDate
                 ) {
                     id
                     title
@@ -458,7 +461,9 @@ class EditUser extends React.Component {
             navigator: {
                 userAgent: navigator.userAgent,
                 platform: navigator.platform
-            }
+            },
+            issueSub: true,
+            activelyUntilDate: new Date(activelyUntil)
         };
         let result = await fetchData(query, vars);
         // result = result.issueSubscription;

@@ -31,6 +31,7 @@ class Product extends React.Component {
     }
     async componentDidMount() {
         await this.loadProduct();
+        this.setState({  });
     }
     async loadProduct() {
         if (this.props.product) {
@@ -335,7 +336,7 @@ class Product extends React.Component {
                                     <li className="characteristic">
                                         <div className="wrap">
                                             <span className="name">Версия игры:</span>
-                                            {' '}
+                                            &nbsp;
                                             <span className="value">
                                                 {product.characteristics &&
                                                     product.characteristics.version
@@ -346,7 +347,7 @@ class Product extends React.Component {
                                     <li className="characteristic">
                                         <div className="wrap">
                                             <span className="name">Поддерживаемые ОС:</span>
-                                            {' '}
+                                            &nbsp;
                                             <span className="value">
                                                 {product.characteristics &&
                                                     product.characteristics.osSupport
@@ -357,7 +358,7 @@ class Product extends React.Component {
                                     <li className="characteristic">
                                         <div className="wrap">
                                             <span className="name">Поддерживаемые процессоры:</span>
-                                            {' '}
+                                            &nbsp;
                                             <span className="value">
                                                 {product.characteristics &&
                                                     product.characteristics.cpuSupport
@@ -368,7 +369,7 @@ class Product extends React.Component {
                                     <li className="characteristic">
                                         <div className="wrap">
                                             <span className="name">Режим игры:</span>
-                                            {' '}
+                                            &nbsp;
                                             <span className="value">
                                                 {product.characteristics &&
                                                     product.characteristics.gameMode
@@ -379,7 +380,7 @@ class Product extends React.Component {
                                     <li className="characteristic">
                                         <div className="wrap">
                                             <span className="name">Разработчик:</span>
-                                            {' '}
+                                            &nbsp;
                                             <span className="value">
                                                 {product.characteristics &&
                                                     product.characteristics.developer
@@ -390,7 +391,7 @@ class Product extends React.Component {
                                     <li className="characteristic">
                                         <div className="wrap">
                                             <span className="name">Поддерживаемые античиты:</span>
-                                            {' '}
+                                            &nbsp;
                                             <span className="value">
                                                 {product.characteristics &&
                                                     product.characteristics.supportedAntiCheats
@@ -423,6 +424,7 @@ class Product extends React.Component {
                                     <button
                                         onClick={() => {
                                             let { choosenDropdown } = this.state;
+                                            console.log(choosenDropdown);
                                             let days = 1;
                                             let productCost = 1;
                                             product.allCost.map(cost => {
