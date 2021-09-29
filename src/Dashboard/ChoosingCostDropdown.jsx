@@ -23,9 +23,6 @@ export default class ChoosingCostDropdown extends React.Component {
                 getChoosenDropdown(allCost[0].menuText);
             };
         }
-        // if (costPerDay && prevProps.costPerDay != costPerDay) {
-        //     if (getCost) getCost(cost);
-        // };
     }
     calculateCost(cost) {
         const { getCost, getChoosenDropdown } = this.props;
@@ -34,7 +31,7 @@ export default class ChoosingCostDropdown extends React.Component {
         if (getCost) getCost(cost);
     }
     render() {
-        const { cost, allCost } = this.props;
+        const { allCost } = this.props;
         let {
             showDropdown,
             choosenDropdown

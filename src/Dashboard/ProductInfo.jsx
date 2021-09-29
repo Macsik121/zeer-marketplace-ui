@@ -68,6 +68,7 @@ class ProductInfo extends React.Component {
                         cost
                         costPer
                         menuText
+                        days
                     }
                 }
             }

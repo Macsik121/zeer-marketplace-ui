@@ -1,6 +1,5 @@
 .slider {
     position: relative;
-    margin-top: 50px;
 }
 
 .slider .slick-track {
@@ -11,6 +10,10 @@
 
 .slider .slick-list {
     width: 1170px;
+    min-height: 410px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 }
 
 .slider .slick-arrow {

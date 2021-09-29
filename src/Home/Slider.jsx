@@ -64,7 +64,6 @@ export default class Slider extends React.Component {
                         className={this.props.className}
                         styles={{ background: product.imageURL }}
                         product={product}
-                        // _key={product.title}
                     />
                 }
                 showLogin={this.props.showLogin}

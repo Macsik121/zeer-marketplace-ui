@@ -424,20 +424,21 @@ class Product extends React.Component {
                                     <button
                                         onClick={() => {
                                             let { choosenDropdown } = this.state;
-                                            console.log(choosenDropdown);
                                             let days = 1;
                                             let productCost = 1;
                                             product.allCost.map(cost => {
                                                 if (cost.menuText.toLowerCase() == choosenDropdown.toLowerCase()) {
+                                                    console.log(cost);
                                                     productCost = cost.cost;
+                                                    days = cost.days;
                                                 }
                                             });
                                             if (buyProduct) {
-                                                buyProduct(
-                                                    product.title,
-                                                    productCost,
-                                                    days
-                                                );
+                                                // buyProduct(
+                                                //     product.title,
+                                                //     productCost,
+                                                //     days
+                                                // );
                                             }
                                             return;
                                         }}

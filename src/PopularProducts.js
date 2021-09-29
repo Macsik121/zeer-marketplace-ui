@@ -27,6 +27,7 @@ async function fetchPopularProducts(amountToGet = 3) {
                     cost
                     costPer
                     menuText
+                    days
                 }
             }
         }

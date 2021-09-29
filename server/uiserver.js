@@ -68,23 +68,28 @@ app.post('/uploaded-images', (req, res) => {
 });
 
 app.post(
-    '/confirmation-payment/:name/:title/:cost/:platform/:userAgent',
+    '/confirmation-payment/:name/:title/:cost/:days/:platform/:userAgent',
     async (req, res) => {
         const {
             name,
             title,
             cost,
-            platform
+            platform,
+            days,
+            userAgent
         } = req.params;
-
+        const monthDays = new Date().getDate();
+        let activelyUntilDate = new Date().setDate(monthDays + +days);
+        console.log(activelyUntilDate);
         const variables = {
             name,
             title,
             productCost: +cost,
             navigator: {
                 platform,
-                userAgent: 'Some user agent here'
-            }
+                userAgent
+            },
+            activelyUntilDate
         };
         const query = `
             mutation buyProduct(

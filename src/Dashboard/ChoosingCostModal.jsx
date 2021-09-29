@@ -41,15 +41,16 @@ export default class ChoosingCostModal extends React.Component {
         } = this.state;
         const { costPerDay, title } = product;
         let costToBuy = 1;
+        let days = 1;
         if (product.allCost) {
             product.allCost.map(cost => {
                 if (cost.menuText.toLowerCase() == choosenDropdown.toLowerCase()) {
                     costToBuy = cost.cost;
+                    days = cost.days;
                 }
             });
         }
-
-        let days = 1;
+        console.log(days);
 
         return (
             <div
