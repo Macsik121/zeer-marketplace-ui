@@ -142,7 +142,7 @@ class Signup extends React.Component {
             localStorage.setItem('token', signUpAttempt.token);
             this.props.getUser();
             this.props.history.push('/dashboard');
-            createNotification('success', 'Вы успешно зарегестрированы!');
+            createNotification('success', 'Вы успешно зарегистрированы!');
             this.setState({ isRequestMaking: false });
             return;
         } else {

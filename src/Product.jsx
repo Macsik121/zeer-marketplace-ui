@@ -65,6 +65,7 @@ class Product extends React.Component {
                             cost
                             costPer
                             menuText
+                            days
                         }
                         peopleBought {
                             name
@@ -428,17 +429,16 @@ class Product extends React.Component {
                                             let productCost = 1;
                                             product.allCost.map(cost => {
                                                 if (cost.menuText.toLowerCase() == choosenDropdown.toLowerCase()) {
-                                                    console.log(cost);
                                                     productCost = cost.cost;
                                                     days = cost.days;
                                                 }
                                             });
                                             if (buyProduct) {
-                                                // buyProduct(
-                                                //     product.title,
-                                                //     productCost,
-                                                //     days
-                                                // );
+                                                buyProduct(
+                                                    product.title,
+                                                    productCost,
+                                                    days
+                                                );
                                             }
                                             return;
                                         }}

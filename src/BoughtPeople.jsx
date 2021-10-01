@@ -47,7 +47,7 @@ export default function BoughtPeople({ people, renderPeopleLimit = 3 }) {
                         </div>
                         <label className="bought-amount">
                             +{people && people.length}
-                            <span>Уже преобрели этот продукт</span>
+                            <span>Уже приобрели этот продукт</span>
                         </label>
                     </div>
                 )

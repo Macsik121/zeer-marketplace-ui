@@ -19,7 +19,6 @@ export default class ChoosingCostModal extends React.Component {
             this.setState({ product });
         }
         if (product.allCost && prevProps.product.allCost != product.allCost) {
-            console.log('product.allCost does not equal to prevprops.product.allCst');
             this.setState({ choosenDropdown: product.allCost[0].menuText });
         }
     }
@@ -50,7 +49,6 @@ export default class ChoosingCostModal extends React.Component {
                 }
             });
         }
-        console.log(days);
 
         return (
             <div

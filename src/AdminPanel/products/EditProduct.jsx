@@ -5,6 +5,7 @@ import fetch from 'isomorphic-fetch';
 import jwtDecode from 'jwt-decode';
 import DeleteIcon from '@material-ui/icons/Delete';
 import fetchData from '../../fetchData';
+import createNotification from '../../createNotification';
 import Product from '../../Product.jsx';
 
 class EditProduct extends React.Component {
@@ -37,6 +38,7 @@ class EditProduct extends React.Component {
             menuTextToAdd: '',
             costToAdd: 0,
             costPerToAdd: '',
+            daysToAdd: '',
             additionalMenuShown: false,
             additionalMenu: [
                 {
@@ -413,15 +415,9 @@ class EditProduct extends React.Component {
     addCostChange(e) {
         const name = e.target.name;
         let inputValue = e.target.value;
-        if (!isNaN(+inputValue)) {
-            inputValue = +inputValue;
-        }
-        // this.setState({
-        //     product: {
-        //         ...product,
-        //         allCost
-        //     }
-        // });
+        // if (!isNaN(+inputValue)) {
+        //     inputValue = +inputValue;
+        // }
         this.setState({ [name + 'ToAdd']: inputValue });
     }
     async addCost() {
@@ -429,14 +425,16 @@ class EditProduct extends React.Component {
         const {
             costToAdd,
             costPerToAdd,
-            menuTextToAdd
+            menuTextToAdd,
+            daysToAdd
         } = this.state;
         const vars = {
             title: this.props.match.params.title,
             cost: {
-                cost: costToAdd,
+                cost: +costToAdd,
                 costPer: costPerToAdd,
-                menuText: menuTextToAdd
+                menuText: menuTextToAdd,
+                days: +daysToAdd
             }
         };
 
@@ -493,7 +491,8 @@ class EditProduct extends React.Component {
             choosenEditingTime,
             chooseTimeShown,
             additionalMenuShown,
-            additionalMenu
+            additionalMenu,
+            daysToAdd
         } = this.state;
 
         const { allCost } = product;
@@ -703,7 +702,7 @@ class EditProduct extends React.Component {
                             />
                         </div>
                         <div className="field-wrap">
-                            <label>Режми игры:</label>
+                            <label>Режим игры:</label>
                             <input
                                 type="text"
                                 className="field"
@@ -843,6 +842,22 @@ class EditProduct extends React.Component {
                                                         {additionalMenuItems}
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div className="field days-field-wrap">
+                                                <input
+                                                    type="text"
+                                                    className="field days-field"
+                                                    name="days"
+                                                    placeholder="Дни..."
+                                                    value={daysToAdd}
+                                                    onChange={this.addCostChange}
+                                                />
+                                                <span
+                                                    className="info"
+                                                    onClick={() => createNotification('info', 'Количество дней, которое будет прибавляться к подписке при покупке')}
+                                                >
+                                                    i
+                                                </span>
                                             </div>
                                             <button
                                                 type="button"

@@ -576,6 +576,12 @@ button.disabled {
     position: relative;
     padding: 40px 30px 50px 30px;
     z-index: 2;
+    transition: 300ms;
+}
+
+.home .advantages .advantage:hover {
+    transform: translateY(-15px);
+    box-shadow: 0px 2px 10px 1px rgba(255,255,255, .1);
 }
 
 .home .advantages .advantage .advantage-title {
@@ -2206,6 +2212,7 @@ button.disabled {
     line-height: 14px;
     margin-left: 5px;
     min-width: 190px;
+    text-align: left;
 }
 
 .info .product .main .actions {
@@ -7291,7 +7298,6 @@ button.disabled {
     word-break: break-word;
     width: 10%;
     pointer-events: none;
-    user-select: none;
     max-height: 36px;
     overflow: hidden;
 }
@@ -7805,6 +7811,38 @@ button.disabled {
     letter-spacing: .1px;
     background-color: #FAFAFB;
     border: none;
+}
+
+.admin-panel .edit-product .editing-product-form .change-product .field-wrap .days-field-wrap {
+    margin-top: 15px;
+    padding: 0 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-panel .edit-product .editing-product-form .change-product .field-wrap .days-field-wrap .field {
+    padding-left: 0;
+}
+
+.admin-panel .edit-product .editing-product-form .change-product .field-wrap .days-field-wrap .info {
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-style: italic;
+    border: 1px solid #1C1C24;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+    background-color: #fff;
+    transition: 300ms;
+    font-size: 16px;
+}
+
+.admin-panel .edit-product .editing-product-form .change-product .field-wrap .days-field-wrap .info:hover {
+    filter: invert();
 }
 
 .admin-panel .edit-product .editing-product-form .change-product .field-wrap.description-field {

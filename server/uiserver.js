@@ -78,9 +78,6 @@ app.post(
             days,
             userAgent
         } = req.params;
-        const monthDays = new Date().getDate();
-        let activelyUntilDate = new Date().setDate(monthDays + +days);
-        console.log(activelyUntilDate);
         const variables = {
             name,
             title,
@@ -89,20 +86,22 @@ app.post(
                 platform,
                 userAgent
             },
-            activelyUntilDate
+            days: +days
         };
         const query = `
             mutation buyProduct(
                 $title: String!,
                 $name: String!,
                 $navigator: NavigatorInput,
-                $productCost: Int!
+                $productCost: Int!,
+                $days: Int!
             ) {
                 buyProduct(
                     title: $title,
                     name: $name,
                     navigator: $navigator,
-                    productCost: $productCost
+                    productCost: $productCost,
+                    days: $days
                 ) {
                     id
                     title

@@ -125,14 +125,21 @@ export default class Subscriptions extends React.Component {
                     username: $username,
                     keyName: $keyName,
                     navigator: $navigator
-                )
+                ) {
+                    message
+                    success
+                }
             }
         `, vars);
 
         keyName.value = '';
         await this.props.getSubscriptions();
         this.setState({ isRequestSent: false });
-        createNotification(result.success ? 'success' : 'error', result.activateKey);
+        const {
+            message,
+            success
+        } = result.activateKey;
+        createNotification(success ? 'success' : 'error', message);
     }
     showMessageModal() {
         this.setState({ isMessageShown: true });

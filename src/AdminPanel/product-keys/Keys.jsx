@@ -59,8 +59,19 @@ class CreateKey extends React.Component {
         }
 
         const result = await fetchData(`
-            mutation createKeys($key: KeyInput!, $title: String!, $navigator: NavigatorInput, $username: String!) {
-                createKeys(key: $key, title: $title, navigator: $navigator, username: $username)            }
+            mutation createKeys(
+                $key: KeyInput!,
+                $title: String!,
+                $navigator: NavigatorInput,
+                $username: String!
+            ) {
+                createKeys(
+                    key: $key,
+                    title: $title,
+                    navigator: $navigator,
+                    username: $username
+                )
+            }
         `, vars);
 
         this.props.getProducts();

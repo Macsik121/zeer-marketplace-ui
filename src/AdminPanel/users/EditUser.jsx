@@ -406,24 +406,8 @@ class EditUser extends React.Component {
             }
         }
         const {
-            activelyUntil,
-            productFor,
-            imageURLdashboard
+            activelyUntil
         } = matchedProduct;
-
-        const subscription = {
-            title,
-            activelyUntil,
-            productFor,
-            imageURL: imageURLdashboard,
-            wasFreezed: false,
-            freezeTime: new Date(),
-            status: {
-                isActive: true,
-                isExpired: false,
-                isFreezed: false
-            }
-        };
 
         const query = `
             mutation buyProduct(
@@ -432,7 +416,7 @@ class EditUser extends React.Component {
                 $navigator: NavigatorInput,
                 $productCost: Int!,
                 $issueSub: Boolean,!
-                $activelyUntilDate: Date!
+                $days: Int!
             ) {
                 buyProduct(
                     title: $title,
@@ -440,7 +424,7 @@ class EditUser extends React.Component {
                     navigator: $navigator,
                     productCost: $productCost,
                     issueSub: $issueSub,
-                    activelyUntilDate: $activelyUntilDate
+                    days: $days
                 ) {
                     id
                     title
@@ -453,6 +437,7 @@ class EditUser extends React.Component {
                 }
             }
         `;
+
         const vars = {
             name,
             title,
@@ -463,10 +448,9 @@ class EditUser extends React.Component {
                 platform: navigator.platform
             },
             issueSub: true,
-            activelyUntilDate: new Date(activelyUntil)
+            days: Math.round(( new Date(activelyUntil) - new Date() ) / ( 1000 * 60 * 60 * 24 )) + 1
         };
-        let result = await fetchData(query, vars);
-        // result = result.issueSubscription;
+        await fetchData(query, vars);
 
         createNotification('success', `Вы успешно добавили подписку ${title} пользователю ${name}!`);
         await this.getUser();
