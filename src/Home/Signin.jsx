@@ -80,13 +80,15 @@ class Signin extends React.Component {
                 $email: String!,
                 $password: String!,
                 $rememberMe: Boolean!,
-                $navigator: NavigatorInput!
+                $navigator: NavigatorInput!,
+                $locationData: LocationInput!
             ) {
                 signIn(
                     email: $email,
                     password: $password,
                     rememberMe: $rememberMe,
-                    navigator: $navigator
+                    navigator: $navigator,
+                    locationData: $locationData
                 ) {
                     user {
                         name
@@ -98,6 +100,10 @@ class Signin extends React.Component {
             }
         `
 
+        let locationData = await fetch('https://ipinfo.io/json?token=c02c29cd1f1bb4');
+        locationData = await locationData.json();
+        const { ip, city } = locationData;
+        console.log(locationData)
         const vars = {
             email,
             password,
@@ -107,6 +113,10 @@ class Signin extends React.Component {
                 userAgent: navigator.userAgent,
                 appName: navigator.appName,
                 appVersion: navigator.appVersion
+            },
+            locationData: {
+                ip,
+                location: city
             }
         }
         
