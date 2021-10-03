@@ -6,6 +6,7 @@ import jwtDecode from 'jwt-decode';
 import createNotification from '../../createNotification';
 import fetchData from '../../fetchData';
 import Pages from '../Pages.jsx';
+import getIPData from '../../getIPData';
 
 function ConfirmationModal(props) {
     const {
@@ -121,6 +122,8 @@ class Users extends React.Component {
             appName,
             appVersion
         } = navigator;
+        const locationData = await getIPData();
+        const { ip, city } = locationData;
         const vars = {
             name,
             navigator: {
@@ -128,6 +131,10 @@ class Users extends React.Component {
                 platform,
                 appName,
                 appVersion
+            },
+            locationData: {
+                ip,
+                location: city
             },
             adminName: user.name
         };

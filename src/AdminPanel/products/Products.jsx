@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import CloseIcon from '@material-ui/icons/Close';
 import jwtDecode from 'jwt-decode';
 import fetchData from '../../fetchData';
+import getIPData from '../../getIPData';
 import BoughtPeople from '../../BoughtPeople.jsx';
 
 class ConfirmDeleteProduct extends React.Component {
@@ -30,6 +31,8 @@ class ConfirmDeleteProduct extends React.Component {
             appVersion
         } = navigator;
         const user = jwtDecode(localStorage.getItem('token'));
+        const locationData = await getIPData();
+        const { ip, city } = locationData;
         const vars = {
             title: this.props.product.title,
             navigator: {
@@ -38,6 +41,10 @@ class ConfirmDeleteProduct extends React.Component {
                 appVersion,
                 appName
             },
+            locationData: {
+                ip,
+                location: city
+            },
             name: user.name
         };
 
@@ -45,12 +52,14 @@ class ConfirmDeleteProduct extends React.Component {
             mutation deleteProduct(
                 $title: String!,
                 $name: String!,
-                $navigator: NavigatorInput!
+                $navigator: NavigatorInput!,
+                $locationData: LocationInput
             ) {
                 deleteProduct(
                     title: $title,
                     name: $name,
-                    navigator: $navigator
+                    navigator: $navigator,
+                    locationData: $locationData
                 )
             }
         `, vars);

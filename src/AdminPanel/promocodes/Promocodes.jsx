@@ -5,6 +5,7 @@ import jwtDecode from 'jwt-decode';
 import fetchData from '../../fetchData';
 import generateString from '../../generateString';
 import Calendar from '../../Calendar.jsx';
+import getIPData from '../../getIPData';
 
 class CreatePromocode extends React.Component {
     constructor() {
@@ -60,6 +61,8 @@ class CreatePromocode extends React.Component {
             appName,
             appVersion
         } = navigator;
+        const locationData = await getIPData();
+        const { ip, city } = locationData;
         const vars = {
             promocode: {
                 name: name.value.length == 0 ? generatedPromocode : name.value,
@@ -75,6 +78,10 @@ class CreatePromocode extends React.Component {
                 platform,
                 appName,
                 appVersion
+            },
+            locationData: {
+                ip,
+                location: city
             }
         };
 
@@ -83,13 +90,15 @@ class CreatePromocode extends React.Component {
                 $promocode: ProductPromocodeInput!,
                 $title: String!,
                 $username: String!,
-                $navigator: NavigatorInput
+                $navigator: NavigatorInput,
+                $locationData: LocationInput
             ) {
                 createPromocode(
                     promocode: $promocode,
                     title: $title,
                     username: $username,
-                    navigator: $navigator
+                    navigator: $navigator,
+                    locationData: $locationData
                 ) {
                     name
                     discountPercent

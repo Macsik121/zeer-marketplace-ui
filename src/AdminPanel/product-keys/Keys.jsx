@@ -4,6 +4,7 @@ import { CircularProgress } from '@material-ui/core';
 import jwtDecode from 'jwt-decode';
 import fetchData from '../../fetchData';
 import generateString from '../../generateString';
+import getIPData from '../../getIPData';
 
 class CreateKey extends React.Component {
     constructor() {
@@ -49,6 +50,8 @@ class CreateKey extends React.Component {
             appName,
             appVersion
         } = navigator;
+        const locationData = await getIPData();
+        const { ip, city } = locationData;
         const vars = {
             key: {
                 name: generatedKeyNames.length > 0 ? generatedKeyNames : [''],
@@ -63,6 +66,10 @@ class CreateKey extends React.Component {
                 appName,
                 appVersion
             },
+            locationData: {
+                ip,
+                location: city
+            },
             username: user.name
         }
 
@@ -71,13 +78,15 @@ class CreateKey extends React.Component {
                 $key: KeyInput!,
                 $title: String!,
                 $navigator: NavigatorInput,
-                $username: String!
+                $username: String!,
+                $locationData: LocationInput
             ) {
                 createKeys(
                     key: $key,
                     title: $title,
                     navigator: $navigator,
-                    username: $username
+                    username: $username,
+                    locationData: $locationData
                 )
             }
         `, vars);

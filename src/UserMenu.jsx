@@ -4,6 +4,7 @@ import jwtDecode from 'jwt-decode';
 import createNotification from './createNotification';
 import fetchData from './fetchData';
 import setNewAvatar from './setNewAvatar';
+import getIPData from './getIPData';
 
 class UserMenu extends React.Component {
     constructor() {
@@ -17,6 +18,9 @@ class UserMenu extends React.Component {
     async createLog() {
         const user = jwtDecode(localStorage.getItem('token'));
 
+        const locationData = await getIPData();
+        console.log(locationData);
+        const { ip, city } = locationData;
         const vars = {
             log: {
                 name: user.name,
@@ -30,12 +34,24 @@ class UserMenu extends React.Component {
                 platform: navigator.platform,
                 appName: navigator.appName,
                 appVersion: navigator.appVersion
+            },
+            locationData: {
+                ip,
+                location: city
             }
         };
 
         await fetchData(`
-            mutation createLog($log: ActionLogInput, $navigator: NavigatorInput) {
-                createLog(log: $log, navigator: $navigator) {
+            mutation createLog(
+                $log: ActionLogInput,
+                $navigator: NavigatorInput,
+                $locationData: LocationInput!
+            ) {
+                createLog(
+                    log: $log,
+                    navigator: $navigator,
+                    locationData: $locationData
+                ) {
                     name
                 }
             }

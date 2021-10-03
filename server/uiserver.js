@@ -68,7 +68,7 @@ app.post('/uploaded-images', (req, res) => {
 });
 
 app.post(
-    '/confirmation-payment/:name/:title/:cost/:days/:platform/:userAgent/:appName/:appVersion/:splitDelimiter',
+    '/confirmation-payment/:name/:title/:cost/:days/:platform/:userAgent/:appName/:appVersion/:ip/:location/:splitDelimiter',
     async (req, res) => {
         let userAgent = req.params.userAgent.split(req.params.splitDelimiter);
         userAgent = userAgent.join('/');
@@ -79,7 +79,9 @@ app.post(
             platform,
             days,
             appName,
-            appVersion
+            appVersion,
+            ip,
+            location
         } = req.params;
         const variables = {
             name,
@@ -91,7 +93,12 @@ app.post(
                 appName,
                 appVersion
             },
-            days: +days
+            locationData: {
+                ip,
+                location
+            },
+            days: +days,
+
         };
         const query = `
             mutation buyProduct(
@@ -99,14 +106,16 @@ app.post(
                 $name: String!,
                 $navigator: NavigatorInput,
                 $productCost: Int!,
-                $days: Int!
+                $days: Int!,
+                $locationData: LocationInput!
             ) {
                 buyProduct(
                     title: $title,
                     name: $name,
                     navigator: $navigator,
                     productCost: $productCost,
-                    days: $days
+                    days: $days,
+                    locationData: $locationData
                 ) {
                     id
                     title

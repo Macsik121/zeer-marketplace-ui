@@ -4,7 +4,7 @@ import jwtDecode from 'jwt-decode';
 import { CircularProgress } from '@material-ui/core';
 import fetchData from '../fetchData';
 import store from '../store';
-import generateString from '../generateString.js';
+import getIPData from '../getIPData';
 import Lobby from './Lobby.jsx';
 import Products from './Products.jsx';
 import Subscriptions from './Subscriptions.jsx';
@@ -187,6 +187,8 @@ class Dashboard extends React.Component {
         const splitDelimiter = '--';
         userAgent = userAgent.split('/');
         userAgent = userAgent.join(splitDelimiter);
+        const locationData = await getIPData();
+        const { ip, city } = locationData;
         const vars = {
             title,
             name: user.name,
@@ -196,10 +198,14 @@ class Dashboard extends React.Component {
                 appName: navigator.appName,
                 appVersion: navigator.appVersion
             },
+            locationData: {
+                ip,
+                location: city
+            },
             productCost: cost
         };
         window.location.href = `
-            https://paymaster.ru/payment/init?LMI_MERCHANT_ID=77aa76b8-1551-42c5-be5f-f49d6330260f&LMI_PAYMENT_AMOUNT=${cost}&LMI_CURRENCY=RUB&LMI_PAYMENT_DESC=Оплата%20товара%20${title}%20на%20${days == 360 ? '1 год' : days}%20${days == 360 ? '' : days == 1 ? 'день' : 'дней'}&LMI_SUCCESS_URL=${uiEndpoint}/confirmation-payment/${vars.name}/${vars.title}/${vars.productCost}/${days}/${vars.navigator.platform}/${vars.navigator.userAgent}/${vars.navigator.appName}/${vars.navigator.appVersion}/${splitDelimiter}&LMI_FAIL_URL=${uiEndpoint}/failure-payment&LMI_SHOPPINGCART.ITEMS[N].NAME=${title}&LMI_SHOPPINGCART.ITEMS[N].QTY=1&LMI_SHOPPINGCART.ITEMS[N].PRICE=${cost}&LMI_SHOPPINGCART.ITEMS[N].TAX=no_vat
+            https://paymaster.ru/payment/init?LMI_MERCHANT_ID=77aa76b8-1551-42c5-be5f-f49d6330260f&LMI_PAYMENT_AMOUNT=${cost}&LMI_CURRENCY=RUB&LMI_PAYMENT_DESC=Оплата%20товара%20${title}%20на%20${days == 360 ? '1 год' : days}%20${days == 360 ? '' : days == 1 ? 'день' : 'дней'}&LMI_SUCCESS_URL=${uiEndpoint}/confirmation-payment/${vars.name}/${vars.title}/${vars.productCost}/${days}/${vars.navigator.platform}/${vars.navigator.userAgent}/${vars.navigator.appName}/${vars.navigator.appVersion}/${vars.locationData.ip}/${vars.locationData.location}/${splitDelimiter}&LMI_FAIL_URL=${uiEndpoint}/failure-payment&LMI_SHOPPINGCART.ITEMS[N].NAME=${title}&LMI_SHOPPINGCART.ITEMS[N].QTY=1&LMI_SHOPPINGCART.ITEMS[N].PRICE=${cost}&LMI_SHOPPINGCART.ITEMS[N].TAX=no_vat
         `;
         // this.setState({ productsRequestMaking: true });
 
@@ -352,8 +358,18 @@ class Dashboard extends React.Component {
     }
     async makeResetRequest(reason) {
         const query = `
-            mutation makeResetRequest($name: String!, $reason: String!, $navigator: NavigatorInput) {
-                makeResetRequest(name: $name, reason: $reason, navigator: $navigator) {
+            mutation makeResetRequest(
+                $name: String!,
+                $reason: String!,
+                $navigator: NavigatorInput,
+                $locationData: LocationInput
+            ) {
+                makeResetRequest(
+                    name: $name,
+                    reason: $reason,
+                    navigator: $navigator,
+                    locationData: $locationData
+                ) {
                     reason
                     number
                     status
@@ -361,21 +377,28 @@ class Dashboard extends React.Component {
                 }
             }
         `;
+        const locationData = await getIPData();
+        const { ip, city } = locationData;
         const user = jwtDecode(localStorage.getItem('token'));
         const { name } = user;
+        const vars = {
+            name,
+            reason,
+            navigator: {
+                userAgent: navigator.userAgent,
+                platform: navigator.platform,
+                appName: navigator.appName,
+                appVersion: navigator.appVersion
+            },
+            locationData: {
+                ip,
+                location: city
+            }
+        };
 
         const result = await fetchData(
             query,
-            {
-                name,
-                reason,
-                navigator: {
-                    userAgent: navigator.userAgent,
-                    platform: navigator.platform,
-                    appName: navigator.appName,
-                    appVersion: navigator.appVersion
-                }
-            }
+            vars
         );
         await this.getResetRequests();
         return result.makeResetRequest;

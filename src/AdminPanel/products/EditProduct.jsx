@@ -6,6 +6,7 @@ import jwtDecode from 'jwt-decode';
 import DeleteIcon from '@material-ui/icons/Delete';
 import fetchData from '../../fetchData';
 import createNotification from '../../createNotification';
+import getIPData from '../../getIPData';
 import Product from '../../Product.jsx';
 
 class EditProduct extends React.Component {
@@ -203,6 +204,8 @@ class EditProduct extends React.Component {
             appName,
             appVersion
         } = navigator;
+        const locationData = await getIPData();
+        const { ip, city } = locationData;
         const vars = {
             product,
             navigator: {
@@ -211,20 +214,25 @@ class EditProduct extends React.Component {
                 appName,
                 appVersion
             },
+            locationData: {
+                ip,
+                location: city
+            },
             adminName: user.name
         };
-        console.log(vars);
 
         const result = await fetchData(`
             mutation editProduct(
                 $product: ProductInput!,
                 $adminName: String!,
-                $navigator: NavigatorInput!
+                $navigator: NavigatorInput!,
+                $locationData: LocationInput!
             ) {
                 editProduct(
                     product: $product,
                     adminName: $adminName,
-                    navigator: $navigator
+                    navigator: $navigator,
+                    locationData: $locationData
                 ) {
                     id
                     title
@@ -331,6 +339,8 @@ class EditProduct extends React.Component {
             appName,
             appVersion
         } = navigator;
+        const locationData = await getIPData();
+        const { ip, city } = locationData;
         const user = jwtDecode(localStorage.getItem('token'));
         const vars = {
             product,
@@ -340,6 +350,10 @@ class EditProduct extends React.Component {
                 appName,
                 appVersion
             },
+            locationData: {
+                ip,
+                location: city
+            },
             adminName: user.name
         };
 
@@ -347,12 +361,14 @@ class EditProduct extends React.Component {
             mutation createProduct(
                 $product: ProductInput!,
                 $navigator: NavigatorInput!,
-                $adminName: String!
+                $adminName: String!,
+                $locationData: LocationInput!
             ) {
                 createProduct(
                     product: $product,
                     navigator: $navigator,
-                    adminName: $adminName
+                    adminName: $adminName,
+                    locationData: $locationData
                 ) {
                     id
                     title

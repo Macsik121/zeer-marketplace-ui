@@ -5,6 +5,7 @@ import { CircularProgress } from '@material-ui/core';
 import createNotification from '../../createNotification';
 import fetchData from '../../fetchData';
 import Calendar from '../../Calendar.jsx';
+import getIPData from '../../getIPData';
 
 class EditUser extends React.Component {
     constructor() {
@@ -143,6 +144,8 @@ class EditUser extends React.Component {
             appName,
             appVersion
         } = navigator;
+        const locationData = await getIPData();
+        const { ip, city } = locationData;
         const vars = {
             name,
             email,
@@ -155,6 +158,10 @@ class EditUser extends React.Component {
                 appVersion,
                 appName
             },
+            locationData: {
+                ip,
+                location: city
+            },
             adminName: adminUser.name
         };
         const result = await fetchData(`
@@ -165,6 +172,7 @@ class EditUser extends React.Component {
                 $hwid: String!,
                 $role: String!,
                 $navigator: NavigatorInput!,
+                $locationData: LocationInput!,
                 $adminName: String!
             ) {
                 editUser(
@@ -174,6 +182,7 @@ class EditUser extends React.Component {
                     hwid: $hwid,
                     role: $role,
                     navigator: $navigator,
+                    locationData: $locationData,
                     adminName: $adminName
                 ) {
                     id
@@ -446,6 +455,7 @@ class EditUser extends React.Component {
                 $title: String!,
                 $name: String!,
                 $navigator: NavigatorInput,
+                $locationData: LocationInput!,
                 $productCost: Int!,
                 $issueSub: Boolean,!
                 $days: Int!
@@ -454,6 +464,7 @@ class EditUser extends React.Component {
                     title: $title,
                     name: $name,
                     navigator: $navigator,
+                    locationData: $locationData,
                     productCost: $productCost,
                     issueSub: $issueSub,
                     days: $days
@@ -476,6 +487,8 @@ class EditUser extends React.Component {
             appName,
             appVersion
         } = navigator;
+        const locationData = await getIPData();
+        const { ip, city } = locationData;
         const vars = {
             name,
             title,
@@ -486,6 +499,10 @@ class EditUser extends React.Component {
                 platform,
                 appName,
                 appVersion
+            },
+            locationData: {
+                ip,
+                location: city
             },
             issueSub: true,
             days: Math.round(( new Date(activelyUntil) - new Date() ) / ( 1000 * 60 * 60 * 24 )) + 1

@@ -4,6 +4,7 @@ import { CircularProgress } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import jwtDecode from 'jwt-decode';
 import fetchData from '../../fetchData';
+import getIPData from '../../getIPData';
 import Pages from '../Pages.jsx';
 
 class DeleteKey extends React.Component {
@@ -30,6 +31,8 @@ class DeleteKey extends React.Component {
             appName,
             appVersion
         } = navigator;
+        const locationData = await getIPData();
+        const { ip, city } = locationData;
         const vars = {
             keyName: keyToDelete.name,
             title: match.params.title,
@@ -39,6 +42,10 @@ class DeleteKey extends React.Component {
                 appName,
                 appVersion
             },
+            locationData: {
+                ip,
+                location: city
+            },
             name: user.name
         }
 
@@ -47,13 +54,15 @@ class DeleteKey extends React.Component {
                 $keyName: String!,
                 $title: String!,
                 $navigator: NavigatorInput,
-                $name: String!
+                $name: String!,
+                $locationData: LocationInput
             ) {
                 deleteKey(
                     keyName: $keyName,
                     title: $title,
                     navigator: $navigator,
-                    name: $name
+                    name: $name,
+                    locationData: $locationData
                 )
             }
         `, vars);

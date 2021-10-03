@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import CloseIcon from '@material-ui/icons/Close';
 import fetchData from '../fetchData';
+import getIPData from '../getIPData';
 import createNotification from '../createNotification';
 
 class Signup extends React.Component {
@@ -111,9 +112,16 @@ class Signup extends React.Component {
                 $email: String!,
                 $password: String!,
                 $name: String!,
-                $navigator: NavigatorInput
+                $navigator: NavigatorInput,
+                $locationData: LocationInput
             ) {
-                signUp(email: $email, password: $password, name: $name, navigator: $navigator) {
+                signUp(
+                    email: $email,
+                    password: $password,
+                    name: $name,
+                    navigator: $navigator,
+                    locationData: $locationData
+                ) {
                     user {
                         name
                         email
@@ -124,6 +132,8 @@ class Signup extends React.Component {
             }
         `;
 
+        const locationData = await getIPData();
+        const { ip, city } = locationData;
         const vars = {
             name,
             email,
@@ -133,6 +143,10 @@ class Signup extends React.Component {
                 platform: navigator.platform,
                 appName: navigator.appName,
                 appVersion: navigator.appVersion
+            },
+            locationData: {
+                ip,
+                location: city
             }
         };
 

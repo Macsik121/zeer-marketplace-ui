@@ -1,9 +1,9 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import jwtDecode from 'jwt-decode';
 import CloseIcon from '@material-ui/icons/Close';
 import createNotification from '../createNotification';
 import fetchData from '../fetchData';
+import getIPData from '../getIPData';
 
 function SigninHeader(props) {
     return (
@@ -100,10 +100,8 @@ class Signin extends React.Component {
             }
         `
 
-        let locationData = await fetch('https://ipinfo.io/json?token=c02c29cd1f1bb4');
-        locationData = await locationData.json();
+        const locationData = await getIPData();
         const { ip, city } = locationData;
-        console.log(locationData)
         const vars = {
             email,
             password,

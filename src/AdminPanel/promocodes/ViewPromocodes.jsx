@@ -5,6 +5,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import jwtDecode from 'jwt-decode';
 import fetchData from '../../fetchData';
 import Pages from '../Pages.jsx';
+import getIPData from '../../getIPData';
 
 class ConfirmDeletePromo extends React.Component {
     constructor() {
@@ -26,6 +27,8 @@ class ConfirmDeletePromo extends React.Component {
             appName,
             appVersion
         } = navigator;
+        const locationData = await getIPData();
+        const { ip, city } = locationData;
         const vars = {
             productTitle: title,
             promocodeTitle: name,
@@ -33,6 +36,10 @@ class ConfirmDeletePromo extends React.Component {
             navigator: {
                 userAgent,
                 platform
+            },
+            locationData: {
+                ip,
+                location: city
             }
         };
 
@@ -41,13 +48,15 @@ class ConfirmDeletePromo extends React.Component {
                 $promocodeTitle: String!,
                 $productTitle: String!,
                 $name: String!,
-                $navigator: NavigatorInput
+                $navigator: NavigatorInput,
+                $locationData: LocationInput
             ) {
                 deletePromocode(
                     productTitle: $productTitle,
                     promocodeTitle: $promocodeTitle,
                     name: $name,
-                    navigator: $navigator
+                    navigator: $navigator,
+                    locationData: $locationData
                 )
             }
         `, vars);

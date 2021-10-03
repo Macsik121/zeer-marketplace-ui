@@ -5,6 +5,7 @@ import jwtDecode from 'jwt-decode';
 import fetchData from '../fetchData';
 import createNotification from '../createNotification';
 import ChoosingCostModal from './ChoosingCostModal.jsx';
+import getIPData from '../getIPData';
 
 function MessageModal({ message, style }) {
     return (
@@ -107,6 +108,8 @@ export default class Subscriptions extends React.Component {
         keyName.blur();
 
         const user = jwtDecode(localStorage.getItem('token'));
+        const locationData = await getIPData();
+        const { ip, city } = locationData;
         const vars = {
             username: user.name,
             keyName: keyName.value,
@@ -115,6 +118,10 @@ export default class Subscriptions extends React.Component {
                 platform: navigator.platform,
                 appName: navigator.appName,
                 appVersion: navigator.appVersion
+            },
+            locationData: {
+                ip,
+                location: city
             }
         };
 
@@ -122,12 +129,14 @@ export default class Subscriptions extends React.Component {
             mutation activateKey(
                 $username: String!,
                 $keyName: String!,
-                $navigator: NavigatorInput
+                $navigator: NavigatorInput,
+                $locationData: LocationInput
             ) {
                 activateKey(
                     username: $username,
                     keyName: $keyName,
-                    navigator: $navigator
+                    navigator: $navigator,
+                    locationData: $locationData
                 ) {
                     message
                     success
