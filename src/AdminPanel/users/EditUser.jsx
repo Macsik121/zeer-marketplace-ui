@@ -380,11 +380,36 @@ class EditUser extends React.Component {
             }
         `, vars);
 
+        const { message, success } = result.freezeSubscription;
         createNotification(
             'success',
             `Вы успешно заморозили продукт ${title} у пользователя ${name}`
         );
+        await this.getUser();
         this.setState({ isUserGotten: true });
+    }
+    async unfreezeSubscription(title) {
+        this.setState({ isUserGotten: false });
+        const name = this.props.match.params.username;
+
+        const query = `
+            mutation unfreezeSubscription($name: String!, $title: String!) {
+                unfreezeSubscription(name: $name, title: $title) {
+                    message
+                    success
+                }
+            }
+        `;
+        const vars = {
+            name,
+            title
+        };
+
+        await fetchData(query, vars);
+
+        createNotification('success', `Подписка ${title} у пользователя ${name} успешно разморожена!`);
+        await this.getUser();
+        this.setState({ isUserGotten: true })
     }
     showCalendar(e) {
         const { name } = e.target;
@@ -474,7 +499,7 @@ class EditUser extends React.Component {
             } = product;
 
             return (
-                <div key={i} className="product">
+                <div key={i} className="product not-existing-product">
                     <img className="cover" src={imageURLdashboard} />
                     <div className="product-title">
                         {title}{' | '}{productFor}
@@ -486,11 +511,10 @@ class EditUser extends React.Component {
                             name={title}
                             value={
                                 activelyUntil == ''
-                                    ? new Date('1980-01-01').toISOString().substr(0, 10)
+                                    ? new Date('1980-01-01').toLocaleDateString()
                                     : (
                                         new Date(activelyUntil)
-                                            .toISOString()
-                                            .substr(0, 10)
+                                            .toLocaleDateString()
                                     )
                             }
                             className="edit-actively-until field"
@@ -509,13 +533,15 @@ class EditUser extends React.Component {
                 </div>
             )
         });
+
         let subscriptions = user.subscriptions && user.subscriptions.map(sub => {
             const {
                 title,
                 activelyUntil,
                 productFor,
                 imageURL,
-                resetCooldown
+                resetCooldown,
+                status
             } = sub;
 
             return (
@@ -531,7 +557,7 @@ class EditUser extends React.Component {
                             name={title}
                             value={
                                 new Date(activelyUntil).getTime() && activelyUntil.length == 10
-                                    ? new Date(activelyUntil).toISOString().substr(0, 10)
+                                    ? new Date(activelyUntil).toLocaleDateString()
                                     : activelyUntil
                             }
                             className="edit-actively-until field"
@@ -582,12 +608,23 @@ class EditUser extends React.Component {
                         >
                             Сохранить
                         </button>
-                        <button
-                            className="button freeze"
-                            onClick={() => this.freezeUserSubscription(title)}
-                        >
-                            Заморозить
-                        </button>
+                        {status.isFreezed
+                            ? (
+                                <button
+                                    className="button unfreeze"
+                                    onClick={() => this.unfreezeSubscription(title)}
+                                >
+                                    Разморозить
+                                </button>
+                            ) : (
+                                <button
+                                    className="button freeze"
+                                    onClick={() => this.freezeUserSubscription(title)}
+                                >
+                                    Заморозить
+                                </button>
+                            )
+                        }
                     </div>
                 </div>
             )

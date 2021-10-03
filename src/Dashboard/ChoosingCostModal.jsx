@@ -33,7 +33,8 @@ export default class ChoosingCostModal extends React.Component {
             style,
             hideModal,
             buyProduct
-        } = this.props
+        } = this.props;
+
         const {
             product,
             choosenDropdown,

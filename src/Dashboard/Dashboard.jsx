@@ -4,6 +4,7 @@ import jwtDecode from 'jwt-decode';
 import { CircularProgress } from '@material-ui/core';
 import fetchData from '../fetchData';
 import store from '../store';
+import generateString from '../generateString.js';
 import Lobby from './Lobby.jsx';
 import Products from './Products.jsx';
 import Subscriptions from './Subscriptions.jsx';
@@ -182,17 +183,21 @@ class Dashboard extends React.Component {
     }
     async buyProduct(title = '', cost = 1, days = 30) {
         const user = jwtDecode(localStorage.getItem('token'));
+        let userAgent = navigator.userAgent;
+        const splitDelimiter = '--';
+        userAgent = userAgent.split('/');
+        userAgent = userAgent.join(splitDelimiter);
         const vars = {
             title,
             name: user.name,
             navigator: {
-                userAgent: navigator.userAgent,
+                userAgent,
                 platform: navigator.platform
             },
             productCost: cost
         };
         window.location.href = `
-            https://paymaster.ru/payment/init?LMI_MERCHANT_ID=77aa76b8-1551-42c5-be5f-f49d6330260f&LMI_PAYMENT_AMOUNT=${cost}&LMI_CURRENCY=RUB&LMI_PAYMENT_DESC=Оплата%20товара%20${title}%20на%20${days == 360 ? '1 год' : days}%20${days == 360 ? '' : days == 1 ? 'день' : 'дней'}&LMI_SUCCESS_URL=${uiEndpoint}/confirmation-payment/${vars.name}/${vars.title}/${vars.productCost}/${days}/${vars.navigator.platform}/some_user_agent&LMI_FAIL_URL=${uiEndpoint}/failure-payment&LMI_SHOPPINGCART.ITEMS[N].NAME=${title}&LMI_SHOPPINGCART.ITEMS[N].QTY=1&LMI_SHOPPINGCART.ITEMS[N].PRICE=${cost}&LMI_SHOPPINGCART.ITEMS[N].TAX=no_vat
+            https://paymaster.ru/payment/init?LMI_MERCHANT_ID=77aa76b8-1551-42c5-be5f-f49d6330260f&LMI_PAYMENT_AMOUNT=${cost}&LMI_CURRENCY=RUB&LMI_PAYMENT_DESC=Оплата%20товара%20${title}%20на%20${days == 360 ? '1 год' : days}%20${days == 360 ? '' : days == 1 ? 'день' : 'дней'}&LMI_SUCCESS_URL=${uiEndpoint}/confirmation-payment/${vars.name}/${vars.title}/${vars.productCost}/${days}/${vars.navigator.platform}/${vars.navigator.userAgent}/${splitDelimiter}&LMI_FAIL_URL=${uiEndpoint}/failure-payment&LMI_SHOPPINGCART.ITEMS[N].NAME=${title}&LMI_SHOPPINGCART.ITEMS[N].QTY=1&LMI_SHOPPINGCART.ITEMS[N].PRICE=${cost}&LMI_SHOPPINGCART.ITEMS[N].TAX=no_vat
         `;
         // this.setState({ productsRequestMaking: true });
 
@@ -618,6 +623,7 @@ class Dashboard extends React.Component {
                                         buyProduct={this.buyProduct}
                                         isRequestMaking={subscriptionsRequestMaking}
                                         agreementShown={agreementShown}
+                                        showChoosingDays={this.showChoosingDays}
                                     />
                                 )
                             }

@@ -4,6 +4,7 @@ import { CircularProgress } from '@material-ui/core';
 import jwtDecode from 'jwt-decode';
 import fetchData from '../fetchData';
 import createNotification from '../createNotification';
+import ChoosingCostModal from './ChoosingCostModal.jsx';
 
 function MessageModal({ message, style }) {
     return (
@@ -155,7 +156,12 @@ export default class Subscriptions extends React.Component {
             isMessageShown,
             message
         } = this.state;
-        const { toggleAgreement, buyProduct, agreementShown } = this.props;
+        const {
+            toggleAgreement,
+            buyProduct,
+            agreementShown,
+            showChoosingDays
+        } = this.props;
         const activeSubs = [];
         const expiredSubs = [];
         subscriptions.all ? subscriptions.all.map((sub, i) => {
@@ -202,7 +208,12 @@ export default class Subscriptions extends React.Component {
                                     <label className="active status">Работает</label>
                                     <div className="buttons-wrap">
                                         <div className="buttons">
-                                            <button className="button extend">Продлить</button>
+                                            <button
+                                                className="button extend"
+                                                onClick={() => showChoosingDays(sub)}
+                                            >
+                                                Продлить
+                                            </button>
                                             <button
                                                 className="button freeze"
                                                 onClick={this.freezeSubscription}
@@ -243,7 +254,12 @@ export default class Subscriptions extends React.Component {
                                     <label className="freezed status">Заморожен</label>
                                     <div className="buttons-wrap">
                                         <div className="buttons">
-                                            <button className="button extend">Продлить</button>
+                                            <button
+                                                className="button extend"
+                                                onClick={() => showChoosingDays(sub)}
+                                            >
+                                                Продлить
+                                            </button>
                                             <button
                                                 onClick={this.unfreezeSubscription}
                                                 className="button unfreeze"

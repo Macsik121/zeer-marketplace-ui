@@ -42,7 +42,10 @@ export default class Graph extends React.Component {
                 elDate.setDate(new Date().getDate() - new Date().getDay() + i);
             };
             return (
-                <div key={new Date() - elDate || i} className="day">
+                <div
+                    key={new Date() - elDate || i}
+                    className="day"
+                >
                     {months[elDate.getMonth()]}.&nbsp;
                     {weekDays[elDate.getDay()]},&nbsp;
                     {elDate.getDate()}
@@ -55,18 +58,6 @@ export default class Graph extends React.Component {
             allValues.push(el.value);
         });
         let theBiggestValue = Math.max(...allValues);
-        // for (let i = 0; i < array.length; i++) {
-        //     const element = array[i];
-        //     const nextElement = array[i + 1] ? array[i + 1] : { value: null };
-        //     if (element.value && nextElement.value) {
-        //         if (element.value > nextElement.value) {
-        //             theBiggestValue = element.value;
-        //         } else if (element.value < nextElement.value) {
-        //             theBiggestValue = nextElement.value;
-        //         }
-        //         console.log(theBiggestValue);
-        //     };
-        // }
         theBiggestValue = Math.ceil(theBiggestValue / 100) * 100;
         let middleValue = theBiggestValue / 2;
 
@@ -111,11 +102,11 @@ export default class Graph extends React.Component {
                 className={`graph ${className}`}
                 style={style}
             >
+                <div className="graph-theme">
+                    <div className="graph-color" style={{ backgroundColor: graphColor }} />
+                    &nbsp;-&nbsp;<div className="label">{graphTheme}</div>
+                </div>
                 <div className="graph-wrap">
-                    <div className="graph-theme">
-                        <div className="graph-color" style={{ backgroundColor: graphColor }} />
-                        &nbsp;-&nbsp;<div className="label">{graphTheme}</div>
-                    </div>
                     <div className="left-indicators">
                         <div className="left-indicators-wrap">
                             <div className="the-biggest indicator">{theBiggestValue}</div>
