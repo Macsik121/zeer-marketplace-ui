@@ -27,7 +27,9 @@ class UserMenu extends React.Component {
             },
             navigator: {
                 userAgent: navigator.userAgent,
-                platform: navigator.platform
+                platform: navigator.platform,
+                appName: navigator.appName,
+                appVersion: navigator.appVersion
             }
         };
 

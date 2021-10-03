@@ -137,7 +137,12 @@ class EditUser extends React.Component {
         const email = form.email.value;
 
         const adminUser = jwtDecode(localStorage.getItem('token'));
-        const { platform, userAgent } = navigator;
+        const {
+            platform,
+            userAgent,
+            appName,
+            appVersion
+        } = navigator;
         const vars = {
             name,
             email,
@@ -146,7 +151,9 @@ class EditUser extends React.Component {
             role,
             navigator: {
                 platform,
-                userAgent
+                userAgent,
+                appVersion,
+                appName
             },
             adminName: adminUser.name
         };
@@ -463,14 +470,22 @@ class EditUser extends React.Component {
             }
         `;
 
+        const {
+            platform,
+            userAgent,
+            appName,
+            appVersion
+        } = navigator;
         const vars = {
             name,
             title,
             productCost: 0,
             isKey: true,
             navigator: {
-                userAgent: navigator.userAgent,
-                platform: navigator.platform
+                userAgent,
+                platform,
+                appName,
+                appVersion
             },
             issueSub: true,
             days: Math.round(( new Date(activelyUntil) - new Date() ) / ( 1000 * 60 * 60 * 24 )) + 1

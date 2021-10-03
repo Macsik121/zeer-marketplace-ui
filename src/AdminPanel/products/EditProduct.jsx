@@ -197,12 +197,19 @@ class EditProduct extends React.Component {
         }
 
         const user = jwtDecode(localStorage.getItem('token'));
-        const { userAgent, platform } = navigator;
+        const {
+            userAgent,
+            platform,
+            appName,
+            appVersion
+        } = navigator;
         const vars = {
             product,
             navigator: {
                 userAgent,
-                platform
+                platform,
+                appName,
+                appVersion
             },
             adminName: user.name
         };
@@ -318,13 +325,20 @@ class EditProduct extends React.Component {
             product.logo = '';
         }
 
-        const { platform, userAgent } = navigator;
+        const {
+            platform,
+            userAgent,
+            appName,
+            appVersion
+        } = navigator;
         const user = jwtDecode(localStorage.getItem('token'));
         const vars = {
             product,
             navigator: {
                 platform,
-                userAgent
+                userAgent,
+                appName,
+                appVersion
             },
             adminName: user.name
         };

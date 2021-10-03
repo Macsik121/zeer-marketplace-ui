@@ -68,7 +68,7 @@ app.post('/uploaded-images', (req, res) => {
 });
 
 app.post(
-    '/confirmation-payment/:name/:title/:cost/:days/:platform/:userAgent/:splitDelimiter',
+    '/confirmation-payment/:name/:title/:cost/:days/:platform/:userAgent/:appName/:appVersion/:splitDelimiter',
     async (req, res) => {
         let userAgent = req.params.userAgent.split(req.params.splitDelimiter);
         userAgent = userAgent.join('/');
@@ -77,7 +77,9 @@ app.post(
             title,
             cost,
             platform,
-            days
+            days,
+            appName,
+            appVersion
         } = req.params;
         const variables = {
             name,
@@ -85,7 +87,9 @@ app.post(
             productCost: +cost,
             navigator: {
                 platform,
-                userAgent
+                userAgent,
+                appName,
+                appVersion
             },
             days: +days
         };

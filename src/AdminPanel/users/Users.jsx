@@ -115,12 +115,19 @@ class Users extends React.Component {
         this.setState({ isRequestMaking: true });
 
         const user = jwtDecode(localStorage.getItem('token'));
-        const { userAgent, platform } = navigator;
+        const {
+            userAgent,
+            platform,
+            appName,
+            appVersion
+        } = navigator;
         const vars = {
             name,
             navigator: {
                 userAgent,
-                platform
+                platform,
+                appName,
+                appVersion
             },
             adminName: user.name
         };

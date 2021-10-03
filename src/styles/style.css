@@ -7334,7 +7334,6 @@ button.disabled {
     justify-content: center;
     word-break: break-word;
     width: 10%;
-    pointer-events: none;
     max-height: 36px;
     overflow: hidden;
 }

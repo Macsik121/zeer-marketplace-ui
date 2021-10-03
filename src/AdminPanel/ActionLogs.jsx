@@ -174,6 +174,9 @@ class ActionLogs extends React.Component {
     toggleClass(e) {
         e.target.classList.toggle('active');
     }
+    toggleParentClass(e) {
+        e.target.parentNode.classList.toggle('active');
+    }
     render() {
         const {
             isRequestMaking,
@@ -189,43 +192,64 @@ class ActionLogs extends React.Component {
                 className="log"
             >
                 <div
-                    onClick={(e) => e.stopPropagation()}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        this.toggleParentClass(e);
+                    }}
                     className="date"
                 >
                     {new Date(log.date).toLocaleString()}
                 </div>
                 <div
-                    onClick={(e) => e.stopPropagation()}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        this.toggleParentClass(e);
+                    }}
                     className="name"
                 >
                     {log.name}
                 </div>
                 <div
-                    onClick={(e) => e.stopPropagation()}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        this.toggleParentClass(e);
+                    }}
                     className="location"
                 >
                     {log.location}
                 </div>
                 <div
-                    onClick={(e) => e.stopPropagation()}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        this.toggleParentClass(e);
+                    }}
                     className="ip"
                 >
                     {log.IP}
                 </div>
                 <div
-                    onClick={(e) => e.stopPropagation()}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        this.toggleParentClass(e);
+                    }}
                     className="browser"
                 >
                     {log.browser}
                 </div>
                 <div
-                    onClick={(e) => e.stopPropagation()}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        this.toggleParentClass(e);
+                    }}
                     className="platform"
                 >
                     {log.platform}
                 </div>
                 <div
-                    onClick={(e) => e.stopPropagation()}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        this.toggleParentClass(e);
+                    }}
                     className="action"
                 >
                     {log.action}

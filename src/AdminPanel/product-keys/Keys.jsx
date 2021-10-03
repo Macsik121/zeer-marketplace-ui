@@ -43,6 +43,12 @@ class CreateKey extends React.Component {
 
         const user = jwtDecode(localStorage.getItem('token'));
 
+        const {
+            platform,
+            userAgent,
+            appName,
+            appVersion
+        } = navigator;
         const vars = {
             key: {
                 name: generatedKeyNames.length > 0 ? generatedKeyNames : [''],
@@ -52,8 +58,10 @@ class CreateKey extends React.Component {
             },
             title: this.props.title,
             navigator: {
-                userAgent: navigator.userAgent,
-                platform: navigator.platform
+                userAgent,
+                platform,
+                appName,
+                appVersion
             },
             username: user.name
         }

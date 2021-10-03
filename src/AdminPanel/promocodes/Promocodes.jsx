@@ -54,6 +54,12 @@ class CreatePromocode extends React.Component {
 
         const user = jwtDecode(localStorage.getItem('token'));
 
+        const {
+            platform,
+            userAgent,
+            appName,
+            appVersion
+        } = navigator;
         const vars = {
             promocode: {
                 name: name.value.length == 0 ? generatedPromocode : name.value,
@@ -65,8 +71,10 @@ class CreatePromocode extends React.Component {
             title: this.props.product.title,
             username: user.name,
             navigator: {
-                userAgent: navigator.userAgent,
-                platform: navigator.platform
+                userAgent,
+                platform,
+                appName,
+                appVersion
             }
         };
 

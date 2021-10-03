@@ -20,13 +20,19 @@ class ConfirmDeletePromo extends React.Component {
         const { title } = this.props.match.params;
         const user = jwtDecode(localStorage.getItem('token'));
 
+        const {
+            platform,
+            userAgent,
+            appName,
+            appVersion
+        } = navigator;
         const vars = {
             productTitle: title,
             promocodeTitle: name,
             name: user.name,
             navigator: {
-                userAgent: navigator.userAgent,
-                platform: navigator.platform
+                userAgent,
+                platform
             }
         };
 

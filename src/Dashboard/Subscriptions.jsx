@@ -112,7 +112,9 @@ export default class Subscriptions extends React.Component {
             keyName: keyName.value,
             navigator: {
                 userAgent: navigator.userAgent,
-                platform: navigator.platform
+                platform: navigator.platform,
+                appName: navigator.appName,
+                appVersion: navigator.appVersion
             }
         };
 

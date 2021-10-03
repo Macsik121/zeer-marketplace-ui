@@ -24,12 +24,20 @@ class DeleteKey extends React.Component {
 
         const user = jwtDecode(localStorage.getItem('token'))
 
+        const {
+            userAgent,
+            platform,
+            appName,
+            appVersion
+        } = navigator;
         const vars = {
             keyName: keyToDelete.name,
             title: match.params.title,
             navigator: {
-                userAgent: navigator.userAgent,
-                platform: navigator.platform
+                userAgent,
+                platform,
+                appName,
+                appVersion
             },
             name: user.name
         }

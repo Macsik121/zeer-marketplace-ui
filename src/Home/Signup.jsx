@@ -130,7 +130,9 @@ class Signup extends React.Component {
             password,
             navigator: {
                 userAgent: navigator.userAgent,
-                platform: navigator.platform
+                platform: navigator.platform,
+                appName: navigator.appName,
+                appVersion: navigator.appVersion
             }
         };
 

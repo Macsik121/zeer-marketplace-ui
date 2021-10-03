@@ -18,7 +18,6 @@ export default class ChoosingCostDropdown extends React.Component {
         const { choosenDropdown } = this.state;
         if (allCost && prevProps.allCost != allCost) {
             if (allCost[0]) {
-                console.log(allCost[0]);
                 this.setState({ choosenDropdown: allCost[0].menuText });
                 getCost(allCost[0].cost);
                 getChoosenDropdown(allCost[0].menuText);
@@ -42,7 +41,6 @@ export default class ChoosingCostDropdown extends React.Component {
         let costDropdown = [];
         if (allCost && allCost[0]) {
             costDropdown = allCost.map((cost, i) => {
-                console.log(cost);
                 return <div
                     className="item"
                     key={i}

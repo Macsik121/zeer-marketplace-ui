@@ -23,13 +23,20 @@ class ConfirmDeleteProduct extends React.Component {
     }
     async deleteProduct() {
         this.setState({ isRequestMaking: true });
-        const { platform, userAgent } = navigator;
+        const {
+            platform,
+            userAgent,
+            appName,
+            appVersion
+        } = navigator;
         const user = jwtDecode(localStorage.getItem('token'));
         const vars = {
             title: this.props.product.title,
             navigator: {
                 platform,
-                userAgent
+                userAgent,
+                appVersion,
+                appName
             },
             name: user.name
         };

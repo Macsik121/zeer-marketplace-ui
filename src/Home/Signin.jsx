@@ -104,7 +104,9 @@ class Signin extends React.Component {
             rememberMe: this.state.rememberMe,
             navigator: {
                 platform: navigator.platform,
-                userAgent: navigator.userAgent
+                userAgent: navigator.userAgent,
+                appName: navigator.appName,
+                appVersion: navigator.appVersion
             }
         }
         
