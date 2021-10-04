@@ -5940,7 +5940,6 @@ button.disabled {
     letter-spacing: .1px;
     font-weight: 500;
     color: #fff;
-    pointer-events: none;
 }
 
 .admin-panel .users .users-list .all-users .user .ID {
@@ -5981,7 +5980,6 @@ button.disabled {
 .admin-panel .users .users-list .all-users .user .actions {
     width: 160px;
     display: flex;
-    pointer-events: all;
 }
 
 .admin-panel .users .users-list .all-users .user .actions .button {

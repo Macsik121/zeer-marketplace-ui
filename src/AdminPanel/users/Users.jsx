@@ -166,6 +166,9 @@ class Users extends React.Component {
     toggleBand(e) {
         e.target.classList.toggle('active');
     }
+    toggleParentElement(e) {
+        e.target.parentNode.classList.toggle('active');
+    }
     searchUsers(e) {
         let searchCondition = e.target.value;
         searchCondition = searchCondition.toLowerCase().trim();
@@ -233,22 +236,25 @@ class Users extends React.Component {
                         >
                             <span
                                 className="ID user-info"
+                                onClick={this.toggleParentElement}
                             >
                                 {user.id}
                             </span>
                             <span
                                 className="login user-info"
-                                onClick={e => e.stopPropagation()}
+                                onClick={this.toggleParentElement}
                             >
                                 {user.name}
                             </span>
                             <span
                                 className="e-mail user-info"
+                                onClick={this.toggleParentElement}
                             >
                                 {user.email}
                             </span>
                             <span
                                 className="registered-date user-info"
+                                onClick={this.toggleParentElement}
                             >
                                 {new Date(user.registeredDate).toLocaleDateString()}
                             </span>
