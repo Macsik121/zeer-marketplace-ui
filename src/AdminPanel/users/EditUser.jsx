@@ -72,6 +72,7 @@ class EditUser extends React.Component {
                 user(name: $name) {
                     email
                     name
+                    hwid
                     subscriptions {
                         status {
                             isExpired
@@ -136,6 +137,7 @@ class EditUser extends React.Component {
         const form = document.forms.editUserForm;
         const name = form.name.value;
         const email = form.email.value;
+        const hwid = form.hwid.value;
 
         const adminUser = jwtDecode(localStorage.getItem('token'));
         const {
@@ -150,7 +152,7 @@ class EditUser extends React.Component {
             name,
             email,
             oldName: oldUsername,
-            hwid: '',
+            hwid,
             role,
             navigator: {
                 platform,
@@ -457,7 +459,7 @@ class EditUser extends React.Component {
                 $navigator: NavigatorInput,
                 $locationData: LocationInput!,
                 $productCost: Int!,
-                $issueSub: Boolean,!
+                $issueSub: Boolean!,
                 $days: Int!
             ) {
                 buyProduct(
@@ -759,6 +761,9 @@ class EditUser extends React.Component {
                                 <input
                                     type="text"
                                     className="field hwid"
+                                    value={user.hwid}
+                                    onChange={this.handleChangeUserData}
+                                    name="hwid"
                                 />
                             </div>
                             <div className="field-wrap role-wrap">

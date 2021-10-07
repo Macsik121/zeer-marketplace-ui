@@ -19,7 +19,6 @@ class UserMenu extends React.Component {
         const user = jwtDecode(localStorage.getItem('token'));
 
         const locationData = await getIPData();
-        console.log(locationData);
         const { ip, city } = locationData;
         const vars = {
             log: {

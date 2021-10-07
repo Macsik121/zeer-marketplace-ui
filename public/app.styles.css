@@ -5387,6 +5387,7 @@ button.disabled {
 
 .admin-panel .search {
     display: flex;
+    transition: 300ms;
 }
 
 .admin-panel .search-bar {
@@ -9812,6 +9813,7 @@ button.disabled {
     letter-spacing: .1px;
     color: #fff;
     margin-top: 20px;
+    transition: 300ms;
 }
 
 .admin-panel .logs .table .heading {

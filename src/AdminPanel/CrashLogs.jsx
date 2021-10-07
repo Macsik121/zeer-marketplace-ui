@@ -1,6 +1,8 @@
 import React from 'react';
 import { CircularProgress } from '@material-ui/core';
 import { withRouter } from 'react-router';
+import fetchData from '../fetchData';
+import createNotification from '../createNotification';
 import Pages from './Pages.jsx';
 
 class CrashLogs extends React.Component {
@@ -14,531 +16,31 @@ class CrashLogs extends React.Component {
             logsCopy: []
         };
         this.handleSearchChange = this.handleSearchChange.bind(this);
+        this.cleanLogs = this.cleanLogs.bind(this);
+        this.getCrashLogs = this.getCrashLogs.bind(this);
     }
-    componentDidMount() {
-        const logs = [
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'Max',
-                codeError: '0239475 код ошибка, блабла',
-                errorDesc: 'Описание',
-                playingTime: '1мин.'
-            },
-            {
-                date: new Date(),
-                name: 'Maksimusъ',
-                codeError: 'Код ошибка: 6660066',
-                errorDesc: 'Описание рандомное...',
-                playingTime: '2 дня'
-            },
-            {
-                date: new Date(),
-                name: 'Кто-то',
-                codeError: 'Error code: 33200',
-                errorDesc: 'Описание любое',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'Someone',
-                codeError: 'Код ошибки: 228',
-                errorDesc: 'Error description: Какое-то описание ошибки...',
-                playingTime: '3ч'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
-            },
-            {
-                date: new Date(),
-                name: 'username',
-                codeError: 'Какой-то код ошибки',
-                errorDesc: 'Какое-то описание ошибки.',
-                playingTime: '2мин.'
+    async componentDidMount() {
+        await this.getCrashLogs();
+    }
+    async getCrashLogs() {
+        this.setState({ requestMaking: true });
+        const result = await fetchData(`
+            query {
+                crashLogs {
+                    name
+                    codeError
+                    errorDesc
+                    playingTime
+                    date
+                }
             }
-        ];
+        `);
+        const logs = result.crashLogs;
+
         this.setState({
             logs,
-            logsCopy: logs
+            logsCopy: logs,
+            requestMaking: false
         });
     }
     filterLog(log, searchValue) {
@@ -574,6 +76,19 @@ class CrashLogs extends React.Component {
     async cleanLogs() {
         this.setState({ requestMaking: true });
 
+        let result = await fetchData(`
+            mutation {
+                cleanCrashLogs {
+                    message
+                    success
+                }
+            }
+        `);
+        result = result.cleanCrashLogs;
+        const { success, message } = result;
+        createNotification(success ? 'info' : 'error', message);
+
+        await this.getCrashLogs();
         this.setState({ requestMaking: false });
     }
     toggleActiveClass(e) {
@@ -666,7 +181,15 @@ class CrashLogs extends React.Component {
                 >
                     Логи крашей
                 </h2>
-                <div className="table">
+                <div
+                    className="table"
+                    style={
+                        {
+                            opacity: requestMaking ? .5 : 1,
+                            pointerEvents: requestMaking ? 'none' : 'all'
+                        }
+                    }
+                >
                     <div className="heading">
                         <div className="date">Дата</div>
                         <div className="login">Логин</div>
