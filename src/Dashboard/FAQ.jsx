@@ -24,37 +24,52 @@ export default class FAQ extends React.Component {
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.answers != this.props.answers) {
             const { answers } = this.props;
-            this.setState({ answers, answersCopy: answers.slice() })
+            const categoriesToSearch = ['Все категории'];
+            answers.map(answer => categoriesToSearch.push(answer.sort));
+            this.setState({
+                answers,
+                answersCopy: answers.slice(),
+                categoriesToSearch
+            });
         }
-        const { currentCategory, answersCopy, searchValue } = this.state;
+        const {
+            currentCategory,
+            answersCopy,
+            searchValue
+        } = this.state;
         const answers = this.state.answersCopy.slice();
         if (prevState.currentCategory != currentCategory) {
             for (let i = 0; i < answers.length; i++) {
                 if (currentCategory == 'Все категории') {
-                    this.setState({answers: answersCopy}, () => this.filterAnswers(searchValue));
+                    this.setState({ answers: answersCopy }, () => this.filterAnswers(searchValue));
                     break;
                 }
                 if (answers[i].sort == currentCategory) {
                     this.setState({ answers: [ { ...answers[i] } ] }, () => this.filterAnswers(searchValue));
                 }
             }
-        }    
+        }
     }
     componentDidMount() {
         const { answers } = this.props;
         this.setState({ answers, answersCopy: answers.slice() });
-        let modifiedStateAnswers = answers;
+        let modifiedStateAnswers = [...answers];
         modifiedStateAnswers = modifiedStateAnswers.map(answer => {
             answer.isShown = false;
             return answer;
         });
         const categoriesToSearch = ['Все категории'];
         modifiedStateAnswers.map(answer => categoriesToSearch.push(answer.sort));
-        this.setState({categoriesToSearch, deviceWidth: window.innerWidth, answersCopy: modifiedStateAnswers});
+        this.setState({
+            categoriesToSearch,
+            deviceWidth: window.innerWidth,
+            answersCopy: modifiedStateAnswers.slice(),
+            answers: modifiedStateAnswers
+        });
     }
     filterAnswers(search) {
         const { answers, answersCopy, currentCategory } = this.state;
-        this.setState({searchValue: search});
+        this.setState({ searchValue: search });
 
         let answersToRender = [];
 
@@ -82,7 +97,7 @@ export default class FAQ extends React.Component {
             }
             this.setState({ answers: answersToRender });
         } else if (answersToRender.length < 1) {
-            this.setState({ answers: answersCopy });
+            this.setState({ answers: [] });
         } else {
             this.setState({ answers: answersToRender });
         }
@@ -106,32 +121,32 @@ export default class FAQ extends React.Component {
                                     className="25-percents"
                                     style={
                                         answer.usefulRate >= 25
-                                            ? {backgroundColor: '#50B5FF'}
-                                            : {backgroundColor: '#fff'}
+                                            ? { backgroundColor: '#50B5FF' }
+                                            : { backgroundColor: '#fff' }
                                     }
                                 />
                                 <div
                                     className="50-percents"
                                     style={
                                         answer.usefulRate >= 50
-                                            ? {backgroundColor: '#50B5FF'}
-                                            : {backgroundColor: '#fff'}
+                                            ? { backgroundColor: '#50B5FF' }
+                                            : { backgroundColor: '#fff' }
                                     }
                                 />
                                 <div
                                     className="75-percents"
                                     style={
                                         answer.usefulRate >= 75
-                                            ? {backgroundColor: '#50B5FF'}
-                                            : {backgroundColor: '#fff'}
+                                            ? { backgroundColor: '#50B5FF' }
+                                            : { backgroundColor: '#fff' }
                                     }
                                 />
                                 <div
                                     className="100-percents"
                                     style={
                                         answer.usefulRate >= 100
-                                            ? {backgroundColor: '#50B5FF'}
-                                            : {backgroundColor: '#fff'}
+                                            ? { backgroundColor: '#50B5FF' }
+                                            : { backgroundColor: '#fff' }
                                     }
                                 />
                             </div>
@@ -151,7 +166,7 @@ export default class FAQ extends React.Component {
         );
         renderedAnswers.unshift(
             <div
-                key={++renderedAnswers.length}
+                key={renderedAnswers.length + 1}
                 className="answer-not-found"
             >
                 <a href="https://vk.com/zeer_csgo" target="_blank" className="plus-icon">
@@ -265,7 +280,7 @@ export default class FAQ extends React.Component {
                     key={category}
                     style={
                         category == currentCategory
-                            ? {backgroundColor: '#2d2d36'}
+                            ? { backgroundColor: '#2d2d36' }
                             : {}
                     }
                 >
@@ -308,15 +323,21 @@ export default class FAQ extends React.Component {
                             <div
                                 style={
                                     hiddenSearchCategories
-                                        ? {maxHeight: 0, transition: '200ms'}
-                                        : {maxHeight: '550px', transition: '500ms'}
+                                        ? { maxHeight: 0, transition: '200ms' }
+                                        : { maxHeight: '550px', transition: '500ms' }
                                 }
                                 className="the-rest-categories"
                             >
-                                {categoriesToSearch.map((category, i) => category)}
+                                {categoriesToSearch.map(category => category)}
                             </div>
                         </div>
-                        <input onClick={this.hiddenCategoryMenu} placeholder="Ваш вопрос..." className="search" value={searchValue} onChange={this.handleSearch} />
+                        <input
+                            onClick={this.hiddenCategoryMenu}
+                            placeholder="Ваш вопрос..."
+                            className="search"
+                            value={searchValue} 
+                            onChange={this.handleSearch}
+                        />
                         <img className="search-icon" src="/images/search-icon.png" />
                     </div>
                     <CircularProgress

@@ -32,6 +32,7 @@ class CrashLogs extends React.Component {
                     errorDesc
                     playingTime
                     date
+                    full_log_excetion
                 }
             }
         `);
@@ -111,7 +112,8 @@ class CrashLogs extends React.Component {
                 name,
                 codeError,
                 errorDesc,
-                playingTime
+                playingTime,
+                full_log_excetion
             } = log;
 
             if (renderFrom <= i && i < renderUnder) {
@@ -127,7 +129,13 @@ class CrashLogs extends React.Component {
                         <div className="error-description">{errorDesc}</div>
                         <div className="playing-time">{playingTime}</div>
                         <div className="action">
-                            <button className="button">Скачать</button>
+                            <a
+                                className="button"
+                                href={'data:application/octet-stream,' + full_log_excetion}
+                                download="full_log_excetion.txt"
+                            >
+                                Скачать
+                            </a>
                         </div>
                     </div>
                 )

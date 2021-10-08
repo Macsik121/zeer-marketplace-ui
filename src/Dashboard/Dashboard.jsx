@@ -205,7 +205,7 @@ class Dashboard extends React.Component {
             productCost: cost
         };
         window.location.href = `
-            https://paymaster.ru/payment/init?LMI_MERCHANT_ID=77aa76b8-1551-42c5-be5f-f49d6330260f&LMI_PAYMENT_AMOUNT=${cost}&LMI_CURRENCY=RUB&LMI_PAYMENT_DESC=Оплата%20товара%20${title}%20на%20${days == 360 ? '1 год' : days}%20${days == 360 ? '' : days == 1 ? 'день' : 'дней'}&LMI_SUCCESS_URL=${uiEndpoint}/confirmation-payment/${vars.name}/${vars.title}/${vars.productCost}/${days}/${vars.navigator.platform}/${vars.navigator.userAgent}/${vars.navigator.appName}/${vars.navigator.appVersion}/${vars.locationData.ip}/${vars.locationData.location}/${splitDelimiter}&LMI_FAIL_URL=${uiEndpoint}/failure-payment&LMI_SHOPPINGCART.ITEMS[N].NAME=${title}&LMI_SHOPPINGCART.ITEMS[N].QTY=1&LMI_SHOPPINGCART.ITEMS[N].PRICE=${cost}&LMI_SHOPPINGCART.ITEMS[N].TAX=no_vat
+            https://paymaster.ru/payment/init?LMI_MERCHANT_ID=77aa76b8-1551-42c5-be5f-f49d6330260f&LMI_PAYMENT_AMOUNT=${cost}&LMI_CURRENCY=RUB&LMI_PAYMENT_DESC=Оплата%20товара%20${encodeURIComponent(title)}%20на%20${days == 360 ? '1 год' : days}%20${days == 360 ? '' : days == 1 ? 'день' : 'дней'}&LMI_SUCCESS_URL=${uiEndpoint}/confirmation-payment/${vars.name}/${vars.title}/${vars.productCost}/${days}/${vars.navigator.platform}/${vars.navigator.userAgent}/${vars.navigator.appName}/${vars.navigator.appVersion}/${vars.locationData.ip}/${vars.locationData.location}/${splitDelimiter}&LMI_FAIL_URL=${uiEndpoint}/failure-payment&LMI_SHOPPINGCART.ITEMS[N].NAME=${title}&LMI_SHOPPINGCART.ITEMS[N].QTY=1&LMI_SHOPPINGCART.ITEMS[N].PRICE=${cost}&LMI_SHOPPINGCART.ITEMS[N].TAX=no_vat
         `;
         // this.setState({ productsRequestMaking: true });
 
@@ -642,6 +642,7 @@ class Dashboard extends React.Component {
                                 () => (
                                     <Subscriptions
                                         subscriptions={subscriptions}
+                                        products={products}
                                         toggleAgreement={this.toggleAgreement}
                                         hideAgreement={this.hideAgreement}
                                         agreementShown={agreementShown}

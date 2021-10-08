@@ -159,6 +159,25 @@ export default class Subscriptions extends React.Component {
     hideMessageModal() {
         this.setState({ isMessageShown: false });
     }
+    chooseSub(sub) {
+        const {
+            products,
+            showChoosingDays
+        } = this.props;
+        const { title } = sub;
+        let choosenProduct = {};
+
+        for(let i = 0; i < products.length; i++) {
+            const product = products[i];
+            if (title == product.title) {
+                choosenProduct = product;
+                break;
+            }
+        }
+
+        console.log(choosenProduct);
+        showChoosingDays(choosenProduct);
+    }
     render() {
         const {
             subscriptions,
@@ -170,8 +189,7 @@ export default class Subscriptions extends React.Component {
         const {
             toggleAgreement,
             buyProduct,
-            agreementShown,
-            showChoosingDays
+            agreementShown
         } = this.props;
         const activeSubs = [];
         const expiredSubs = [];
@@ -221,7 +239,7 @@ export default class Subscriptions extends React.Component {
                                         <div className="buttons">
                                             <button
                                                 className="button extend"
-                                                onClick={() => showChoosingDays(sub)}
+                                                onClick={() => this.chooseSub(sub)}
                                             >
                                                 Продлить
                                             </button>
@@ -267,7 +285,7 @@ export default class Subscriptions extends React.Component {
                                         <div className="buttons">
                                             <button
                                                 className="button extend"
-                                                onClick={() => showChoosingDays(sub)}
+                                                onClick={() => this.chooseSub(sub)}
                                             >
                                                 Продлить
                                             </button>

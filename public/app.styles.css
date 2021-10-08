@@ -9800,6 +9800,10 @@ button.disabled {
     cursor: pointer;
     color: #fff;
     transition: 300ms;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
 }
 
 .admin-panel .crash-logs .table .table-content .log .action .button:hover {
