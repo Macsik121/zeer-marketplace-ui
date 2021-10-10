@@ -15,6 +15,7 @@ export default class ChoosingCostModal extends React.Component {
     }
     componentDidUpdate(prevProps) {
         const { product } = this.props;
+        console.log('product:', product);
         if (prevProps.product != product) {
             this.setState({ product });
         }

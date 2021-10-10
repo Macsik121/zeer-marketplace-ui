@@ -85,7 +85,7 @@ app.post(
         } = req.params;
         const variables = {
             name,
-            title,
+            title: decodeURIComponent(title),
             productCost: +cost,
             navigator: {
                 platform,

@@ -95,7 +95,12 @@ class ConfirmDeleteProduct extends React.Component {
                     <CloseIcon className="close-modal" onClick={hideModal} />
                 </div>
                 <div className="content">
-                    Вы действительно хотите удалить продукт {product.title}?
+                    Вы действительно хотите удалить продукт&nbsp;
+                    <span
+                        style={{ maxWidth: '360px' }}
+                    >
+                        {product.title}
+                    </span>?
                 </div>
                 <div className="buttons">
                     <button

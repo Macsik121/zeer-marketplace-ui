@@ -112,9 +112,9 @@ class CrashLogs extends React.Component {
                 name,
                 codeError,
                 errorDesc,
-                playingTime,
-                full_log_excetion
+                playingTime
             } = log;
+            let full_log_excetion = encodeURIComponent(log.full_log_excetion);
 
             if (renderFrom <= i && i < renderUnder) {
                 return (

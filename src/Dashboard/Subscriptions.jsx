@@ -22,7 +22,11 @@ export default class Subscriptions extends React.Component {
     constructor() {
         super();
         this.state = {
-            subscriptions: {},
+            subscriptions: {
+                all: [],
+                overdue: [],
+                active: []
+            },
             showAll: false,
             isRequestSent: false,
             message: 'Message',
@@ -188,29 +192,27 @@ export default class Subscriptions extends React.Component {
         } = this.state;
         const {
             toggleAgreement,
-            buyProduct,
             agreementShown
         } = this.props;
         const activeSubs = [];
         const expiredSubs = [];
-        subscriptions.all ? subscriptions.all.map((sub, i) => {
+        const limitSubs = 6;
+        for(let i = 0; i < subscriptions.all.length; i++) {
             if (!showAll && i > 5) {
-                return;
+                break;
             }
+            const sub = subscriptions.all[i];
             const {
                 status,
                 imageURL,
                 title,
                 productFor,
                 activelyUntil,
-                freezeTime,
-                wasFreezed,
+                wasFreezed
             } = sub;
+
             const freezeConditions = wasFreezed;
-            // (
-            //     wasFreezed && new Date(freezeTime).getTime() - new Date().getTime() >= 0
-            // );
-            if (!sub.status.isExpired) {
+            if (status.isActive || status.isFreezed) {
                 activeSubs.push(
                     <div key={title} className="subscription">
                         <img
@@ -232,7 +234,7 @@ export default class Subscriptions extends React.Component {
                                     ${new Date(activelyUntil).toLocaleDateString()}
                                 `}
                             </span>
-                            {sub.status.isActive &&
+                            {status.isActive &&
                                 <div className="status-content active">
                                     <label className="active status">Работает</label>
                                     <div className="buttons-wrap">
@@ -308,7 +310,7 @@ export default class Subscriptions extends React.Component {
                         </div>
                     </div>
                 )
-            } else {
+            } else if (status.isExpired) {
                 expiredSubs.push(
                     <div key={title} className="subscription">
                         <img
@@ -325,7 +327,7 @@ export default class Subscriptions extends React.Component {
                                 </label>
                                 <div className="buttons-wrap">
                                     <div className="buttons">
-                                        <button onClick={buyProduct} className="button">
+                                        <button onClick={() => this.chooseSub(sub)} className="button">
                                             Оплатить
                                         </button>
                                         <button className="button">
@@ -344,7 +346,7 @@ export default class Subscriptions extends React.Component {
                     </div>
                 )
             }
-        }) : '';
+        }
 
         return (
             <div
@@ -367,10 +369,7 @@ export default class Subscriptions extends React.Component {
                     }
                     message={message}
                 />
-                <div
-                    className="container"
-                    
-                >
+                <div className="container">
                     <div
                         className="all-subscriptions"
                     >
@@ -398,7 +397,7 @@ export default class Subscriptions extends React.Component {
                             {
                                 subscriptions.all
                                 &&
-                                subscriptions.all.length - subscriptions.overdue.length > 6
+                                subscriptions.active.length > 6
                                 ? (
                                     <div className="show-all-wrap">
                                         <button
@@ -413,19 +412,15 @@ export default class Subscriptions extends React.Component {
                                         </button>
                                         <label>
                                             Показано {`${activeSubs.length}`} подписок из&nbsp;
-                                            {`${
-                                                subscriptions.all &&
-                                                    subscriptions.all.length - subscriptions.overdue.length
-                                            }`}
+                                            {`${subscriptions.active.length}`}
                                         </label>
                                     </div>
-                                )
-                                : (
+                                ) : (
                                     <div className="show-all-wrap">
                                         <label style={{ margin: 0 }}>
                                             Показано {activeSubs.length}
                                             &nbsp;подписок из&nbsp;
-                                            {subscriptions.all && subscriptions.all.length - subscriptions.overdue.length}
+                                            {subscriptions.active && subscriptions.active.length}
                                         </label>
                                     </div>
                                 )

@@ -468,11 +468,15 @@ class EditProduct extends React.Component {
             }
         };
 
-        const result = await fetchData(`
+        const { addCost: { success, message } } = await fetchData(`
             mutation addCost($title: String!, $cost: CostInput!) {
-                addCost(title: $title, cost: $cost)
+                addCost(title: $title, cost: $cost) {
+                    message
+                    success
+                }
             }
         `, vars);
+        createNotification(success ? 'success' : 'error', message);
         await this.getProduct();
 
         this.setState({ isRequestMaking: false });

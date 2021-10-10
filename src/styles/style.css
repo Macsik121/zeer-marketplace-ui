@@ -2677,6 +2677,8 @@ button.disabled {
     color: #FAFAFB;
     max-height: 24px;
     overflow: hidden;
+    max-width: 510px;
+    word-wrap: break-word;
 }
 
 .dashboard .main .subscriptions .all-subscriptions .subscription .content .overdue {
@@ -4021,6 +4023,13 @@ button.disabled {
     flex-direction: column;
     justify-content: center;
     height: 100%;
+}
+
+.choosing-cost-modal .choose-cost .product-title {
+    max-width: 390px;
+    overflow: hidden;
+    word-wrap: break-word;
+    max-height: 42px;
 }
 
 .choosing-cost-modal .choose-cost .calc-cost {
@@ -5952,6 +5961,9 @@ button.disabled {
     letter-spacing: .1px;
     color: #FAFAFB;
     text-align: center;
+    overflow: hidden;
+    max-width: 330px;
+    word-wrap: break-word;
 }
 
 .admin-panel .promocodes .promocodes-wrap .promocode .promocodes-amount {
