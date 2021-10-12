@@ -577,6 +577,7 @@ button.disabled {
     padding: 40px 30px 50px 30px;
     z-index: 2;
     transition: 300ms;
+    user-select: none;
 }
 
 .home .advantages .advantage:hover {

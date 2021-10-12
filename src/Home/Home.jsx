@@ -451,7 +451,7 @@ class Home extends React.Component {
                     <div className="container">
                         <div className="info">
                             <h3 className="popular-products">Популярные продукты</h3>
-                            <span className="date">
+                            {/* <span className="date">
                                 {
                                     `${
                                         new Date().getMonth() + 1 < 10
@@ -463,7 +463,7 @@ class Home extends React.Component {
                                             : new Date().getDate()
                                     }`
                                 }
-                            </span>
+                            </span> */}
                         </div>
                         {
                             deviceWidth > 650
