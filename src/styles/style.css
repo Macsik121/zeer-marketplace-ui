@@ -248,7 +248,7 @@ button.disabled {
     text-transform: uppercase;
     background: transparent;
     cursor: pointer;
-    width: 170px;
+    min-width: 170px;
     display: flex;
     justify-content: center;
 }
@@ -2762,6 +2762,15 @@ button.disabled {
 .dashboard .main .subscriptions .all-subscriptions .subscription .content .status-content .buttons .button.freeze:hover {
     background-color: rgba(255, 255, 255, .1);
     border: 1px solid transparent;
+}
+
+.dashboard .main .subscriptions .all-subscriptions .subscription .content .status-content .buttons .button.refuse:hover {
+    background-color: rgba(255, 255, 255, .1);
+    border: 1px solid transparent;
+}
+
+.dashboard .main .subscriptions .all-subscriptions .subscription .content .status-content.expired .buttons .button:first-of-type:hover {
+    background-color: rgba(252, 90, 90, .6);
 }
 
 .dashboard .main .subscriptions .all-subscriptions .subscription .content .status-content.freezed .buttons .button.extend:hover {

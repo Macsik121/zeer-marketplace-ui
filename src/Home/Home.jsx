@@ -19,6 +19,7 @@ class Home extends React.Component {
             showingSignup: false,
             showingAgreement: false,
             showingForgotPassword: false,
+            token: '',
             advantages: [
                 {
                     imgURL: '/images/advantage1-icon.png',
@@ -95,15 +96,21 @@ class Home extends React.Component {
         this.hideDataProcessing = this.hideDataProcessing.bind(this);
         this.setAllContactsToHidden = this.setAllContactsToHidden.bind(this);
     }
+    componentDidUpdate(_, prevState) {
+        let token = localStorage.getItem('token');
+        if (!token) token = '';
+        if (prevState.token != token) {
+            this.setState({ token });
+        }
+    }
     async componentDidMount() {
         const token = localStorage.getItem('token');
-        // if (token && token != '') {
-        //     const user = jwtDecode(token);
-        //     this.props.history.push('/dashboard');
-        //     return;
-        // } else {
-        //     this.props.user && this.props.getUser();
-        // }
+        if (token && token != '') {
+            this.setState({ token });
+            return;
+        } else {
+            this.setState({ token: '' });
+        }
         window.onkeydown = function(e) {
             const {
                 showingLogin,
@@ -211,7 +218,8 @@ class Home extends React.Component {
             contactsShown,
             termsOfUseShown,
             privacyPolicyShown,
-            dataProcessingShown
+            dataProcessingShown,
+            token
         } = this.state;
 
         const contactsModalShown = (
@@ -338,12 +346,32 @@ class Home extends React.Component {
                                         </a>
                                     </div>
                                     <div className="auth-buttons">
-                                        <button onClick={this.toggleLogin} className="button" to="/signin">
-                                            Войти
-                                        </button>
-                                        <button onClick={this.toggleSignup} className="button" to="/signup">
-                                            Регистрация
-                                        </button>
+                                        {
+                                            token == ''
+                                                ? (
+                                                    <>
+                                                        <button
+                                                            onClick={this.toggleLogin}
+                                                            className="button"
+                                                        >
+                                                            Войти
+                                                        </button>
+                                                        <button
+                                                            onClick={this.toggleSignup}
+                                                            className="button"
+                                                        >
+                                                            Регистрация
+                                                        </button>
+                                                    </>
+                                                ) : (
+                                                    <Link
+                                                        className="button"
+                                                        to="/dashboard"
+                                                    >
+                                                        Личный Кабинет
+                                                    </Link>
+                                                )
+                                        }
                                     </div>
                                 </div>
                             </div>

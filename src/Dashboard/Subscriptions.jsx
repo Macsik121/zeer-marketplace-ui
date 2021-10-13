@@ -37,6 +37,7 @@ export default class Subscriptions extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.showMessageModal = this.showMessageModal.bind(this);
         this.hideMessageModal = this.hideMessageModal.bind(this);
+        this.refuseSub = this.refuseSub.bind(this);
     }
     componentDidUpdate(prevProps) {
         const { subscriptions } = this.props;
@@ -179,8 +180,28 @@ export default class Subscriptions extends React.Component {
             }
         }
 
-        console.log(choosenProduct);
         showChoosingDays(choosenProduct);
+    }
+    async refuseSub(title) {
+        this.setState({ isRequestSent: true });
+        const user = jwtDecode(localStorage.getItem('token'));
+
+        const vars = {
+            title,
+            name: user.name
+        };
+        const { refuseSub: { success, message } } = await fetchData(`
+            mutation refuseSub($name: String!, $title: String!) {
+                refuseSub(name: $name, title: $title) {
+                    message
+                    success
+                }
+            }
+        `, vars);
+        createNotification(success ? 'info' : 'error', message);
+        await this.props.getSubscriptions();
+
+        this.setState({ isRequestSent: false })
     }
     render() {
         const {
@@ -198,9 +219,6 @@ export default class Subscriptions extends React.Component {
         const expiredSubs = [];
         const limitSubs = 6;
         for(let i = 0; i < subscriptions.all.length; i++) {
-            if (!showAll && i > 5) {
-                break;
-            }
             const sub = subscriptions.all[i];
             const {
                 status,
@@ -210,9 +228,44 @@ export default class Subscriptions extends React.Component {
                 activelyUntil,
                 wasFreezed
             } = sub;
-
             const freezeConditions = wasFreezed;
-            if (status.isActive || status.isFreezed) {
+
+            if (status.isExpired) {
+                expiredSubs.push(
+                    <div key={title} className="subscription">
+                        <img
+                            src={imageURL || ''}
+                            style={{ border: '3px solid #FC5A5A' }}
+                            className="subscription-icon"
+                        />
+                        <div className="content">
+                            <h3 className="sub-title">{title}{' | '}{productFor}</h3>
+                            <span className="overdue">Просроченo</span>
+                            <div className="status-content expired">
+                                <label className="status payment-required">
+                                    Требуется оплата
+                                </label>
+                                <div className="buttons-wrap">
+                                    <div className="buttons">
+                                        <button onClick={() => this.chooseSub(sub)} className="button pay">
+                                            Оплатить
+                                        </button>
+                                        <button className="button refuse" onClick={() => this.refuseSub(sub.title)}>
+                                            Oтказаться
+                                        </button>
+                                    </div>
+                                    <Link
+                                        to={`/dashboard/products/${title}`}
+                                        className="product-info"
+                                    >
+                                        i
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )
+            } else if (status.isActive || status.isFreezed) {
                 activeSubs.push(
                     <div key={title} className="subscription">
                         <img
@@ -248,6 +301,12 @@ export default class Subscriptions extends React.Component {
                                             <button
                                                 className="button freeze"
                                                 onClick={this.freezeSubscription}
+                                                onMouseEnter={e => {
+                                                    e.target.style.backgroundColor = 'rgba(255, 255, 255, .1)';
+                                                }}
+                                                onMouseLeave={e => {
+                                                    e.target.style.backgroundColor = freezeConditions ? '#dfdfdf' : 'transparent';
+                                                }}
                                                 style={
                                                     {
                                                         background: (
@@ -256,9 +315,13 @@ export default class Subscriptions extends React.Component {
                                                                 : 'transparent'
                                                         ),
                                                         pointerEvents: (
-                                                            freezeConditions
+                                                            isRequestSent
                                                                 ? 'none'
-                                                                : 'all'
+                                                                : (
+                                                                    freezeConditions
+                                                                        ? 'none'
+                                                                        : 'all'
+                                                                )
                                                         ),
                                                         color: (
                                                             freezeConditions
@@ -307,41 +370,6 @@ export default class Subscriptions extends React.Component {
                                     </div>
                                 </div>
                             }
-                        </div>
-                    </div>
-                )
-            } else if (status.isExpired) {
-                expiredSubs.push(
-                    <div key={title} className="subscription">
-                        <img
-                            src={imageURL || ''}
-                            style={{ border: '3px solid #FC5A5A' }}
-                            className="subscription-icon"
-                        />
-                        <div className="content">
-                            <h3 className="sub-title">{title}{' | '}{productFor}</h3>
-                            <span className="overdue">Просроченo</span>
-                            <div className="status-content expired">
-                                <label className="status payment-required">
-                                    Требуется оплата
-                                </label>
-                                <div className="buttons-wrap">
-                                    <div className="buttons">
-                                        <button onClick={() => this.chooseSub(sub)} className="button">
-                                            Оплатить
-                                        </button>
-                                        <button className="button">
-                                            Oтказаться
-                                        </button>
-                                    </div>
-                                    <Link
-                                        to={`/dashboard/products/${title}`}
-                                        className="product-info"
-                                    >
-                                        i
-                                    </Link>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 )
