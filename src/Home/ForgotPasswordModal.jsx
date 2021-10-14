@@ -4,8 +4,16 @@ import fetchData from '../fetchData';
 import createNotification from '../createNotification';
 
 export default class ForgotPassword extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            requestMaking: false
+        };
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
     async handleSubmit(e) {
         e.preventDefault();
+        this.setState({ requestMaking: true });
         const form = document.forms.resetPassword;
         const email = form.email.value;
         const { resetPassword: { message } } = await fetchData(`
@@ -16,9 +24,15 @@ export default class ForgotPassword extends React.Component {
             }
         `, { email });
         createNotification('info', message);
+        this.setState({ requestMaking: false });
     }
     render() {
-        const { style, hideForgotPassword, showLogin } = this.props;
+        const {
+            style,
+            hideForgotPassword,
+            showLogin
+        } = this.props;
+        const { requestMaking } = this.state;
         return (
             <div style={style} className="forgot-password-modal">
                 <div className="heading">
@@ -29,16 +43,25 @@ export default class ForgotPassword extends React.Component {
                     onSubmit={this.handleSubmit}
                     className="forgot-password"
                     name="resetPassword"
+                    style={
+                        {
+                            opacity: requestMaking ? .5 : 1,
+                            pointerEvents: requestMaking ? 'none' : 'all'
+                        }
+                    }
                 >
-                    <fieldset>
-                        <div className="email field-wrap">
-                            <input className="field" name="email" required="required" />
-                            <label>
-                                Имя пользователя / Эл. почта
-                            </label>
-                        </div>
-                        <button className="reset-password" type="submit">Сбросить пароль</button>
-                    </fieldset>
+                    <div className="email field-wrap">
+                        <input className="field" name="email" required="required" />
+                        <label>
+                            Имя пользователя / Эл. почта
+                        </label>
+                    </div>
+                    <button
+                        className="reset-password"
+                        type="submit"
+                    >
+                        Сбросить пароль
+                    </button>
                 </form>
                 <div className="addition">
                     <button

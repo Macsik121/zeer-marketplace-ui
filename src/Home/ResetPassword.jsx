@@ -29,11 +29,7 @@ export default class ResetPassword extends React.Component {
             <div className="reset-password">
                 <div className="container">
                     <h2>Сброс пароля</h2>
-                    <form
-                        name="resetPassword"
-                        className="reset-form"
-                        onSubmit={this.handleSubmit}
-                    >
+                    <form name="resetPassword" className="reset-form" name="resetPassword">
                         {/* {!this.state.isUserDetected ? (
                             <input />
                         ) : (
