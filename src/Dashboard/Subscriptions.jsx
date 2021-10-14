@@ -209,11 +209,13 @@ export default class Subscriptions extends React.Component {
             isRequestSent,
             showAll,
             isMessageShown,
-            message
+            message,
+            showChoosingDays
         } = this.state;
         const {
             toggleAgreement,
-            agreementShown
+            agreementShown,
+            chooseDaysShown
         } = this.props;
         const activeSubs = [];
         const expiredSubs = [];
@@ -318,7 +320,7 @@ export default class Subscriptions extends React.Component {
                                                             isRequestSent
                                                                 ? 'none'
                                                                 : (
-                                                                    freezeConditions
+                                                                    freezeConditions || chooseDaysShown
                                                                         ? 'none'
                                                                         : 'all'
                                                                 )
@@ -381,9 +383,9 @@ export default class Subscriptions extends React.Component {
                 className="subscriptions"
                 style={
                     {
-                        opacity: agreementShown ? 0.5 : 1,
-                        pointerEvents: agreementShown ? 'none' : 'all',
-                        userSelect: agreementShown ? 'none' : 'text',
+                        opacity: agreementShown || chooseDaysShown ? 0.5 : 1,
+                        pointerEvents: agreementShown || chooseDaysShown ? 'none' : 'all',
+                        userSelect: agreementShown || chooseDaysShown ? 'none' : 'text',
                         transition: '300ms'
                     }
                 }
@@ -414,8 +416,8 @@ export default class Subscriptions extends React.Component {
                             className="active-subs"
                             style={
                                 {
-                                    pointerEvents: isRequestSent ? 'none' : 'all',
-                                    opacity: this.props.isRequestMaking ? 0 : 1
+                                    pointerEvents: isRequestSent ? 'none' : agreementShown || chooseDaysShown ? 'none' : 'all',
+                                    opacity: this.props.isRequestMaking ? 0 : agreementShown || chooseDaysShown ? .5 : 1
                                 }
                             }
                         >
@@ -457,15 +459,23 @@ export default class Subscriptions extends React.Component {
                         {subscriptions.overdue && subscriptions.overdue.length > 0 &&
                             <h2 className="overdue-sub-title">Просроченные подписки</h2>
                         }
-                        {expiredSubs}
+                        <div
+                            className="expired-subscriptions"
+                            style={{
+                                pointerEvents: isRequestSent ? 'none' : agreementShown || chooseDaysShown ? 'none' : 'all',
+                                opacity: this.props.isRequestMaking ? 0 : agreementShown || chooseDaysShown ? .5 : 1
+                            }}
+                        >
+                            {expiredSubs}
+                        </div>
                     </div>
                     <form
                         onSubmit={this.handleSubmit}
                         className="activate-product"
                         style={
                             {
-                                pointerEvents: isRequestSent && !agreementShown ? 'none' : 'all',
-                                userSelect: isRequestSent && !agreementShown ? 'none' : 'text'
+                                pointerEvents: isRequestSent || agreementShown || chooseDaysShown ? 'none' : 'all',
+                                userSelect: isRequestSent || agreementShown || chooseDaysShown ? 'none' : 'text'
                             }
                         }
                         name="activateKey"

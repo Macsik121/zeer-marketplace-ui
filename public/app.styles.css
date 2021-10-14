@@ -3141,6 +3141,7 @@ button.disabled {
     left: -1px;
     user-select: none;
     width: calc(100% + 2px);
+    z-index: 2;
 }
 
 .calc-cost .dropdown .items .item {
@@ -3963,6 +3964,10 @@ button.disabled {
     line-height: 36px;
     letter-spacing: .1px;
     font-weight: 600;
+}
+
+.dashboard .main .subscriptions .all-subscriptions .expired-subscriptions {
+    transition: 300ms;
 }
 
 .dashboard .main .subscriptions .all-subscriptions .subscription .content .status-content .status.payment-required {
@@ -5143,6 +5148,9 @@ button.disabled {
     border-radius: 15px;
     padding: 30px;
     transition: 200ms;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .choosing-cost-modal .heading {
@@ -5203,6 +5211,67 @@ button.disabled {
 
 .choosing-cost-modal .choose-cost .buy-product:hover {
     background-color: #1C6FF2;
+}
+
+.choosing-cost-modal .activate-promocode {
+    display: flex;
+}
+
+.choosing-cost-modal .activate-promocode .field-wrap {
+    display: flex;
+    position: relative;
+    width: 100%;
+    --label-top: -20px;
+    --label-left: 10px;
+}
+
+.choosing-cost-modal .activate-promocode .field-wrap .promo-name-field {
+    background-color: #1C1C24;
+    border: none;
+    border-bottom: 1px solid #aaa;
+    color: inherit;
+    width: 100%;
+    padding: 10px 5px;
+    transition: 300ms;
+}
+
+.choosing-cost-modal .activate-promocode .field-wrap .promo-name-field:focus {
+    border-bottom: 1px solid #1E75FF;
+}
+
+.choosing-cost-modal .activate-promocode .field-wrap .promo-name-field:focus + .field-label {
+    top: var(--label-top);
+    left: var(--label-left);
+}
+
+.choosing-cost-modal .activate-promocode .field-wrap .promo-name-field:valid + .field-label {
+    top: var(--label-top);
+    left: var(--label-left);
+}
+
+.choosing-cost-modal .activate-promocode .field-wrap .field-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    transition: 300ms;
+    pointer-events: none;
+}
+
+.choosing-cost-modal .activate-promocode .activate {
+    min-width: 130px;
+    background: transparent;
+    color: inherit;
+    border: 1px solid #FAFAFB;
+    cursor: pointer;
+    transition: 300ms;
+}
+
+.choosing-cost-modal .activate-promocode .activate:hover {
+    background-color: #FAFAFB;
+    color: #1C1C24;
 }
 
 .home .footer {

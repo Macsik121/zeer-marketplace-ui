@@ -181,7 +181,12 @@ class Dashboard extends React.Component {
 
         this.setState({ user: result.user });
     }
-    async buyProduct(title = '', cost = 1, days = 30) {
+    async buyProduct({
+        title = '',
+        cost = 1,
+        days = 30,
+        promocodeUsed = false
+    }) {
         const user = jwtDecode(localStorage.getItem('token'));
         let userAgent = navigator.userAgent;
         const splitDelimiter = '--';
@@ -581,7 +586,8 @@ class Dashboard extends React.Component {
                     style={
                         showingChangePassword ||
                         agreementShown ||
-                        chooseDaysAmountShown || isRequestMaking
+                        chooseDaysAmountShown ||
+                        isRequestMaking
                             ? {
                                 opacity: '.5',
                                 pointerEvents: 'none',
@@ -650,8 +656,8 @@ class Dashboard extends React.Component {
                                         user={user}
                                         buyProduct={this.buyProduct}
                                         isRequestMaking={subscriptionsRequestMaking}
-                                        agreementShown={agreementShown}
                                         showChoosingDays={this.showChoosingDays}
+                                        chooseDaysShown={chooseDaysAmountShown}
                                     />
                                 )
                             }

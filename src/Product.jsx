@@ -434,11 +434,11 @@ class Product extends React.Component {
                                                 }
                                             });
                                             if (buyProduct) {
-                                                buyProduct(
-                                                    product.title,
-                                                    productCost,
+                                                buyProduct({
+                                                    title: product.title,
+                                                    cost: productCost,
                                                     days
-                                                );
+                                                });
                                             }
                                             return;
                                         }}
