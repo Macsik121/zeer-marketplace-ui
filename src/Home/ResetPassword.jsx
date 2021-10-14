@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-// import { sendEmail } from '../server/nodemailer';
+import createNotification from '../createNotification';
+import fetchData from '../fetchData';
 
 export default class ResetPassword extends React.Component {
     constructor() {
@@ -11,17 +12,28 @@ export default class ResetPassword extends React.Component {
             selectedImage: ''
         };
     }
-    handleSubmit() {
+    async handleSubmit() {
         const form = document.forms.resetPassword;
         const email = form.email.value;
-        // sendEmail(email);
+        const { resetPassword: { message } } = await fetchData(`
+            mutation resetPassword($email: String!) {
+                resetPassword(email: $email) {
+                    message
+                }
+            }
+        `, { email });
+        createNotification('info', message);
     }
     render() {
         return (
             <div className="reset-password">
                 <div className="container">
                     <h2>Сброс пароля</h2>
-                    <form name="resetPassword" className="reset-form">
+                    <form
+                        name="resetPassword"
+                        className="reset-form"
+                        onSubmit={this.handleSubmit}
+                    >
                         {/* {!this.state.isUserDetected ? (
                             <input />
                         ) : (

@@ -107,7 +107,6 @@ class Home extends React.Component {
         const token = localStorage.getItem('token');
         if (token && token != '') {
             this.setState({ token });
-            return;
         } else {
             this.setState({ token: '' });
         }
@@ -235,7 +234,7 @@ class Home extends React.Component {
                 product={product}
                 key={product.id}
             />
-        ))
+        ));
 
         const advantages = this.state.advantages.map((advantage, i) => (
             <div key={advantage.title} className={`advantage advantage${++i}`}>

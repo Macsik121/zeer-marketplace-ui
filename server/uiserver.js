@@ -68,9 +68,13 @@ app.post('/uploaded-images', (req, res) => {
 });
 
 app.post(
-    '/confirmation-payment/:name/:title/:cost/:days/:platform/:userAgent/:appName/:appVersion/:ip/:location/:splitDelimiter',
+    '/confirmation-payment/:name/:title/:cost/:days/:platform/:userAgent/:appName/:appVersion/:ip/:location/:splitDelimiter/:promoName',
     async (req, res) => {
-        let userAgent = req.params.userAgent.split(req.params.splitDelimiter);
+        let {
+            userAgent,
+            promoName
+        } = req.params;
+        userAgent = userAgent.split(req.params.splitDelimiter);
         userAgent = userAgent.join('/');
         const {
             name,
@@ -83,6 +87,7 @@ app.post(
             ip,
             location
         } = req.params;
+        console.log(promoName);
         const variables = {
             name,
             title: decodeURIComponent(title),

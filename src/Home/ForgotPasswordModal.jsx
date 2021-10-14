@@ -1,9 +1,21 @@
 import React from 'react';
 import CloseIcon from '@material-ui/icons/Close';
+import fetchData from '../fetchData';
+import createNotification from '../createNotification';
 
 export default class ForgotPassword extends React.Component {
-    handleSubmit(e) {
+    async handleSubmit(e) {
         e.preventDefault();
+        const form = document.forms.resetPassword;
+        const email = form.email.value;
+        const { resetPassword: { message } } = await fetchData(`
+            mutation resetPassword($email: String!) {
+                resetPassword(email: $email) {
+                    message
+                }
+            }
+        `, { email });
+        createNotification('info', message);
     }
     render() {
         const { style, hideForgotPassword, showLogin } = this.props;
@@ -13,7 +25,11 @@ export default class ForgotPassword extends React.Component {
                     <h2>Сброс пароля</h2>
                     <CloseIcon onClick={hideForgotPassword} className="close-modal" />
                 </div>
-                <form onSubmit={this.handleSubmit} className="forgot-password">
+                <form
+                    onSubmit={this.handleSubmit}
+                    className="forgot-password"
+                    name="resetPassword"
+                >
                     <fieldset>
                         <div className="email field-wrap">
                             <input className="field" name="email" required="required" />
