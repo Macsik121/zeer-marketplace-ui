@@ -4089,17 +4089,17 @@ button.disabled {
     display: flex;
     position: relative;
     width: 100%;
-    --label-top: -20px;
-    --label-left: 10px;
+    --label-top: -35px;
+    --label-left: 20px;
 }
 
 .choosing-cost-modal .activate-promocode .field-wrap .promo-name-field {
     background-color: #1C1C24;
     border: none;
-    border-bottom: 1px solid #aaa;
+    border: 1px solid #1E75FF;
     color: inherit;
     width: 100%;
-    padding: 10px 5px;
+    padding: 10px;
     transition: 300ms;
 }
 
@@ -4120,12 +4120,15 @@ button.disabled {
 .choosing-cost-modal .activate-promocode .field-wrap .field-label {
     position: absolute;
     top: 0;
-    left: 0;
+    left: 10px;
+    height: 15px;
+    bottom: 0;
+    margin: auto 0;
     display: flex;
     align-items: center;
-    height: 100%;
     transition: 300ms;
     pointer-events: none;
+    background-color: #1C1C24;
 }
 
 .choosing-cost-modal .activate-promocode .activate {

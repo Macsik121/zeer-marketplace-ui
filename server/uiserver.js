@@ -133,11 +133,28 @@ app.post(
                 }
             }
         `;
-        const result = await fetch(apiEndpoint, {
+        await fetch(apiEndpoint, {
             method: 'POST',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify({ query, variables })
         });
+        if (promoName != 'null') {
+            await fetch(apiEndpoint, {
+                method: 'POST',
+                headers: { 'Content-type': 'application/json' },
+                body: JSON.stringify({ query: `
+                    mutation activatePromo($name: String!, $title: String!) {
+                        activatePromo(name: $name, title: $title) {
+                            message
+                            success
+                        }
+                    }
+                `, variables: {
+                    name: promoName,
+                    title
+                } })
+            });
+        }
         res.redirect(`${uiEndpoint}/dashboard/subscriptions`);
     }
 );

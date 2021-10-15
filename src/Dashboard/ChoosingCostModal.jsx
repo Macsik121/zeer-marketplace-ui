@@ -14,11 +14,13 @@ export default class ChoosingCostModal extends React.Component {
             },
             choosenDropdown: 'Ежеквартально',
             cost: 0,
-            requestMaking: false
+            requestMaking: false,
+            promoName: ''
         };
         this.getChoosenDropdown = this.getChoosenDropdown.bind(this);
         this.getCost = this.getCost.bind(this);
         this.activatePromocode = this.activatePromocode.bind(this);
+        this.handlePromoNameChange = this.handlePromoNameChange.bind(this);
     }
     componentDidUpdate(prevProps) {
         const { product } = this.props;
@@ -78,6 +80,9 @@ export default class ChoosingCostModal extends React.Component {
             }
         });
     }
+    handlePromoNameChange(e) {
+        this.setState({ promoName: e.target.value });
+    }
     render() {
         const {
             style,
@@ -88,7 +93,8 @@ export default class ChoosingCostModal extends React.Component {
         const {
             product,
             choosenDropdown,
-            requestMaking
+            requestMaking,
+            promoName
         } = this.state;
         const { costPerDay, title } = product;
         let costToBuy = 1;
@@ -130,7 +136,8 @@ export default class ChoosingCostModal extends React.Component {
                             buyProduct({
                                 title,
                                 cost: costToBuy,
-                                days
+                                days,
+                                promoName
                             });
                         }}
                     >
@@ -148,6 +155,8 @@ export default class ChoosingCostModal extends React.Component {
                             name="promoName"
                             className="promo-name-field"
                             required
+                            onChange={this.handlePromoNameChange}
+                            value={promoName}
                         />
                         <label className="field-label">Введите промокод</label>
                     </div>
