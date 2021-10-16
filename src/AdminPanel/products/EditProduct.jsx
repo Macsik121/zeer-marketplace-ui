@@ -118,6 +118,12 @@ class EditProduct extends React.Component {
                         perMonth
                         perYear
                     }
+                    changes {
+                        id
+                        version
+                        created
+                        description
+                    }
                 }
             }
         `, { title });

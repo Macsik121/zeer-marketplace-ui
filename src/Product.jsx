@@ -11,7 +11,11 @@ class Product extends React.Component {
         this.state = {
             isRequestMaking: false,
             product: {},
-            changes: [],
+            changes: [
+                {
+                    createdDate: new Date()
+                }
+            ],
             showAllChanges: false,
             cost: 1,
             choosenDropdown: 'Ежеквартально'
@@ -131,9 +135,10 @@ class Product extends React.Component {
                 )
             }
         });
+
         return {
             changes: changes || [],
-            lastUpdate: this.state.changes[this.state.changes.length - 1] 
+            lastUpdate: this.state.changes ? this.state.changes[this.state.changes.length - 1] : { createdDate: new Date() }
         };
     }
     calculateCost(e) {

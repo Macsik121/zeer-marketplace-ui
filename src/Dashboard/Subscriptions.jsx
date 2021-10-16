@@ -267,6 +267,23 @@ export default class Subscriptions extends React.Component {
                         </div>
                     </div>
                 )
+            }
+        }
+
+        for(let i = 0; i < subscriptions.all.length; i++) {
+            const sub = subscriptions.all[i];
+            const {
+                status,
+                imageURL,
+                title,
+                productFor,
+                activelyUntil,
+                wasFreezed
+            } = sub;
+            const freezeConditions = wasFreezed;
+
+            if (!showAll && i > limitSubs) {
+                break;
             } else if (status.isActive || status.isFreezed) {
                 activeSubs.push(
                     <div key={title} className="subscription">
