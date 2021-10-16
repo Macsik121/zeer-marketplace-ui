@@ -360,8 +360,12 @@ export default class Promocodes extends React.Component {
 
         const products = (
             this.state.products.map(product => {
-                const activePromos = product.promocodes && product.promocodes.active.length;
-                const unactivePromos = product.promocodes && product.promocodes.unactive.length;
+                let activePromos = 0;
+                let unactivePromos = 0;
+                product.promocodes.all.map(promo => {
+                    if (promo.isUsed) activePromos++;
+                    else unactivePromos++;
+                });
                 return (
                     <div key={product.title} className="promocode">
                         <img className="cover" src={product.imageURLdashboard} />
@@ -371,7 +375,7 @@ export default class Promocodes extends React.Component {
                                 Кол-во активированных промокодов: {activePromos}
                             </span>
                             <span className="unactivated-promos">
-                                Кол-во неактивированных продуктов: {unactivePromos}
+                                Кол-во неактивированных промокодов: {unactivePromos}
                             </span>
                             <span className="all-promos">
                                 Кол-во всех промокодов: {activePromos + unactivePromos}

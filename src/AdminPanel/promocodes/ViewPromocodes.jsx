@@ -115,7 +115,13 @@ class ViewPromocodes extends React.Component {
     constructor() {
         super();
         this.state = {
-            product: {},
+            product: {
+                promocodes: {
+                    all: [],
+                    active: [],
+                    unactive: []
+                }
+            },
             productCopy: {},
             isRequestMaking: true,
             promoToDelete: {},
@@ -245,14 +251,16 @@ class ViewPromocodes extends React.Component {
 
         const { page } = this.props.match.params;
 
-        const activePromocodes = product.promocodes && product.promocodes.active.length;
-        const unactivePromocodes = product.promocodes && product.promocodes.unactive.length;
+        let activePromocodes = 0;
+        let unactivePromocodes = 0;
 
         const limit = 15;
 
         const promocodes = product.promocodes && product.promocodes.all.map((promo, i) => {
             const renderLimit = page * limit;
             const renderFrom = renderLimit - limit;
+            if (promo.isUsed) activePromocodes++;
+            else unactivePromocodes++;
             if (i < renderLimit && i >= renderFrom) {
                 return (
                     <div key={promo.name} className="promocode">
@@ -351,11 +359,11 @@ class ViewPromocodes extends React.Component {
                             <h3>{product.title}{' | '}{product.productFor}</h3>
                             <div className="promos-amount">
                                 <span className="active">
-                                    Количество активных промокодов:&nbsp;
+                                    Количество активированных промокодов:&nbsp;
                                     {activePromocodes}
                                 </span>
                                 <span className="unactive">
-                                    Количество активированных промокодов:&nbsp;
+                                    Количество неактивированных промокодов:&nbsp;
                                     {unactivePromocodes}
                                 </span>
                                 <span className="all">

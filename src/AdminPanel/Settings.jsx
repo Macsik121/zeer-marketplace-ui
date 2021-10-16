@@ -2,17 +2,29 @@ import React from 'react';
 import fetchData from '../fetchData';
 import fetch from 'isomorphic-fetch';
 import { CircularProgress } from '@material-ui/core';
+import store from '../store';
 
 export default class Settings extends React.Component {
     constructor() {
         super();
         this.state = {
             products: [],
-            isRequestMaking: true
+            versionLoader: '',
+            isRequestMaking: true,
+            apiLoaderEndpoint: (
+                store.__SERVER_ENDPOINT_ADDRESS
+                    .split('/')[0]
+                + '//'
+                + store.__SERVER_ENDPOINT_ADDRESS
+                    .split('/')[2]
+                + '/api_loader'
+            )
         };
         this.handleCostChange = this.handleCostChange.bind(this);
         this.saveProductChanges = this.saveProductChanges.bind(this);
         this.handleOnclickURLchange = this.handleOnclickURLchange.bind(this);
+        this.handleLoaderChange = this.handleLoaderChange.bind(this);
+        this.updateVersionLoader = this.updateVersionLoader.bind(this);
     }
     async componentDidMount() {
         this.setState({ isRequestMaking: true });
@@ -26,6 +38,12 @@ export default class Settings extends React.Component {
                 }
             }
         `);
+        const { apiLoaderEndpoint } = this.state;
+        let versionLoader = await fetch(apiLoaderEndpoint + '/version_loader', {
+            method: 'GET',
+            // headers: { 'Content-type': 'application/json' }
+        });
+        versionLoader = await versionLoader.json();
 
         const { products } = result;
 
@@ -114,8 +132,29 @@ export default class Settings extends React.Component {
 
         this.setState({ products });
     }
+    handleLoaderChange(e) {
+        this.setState({ versionLoader: e.target.value });
+    }
+    async updateVersionLoader(e) {
+        e.preventDefault();
+        this.setState({ isRequestMaking: true });
+        const { apiLoaderEndpoint } = this.state;
+        const form = document.forms.loaderVersion;
+        const version = form.loaderVersion.value;
+        let result = await fetch(apiLoaderEndpoint + '/update_version_loader', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify({ version })
+        });
+        result = await result.json();
+        createNotification('info', result.message);
+
+        this.setState({ isRequestMaking: false });
+    }
     render() {
-        const { isRequestMaking } = this.state;
+        const { isRequestMaking, versionLoader } = this.state;
 
         const products = this.state.products.map((product, i) => {
             return (
@@ -190,17 +229,24 @@ export default class Settings extends React.Component {
                     className="settings-wrap"
                     style={
                         {
-                            opacity: isRequestMaking ? 0 : 1
+                            opacity: isRequestMaking ? 0 : 1,
+                            pointerEvents: isRequestMaking ? 'none' : 'all'
                         }
                     }
                 >
                     <div className="loader-action">
-                        <form className="action create-loader">
+                        <form
+                            className="action create-loader"
+                            name="loaderVersion"
+                            onSubmit={this.updateVersionLoader}
+                        >
                             <h3>Версия лоадера</h3>
                             <input
                                 type="text"
                                 name="loaderVersion"
                                 className="loader-version field"
+                                value={versionLoader}
+                                onChange={this.handleLoaderChange}
                             />
                             <button
                                 className="button save"

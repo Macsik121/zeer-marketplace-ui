@@ -31,7 +31,6 @@ class Product extends React.Component {
     }
     async componentDidMount() {
         await this.loadProduct();
-        this.setState({  });
     }
     async loadProduct() {
         if (this.props.product) {
@@ -132,7 +131,10 @@ class Product extends React.Component {
                 )
             }
         });
-        return changes || [];
+        return {
+            changes: changes || [],
+            lastUpdate: this.state.changes[this.state.changes.length - 1] 
+        };
     }
     calculateCost(e) {
         this.setState({ choosenDropdown: e.target.textContent });
@@ -152,19 +154,30 @@ class Product extends React.Component {
 
         const { buyProduct, chooseDaysAmountShown } = this.props;
 
-        const changes = this.renderChanges();
-        const productWorkingTime = new Date(product.workingTime);
+        const renderedChanges = this.renderChanges();
+        const changes = renderedChanges.changes;
+        const lastUpdate = renderedChanges.lastUpdate;
+        let productWorkingTime = new Date();
+        if (lastUpdate) productWorkingTime = new Date(lastUpdate.created);
         let createdDate;
         let days = new Date().getDate() - productWorkingTime.getDate();
         let months = new Date().getMonth() + 1 - productWorkingTime.getMonth() + 1;
-        let years = new Date().getFullYear() - productWorkingTime.getFullYear(); 
+        let years = new Date().getFullYear() - productWorkingTime.getFullYear();
+
         if (days == 0) {
             let hoursDifference = new Date().getHours() - productWorkingTime.getHours();
             if (hoursDifference == 0) {
-                let mins = new Date().getMinutes() - productWorkingTime.getMinutes();
-                mins = 31;
+                let mins = 0;
+                mins = new Date().getMinutes() - productWorkingTime.getMinutes();
                 const minsLastNumber = Number(mins.toString()[mins.toString().length - 1]);
-                if (mins < 20 && mins > 4) {
+                if (mins == 0) {
+                    let seconds = 0;
+                    seconds = new Date().getSeconds() - productWorkingTime.getSeconds();
+                    if (seconds == 1) createdDate = `${seconds} секунду`;
+                    else if (seconds < 5 && seconds > 1) createdDate = `${seconds} секунд`;
+                    else createdDate = `${seconds} секунды`;
+                    if (seconds == 0) createdDate = null;
+                } else if (mins < 20 && mins > 4) {
                     createdDate = `${mins} минут`;
                 } else if (minsLastNumber == 1) {
                     createdDate = `${mins} минуту`;

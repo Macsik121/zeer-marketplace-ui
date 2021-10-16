@@ -15,7 +15,8 @@ export default class ChoosingCostModal extends React.Component {
             choosenDropdown: 'Ежеквартально',
             cost: 0,
             requestMaking: false,
-            promoName: ''
+            promoName: '',
+            promoUsed: false
         };
         this.getChoosenDropdown = this.getChoosenDropdown.bind(this);
         this.getCost = this.getCost.bind(this);
@@ -40,7 +41,7 @@ export default class ChoosingCostModal extends React.Component {
     async activatePromocode(e) {
         e.preventDefault();
         this.setState({ requestMaking: true });
-        const { product: { title, allCost } } = this.state;
+        const { product: { title, allCost }, promoUsed } = this.state;
         const form = document.forms.activatePromo;
         const name = form.promoName.value;
 
@@ -68,16 +69,20 @@ export default class ChoosingCostModal extends React.Component {
             }
         `, vars);
         createNotification(success ? 'success' : 'error', message);
-        allCost.map(cost => {
-            cost.cost = Math.round(cost.cost - (discountPercent / 100 * cost.cost));
-        });
+        if (discountPercent != 1 && !promoUsed) {
+            allCost.map(cost => {
+                cost.cost = Math.round(cost.cost - (discountPercent / 100 * cost.cost));
+                if (cost.cost == 0) cost.cost = 1;
+            });
+        }
 
         this.setState({
             requestMaking: false,
             product: {
                 ...this.state.product,
                 allCost
-            }
+            },
+            promoUsed: true
         });
     }
     handlePromoNameChange(e) {

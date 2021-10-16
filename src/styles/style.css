@@ -2266,6 +2266,7 @@ button.disabled {
     margin: 15px auto 0 auto;
     display: flex;
     align-items: center;
+    width: 335px;
 }
 
 .info .product .main .actions .last-update .createdDate {
@@ -2274,7 +2275,8 @@ button.disabled {
     font-size: 14px;
     letter-spacing: .1px;
     font-family: Roboto, sans-serif;
-    text-align: center;
+    text-align: right;
+    width: 230px;
 }
 
 .info .product .main .actions .last-update .circle {

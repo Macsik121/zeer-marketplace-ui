@@ -2,6 +2,7 @@ import React from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import fetchData from '../fetchData';
 import createNotification from '../createNotification';
+import getIPData from '../getIPData';
 
 export default class ForgotPassword extends React.Component {
     constructor() {
@@ -16,13 +17,35 @@ export default class ForgotPassword extends React.Component {
         this.setState({ requestMaking: true });
         const form = document.forms.resetPassword;
         const email = form.email.value;
+        const { city, ip } = await getIPData();
+        const { userAgent, platform } = navigator;
+
+        const vars = {
+            email,
+            navigator: {
+                userAgent,
+                platform
+            },
+            locationData: {
+                location: city,
+                ip
+            }
+        };
         const { resetPassword: { message } } = await fetchData(`
-            mutation resetPassword($email: String!) {
-                resetPassword(email: $email) {
+            mutation resetPassword(
+                $email: String!,
+                $navigator: NavigatorInput!,
+                $locationData: LocationInput!
+            ) {
+                resetPassword(
+                    email: $email,
+                    navigator: $navigator,
+                    locationData: $locationData
+                ) {
                     message
                 }
             }
-        `, { email });
+        `, vars);
         createNotification('info', message);
         this.setState({ requestMaking: false });
     }

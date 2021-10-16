@@ -87,7 +87,6 @@ app.post(
             ip,
             location
         } = req.params;
-        console.log(promoName);
         const variables = {
             name,
             title: decodeURIComponent(title),
@@ -143,15 +142,36 @@ app.post(
                 method: 'POST',
                 headers: { 'Content-type': 'application/json' },
                 body: JSON.stringify({ query: `
-                    mutation activatePromo($name: String!, $title: String!) {
-                        activatePromo(name: $name, title: $title) {
+                    mutation activatePromo(
+                        $name: String!,
+                        $title: String!,
+                        $username: String!,
+                        $navigator: NavigatorInput!,
+                        $locationData: LocationInput!
+                    ) {
+                        activatePromo(
+                            name: $name,
+                            title: $title,
+                            username: $username,
+                            navigator: $navigator,
+                            locationData: $locationData
+                        ) {
                             message
                             success
                         }
                     }
                 `, variables: {
                     name: promoName,
-                    title
+                    title,
+                    username: name,
+                    locationData: {
+                        ip,
+                        location
+                    },
+                    navigator: {
+                        userAgent,
+                        platform
+                    }
                 } })
             });
         }

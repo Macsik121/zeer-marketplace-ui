@@ -165,14 +165,16 @@ class UserMenu extends React.Component {
                             Сменить пароль
                         </div>
                     </button>
-                    <NavLink
-                        onClick={hiddenUserDropdown}
-                        to={`/dashboard/reset-binding`}
-                    >
-                        <div className="item">
-                            Сбросить привязку
-                        </div>
-                    </NavLink>
+                    {user.hwid != '' &&
+                        <NavLink
+                            onClick={hiddenUserDropdown}
+                            to={`/dashboard/reset-binding`}
+                        >
+                            <div className="item">
+                                Сбросить привязку
+                            </div>
+                        </NavLink>
+                    }
                     {user.status && user.status.isAdmin &&
                         <NavLink
                             onClick={hiddenUserDropdown}
