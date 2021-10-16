@@ -620,7 +620,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \**********************/
 /***/ ((module) => {
 
-eval("let __UI_SERVER_ENDPOINT__ = 'http://localhost:8080';\nlet __SERVER_ENDPOINT_ADDRESS = 'http://localhost:3000/graphql'; // if (process.env.mode == 'production') {\n// __UI_SERVER_ENDPOINT__ = 'https://zeer-marketplace-ui-macsik121.herokuapp.com';\n// __SERVER_ENDPOINT_ADDRESS = 'https://zeer-marketplace-api-macsik121.herokuapp.com/graphql';\n// }\n\nmodule.exports = {\n  __UI_SERVER_ENDPOINT__,\n  __SERVER_ENDPOINT_ADDRESS\n};\n\n//# sourceURL=webpack://zeer-online-store-ui/./src/store.js?");
+eval("let __UI_SERVER_ENDPOINT__ = 'http://localhost:8080';\nlet __SERVER_ENDPOINT_ADDRESS = 'http://localhost:3000/graphql'; // if (process.env.mode == 'production') {\n\n__UI_SERVER_ENDPOINT__ = 'https://zeer-marketplace-ui-macsik121.herokuapp.com';\n__SERVER_ENDPOINT_ADDRESS = 'https://zeer-marketplace-api-macsik121.herokuapp.com/graphql'; // }\n\nmodule.exports = {\n  __UI_SERVER_ENDPOINT__,\n  __SERVER_ENDPOINT_ADDRESS\n};\n\n//# sourceURL=webpack://zeer-online-store-ui/./src/store.js?");
 
 /***/ }),
 
