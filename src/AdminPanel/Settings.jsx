@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { version } from 'react';
 import fetchData from '../fetchData';
 import fetch from 'isomorphic-fetch';
 import { CircularProgress } from '@material-ui/core';
 import store from '../store';
+import createNotification from '../createNotification';
 
 export default class Settings extends React.Component {
     constructor() {
@@ -38,16 +39,26 @@ export default class Settings extends React.Component {
                 }
             }
         `);
-        const { apiLoaderEndpoint } = this.state;
-        let versionLoader = await fetch(apiLoaderEndpoint + '/version_loader', {
-            method: 'GET',
-            // headers: { 'Content-type': 'application/json' }
-        });
-        versionLoader = await versionLoader.json();
+        await this.getVersionLoader();
 
         const { products } = result;
 
-        this.setState({ products, isRequestMaking: false });
+        this.setState({
+            products,
+            isRequestMaking: false
+        });
+    }
+    async getVersionLoader() {
+        this.setState({ isRequestMaking: true });
+
+        const { apiLoaderEndpoint } = this.state;
+        let versionLoader = await fetch(apiLoaderEndpoint + '/version_loader', {
+            method: 'GET',
+        });
+        versionLoader = await versionLoader.json();
+        versionLoader = versionLoader.version_loader;
+
+        this.setState({ isRequestMaking: false, versionLoader });
     }
     async saveProductChanges(
         e,
@@ -138,18 +149,26 @@ export default class Settings extends React.Component {
     async updateVersionLoader(e) {
         e.preventDefault();
         this.setState({ isRequestMaking: true });
-        const { apiLoaderEndpoint } = this.state;
         const form = document.forms.loaderVersion;
         const version = form.loaderVersion.value;
-        let result = await fetch(apiLoaderEndpoint + '/update_version_loader', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify({ version })
-        });
-        result = await result.json();
-        createNotification('info', result.message);
+        const vars = {
+            version
+        };
+        let {
+            changeLoaderVersion: {
+                message, 
+                success
+            }
+        } = await fetchData(`
+            mutation changeLoaderVersion($version: String!) {
+                changeLoaderVersion(version: $version) {
+                    message
+                    success
+                }
+            }
+        `, vars);
+        createNotification(success ? 'info' : 'error', message);
+        await this.getVersionLoader();
 
         this.setState({ isRequestMaking: false });
     }

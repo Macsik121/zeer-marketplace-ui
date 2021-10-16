@@ -8736,10 +8736,9 @@ button.disabled {
 .admin-panel .reset-requests .reset-requests-wrap .requests .reset-request div {
     display: flex;
     justify-content: center;
-    align-items: center;
     word-break: break-word;
     overflow: hidden;
-    max-height: 23px;
+    max-height: 16.5px;
     pointer-events: none;
     user-select: none;
 }
@@ -8787,6 +8786,7 @@ button.disabled {
     display: flex;
     justify-content: space-between;
     pointer-events: all;
+    max-height: none;
 }
 
 .admin-panel .reset-requests .reset-requests-wrap .requests .reset-request .action .button {
@@ -8799,6 +8799,7 @@ button.disabled {
     color: #fff;
     font-weight: 600;
     border: none;
+    height: 22px;
 }
 
 .admin-panel .reset-requests .reset-requests-wrap .requests .reset-request .action .button.disabled {
