@@ -1207,6 +1207,12 @@ button.disabled {
     padding: 0 15px;
 }
 
+.re-captcha {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
 .home .nav {
     height: 40vw;
     width: 100%;

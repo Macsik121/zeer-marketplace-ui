@@ -1,8 +1,7 @@
-import React, { version } from 'react';
+import React from 'react';
 import fetchData from '../fetchData';
 import fetch from 'isomorphic-fetch';
 import { CircularProgress } from '@material-ui/core';
-import store from '../store';
 import createNotification from '../createNotification';
 
 export default class Settings extends React.Component {
@@ -12,14 +11,7 @@ export default class Settings extends React.Component {
             products: [],
             versionLoader: '',
             isRequestMaking: true,
-            apiLoaderEndpoint: (
-                store.__SERVER_ENDPOINT_ADDRESS
-                    .split('/')[0]
-                + '//'
-                + store.__SERVER_ENDPOINT_ADDRESS
-                    .split('/')[2]
-                + '/api_loader'
-            )
+            apiLoaderEndpoint: __API_LOADER_ENDPOINT__
         };
         this.handleCostChange = this.handleCostChange.bind(this);
         this.saveProductChanges = this.saveProductChanges.bind(this);

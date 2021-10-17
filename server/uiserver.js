@@ -3,7 +3,6 @@ dotenv.config();
 import express from 'express';
 import path from 'path';
 import fileUpload from 'express-fileupload';
-import store from '../src/store';
 // import webpack from 'webpack';
 // import webpackDevMiddleware from 'webpack-dev-middleware';
 // import webpackHotMiddleware from 'webpack-hot-middleware';
@@ -13,8 +12,8 @@ const app = express();
 const port = process.env.PORT || 8000;
 // const compiler = webpack(webpackConfig);
 
-const uiEndpoint = store.__UI_SERVER_ENDPOINT__;
-const apiEndpoint = store.__SERVER_ENDPOINT_ADDRESS;
+const uiEndpoint = __UI_SERVER_ENDPOINT__;
+const apiEndpoint = __SERVER_ENDPOINT_ADDRESS__;
 
 app.use(express.json());
 app.use(express.urlencoded({ limit: '50mb', extended: true }));

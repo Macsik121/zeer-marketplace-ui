@@ -3,7 +3,6 @@ import { Switch, Route, withRouter } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import { CircularProgress } from '@material-ui/core';
 import fetchData from '../fetchData';
-import store from '../store';
 import getIPData from '../getIPData';
 import Lobby from './Lobby.jsx';
 import Products from './Products.jsx';
@@ -18,7 +17,7 @@ import fetchPopularProducts from '../PopularProducts';
 import ResetBinding from './ResetBinding.jsx';
 import ChoosingCostModal from './ChoosingCostModal.jsx'
 
-const uiEndpoint = store.__UI_SERVER_ENDPOINT__;
+const uiEndpoint = __UI_SERVER_ENDPOINT__;
 
 class Dashboard extends React.Component {
     constructor() {

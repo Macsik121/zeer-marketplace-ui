@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import CloseIcon from '@material-ui/icons/Close';
+import ReCaptcha from './ReCaptcha.jsx';
 import createNotification from '../createNotification';
 import fetchData from '../fetchData';
 import getIPData from '../getIPData';
@@ -23,11 +24,12 @@ class Signin extends React.Component {
             user: {},
             signInAttempt: {},
             rememberMe: false,
-            formError: {message: '.'},
-            formErrorStyles: {opacity: 0},
+            formError: { message: '.' },
+            formErrorStyles: { opacity: 0 },
             signInAttempt: {},
             isDisabled: false,
-            isPasswordShown: false
+            isPasswordShown: false,
+            reCaptchaPassed: false
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -71,6 +73,12 @@ class Signin extends React.Component {
 
         if (password == '') {
             this.showError('Введите пароль для входа в аккаунт');
+            this.enableSubmitButton();
+            return;
+        }
+
+        if (!this.state.reCaptchaPassed) {
+            createNotification('error', 'Вы не прошли Ре Капчу');
             this.enableSubmitButton();
             return;
         }
@@ -158,7 +166,8 @@ class Signin extends React.Component {
             formError,
             formErrorStyles,
             isPasswordShown,
-            isDisabled
+            isDisabled,
+            reCaptchaPassed
         } = this.state;
         const {
             style,
@@ -167,6 +176,7 @@ class Signin extends React.Component {
             toggleForgotPassword,
             hideForgotPassword
         } = this.props;
+
         return (
             <div style={this.props.style} className="signin auth-form">
                 <div className="container">
@@ -218,8 +228,8 @@ class Signin extends React.Component {
                             <img
                                 style={
                                     isPasswordShown
-                                        ? {display: 'none'}
-                                        : {display: 'block'}
+                                        ? { display: 'none' }
+                                        : { display: 'block' }
                                 }
                                 onClick={this.toggleShowingPassword}
                                 src="/images/closed-eye.png"
@@ -233,10 +243,10 @@ class Signin extends React.Component {
                             </div>
                             <label onClick={this.handleRememberMeClick} className="remember-me">Запомнить</label>
                         </div>
-                        {/* <ReCAPTCHA
-                            className="re-captcha"
-                            sitekey="AIzaSyAo2cRhJXwA-3ca3GnHgyR7zhVknFNJtdA"
-                        /> */}
+                        <ReCaptcha
+                            handleToken={() => this.setState({ reCaptchaPassed: true })}
+                            handleExpire={() => this.setState({ reCaptchaPassed: false })}
+                        />
                         <button
                             // disabled={this.state.isDisabled}
                             className="submit-button"

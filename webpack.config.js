@@ -9,16 +9,25 @@ const webpack = require('webpack');
 const mode = process.env.mode || 'development';
 const uiEndpoint = (
     mode == 'development'
-        ? 'http://localhost:8080'
-        : 'https://zeer-marketplace-ui-macsik121.herokuapp.com'
+        ? process.env.devUIEndpoint
+        : process.env.deployUIEndpoint
 );
 const apiEndpoint = (
     mode == 'development'
-        ? 'http://localhost:3000/graphql'
-        : 'https://zeer-marketplace-api-macsik121.herokuapp.com/graphql'
+        ? process.env.devAPIEndpoint + '/graphql'
+        : process.env.deployAPIEndpoint + '/graphql'
 );
+const apiLoaderEndpoint = (
+    mode == 'development'
+        ? process.env.devAPIEndpoint + '/api_loader'
+        : process.env.deployAPIEndpoint + '/api_loader'
+)
+const RECAPTCHA_KEY = process.env.RECAPTCHA_KEY;
+const RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET;
 
-console.log(`uiEndpoint/apiEndpoint: ${uiEndpoint}/${apiEndpoint}`)
+console.log(`uiEndpoint/apiEndpoint: ${uiEndpoint}/${apiEndpoint}`);
+
+console.log(`apiLoaderEndpoint;process.env.RECAPTCHA_KEY: ${apiLoaderEndpoint};${process.env.RECAPTCHA_KEY}`);
 
 const browserConfig = {
     mode,
@@ -83,7 +92,9 @@ const browserConfig = {
         new webpack.DefinePlugin({
             __isBrowser__: true,
             __SERVER_ENDPOINT_ADDRESS__: JSON.stringify(apiEndpoint),
-            __UI_SERVER_ENDPOINT__: JSON.stringify(uiEndpoint)
+            __UI_SERVER_ENDPOINT__: JSON.stringify(uiEndpoint),
+            __RECAPTCHA_KEY__: JSON.stringify(RECAPTCHA_KEY),
+            __RECAPTCHA_SECRET__: JSON.stringify(RECAPTCHA_SECRET)
         })
     ]
 };
@@ -124,7 +135,12 @@ const serverConfig = {
     },
     plugins: [
         new webpack.DefinePlugin({
-            __isBrowser__: false
+            __isBrowser__: false,
+            __SERVER_ENDPOINT_ADDRESS__: JSON.stringify(apiEndpoint),
+            __UI_SERVER_ENDPOINT__: JSON.stringify(uiEndpoint),
+            __API_LOADER_ENDPOINT__: JSON.stringify(apiLoaderEndpoint),
+            __RECAPTCHA_KEY__: JSON.stringify(RECAPTCHA_KEY),
+            __RECAPTCHA_SECRET__: JSON.stringify(RECAPTCHA_SECRET)
         })
     ]
 };
