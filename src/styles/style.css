@@ -1512,6 +1512,14 @@ button.disabled {
     justify-content: center;
 }
 
+.dashboard .main .lobby .info .buttons .button.download-loader {
+    background-color: #1E75FF;
+}
+
+.dashboard .main .lobby .info .buttons .button.download-loader:hover {
+    background-color: #1C6FF2;
+}
+
 .dashboard .main .lobby .info .buttons .subs:last-child:hover {
     background-color: #1F1F26;
 }
@@ -4256,6 +4264,8 @@ button.disabled {
     font-weight: 600;
     font-size: 12px;
     line-height: 18px;
+    text-decoration: none;
+    text-align: center;
 }
 
 .general-footer .download-loader:hover {
@@ -4318,6 +4328,7 @@ button.disabled {
 
 .admin-panel {
     position: relative;
+    background-color: #1C1C24;
 }
 
 .admin-panel-wrap {

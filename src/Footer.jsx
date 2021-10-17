@@ -1,4 +1,5 @@
 import React from 'react';
+import downloadLoader from './downloadLoader';
 
 export default class Footer extends React.Component {
     constructor() {
@@ -45,16 +46,17 @@ export default class Footer extends React.Component {
                             <div className="gray-line"></div>
                         </div>
                     </div>
-                    <button
+                    <a
                         style={
                             deviceWidth > 700
-                                ? {marginTop: 0}
-                                : {marginTop: '20px'}
+                                ? { marginTop: 0 }
+                                : { marginTop: '20px' }
                         }
                         className="download-loader"
+                        onClick={e => downloadLoader(e.target)}
                     >
                         Скачать лоадер
-                    </button>
+                    </a>
                 </div>
             </footer>
         )

@@ -43,6 +43,7 @@ class AdminPanel extends React.Component {
             SearchToRender: null,
             productEditType: 'edit',
             isRequestMaking: false,
+            adminPanelMounted: false,
             navLinks: [
                 {
                     path: 'statistics',
@@ -115,6 +116,7 @@ class AdminPanel extends React.Component {
         this.updateAvatar = this.updateAvatar.bind(this);
     }
     async componentDidMount() {
+        this.setState({ adminPanelMounted: true });
         this.props.getUser();
         const token = localStorage.getItem('token');
         const user = jwtDecode(token);
@@ -192,7 +194,8 @@ class AdminPanel extends React.Component {
             userAvatar,
             user,
             SearchToRender,
-            isRequestMaking
+            isRequestMaking,
+            adminPanelMounted
         } = this.state;
 
         const navLinks = this.state.navLinks.map(link => {
@@ -249,7 +252,9 @@ class AdminPanel extends React.Component {
         });
 
         return (
-            <div className="admin-panel">
+            <div
+                className="admin-panel"
+            >
                 <CircularProgress
                     className="progress-bar"
                     style={
@@ -262,7 +267,7 @@ class AdminPanel extends React.Component {
                     className="admin-panel-wrap"
                     style={
                         {
-                            opacity: isRequestMaking ? 0.5 : 1,
+                            opacity: isRequestMaking ? 0.5 : adminPanelMounted ? 1 : 0,
                             pointerEvents: isRequestMaking ? 'none' : 'all'
                         }
                     }

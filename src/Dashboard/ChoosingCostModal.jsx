@@ -1,8 +1,10 @@
 import React from 'react';
 import CloseIcon from '@material-ui/icons/Close';
+import jwtDecode from 'jwt-decode';
 import createNotification from '../createNotification';
 import fetchData from '../fetchData';
 import ChoosingCostDropdown from './ChoosingCostDropdown.jsx';
+import getIPData from '../getIPData';
 
 export default class ChoosingCostModal extends React.Component {
     constructor() {
@@ -44,13 +46,42 @@ export default class ChoosingCostModal extends React.Component {
         const { product: { title, allCost }, promoUsed } = this.state;
         const form = document.forms.activatePromo;
         const name = form.promoName.value;
+        const user = jwtDecode(localStorage.getItem('token'));
+        const { ip, city } = await getIPData();
 
         const vars = {
             name,
-            title
+            title,
+            username: user.name,
+            navigator: {
+                userAgent: navigator.userAgent
+            },
+            locationData: {
+                ip,
+                location: city
+            }
         };
+        // const {
+        //     isPromocodeRight: {
+        //         response: {
+        //             message,
+        //             success
+        //         },
+        //         discountPercent
+        //     }
+        // } = await fetchData(`
+        //     query isPromocodeRight($name: String!, $title: String!) {
+        //         isPromocodeRight(name: $name, title: $title) {
+        //             response {
+        //                 message
+        //                 success
+        //             }
+        //             discountPercent
+        //         }
+        //     }
+        // `, vars);
         const {
-            isPromocodeRight: {
+            activatePromo: {
                 response: {
                     message,
                     success
@@ -58,8 +89,20 @@ export default class ChoosingCostModal extends React.Component {
                 discountPercent
             }
         } = await fetchData(`
-            query isPromocodeRight($name: String!, $title: String!) {
-                isPromocodeRight(name: $name, title: $title) {
+            mutation activatePromo(
+                $name: String!,
+                $title: String!,
+                $username: String!,
+                $navigator: NavigatorInput!,
+                $locationData: LocationInput!
+            ) {
+                activatePromo(
+                    name: $name,
+                    title: $title,
+                    username: $username,
+                    navigator: $navigator,
+                    locationData: $locationData
+                ) {
                     response {
                         message
                         success

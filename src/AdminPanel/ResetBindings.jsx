@@ -214,7 +214,7 @@ class ResetBindings extends React.Component {
                                 button
                                 reject
                                 ${
-                                    request.status == 'отклонён'
+                                    request.status == 'отклонён' || request.status == 'принят'
                                         ? 'disabled'
                                         : ''
                                 }

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import SlickSlider from 'react-slick';
 import { CircularProgress } from '@material-ui/core';
 import BoughtPeople from '../BoughtPeople.jsx';
+import downloadLoader from '../downloadLoader';
 
 export default function Lobby(props) {
     const {
@@ -66,6 +67,7 @@ export default function Lobby(props) {
             )
         });
     }
+
     return (
         <div className="lobby">
             <div className="container">
@@ -106,7 +108,12 @@ export default function Lobby(props) {
                                 </div>
                             </div>
                             <div className="buttons">
-                                <button className="download-loader button">Скачать лоадер</button>
+                                <a
+                                    className="download-loader button"
+                                    onClick={e => downloadLoader(e.target)}
+                                >
+                                    Скачать лоадер
+                                </a>
                                 <Link className="subs button" to={`/dashboard/subscriptions`}>
                                     Подписки
                                 </Link>

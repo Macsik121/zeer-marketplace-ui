@@ -27,8 +27,6 @@ const RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET;
 
 console.log(`uiEndpoint/apiEndpoint: ${uiEndpoint}/${apiEndpoint}`);
 
-console.log(`apiLoaderEndpoint;process.env.RECAPTCHA_KEY: ${apiLoaderEndpoint};${process.env.RECAPTCHA_KEY}`);
-
 const browserConfig = {
     mode,
     entry: {

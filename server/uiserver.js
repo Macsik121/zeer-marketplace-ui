@@ -136,50 +136,54 @@ app.post(
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify({ query, variables })
         });
-        if (promoName != 'null') {
-            await fetch(apiEndpoint, {
-                method: 'POST',
-                headers: { 'Content-type': 'application/json' },
-                body: JSON.stringify({ query: `
-                    mutation activatePromo(
-                        $name: String!,
-                        $title: String!,
-                        $username: String!,
-                        $navigator: NavigatorInput!,
-                        $locationData: LocationInput!
-                    ) {
-                        activatePromo(
-                            name: $name,
-                            title: $title,
-                            username: $username,
-                            navigator: $navigator,
-                            locationData: $locationData
-                        ) {
-                            message
-                            success
-                        }
-                    }
-                `, variables: {
-                    name: promoName,
-                    title,
-                    username: name,
-                    locationData: {
-                        ip,
-                        location
-                    },
-                    navigator: {
-                        userAgent,
-                        platform
-                    }
-                } })
-            });
-        }
+        // if (promoName != 'null') {
+        //     await fetch(apiEndpoint, {
+        //         method: 'POST',
+        //         headers: { 'Content-type': 'application/json' },
+        //         body: JSON.stringify({ query: `
+        //             mutation activatePromo(
+        //                 $name: String!,
+        //                 $title: String!,
+        //                 $username: String!,
+        //                 $navigator: NavigatorInput!,
+        //                 $locationData: LocationInput!
+        //             ) {
+        //                 activatePromo(
+        //                     name: $name,
+        //                     title: $title,
+        //                     username: $username,
+        //                     navigator: $navigator,
+        //                     locationData: $locationData
+        //                 ) {
+        //                     message
+        //                     success
+        //                 }
+        //             }
+        //         `, variables: {
+        //             name: promoName,
+        //             title,
+        //             username: name,
+        //             locationData: {
+        //                 ip,
+        //                 location
+        //             },
+        //             navigator: {
+        //                 userAgent,
+        //                 platform
+        //             }
+        //         } })
+        //     });
+        // }
         res.redirect(`${uiEndpoint}/dashboard/subscriptions`);
     }
 );
 
 app.post('/failure-payment', (req, res) => {
     res.redirect(`${uiEndpoint}/dashboard/products`);
+});
+
+app.get('/loader.exe', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../src/images/zeer-logo.png'));
 });
 
 app.get('*', render);

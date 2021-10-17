@@ -490,8 +490,15 @@ class Dashboard extends React.Component {
                 className="dashboard"
                 style={
                     showingChangePassword || agreementShown || isRequestMaking
-                        ? { overflow: 'hidden', height: '100vh' }
-                        : { overflow: 'inherit', height: 'auto' }
+                        ? {
+                            overflow: 'hidden',
+                            height: '100vh',
+                            opacity: isMounted ? 1 : 0
+                        } : {
+                            overflow: 'inherit',
+                            height: 'auto',
+                            opacity: isMounted ? 1 : 0
+                        }
                 }
             >
                 <header
