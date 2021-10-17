@@ -159,7 +159,7 @@ class ActionLogs extends React.Component {
             }
         };
         this.searchLogs(event);
-        this.props.history.push('/admin/logs/1')
+        this.props.history.push('/admin/logs/1');
     };
     handleActionChange(e) {
         this.setState({ searchByAction: e.target.value });
@@ -170,6 +170,7 @@ class ActionLogs extends React.Component {
             }
         }
         this.searchLogs(event);
+        this.props.history.push('/admin/logs/1');
     }
     toggleClass(e) {
         e.target.classList.toggle('active');

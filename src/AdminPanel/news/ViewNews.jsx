@@ -78,7 +78,9 @@ class ViewNews extends React.Component {
             product: {},
             newsToDelete: {},
             isRequestMaking: true,
-            deleteNewsShown: false
+            deleteNewsShown: false,
+            changes: [],
+            changesCopy: []
         };
         this.deleteAllNews = this.deleteAllNews.bind(this);
         this.hideDeleteNews = this.hideDeleteNews.bind(this);
@@ -99,7 +101,7 @@ class ViewNews extends React.Component {
             title
         };
 
-        const result = await fetchData(`
+        const { getProduct } = await fetchData(`
             query getProduct($title: String!) {
                 getProduct(title: $title) {
                     title
@@ -117,7 +119,12 @@ class ViewNews extends React.Component {
             }
         `, vars);
 
-        this.setState({ isRequestMaking: false, product: result.getProduct });
+        this.setState({
+            isRequestMaking: false,
+            product: getProduct,
+            changes: getProduct.changes,
+            changesCopy: getProduct.changes
+        });
     }
     toggleClass(e) {
         e.target.childNodes[0].classList.toggle('active');
@@ -139,18 +146,24 @@ class ViewNews extends React.Component {
     hideDeleteNews() {
         this.setState({ deleteNewsShown: false });
     }
+    searchProducts(e) {
+
+        const { title } = this.props.match.params;
+        this.props.history.push(`/admin/news/${title}/1`);
+    }
     render() {
         const {
             isRequestMaking,
             product,
             deleteNewsShown,
-            newsToDelete
+            newsToDelete,
+            changes
         } = this.state;
 
         const { page } = this.props.match.params;
 
         const limit = 15;
-        const changes = product.changes && product.changes.map((change, i) => {
+        const renderedChanges = changes.map((change, i) => {
             const renderLimit = page * limit;
             const renderFrom = renderLimit - limit;
             if (i < renderLimit && i >= renderFrom) {
@@ -260,11 +273,11 @@ class ViewNews extends React.Component {
                             <div className="action">Действие</div>
                         </div>
                         <div className="changes">
-                            {changes}
+                            {renderedChanges}
                         </div>
                         <Pages
                             page={page}
-                            array={Object.keys(product).length > 0 && changes}
+                            array={renderedChanges}
                             path={`news/${product.title}`}
                         />
                     </div>
@@ -276,7 +289,7 @@ class ViewNews extends React.Component {
                         <div className="content-wrap">
                             <div className="news-amount">
                                 Кол-во новостей:&nbsp;
-                                {product.changes ? product.changes.length : 0}
+                                {changes.length}
                             </div>
                             <div className="buttons">
                                 <button
