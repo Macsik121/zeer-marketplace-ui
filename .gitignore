@@ -4,4 +4,3 @@ uploaded-images/*
 !uploaded-images/*.txt
 public/*.js
 public/*.css
-.env
