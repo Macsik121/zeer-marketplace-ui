@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import CloseIcon from '@material-ui/icons/Close';
+import ReCaptcha from '../ReCaptcha.jsx';
 import fetchData from '../fetchData';
 import getIPData from '../getIPData';
 import createNotification from '../createNotification';
@@ -15,7 +16,8 @@ class Signup extends React.Component {
             agreed: false,
             isPasswordShown: false,
             isRepeatedPasswordShown: false,
-            isRequestMaking: false
+            isRequestMaking: false,
+            reCaptchaPassed: false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleFieldFocus = this.handleFieldFocus.bind(this);
@@ -103,6 +105,12 @@ class Signup extends React.Component {
 
         if (!agreeWithTerms) {
             this.showError('Вы должны согласится с правилами');
+            this.setState({ isRequestMaking: false });
+            return;
+        }
+
+        if (!this.state.reCaptchaPassed) {
+            createNotification('error', 'Вы не прошли РеКапчу');
             this.setState({ isRequestMaking: false });
             return;
         }
@@ -294,8 +302,8 @@ class Signup extends React.Component {
                             <img
                                 style={
                                     isRepeatedPasswordShown
-                                        ? {display: 'none'}
-                                        : {display: 'block'}
+                                        ? { display: 'none' }
+                                        : { display: 'block' }
                                 }
                                 onClick={this.toggleShowingRepeatedPassword}
                                 src="/images/closed-eye.png"
@@ -320,6 +328,10 @@ class Signup extends React.Component {
                                 Согласен&nbsp;<span className="rules" onClick={toggleAgreement}>с правилами</span>
                             </span>
                         </div>
+                        <ReCaptcha
+                            handleToken={() => this.setState({ reCaptchaPassed: true })}
+                            handleExpire={() => this.setState({ reCaptchaPassed: false })}
+                        />
                         <button type="submit" className="submit-button">
                             Создать аккаунт
                         </button>

@@ -1,5 +1,6 @@
 import React from 'react';
 import CloseIcon from '@material-ui/icons/Close';
+import ReCaptcha from '../ReCaptcha.jsx';
 import fetchData from '../fetchData';
 import createNotification from '../createNotification';
 import getIPData from '../getIPData';
@@ -8,13 +9,19 @@ export default class ForgotPassword extends React.Component {
     constructor() {
         super();
         this.state = {
-            requestMaking: false
+            requestMaking: false,
+            captchaPassed: false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     async handleSubmit(e) {
         e.preventDefault();
         this.setState({ requestMaking: true });
+        if (!this.state.captchaPassed) {
+            createNotification('error', 'Вы не прошли Ре Капчу');
+            this.setState({ requestMaking: false })
+            return;
+        }
         const form = document.forms.resetPassword;
         const email = form.email.value;
         const { city, ip } = await getIPData();
@@ -47,6 +54,7 @@ export default class ForgotPassword extends React.Component {
             }
         `, vars);
         createNotification('info', message);
+
         this.setState({ requestMaking: false });
     }
     render() {
@@ -79,6 +87,10 @@ export default class ForgotPassword extends React.Component {
                             Имя пользователя / Эл. почта
                         </label>
                     </div>
+                    <ReCaptcha
+                        handleToken={() => this.setState({ captchaPassed: true })}
+                        handleExpire={() => this.setState({ captchaPassed: false })}
+                    />
                     <button
                         className="reset-password"
                         type="submit"

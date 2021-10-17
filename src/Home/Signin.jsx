@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import CloseIcon from '@material-ui/icons/Close';
-import ReCaptcha from './ReCaptcha.jsx';
+import ReCaptcha from '../ReCaptcha.jsx';
 import createNotification from '../createNotification';
 import fetchData from '../fetchData';
 import getIPData from '../getIPData';

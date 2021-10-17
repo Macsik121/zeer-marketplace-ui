@@ -1,5 +1,6 @@
 import React from 'react';
 import CloseIcon from '@material-ui/icons/Close';
+import ReCaptcha from '../ReCaptcha.jsx';
 import fetchData from '../fetchData';
 import jwtDecode from 'jwt-decode';
 import createNotification from '../createNotification';
@@ -12,7 +13,8 @@ export default class ChangePassword extends React.Component {
             errorMessageStyles: { opacity: 0 },
             newPasswordShown: false,
             repeatedPasswordShown: false,
-            requestMaking: false
+            requestMaking: false,
+            captchaPassed: false
         };
         this.showError = this.showError.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,6 +37,12 @@ export default class ChangePassword extends React.Component {
 
         if (newPassword != repeatedNewPassword) {
             this.showError('Повторите новый пароль правильно');
+            return;
+        }
+
+        if (!this.state.captchaPassed) {
+            createNotification('error', 'Вы не прошли РеКапчу');
+            this.setState({ requestMaking: false });
             return;
         }
 
@@ -186,11 +194,15 @@ export default class ChangePassword extends React.Component {
                                 onClick={this.toggleRepeatedPassword}
                                 style={
                                     repeatedPasswordShown
-                                        ? {display: 'none'}
-                                        : {display: 'block'}
+                                        ? { display: 'none' }
+                                        : { display: 'block' }
                                 }
                             />
                         </div>
+                        <ReCaptcha
+                            handleToken={() => this.setState({ captchaPassed: true })}
+                            handleExpire={() => this.setState({ captchaPassed: false })}
+                        />
                         <button className="change-password-submit" type="submit">
                             Сменить пароль
                         </button>

@@ -1420,7 +1420,7 @@ button.disabled {
     right: 0;
     left: 0;
     bottom: 0;
-    max-height: 335px;
+    max-height: 425px;
     margin: auto;
     z-index: 1;
     max-width: 370px;
@@ -2376,7 +2376,7 @@ button.disabled {
     background-color: #1C1C24;
     border-radius: 20px;
     z-index: 1;
-    height: 370px;
+    height: 480px;
     box-shadow: 0px 0px 20px 5px #141313;
     transform: translateY(-170%);
     opacity: 0;
