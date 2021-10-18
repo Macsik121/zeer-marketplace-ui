@@ -139,7 +139,7 @@ class Signin extends React.Component {
             }
             this.enableSubmitButton();
         } else {
-            this.showError(signInAttempt.message);
+            createNotification('error', signInAttempt.message);
             this.enableSubmitButton();
         }
     }

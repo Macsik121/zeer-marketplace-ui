@@ -210,12 +210,13 @@ class Dashboard extends React.Component {
             },
             productCost: cost
         };
-        console.log('promoName:', promoName);
+        const { paymentNumber } = await fetchData(`
+            query { paymentNumber }
+        `);
+        console.log(paymentNumber);
         window.location.href = `
-            https://paymaster.ru/payment/init?LMI_MERCHANT_ID=77aa76b8-1551-42c5-be5f-f49d6330260f&LMI_PAYMENT_AMOUNT=${cost}&LMI_CURRENCY=RUB&LMI_PAYMENT_DESC=Оплата%20товара%20${encodeURIComponent(vars.title)}%20на%20${days == 360 ? '1 год' : days}%20${days == 360 ? '' : days == 1 ? 'день' : 'дней'}&LMI_SUCCESS_URL=${uiEndpoint}/confirmation-payment/${vars.name}/${vars.title}/${vars.productCost}/${days}/${vars.navigator.platform}/${vars.navigator.userAgent}/${vars.navigator.appName}/${vars.navigator.appVersion}/${vars.locationData.ip}/${vars.locationData.location}/${splitDelimiter}/${promoName}&LMI_FAIL_URL=${uiEndpoint}/failure-payment
+            https://paymaster.ru/payment/init?LMI_MERCHANT_ID=77aa76b8-1551-42c5-be5f-f49d6330260f&LMI_PAYMENT_AMOUNT=${cost}&LMI_CURRENCY=RUB&LMI_PAYMENT_DESC=Оплата%20товара%20${encodeURIComponent(vars.title)}%20на%20${days == 360 ? '1 год' : days}%20${days == 360 ? '' : days == 1 ? 'день' : 'дней'}&LMI_SUCCESS_URL=${uiEndpoint}/confirmation-payment/${vars.name}/${vars.title}/${vars.productCost}/${days}/${vars.navigator.platform}/${vars.navigator.userAgent}/${vars.navigator.appName}/${vars.navigator.appVersion}/${vars.locationData.ip}/${vars.locationData.location}/${splitDelimiter}/${promoName}&LMI_FAIL_URL=${uiEndpoint}/failure-payment&LMI_PAYMENT_NO=${paymentNumber}
         `;
-        // this.setState({ productsRequestMaking: true });
-
         // const query = `
             // mutation buyProduct(
             //     $title: String!,
@@ -240,15 +241,6 @@ class Dashboard extends React.Component {
             //     }
             // }
         // `;
-
-        // const result = await fetchData(query, vars);
-
-        // await this.getSubscriptions();
-        // this.props.history.push('/dashboard/subscriptions');
-        // createNotification('success', `Поздравляем, вы купили продукт ${title}!`);
-        // await this.getPopularProducts();
-        // await this.getProducts();
-        // this.setState({ productsRequestMaking: false });
     }
     async getProducts() {
         this.setState({ productsRequestMaking: true });
@@ -493,44 +485,113 @@ class Dashboard extends React.Component {
                         ? {
                             overflow: 'hidden',
                             height: '100vh',
-                            opacity: isMounted ? 1 : 0
                         } : {
                             overflow: 'inherit',
                             height: 'auto',
-                            opacity: isMounted ? 1 : 0
                         }
                 }
             >
-                <header
-                    style={
-                        showingChangePassword || agreementShown
-                            ? {
-                                opacity: '.5',
-                                transition: '500ms',
-                                pointerEvents: 'none',
-                                userSelect: 'none'
-                            }
-                            : {
-                                opactiy: 1,
-                                transition: '500ms',
-                                pointerEvents: 'all',
-                                userSelect: 'text'
-                            }
-                    }
-                    className="header"
+                <div
+                    style={{
+                        opacity: isMounted ? 1 : 0
+                    }}
                 >
-                    <NavBar
-                        user={user}
-                        history={this.props.history}
-                        match={this.props.match}
-                        selectedImage={this.props.selectedImage}
-                        toggleModal={this.toggleModal}
-                        showingChangePassword={showingChangePassword}
-                        userAvatar={userAvatar}
-                        getUser={this.props.getUser}
-                        _this={this}
+                    <header
                         style={
-                            chooseDaysAmountShown || isRequestMaking
+                            showingChangePassword || agreementShown
+                                ? {
+                                    opacity: '.5',
+                                    transition: '500ms',
+                                    pointerEvents: 'none',
+                                    userSelect: 'none'
+                                }
+                                : {
+                                    opactiy: 1,
+                                    transition: '500ms',
+                                    pointerEvents: 'all',
+                                    userSelect: 'text'
+                                }
+                        }
+                        className="header"
+                    >
+                        <NavBar
+                            user={user}
+                            history={this.props.history}
+                            match={this.props.match}
+                            selectedImage={this.props.selectedImage}
+                            toggleModal={this.toggleModal}
+                            showingChangePassword={showingChangePassword}
+                            userAvatar={userAvatar}
+                            getUser={this.props.getUser}
+                            _this={this}
+                            style={
+                                chooseDaysAmountShown || isRequestMaking
+                                    ? {
+                                        opacity: '.5',
+                                        pointerEvents: 'none',
+                                        userSelect: 'none'
+                                    }
+                                    : {
+                                        opactiy: 1,
+                                        pointerEvents: 'all',
+                                        userSelect: 'text',
+                                        opacity: isMounted ? 1 : 0
+                                    }
+                            }
+                        />
+                    </header>
+                    <CircularProgress
+                        className="progress-bar"
+                        style={
+                            {
+                                display: isRequestMaking ? 'block' : 'none'
+                            }
+                        }
+                    />
+                    <ChangePassword
+                        style={
+                            showingChangePassword
+                                ? {
+                                    opacity: 1,
+                                    transform: 'translateY(0)',
+                                    margin: 'auto',
+                                    pointerEvents: 'all'
+                                }
+                                : {
+                                    opacity: 0,
+                                    transform: 'translateY(-170%)',
+                                    margin: '17vh auto 0',
+                                    pointerEvents: 'none'
+                                }
+                        }
+                        modalShown={showingChangePassword}
+                        hideModal={this.hideModal}
+                    />
+                    <AgreementPrivacyNPolicy
+                        style={
+                            agreementShown
+                                ? { transform: 'translateY(0)', opacity: 1, pointerEvents: 'all' }
+                                : { transform: 'translateY(-170%)', opacity: 0, pointerEvents: 'none' }
+                        }
+                        hideAgreement={this.hideAgreement}
+                    />
+                    <ChoosingCostModal
+                        style={
+                            {
+                                opacity: chooseDaysAmountShown ? 1 : 0,
+                                pointerEvents: chooseDaysAmountShown ? 'all' : 'none'
+                            }
+                        }
+                        hideModal={this.hideChoosingDays}
+                        buyProduct={this.buyProduct}
+                        product={productToBuy}
+                    />
+                    <main
+                        style={
+                            showingChangePassword ||
+                            agreementShown ||
+                            chooseDaysAmountShown ||
+                            isRequestMaking
                                 ? {
                                     opacity: '.5',
                                     pointerEvents: 'none',
@@ -543,185 +604,120 @@ class Dashboard extends React.Component {
                                     opacity: isMounted ? 1 : 0
                                 }
                         }
-                    />
-                </header>
-                <CircularProgress
-                    className="progress-bar"
-                    style={
-                        {
-                            display: isRequestMaking ? 'block' : 'none'
-                        }
-                    }
-                />
-                <ChangePassword
-                    style={
-                        showingChangePassword
-                            ? {
-                                opacity: 1,
-                                transform: 'translateY(0)',
-                                margin: 'auto',
-                                pointerEvents: 'all'
-                            }
-                            : {
-                                opacity: 0,
-                                transform: 'translateY(-170%)',
-                                margin: '17vh auto 0',
-                                pointerEvents: 'none'
-                            }
-                    }
-                    modalShown={showingChangePassword}
-                    hideModal={this.hideModal}
-                />
-                <AgreementPrivacyNPolicy
-                    style={
-                        agreementShown
-                            ? { transform: 'translateY(0)', opacity: 1, pointerEvents: 'all' }
-                            : { transform: 'translateY(-170%)', opacity: 0, pointerEvents: 'none' }
-                    }
-                    hideAgreement={this.hideAgreement}
-                />
-                <ChoosingCostModal
-                    style={
-                        {
-                            opacity: chooseDaysAmountShown ? 1 : 0,
-                            pointerEvents: chooseDaysAmountShown ? 'all' : 'none'
-                        }
-                    }
-                    hideModal={this.hideChoosingDays}
-                    buyProduct={this.buyProduct}
-                    product={productToBuy}
-                />
-                <main
-                    style={
-                        showingChangePassword ||
-                        agreementShown ||
-                        chooseDaysAmountShown ||
-                        isRequestMaking
-                            ? {
-                                opacity: '.5',
-                                pointerEvents: 'none',
-                                userSelect: 'none'
-                            }
-                            : {
-                                opactiy: 1,
-                                pointerEvents: 'all',
-                                userSelect: 'text',
-                                opacity: isMounted ? 1 : 0
-                            }
-                    }
-                    className="main"
-                >
-                    <Switch>
-                        <Route
-                            exact
-                            path="/dashboard/products"
-                            render={() => (
-                                <Products
-                                    products={products}
-                                    getSubscriptions={this.getSubscriptions}
-                                    buyProduct={this.buyProduct}
-                                    isRequestMaking={productsRequestMaking}
-                                    showChoosingDays={this.showChoosingDays}
-                                    chooseDaysAmountShown={chooseDaysAmountShown}
-                                />
-                            )}
-                        />
-                        <Route
-                            path="/dashboard/FAQ"
-                            render={
-                                () => (
-                                    <FAQ
-                                        answers={answersFAQ}
-                                        isRequestMaking={answersFAQRequestMaking}
-                                    />
-                                )
-                            }
-                        />
-                        <Route
-                            path="/dashboard/products/:title"
-                            render={
-                                () => (
-                                    <ProductInfo
-                                        popularProducts={popularProducts}
-                                        getPopularProducts={this.getPopularProducts}
+                        className="main"
+                    >
+                        <Switch>
+                            <Route
+                                exact
+                                path="/dashboard/products"
+                                render={() => (
+                                    <Products
+                                        products={products}
+                                        getSubscriptions={this.getSubscriptions}
                                         buyProduct={this.buyProduct}
+                                        isRequestMaking={productsRequestMaking}
                                         showChoosingDays={this.showChoosingDays}
                                         chooseDaysAmountShown={chooseDaysAmountShown}
                                     />
-                                )
-                            }
-                        />
-                        <Route
-                            path="/dashboard/subscriptions"
-                            render={
-                                () => (
-                                    <Subscriptions
-                                        subscriptions={subscriptions}
-                                        products={products}
-                                        toggleAgreement={this.toggleAgreement}
-                                        hideAgreement={this.hideAgreement}
-                                        agreementShown={agreementShown}
-                                        getSubscriptions={this.getSubscriptions}
-                                        user={user}
-                                        buyProduct={this.buyProduct}
-                                        isRequestMaking={subscriptionsRequestMaking}
-                                        showChoosingDays={this.showChoosingDays}
-                                        chooseDaysShown={chooseDaysAmountShown}
-                                    />
-                                )
-                            }
-                        />
-                        <Route
-                            path="/dashboard/reset-binding"
-                            render={
-                                () => (
-                                    <ResetBinding
-                                        resetRequests={resetRequests}
-                                        makeResetRequest={this.makeResetRequest}
-                                        isRequestMaking={resetBindingRequestsRequestMaking}
-                                    />
-                                )
-                            }
-                        />
-                        <Route
-                            exact
-                            path="/dashboard"
-                            render={
-                                () => (
-                                    <Lobby
-                                        user={user}
-                                        userAvatar={userAvatar}
-                                        subscriptions={subscriptions}
-                                        popularProducts={popularProducts}
-                                        getPopularProducts={this.getPopularProducts}
-                                        deviceWidth={deviceWidth}
-                                        buyProduct={this.buyProduct}
-                                        isRequestMaking={popularProductsRequestMaking}
-                                        updateMount={this.updateMount}
-                                        showChoosingDays={this.showChoosingDays}
-                                    />
-                                )
-                            }
-                        />
-                    </Switch>
-                </main>
-                <Footer
-                    style={
-                        showingChangePassword || agreementShown || chooseDaysAmountShown || isRequestMaking
-                            ? {
-                                opacity: '.5',
-                                transition: '500ms',
-                                pointerEvents: 'none',
-                                userSelect: 'none'
-                            }
-                            : {
-                                opactiy: 1,
-                                transition: '500ms',
-                                pointerEvents: 'all',
-                                userSelect: 'text'
-                            }
-                    }
-                />
+                                )}
+                            />
+                            <Route
+                                path="/dashboard/FAQ"
+                                render={
+                                    () => (
+                                        <FAQ
+                                            answers={answersFAQ}
+                                            isRequestMaking={answersFAQRequestMaking}
+                                        />
+                                    )
+                                }
+                            />
+                            <Route
+                                path="/dashboard/products/:title"
+                                render={
+                                    () => (
+                                        <ProductInfo
+                                            popularProducts={popularProducts}
+                                            getPopularProducts={this.getPopularProducts}
+                                            buyProduct={this.buyProduct}
+                                            showChoosingDays={this.showChoosingDays}
+                                            chooseDaysAmountShown={chooseDaysAmountShown}
+                                        />
+                                    )
+                                }
+                            />
+                            <Route
+                                path="/dashboard/subscriptions"
+                                render={
+                                    () => (
+                                        <Subscriptions
+                                            subscriptions={subscriptions}
+                                            products={products}
+                                            toggleAgreement={this.toggleAgreement}
+                                            hideAgreement={this.hideAgreement}
+                                            agreementShown={agreementShown}
+                                            getSubscriptions={this.getSubscriptions}
+                                            user={user}
+                                            buyProduct={this.buyProduct}
+                                            isRequestMaking={subscriptionsRequestMaking}
+                                            showChoosingDays={this.showChoosingDays}
+                                            chooseDaysShown={chooseDaysAmountShown}
+                                        />
+                                    )
+                                }
+                            />
+                            <Route
+                                path="/dashboard/reset-binding"
+                                render={
+                                    () => (
+                                        <ResetBinding
+                                            resetRequests={resetRequests}
+                                            makeResetRequest={this.makeResetRequest}
+                                            isRequestMaking={resetBindingRequestsRequestMaking}
+                                        />
+                                    )
+                                }
+                            />
+                            <Route
+                                exact
+                                path="/dashboard"
+                                render={
+                                    () => (
+                                        <Lobby
+                                            user={user}
+                                            userAvatar={userAvatar}
+                                            subscriptions={subscriptions}
+                                            popularProducts={popularProducts}
+                                            getPopularProducts={this.getPopularProducts}
+                                            deviceWidth={deviceWidth}
+                                            buyProduct={this.buyProduct}
+                                            isRequestMaking={popularProductsRequestMaking}
+                                            updateMount={this.updateMount}
+                                            showChoosingDays={this.showChoosingDays}
+                                        />
+                                    )
+                                }
+                            />
+                        </Switch>
+                    </main>
+                    <Footer
+                        style={
+                            showingChangePassword || agreementShown || chooseDaysAmountShown || isRequestMaking
+                                ? {
+                                    opacity: '.5',
+                                    transition: '500ms',
+                                    pointerEvents: 'none',
+                                    userSelect: 'none'
+                                }
+                                : {
+                                    opactiy: 1,
+                                    transition: '500ms',
+                                    pointerEvents: 'all',
+                                    userSelect: 'text'
+                                }
+                        }
+                    />
+                </div>
             </div>
         )
     }

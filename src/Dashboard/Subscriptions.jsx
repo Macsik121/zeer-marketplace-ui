@@ -284,7 +284,8 @@ export default class Subscriptions extends React.Component {
 
             if (!showAll && i > limitSubs) {
                 break;
-            } else if (status.isActive || status.isFreezed) {
+            }
+            if (status.isActive || status.isFreezed) {
                 activeSubs.push(
                     <div key={title} className="subscription">
                         <img

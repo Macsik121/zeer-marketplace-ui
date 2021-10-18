@@ -170,16 +170,14 @@ class Signup extends React.Component {
             this.setState({ isRequestMaking: false });
             return;
         } else {
-            this.showError(signUpAttempt.message);
+            createNotification('error', signUpAttempt.message);
             this.setState({ isRequestMaking: false });
             return;
         }
-
-        this.setState({ isRequestMaking: false })
     }
     handleFieldFocus(e) {
         this.setState({
-            formErrorStyles: {opacity: 0}
+            formErrorStyles: { opacity: 0 }
         })
     }
     toggleAgree() {

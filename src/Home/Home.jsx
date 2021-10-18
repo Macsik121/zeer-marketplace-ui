@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import downloadLoader from '../downloadLoader';
 import Slider from './Slider.jsx';
 import Product from './PopularProducts.jsx';
 import fetchPopularProducts from '../PopularProducts';
@@ -322,19 +323,28 @@ class Home extends React.Component {
                                             <h1>zeer</h1>
                                         </Link>
                                     </div>
-                                    <div
+                                    <a
                                         style={
                                             showingLogin || showingSignup
                                                 ? { pointerEvents: 'none', userSelect: 'none' }
                                                 : { pointerEvents: 'all', userSelect: 'text' }
                                         }
                                         className="download-loader"
+                                        onClick={e => {
+                                            if (localStorage.getItem('token')) {
+                                                downloadLoader(e.target);
+                                            } else {
+                                                this.showLogin();
+                                            }
+                                        }}
                                     >
                                         <img src="/images/download-loader.png" />
-                                        <span className="text-content">
+                                        <span
+                                            className="text-content"
+                                        >
                                             скачать zeer loader
                                         </span>
-                                    </div>
+                                    </a>
                                     <div className="gray-line"></div>
                                     <div className="social-media">
                                         <a className="social-media-link" target="_blank" href="https://t.me/zeer_changer">

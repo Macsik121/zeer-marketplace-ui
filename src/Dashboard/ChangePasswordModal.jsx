@@ -75,7 +75,7 @@ export default class ChangePassword extends React.Component {
             createNotification('success', message);
             this.props.hideModal();
         } else {
-            this.showError(message);
+            createNotification('error', message);
         }
         this.setState({ requestMaking: false });
     }

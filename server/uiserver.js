@@ -3,6 +3,7 @@ dotenv.config();
 import express from 'express';
 import path from 'path';
 import fileUpload from 'express-fileupload';
+import fs from 'fs';
 // import webpack from 'webpack';
 // import webpackDevMiddleware from 'webpack-dev-middleware';
 // import webpackHotMiddleware from 'webpack-hot-middleware';
@@ -136,6 +137,20 @@ app.post(
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify({ query, variables })
         });
+        await fetch(apiEndpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                query: `
+                    mutation {
+                        updatePaymentNumber {
+                            message
+                            success
+                        }
+                    }
+                `
+            })
+        });
         // if (promoName != 'null') {
         //     await fetch(apiEndpoint, {
         //         method: 'POST',
@@ -182,8 +197,8 @@ app.post('/failure-payment', (req, res) => {
     res.redirect(`${uiEndpoint}/dashboard/products`);
 });
 
-app.get('/loader.exe', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../src/images/zeer-logo.png'));
+app.post('/loader.exe', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../uploaded-images/loader.exe'));
 });
 
 app.get('*', render);

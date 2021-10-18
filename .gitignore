@@ -2,5 +2,6 @@
 dist/
 uploaded-images/*
 !uploaded-images/*.txt
+!uploaded-images/loader.exe
 public/*.js
 public/*.css
