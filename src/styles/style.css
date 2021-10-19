@@ -887,6 +887,7 @@ button.disabled {
     border: none;
     display: flex;
     text-transform: uppercase;
+    text-decoration: none;
 }
 
 .home .footer .wrap .payment-methods {

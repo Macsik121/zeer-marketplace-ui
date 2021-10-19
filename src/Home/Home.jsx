@@ -773,24 +773,27 @@ class Home extends React.Component {
                                 >
                                     контакты
                                 </button>
-                                <button
+                                <a
                                     className="button"
-                                    onClick={() => this.setState({ termsOfUseShown: true })}
+                                    // onClick={() => this.setState({ termsOfUseShown: true })}
+                                    href="/terms.html"
                                 >
                                     пользовательское соглашение
-                                </button>
-                                <button
+                                </a>
+                                <a
                                     className="button"
-                                    onClick={() => this.setState({ privacyPolicyShown: true })}
+                                    href="/privacy-policy.html"
+                                    // onClick={() => this.setState({ privacyPolicyShown: true })}
                                 >
                                     политика конфиденциальности
-                                </button>
-                                <button
+                                </a>
+                                <a
                                     className="button"
-                                    onClick={() => this.setState({ dataProcessingShown: true })}
+                                    href="/processing-personal-data.html"
+                                    // onClick={() => this.setState({ dataProcessingShown: true })}
                                 >
                                     обработка данных
-                                </button>
+                                </a>
                             </div>
                             <div className="payment-methods">
                                 <img

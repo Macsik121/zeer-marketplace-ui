@@ -38,7 +38,12 @@ export default class ForgotPassword extends React.Component {
                 ip
             }
         };
-        const { resetPassword: { message } } = await fetchData(`
+        const {
+            resetPassword: {
+                message,
+                success
+            }
+        } = await fetchData(`
             mutation resetPassword(
                 $email: String!,
                 $navigator: NavigatorInput!,
@@ -50,10 +55,14 @@ export default class ForgotPassword extends React.Component {
                     locationData: $locationData
                 ) {
                     message
+                    success
                 }
             }
         `, vars);
-        createNotification('info', message);
+        createNotification(success ? 'info' : 'error', message);
+        if (success) {
+            this.props.hideForgotPassword();
+        }
 
         this.setState({ requestMaking: false });
     }

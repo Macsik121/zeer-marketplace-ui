@@ -68,13 +68,13 @@ app.post('/uploaded-images', (req, res) => {
 });
 
 app.post(
-    '/confirmation-payment/:name/:title/:cost/:days/:platform/:userAgent/:appName/:appVersion/:ip/:location/:splitDelimiter/:promoName',
+    '/confirmation-payment/:name/:title/:cost/:days/:platform/:userAgent/:ip/:location/:promoName',
     async (req, res) => {
         let {
             userAgent,
             promoName
         } = req.params;
-        userAgent = userAgent.split(req.params.splitDelimiter);
+        userAgent = userAgent.split('-');
         userAgent = userAgent.join('/');
         const {
             name,
@@ -88,21 +88,18 @@ app.post(
             location
         } = req.params;
         const variables = {
-            name,
+            name: decodeURIComponent(name),
             title: decodeURIComponent(title),
             productCost: +cost,
             navigator: {
-                platform,
-                userAgent,
-                appName,
-                appVersion
+                platform: decodeURIComponent(platform),
+                userAgent: decodeURIComponent(userAgent)
             },
             locationData: {
                 ip,
                 location
             },
-            days: +days,
-
+            days: +days
         };
         const query = `
             mutation buyProduct(
@@ -200,6 +197,8 @@ app.post('/failure-payment', (req, res) => {
 app.post('/loader.exe', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../uploaded-images/loader.exe'));
 });
+
+app.use('/', express.static(path.resolve(__dirname, '../src/Home/roots')));
 
 app.get('*', render);
 

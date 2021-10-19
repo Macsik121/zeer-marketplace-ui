@@ -188,19 +188,16 @@ class Dashboard extends React.Component {
         promoName = 'null'
     }) {
         const user = jwtDecode(localStorage.getItem('token'));
-        let userAgent = navigator.userAgent;
-        const splitDelimiter = '--';
-        userAgent = userAgent.split('/');
-        userAgent = userAgent.join(splitDelimiter);
+        let userAgent = navigator.userAgent.replaceAll('/', '-');
         const locationData = await getIPData();
         const { ip, city } = locationData;
         if (promoName == '') promoName = 'null';
         const vars = {
             title: encodeURIComponent(title),
-            name: user.name,
+            name: encodeURIComponent(user.name),
             navigator: {
-                userAgent,
-                platform: navigator.platform,
+                userAgent: userAgent,
+                platform: encodeURIComponent(navigator.platform),
                 appName: navigator.appName,
                 appVersion: navigator.appVersion
             },
@@ -213,10 +210,8 @@ class Dashboard extends React.Component {
         const { paymentNumber } = await fetchData(`
             query { paymentNumber }
         `);
-        console.log(paymentNumber);
-        window.location.href = `
-            https://paymaster.ru/payment/init?LMI_MERCHANT_ID=77aa76b8-1551-42c5-be5f-f49d6330260f&LMI_PAYMENT_AMOUNT=${cost}&LMI_CURRENCY=RUB&LMI_PAYMENT_DESC=Оплата%20товара%20${encodeURIComponent(vars.title)}%20на%20${days == 360 ? '1 год' : days}%20${days == 360 ? '' : days == 1 ? 'день' : 'дней'}&LMI_SUCCESS_URL=${uiEndpoint}/confirmation-payment/${vars.name}/${vars.title}/${vars.productCost}/${days}/${vars.navigator.platform}/${vars.navigator.userAgent}/${vars.navigator.appName}/${vars.navigator.appVersion}/${vars.locationData.ip}/${vars.locationData.location}/${splitDelimiter}/${promoName}&LMI_FAIL_URL=${uiEndpoint}/failure-payment&LMI_PAYMENT_NO=${paymentNumber}
-        `;
+        const paymentURL = `https://paymaster.ru/payment/init?LMI_MERCHANT_ID=77aa76b8-1551-42c5-be5f-f49d6330260f&LMI_PAYMENT_AMOUNT=${cost}&LMI_CURRENCY=RUB&LMI_PAYMENT_DESC=Оплата%20товара%20${vars.title}%20на%20${days == 360 ? '1 год' : days}%20${days == 360 ? '' : days == 1 ? 'день' : 'дней'}&LMI_SUCCESS_URL=${uiEndpoint}/confirmation-payment/${vars.name}/${vars.title}/${vars.productCost}/${days}/${vars.navigator.platform}/${vars.navigator.userAgent}/${vars.locationData.ip}/${vars.locationData.location}/${promoName}&LMI_FAIL_URL=${uiEndpoint}/failure-payment&LMI_PAYMENT_NO=${paymentNumber}`
+        window.location.href = paymentURL;
         // const query = `
             // mutation buyProduct(
             //     $title: String!,
