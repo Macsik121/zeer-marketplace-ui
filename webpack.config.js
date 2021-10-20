@@ -91,6 +91,7 @@ const browserConfig = {
             __isBrowser__: true,
             __SERVER_ENDPOINT_ADDRESS__: JSON.stringify(apiEndpoint),
             __UI_SERVER_ENDPOINT__: JSON.stringify(uiEndpoint),
+            __API_LOADER_ENDPOINT__: JSON.stringify(apiLoaderEndpoint),
             __RECAPTCHA_KEY__: JSON.stringify(RECAPTCHA_KEY),
             __RECAPTCHA_SECRET__: JSON.stringify(RECAPTCHA_SECRET)
         })

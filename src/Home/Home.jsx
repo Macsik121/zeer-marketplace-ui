@@ -776,20 +776,20 @@ class Home extends React.Component {
                                 <a
                                     className="button"
                                     // onClick={() => this.setState({ termsOfUseShown: true })}
-                                    href="/terms.html"
+                                    href="/terms.pdf"
                                 >
                                     пользовательское соглашение
                                 </a>
                                 <a
                                     className="button"
-                                    href="/privacy-policy.html"
+                                    href="/privacy-policy.pdf"
                                     // onClick={() => this.setState({ privacyPolicyShown: true })}
                                 >
                                     политика конфиденциальности
                                 </a>
                                 <a
                                     className="button"
-                                    href="/processing-personal-data.html"
+                                    href="/processing-personal-data.pdf"
                                     // onClick={() => this.setState({ dataProcessingShown: true })}
                                 >
                                     обработка данных
