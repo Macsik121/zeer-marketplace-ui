@@ -896,6 +896,12 @@ button.disabled {
     z-index: 1;
 }
 
+.home .footer .payment-methods .link {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
 .home .footer .wrap .logo + .logo {
     margin-left: 10px;
 }

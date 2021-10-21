@@ -68,7 +68,7 @@ app.post('/uploaded-images', (req, res) => {
 });
 
 app.post(
-    '/confirmation-payment/:name/:title/:cost/:days/:platform/:userAgent/:ip/:location/:promoName',
+    '/confirmation-payment/:name/:title/:cost/:days/:userAgent/:ip/:location',
     async (req, res) => {
         let {
             userAgent,
@@ -92,7 +92,7 @@ app.post(
             title: decodeURIComponent(title),
             productCost: +cost,
             navigator: {
-                platform: decodeURIComponent(platform),
+                // platform: decodeURIComponent(platform),
                 userAgent: decodeURIComponent(userAgent)
             },
             locationData: {

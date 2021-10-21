@@ -796,10 +796,15 @@ class Home extends React.Component {
                                 </a>
                             </div>
                             <div className="payment-methods">
-                                <img
-                                    className="logo"
-                                    src="/images/paymaster-standart-logo.png"
-                                />
+                                <a
+                                    href="https://info.paymaster.ru/"
+                                    className="link"
+                                >
+                                    <img
+                                        className="logo"
+                                        src="/images/paymaster-standart-logo.png"
+                                    />
+                                </a>
                                 <img
                                     className="round-logo logo"
                                     src="/images/vtb-logo.png"
