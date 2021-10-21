@@ -376,37 +376,46 @@ class EditProduct extends React.Component {
                     adminName: $adminName,
                     locationData: $locationData
                 ) {
-                    id
-                    title
-                    productFor
-                    logo
-                    imageURL
-                    imageURLdashboard
-                    workingTime
-                    reloading
-                    costPerDay
-                    description
-                    locks
-                    timeBought
-                    peopleBought {
-                        name
-                        avatar
+                    response {
+                        message
+                        success
                     }
-                    characteristics {
-                        version
-                        osSupport
-                        cpuSupport
-                        gameMode
-                        developer
-                        supportedAntiCheats
+                    product {
+                        id
+                        title
+                        productFor
+                        logo
+                        imageURL
+                        imageURLdashboard
+                        workingTime
+                        reloading
+                        costPerDay
+                        description
+                        locks
+                        timeBought
+                        peopleBought {
+                            name
+                            avatar
+                        }
+                        characteristics {
+                            version
+                            osSupport
+                            cpuSupport
+                            gameMode
+                            developer
+                            supportedAntiCheats
+                        }
                     }
                 }
             }
         `, vars);
+        console.log(result);
+        const { createProduct } = result;
+        createNotification(createProduct.response.success ? 'success' : 'error', createProduct.response.message);
 
         this.setState({
-            product: result.createProduct,
-            title: result.createProduct.title,
+            product: createProduct.product,
+            title: createProduct.product.title,
             isRequestMaking: false
         });
     }
@@ -894,7 +903,7 @@ class EditProduct extends React.Component {
                                                 />
                                                 <span
                                                     className="info"
-                                                    onClick={() => createNotification('info', 'Количество дней, которое будет прибавляться к подписке при покупке')}
+                                                    onClick={() => createNotification('info', 'Количество дней, которое будет прибавляться к подписке при покупке.')}
                                                 >
                                                     i
                                                 </span>
