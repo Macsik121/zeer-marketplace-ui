@@ -210,7 +210,6 @@ class Dashboard extends React.Component {
         const { paymentNumber } = await fetchData(`
             query { paymentNumber }
         `);
-        console.log(vars);
         const paymentURL = `https://paymaster.ru/payment/init?LMI_MERCHANT_ID=77aa76b8-1551-42c5-be5f-f49d6330260f&LMI_PAYMENT_AMOUNT=${cost}&LMI_CURRENCY=RUB&LMI_PAYMENT_DESC=Оплата%20товара%20${vars.title}%20на%20${days == 360 ? '1 год' : days}%20${days == 360 ? '' : days == 1 ? 'день' : 'дней'}&LMI_SUCCESS_URL=${uiEndpoint}/confirmation-payment/${vars.name}/${vars.title}/${vars.productCost}/${days}/${vars.navigator.userAgent}/${vars.locationData.ip}/${vars.locationData.location}&LMI_FAIL_URL=${uiEndpoint}/failure-payment&LMI_PAYMENT_NO=${paymentNumber}`
         window.location.href = paymentURL;
         // const query = `

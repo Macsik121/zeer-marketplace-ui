@@ -53,9 +53,21 @@ class Users extends React.Component {
     constructor() {
         super();
         this.state = {
-            users: [],
+            users: [
+                {
+                    subscriptions: [
+                        {
+                            status: {
+                                isActive: false
+                            }
+                        }
+                    ]
+                }
+            ],
             usersCopy: [],
-            user: {},
+            user: {
+                subscriptions: []
+            },
             userToDelete: {},
             areUsersLoaded: false,
             isRequestMaking: false,
@@ -100,6 +112,9 @@ class Users extends React.Component {
                     registeredDate
                     subscriptions {
                         title
+                        status {
+                            isActive
+                        }
                     }
                 }
             }
@@ -173,7 +188,7 @@ class Users extends React.Component {
         let searchCondition = e.target.value;
         searchCondition = searchCondition.toLowerCase().trim();
 
-        this.props.history.push('/admin/users/1')
+        this.props.history.push('/admin/users/1');
         const usersToRender = [];
 
         this.state.usersCopy.map(user => {
@@ -228,6 +243,15 @@ class Users extends React.Component {
                 const renderLimit = limit * page;
                 const renderFrom = renderLimit - limit;
                 if (i < renderLimit && i >= renderFrom) {
+                    let hasActiveSubs = false;
+                    for(let i = 0; i < user.subscriptions.length; i++) {
+                        if (user.subscriptions[i].status &&
+                            user.subscriptions[i].status.isActive
+                        ) {
+                            hasActiveSubs = true;
+                            break;
+                        }
+                    }
                     return (
                         <div
                             onClick={this.toggleBand}
@@ -261,14 +285,14 @@ class Users extends React.Component {
                             <span
                                 className="subscription user-info"
                                 style={
-                                    user.subscriptions.length > 0
+                                    hasActiveSubs
                                         ? { backgroundColor: '#04BE00' }
                                         : { backgroundColor: '#DD4D4D78' }
                                 }
                                 onClick={e => e.stopPropagation()}
                             >
                                 {
-                                    user.subscriptions.length > 0
+                                    hasActiveSubs
                                         ? 'Активна'
                                         : 'Неактивна'
                                 }
