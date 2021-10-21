@@ -18,7 +18,6 @@ export default async function downloadLoader(link) {
         }
     `, { name: username });
     let userHasActiveSubs = false;
-    console.log(user.subscriptions);
     for(let i = 0; i < user.subscriptions.length; i++) {
         console.log(user.subscriptions[i].status.isActive)
         if (user.subscriptions[i].status.isActive) {
@@ -26,9 +25,8 @@ export default async function downloadLoader(link) {
             break;
         }
     }
-    console.log('userHasActiveSubs:', userHasActiveSubs);
     if (!userHasActiveSubs) {
-        createNotification('error', 'У вас нету ни одной подписки');
+        createNotification('error', 'У вас нету ни одной активной подписки');
         return;
     }
     let result = await fetch(__UI_SERVER_ENDPOINT__ + '/loader.exe', {
