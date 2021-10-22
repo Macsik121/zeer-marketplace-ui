@@ -195,7 +195,7 @@ app.post('/failure-payment', (req, res) => {
 });
 
 app.post('/loader.exe', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../uploaded-images/loader.exe'));
+    res.sendFile(path.resolve(__dirname, '../src/images/loader.exe'));
 });
 
 app.use('/', express.static(path.resolve(__dirname, '../src/Home/roots')));
