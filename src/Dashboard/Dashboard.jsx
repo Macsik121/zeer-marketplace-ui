@@ -371,8 +371,7 @@ class Dashboard extends React.Component {
                 }
             }
         `;
-        const locationData = await getIPData();
-        const { ip, city } = locationData;
+        const { ip, city } = await getIPData();
         const user = jwtDecode(localStorage.getItem('token'));
         const { name } = user;
         const vars = {
