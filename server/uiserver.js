@@ -97,6 +97,7 @@ app.post(
             ip,
             location
         } = req.params;
+        console.log(req.body);
         const variables = {
             name: decodeURIComponent(name),
             title: decodeURIComponent(title),
