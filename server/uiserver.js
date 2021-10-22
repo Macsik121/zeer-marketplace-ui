@@ -3,7 +3,7 @@ dotenv.config();
 import express from 'express';
 import path from 'path';
 import fileUpload from 'express-fileupload';
-import fs from 'fs';
+import cors from 'cors';
 // import webpack from 'webpack';
 // import webpackDevMiddleware from 'webpack-dev-middleware';
 // import webpackHotMiddleware from 'webpack-hot-middleware';
@@ -15,6 +15,8 @@ const port = process.env.PORT || 8000;
 
 const uiEndpoint = __UI_SERVER_ENDPOINT__;
 const apiEndpoint = __SERVER_ENDPOINT_ADDRESS__;
+
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
@@ -68,11 +70,19 @@ app.post('/uploaded-images', (req, res) => {
 });
 
 app.post(
-    '/confirmation-payment/:name/:title/:cost/:days/:userAgent/:ip/:location',
+    '/invoice-confirmation',
+    (req, res) => {
+        console.log('invoice confirmation has requested');
+        res.send('YES');
+    }
+);
+
+app.post(
+    '/payment-notification/:name/:title/:cost/:days/:userAgent/:ip/:location',
     async (req, res) => {
+        console.log('payment notif has requested');
         let {
-            userAgent,
-            promoName
+            userAgent
         } = req.params;
         userAgent = userAgent.split('-');
         userAgent = userAgent.join('/');
@@ -186,7 +196,7 @@ app.post(
         //         } })
         //     });
         // }
-        res.redirect(`${uiEndpoint}/dashboard/subscriptions`);
+        res.send('Everything is ok');
     }
 );
 
