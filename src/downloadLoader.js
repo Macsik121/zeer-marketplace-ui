@@ -11,6 +11,7 @@ export default async function downloadLoader(link) {
     const url = window.URL.createObjectURL(result);
     let clickLink = false;
     let userHasActiveSubs = true;
+    console.log(link.download);
     if (link.download == '') {
         clickLink = true;
     } else {
