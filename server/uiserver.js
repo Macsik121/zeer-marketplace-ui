@@ -78,7 +78,7 @@ app.post(
 );
 
 app.post(
-    '/payment-notification/:name/:title/:cost/:days/:userAgent/:ip/:location',
+    '/payment-notification',
     async (req, res) => {
         console.log('payment notif has requested');
         let {
@@ -86,31 +86,28 @@ app.post(
         } = req.params;
         userAgent = userAgent.split('-');
         userAgent = userAgent.join('/');
-        const {
-            name,
-            title,
-            cost,
-            platform,
-            days,
-            appName,
-            appVersion,
-            ip,
-            location
-        } = req.params;
-        console.log(req.body);
+        let {
+            LMI_PAYER_IP_ADDRESS,
+            __LOCATION__,
+            __PRODUCT_TITLE__,
+            __USER_AGENT__,
+            __USERNAME__,
+            __PRODUCT_COST__,
+            __DAYS__
+        } = req.body;
         const variables = {
-            name: decodeURIComponent(name),
-            title: decodeURIComponent(title),
-            productCost: +cost,
+            name: decodeURIComponent(__USERNAME__),
+            title: decodeURIComponent(__PRODUCT_TITLE__),
+            productCost: +__PRODUCT_COST__,
             navigator: {
                 // platform: decodeURIComponent(platform),
-                userAgent: decodeURIComponent(userAgent)
+                userAgent: decodeURIComponent(__USER_AGENT__)
             },
             locationData: {
-                ip,
-                location
+                ip: LMI_PAYER_IP_ADDRESS,
+                location: __LOCATION__
             },
-            days: +days
+            days: +__DAYS__
         };
         const query = `
             mutation buyProduct(

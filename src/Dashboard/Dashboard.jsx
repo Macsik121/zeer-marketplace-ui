@@ -189,7 +189,6 @@ class Dashboard extends React.Component {
     }) {
         const user = jwtDecode(localStorage.getItem('token'));
         let userAgent = navigator.userAgent.replaceAll('/', '-');
-        const locationData = await getIPData();
         const { ip, city } = locationData;
         if (promoName == '') promoName = 'null';
         const vars = {
@@ -211,7 +210,7 @@ class Dashboard extends React.Component {
             query { paymentNumber }
         `);
         const merchantID = '77aa76b8-1551-42c5-be5f-f49d6330260f';
-        const paymentURL = `https://paymaster.ru/payment/init?LMI_MERCHANT_ID=${merchantID}&LMI_PAYMENT_AMOUNT=${cost}&LMI_CURRENCY=RUB&LMI_PAYMENT_DESC=Оплата%20товара%20${vars.title}%20на%20${days == 360 ? '1 год' : days}%20${days == 360 ? '' : days == 1 ? 'день' : 'дней'}&LMI_INVOICE_CONFIRMATION_URL=${uiEndpoint}/invoice-confirmation&LMI_PAYMENT_NOTIFICATION_URL=${uiEndpoint}/payment-notification/${vars.name}/${vars.title}/${vars.productCost}/${days}/${vars.navigator.userAgent}/${vars.locationData.ip}/${vars.locationData.location}&LMI_SUCCESS_METHOD=GET&LMI_SUCCESS_URL=${uiEndpoint}/dashboard/subscriptions&LMI_FAIL_URL=${uiEndpoint}/failure-payment&LMI_PAYMENT_NO=${paymentNumber}&LMI_SHOPPINGCART.ITEMS[0].NAME=${vars.title}&LMI_SHOPPINGCART.ITEMS[0].QTY=1&LMI_SHOPPINGCART.ITEMS[0].PRICE=${vars.productCost}.&LMI_SHOPPINGCART.ITEMS[0].TAX=no_vat`;
+        const paymentURL = `https://paymaster.ru/payment/init?LMI_MERCHANT_ID=${merchantID}&LMI_PAYMENT_AMOUNT=${cost}&LMI_CURRENCY=RUB&LMI_PAYMENT_DESC=Оплата%20товара%20${vars.title}%20на%20${days == 360 ? '1 год' : days}%20${days == 360 ? '' : days == 1 ? 'день' : 'дней'}&LMI_INVOICE_CONFIRMATION_URL=${uiEndpoint}/invoice-confirmation&LMI_PAYMENT_NOTIFICATION_URL=${uiEndpoint}/payment-notification&LMI_SUCCESS_METHOD=GET&LMI_SUCCESS_URL=${uiEndpoint}/dashboard/subscriptions&LMI_FAIL_URL=${uiEndpoint}/failure-payment&LMI_PAYMENT_NO=${paymentNumber}&__USER_AGENT__=${vars.navigator.userAgent}&__LOCATION__=${vars.locationData.location}&__PRODUCT_TITLE__=${vars.title}&__USERNAME__=${vars.name}&__PRODUCT_COST__=${vars.productCost}&__DAYS__=${days}&LMI_SHOPPINGCART.ITEMS[0].NAME=${vars.title}&LMI_SHOPPINGCART.ITEMS[0].QTY=1&LMI_SHOPPINGCART.ITEMS[0].PRICE=${vars.productCost}.&LMI_SHOPPINGCART.ITEMS[0].TAX=no_vat`;
         window.location.href = paymentURL;
         // const query = `
             // mutation buyProduct(
