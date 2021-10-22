@@ -189,7 +189,7 @@ class Dashboard extends React.Component {
     }) {
         const user = jwtDecode(localStorage.getItem('token'));
         let userAgent = navigator.userAgent.replaceAll('/', '-');
-        const { ip, city } = locationData;
+        const { ip, city } = await getIPData();
         if (promoName == '') promoName = 'null';
         const vars = {
             title: encodeURIComponent(title),
