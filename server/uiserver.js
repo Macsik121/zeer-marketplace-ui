@@ -82,11 +82,6 @@ app.post(
     async (req, res) => {
         console.log('payment notif has requested');
         let {
-            userAgent
-        } = req.params;
-        userAgent = userAgent.split('-');
-        userAgent = userAgent.join('/');
-        let {
             LMI_PAYER_IP_ADDRESS,
             __LOCATION__,
             __PRODUCT_TITLE__,
