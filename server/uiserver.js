@@ -102,13 +102,18 @@ app.post(
             __PRODUCT_COST__,
             __DAYS__
         } = req.body;
-        const hash = `${LMI_MERCHANT_ID};${LMI_PAYMENT_NO};${LMI_SYS_PAYMENT_ID};${LMI_SYS_PAYMENT_DATE};${LMI_PAYMENT_AMOUNT};${LMI_CURRENCY};${LMI_PAID_AMOUNT};${LMI_PAID_CURRENCY};${LMI_PAYMENT_SYSTEM};${LMI_SIM_MODE};NotPOSsibLEToGuesSSecREtWort..#@`;
+        let hash = `${LMI_MERCHANT_ID};${LMI_PAYMENT_NO};${LMI_SYS_PAYMENT_ID};${LMI_SYS_PAYMENT_DATE};${LMI_PAYMENT_AMOUNT};${LMI_CURRENCY};${LMI_PAID_AMOUNT};${LMI_PAID_CURRENCY};${LMI_PAYMENT_SYSTEM};${LMI_SIM_MODE};NotPOSsibLEToGuesSSecREtWort..#@`;
+        hash = crypto
+            .createHash('sha256')
+            .update(hash)
+            .digest('base64');
+        
         console.log('hash:', hash);
         console.log('LMI_HASH:', LMI_HASH);
-        // if (btoa(hash) != LMI_HASH) {
-        //     res.send('Ты хотел нечестно фармить подписки? Хер тебе в задницу, мразь');
-        //     return;
-        // }
+        if (hash != LMI_HASH) {
+            res.send('Ты хотел нечестно фармить подписки? Хер тебе в задницу, мразь');
+            return;
+        }
         __USER_AGENT__ = __USER_AGENT__.split('-');
         __USER_AGENT__ = __USER_AGENT__.join('/');
         const variables = {
