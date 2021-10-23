@@ -452,11 +452,12 @@ class Product extends React.Component {
                                                 }
                                             });
                                             if (buyProduct) {
-                                                buyProduct({
-                                                    title: product.title,
-                                                    cost: productCost,
-                                                    days
-                                                });
+                                                this.props.showChoosingDays(product);
+                                                // buyProduct({
+                                                //     title: product.title,
+                                                //     cost: productCost,
+                                                //     days
+                                                // });
                                             }
                                             return;
                                         }}

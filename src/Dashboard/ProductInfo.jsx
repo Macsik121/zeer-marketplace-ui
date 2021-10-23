@@ -129,6 +129,7 @@ class ProductInfo extends React.Component {
                         isRequestMaking={isRequestMaking}
                         product={product}
                         chooseDaysAmountShown={chooseDaysAmountShown}
+                        showChoosingDays={showChoosingDays}
                     />
                     <div className="popular-products">
                         <h2>Популярные продукты</h2>

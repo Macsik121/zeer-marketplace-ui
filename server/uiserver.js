@@ -72,16 +72,8 @@ app.post('/uploaded-images', (req, res) => {
 
 app.post(
     '/invoice-confirmation',
-    (req, res) => {
-        console.log('invoice confirmation has requested');
-        res.send('YES');
-    }
-);
-
-app.post(
-    '/payment-notification',
     async (req, res) => {
-        console.log('payment notif has requested');
+        console.log('invoice confirmation has requested');
         await fetch(apiEndpoint, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -96,6 +88,14 @@ app.post(
                 `
             })
         });
+        res.send('YES');
+    }
+);
+
+app.post(
+    '/payment-notification',
+    async (req, res) => {
+        console.log('payment notif has requested');
         let {
             LMI_MERCHANT_ID,
             LMI_PAYMENT_NO,
@@ -221,7 +221,21 @@ app.get('/success-url', (req, res) => {
     res.redirect('/dashboard/subscriptions');
 })
 
-app.post('/failure-payment', (req, res) => {
+app.post('/failure-payment', async (req, res) => {
+    await fetch(apiEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            query: `
+                mutation {
+                    updatePaymentNumber {
+                        message
+                        success
+                    }
+                }
+            `
+        })
+    });
     res.redirect(`${uiEndpoint}/dashboard/products`);
 });
 
