@@ -90,6 +90,8 @@ app.post(
             __PRODUCT_COST__,
             __DAYS__
         } = req.body;
+        __USER_AGENT__ = __USER_AGENT__.split('-');
+        __USER_AGENT__ = __USER_AGENT__.join('/');
         const variables = {
             name: decodeURIComponent(__USERNAME__),
             title: decodeURIComponent(__PRODUCT_TITLE__),
