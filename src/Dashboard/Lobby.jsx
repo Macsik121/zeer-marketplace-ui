@@ -170,10 +170,13 @@ export default function Lobby(props) {
                             </Link>
                         </div>
                     </div>
-                    <div className="video">
+                    <a
+                        href="https://vk.com/@zeer_csgo-start-zeer-loader"
+                        className="video"
+                    >
                         <img src="/images/play-button.svg" className="play" />
                         <div className="watch" />
-                    </div>
+                    </a>
                 </div>
                 <h2 className="popular-products">Популярные продукты</h2>
                 {
