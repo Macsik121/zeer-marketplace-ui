@@ -517,8 +517,9 @@ export default class Subscriptions extends React.Component {
                             Нажимая кнопку "Активировать ключ"<br />
                             я соглашаюсь
                             &nbsp;
-                            <button
-                                onClick={toggleAgreement}
+                            <a
+                                // onClick={toggleAgreement}
+                                href={__UI_SERVER_ENDPOINT__ + '/terms.pdf'}
                                 type="button"
                                 className="terms-n-policy"
                                 style={
@@ -528,7 +529,7 @@ export default class Subscriptions extends React.Component {
                                 }
                             >
                                 с правилами
-                            </button>
+                            </a>
                         </label>
                     </form>
                 </div>

@@ -136,6 +136,9 @@ class InjectLogs extends React.Component {
     toggleActiveClass(e) {
         e.target.classList.toggle('active');
     }
+    toggleParentClass(e) {
+        e.target.parentNode.classList.toggle('active');
+    }
     async cleanLogs() {
         this.setState({ requestMaking: true });
 
@@ -184,13 +187,13 @@ class InjectLogs extends React.Component {
                         onClick={this.toggleActiveClass}
                         key={i}
                     >
-                        <div className="date">{new Date(date).toLocaleString()}</div>
-                        <div className="login">{name}</div>
-                        <div className="location">{location}</div>
-                        <div className="ip">{ip}</div>
-                        <div className="id-steam">{idSteam}</div>
-                        <div className="platform">{platform}</div>
-                        <div className="action">{action}</div>
+                        <div onClick={this.toggleParentClass} className="date">{new Date(date).toLocaleString()}</div>
+                        <div onClick={this.toggleParentClass} className="login">{name}</div>
+                        <div onClick={this.toggleParentClass} className="location">{location}</div>
+                        <div onClick={this.toggleParentClass} className="ip">{ip}</div>
+                        <div onClick={this.toggleParentClass} className="id-steam">{idSteam}</div>
+                        <div onClick={this.toggleParentClass} className="platform">{platform}</div>
+                        <div onClick={this.toggleParentClass} className="action">{action}</div>
                     </div>
                 );
             }

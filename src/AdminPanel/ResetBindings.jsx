@@ -153,6 +153,9 @@ class ResetBindings extends React.Component {
     toggleActiveClass(e) {
         e.target.classList.toggle('active');
     }
+    toggleParentClass(e) {
+        e.target.parentNode.classList.toggle('active');
+    }
     render() {
         const {
             isRequestMaking,
@@ -180,12 +183,12 @@ class ResetBindings extends React.Component {
                     key={new Date() - new Date(request.date)}
                     className="reset-request"
                 >
-                    <div className="number">{request.id}</div>
-                    <div className="reason">{request.reason}</div>
-                    <div className="date">{new Date(request.date).toLocaleDateString()}</div>
-                    <div className="ip">{request.ip || 'localhost'}</div>
-                    <div className="location">{request.location || 'Москва'}</div>
-                    <div className="status">{request.status}</div>
+                    <div onClick={this.toggleParentClass} className="number">{request.id}</div>
+                    <div onClick={this.toggleParentClass} className="reason">{request.reason}</div>
+                    <div onClick={this.toggleParentClass} className="date">{new Date(request.date).toLocaleDateString()}</div>
+                    <div onClick={this.toggleParentClass} className="ip">{request.ip || 'localhost'}</div>
+                    <div onClick={this.toggleParentClass} className="location">{request.location || 'Москва'}</div>
+                    <div onClick={this.toggleParentClass} className="status">{request.status}</div>
                     <div
                         className="action"
                         style={

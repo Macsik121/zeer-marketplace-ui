@@ -95,6 +95,9 @@ class CrashLogs extends React.Component {
     toggleActiveClass(e) {
         e.target.classList.toggle('active');
     }
+    toggleParentClass(e) {
+        e.target.parentNode.classList.toggle('active');
+    }
     render() {
         const {
             requestMaking,
@@ -123,11 +126,11 @@ class CrashLogs extends React.Component {
                         onClick={this.toggleActiveClass}
                         key={i}
                     >
-                        <div className="date">{new Date(date).toLocaleString()}</div>
-                        <div className="login">{name}</div>
-                        <div className="code-error">{codeError}</div>
-                        <div className="error-description">{errorDesc}</div>
-                        <div className="playing-time">{playingTime}</div>
+                        <div onClick={this.toggleParentClass} className="date">{new Date(date).toLocaleString()}</div>
+                        <div onClick={this.toggleParentClass} className="login">{name}</div>
+                        <div onClick={this.toggleParentClass} className="code-error">{codeError}</div>
+                        <div onClick={this.toggleParentClass} className="error-description">{errorDesc}</div>
+                        <div onClick={this.toggleParentClass} className="playing-time">{playingTime}</div>
                         <div className="action">
                             <a
                                 className="button"

@@ -33,10 +33,10 @@ export default class ResetBinding extends React.Component {
                         <span className="content">
                             Убедитесь, что Вы не
                             нарушаете<br />
-                            <Link className="additional-link" to="/dashboard/FAQ">
+                            <a className="additional-link" href={__UI_SERVER_ENDPOINT__ + '/terms.pdf'}>
                                 правила нашего
                                 сообщества
-                            </Link>
+                            </a>
                             .
                         </span>
                     )

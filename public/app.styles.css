@@ -4149,7 +4149,6 @@ button.disabled {
     color: #92929D;
     background: none;
     border: none;
-    border-bottom: 1px solid #92929D;
     cursor: pointer;
 }
 
@@ -8767,8 +8766,6 @@ button.disabled {
     word-break: break-word;
     overflow: hidden;
     max-height: 16.5px;
-    pointer-events: none;
-    user-select: none;
 }
 
 .admin-panel .reset-requests .reset-requests-wrap .requests .reset-request.active {
@@ -9997,7 +9994,6 @@ button.disabled {
     word-break: break-word;
     display: flex;
     text-align: center;
-    pointer-events: none;
     justify-content: center;
 }
 

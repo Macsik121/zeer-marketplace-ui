@@ -82,6 +82,20 @@ app.post(
     '/payment-notification',
     async (req, res) => {
         console.log('payment notif has requested');
+        await fetch(apiEndpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                query: `
+                    mutation {
+                        updatePaymentNumber {
+                            message
+                            success
+                        }
+                    }
+                `
+            })
+        });
         let {
             LMI_MERCHANT_ID,
             LMI_PAYMENT_NO,
@@ -160,20 +174,6 @@ app.post(
             method: 'POST',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify({ query, variables })
-        });
-        await fetch(apiEndpoint, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                query: `
-                    mutation {
-                        updatePaymentNumber {
-                            message
-                            success
-                        }
-                    }
-                `
-            })
         });
         // if (promoName != 'null') {
         //     await fetch(apiEndpoint, {

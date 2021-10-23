@@ -38,7 +38,7 @@ class CreateKey extends React.Component {
 
         const generatedKeyNames = [];
         for (let i = 0; i < +keysToAddAmount.value; i++) {
-            const generatedName = generateString(10, true, 5);
+            const generatedName = name.value !== '' ? name.value : generateString(10, true, 5);
             generatedKeyNames.push(generatedName);
         }
 
