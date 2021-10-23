@@ -16,6 +16,8 @@ const port = process.env.PORT || 8000;
 const uiEndpoint = __UI_SERVER_ENDPOINT__;
 const apiEndpoint = __SERVER_ENDPOINT_ADDRESS__;
 
+// app.use(cors());
+
 app.use(express.json());
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
@@ -80,6 +82,17 @@ app.post(
     async (req, res) => {
         console.log('payment notif has requested');
         let {
+            LMI_MERCHANT_ID,
+            LMI_PAYMENT_NO,
+            LMI_SYS_PAYMENT_ID,
+            LMI_SYS_PAYMENT_DATE,
+            LMI_PAYMENT_AMOUNT,
+            LMI_CURRENCY,
+            LMI_PAID_AMOUNT,
+            LMI_PAID_CURRENCY,
+            LMI_PAYMENT_SYSTEM,
+            LMI_SIM_MODE,
+            LMI_HASH,
             LMI_PAYER_IP_ADDRESS,
             __LOCATION__,
             __PRODUCT_TITLE__,
@@ -88,6 +101,11 @@ app.post(
             __PRODUCT_COST__,
             __DAYS__
         } = req.body;
+        const hash = `${LMI_MERCHANT_ID};${LMI_PAYMENT_NO};${LMI_SYS_PAYMENT_ID};${LMI_SYS_PAYMENT_DATE};${LMI_PAYMENT_AMOUNT};${LMI_CURRENCY};${LMI_PAID_AMOUNT};${LMI_PAID_CURRENCY};${LMI_PAYMENT_SYSTEM};${LMI_SIM_MODE};NotPOSsibLEToGuesSSecREtWort..#@`;
+        if (btoa(hash) != LMI_HASH) {
+            res.send('Ты хотел нечестно фармить подписки? Хер тебе в задницу мразь');
+            return;
+        }
         __USER_AGENT__ = __USER_AGENT__.split('-');
         __USER_AGENT__ = __USER_AGENT__.join('/');
         const variables = {
