@@ -16,8 +16,6 @@ const port = process.env.PORT || 8000;
 const uiEndpoint = __UI_SERVER_ENDPOINT__;
 const apiEndpoint = __SERVER_ENDPOINT_ADDRESS__;
 
-app.use(cors());
-
 app.use(express.json());
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
