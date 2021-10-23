@@ -4,6 +4,7 @@ import express from 'express';
 import path from 'path';
 import fileUpload from 'express-fileupload';
 import cors from 'cors';
+import crypto from 'crypto';
 // import webpack from 'webpack';
 // import webpackDevMiddleware from 'webpack-dev-middleware';
 // import webpackHotMiddleware from 'webpack-hot-middleware';
@@ -16,7 +17,7 @@ const port = process.env.PORT || 8000;
 const uiEndpoint = __UI_SERVER_ENDPOINT__;
 const apiEndpoint = __SERVER_ENDPOINT_ADDRESS__;
 
-// app.use(cors());
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
@@ -102,10 +103,11 @@ app.post(
             __DAYS__
         } = req.body;
         const hash = `${LMI_MERCHANT_ID};${LMI_PAYMENT_NO};${LMI_SYS_PAYMENT_ID};${LMI_SYS_PAYMENT_DATE};${LMI_PAYMENT_AMOUNT};${LMI_CURRENCY};${LMI_PAID_AMOUNT};${LMI_PAID_CURRENCY};${LMI_PAYMENT_SYSTEM};${LMI_SIM_MODE};NotPOSsibLEToGuesSSecREtWort..#@`;
-        if (btoa(hash) != LMI_HASH) {
-            res.send('Ты хотел нечестно фармить подписки? Хер тебе в задницу мразь');
-            return;
-        }
+        console.log('hash:', hash);
+        // if (btoa(hash) != LMI_HASH) {
+        //     res.send('Ты хотел нечестно фармить подписки? Хер тебе в задницу, мразь');
+        //     return;
+        // }
         __USER_AGENT__ = __USER_AGENT__.split('-');
         __USER_AGENT__ = __USER_AGENT__.join('/');
         const variables = {
@@ -221,6 +223,12 @@ app.post('/failure-payment', (req, res) => {
 
 app.post('/loader.exe', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../src/images/loader.exe'));
+});
+
+app.post('/hashed-string', (req, res) => {
+    const { string } = req.body;
+    let newString = 'some string: ' + string;
+    res.send(newString);
 });
 
 app.use('/', express.static(path.resolve(__dirname, '../src/Home/roots')));

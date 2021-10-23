@@ -172,6 +172,7 @@ export default function Lobby(props) {
                     </div>
                     <a
                         href="https://vk.com/@zeer_csgo-start-zeer-loader"
+                        target="_blank"
                         className="video"
                     >
                         <img src="/images/play-button.svg" className="play" />
