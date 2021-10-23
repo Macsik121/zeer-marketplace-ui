@@ -107,11 +107,9 @@ app.post(
             .createHash('sha256')
             .update(hash)
             .digest('base64');
-        
-        console.log('hash:', hash);
-        console.log('LMI_HASH:', LMI_HASH);
+
         if (hash != LMI_HASH) {
-            res.send('Ты хотел нечестно фармить подписки? Хер тебе в задницу, мразь');
+            res.status(400).send('Ты хотел нечестно фармить подписки? Хер тебе в задницу, мразь');
             return;
         }
         __USER_AGENT__ = __USER_AGENT__.split('-');
