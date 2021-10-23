@@ -193,6 +193,10 @@ app.post(
     }
 );
 
+app.get('/success-url', (req, res) => {
+    res.redirect('/dashboard/subscriptions');
+})
+
 app.post('/failure-payment', (req, res) => {
     res.redirect(`${uiEndpoint}/dashboard/products`);
 });

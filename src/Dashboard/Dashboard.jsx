@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, withRouter } from 'react-router-dom';
+import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import { CircularProgress } from '@material-ui/core';
 import fetchData from '../fetchData';
@@ -210,13 +210,13 @@ class Dashboard extends React.Component {
             query { paymentNumber }
         `);
         const merchantID = '77aa76b8-1551-42c5-be5f-f49d6330260f';
-        const paymentURL = `https://paymaster.ru/payment/init?LMI_MERCHANT_ID=${merchantID}&LMI_PAYMENT_AMOUNT=${cost}&LMI_CURRENCY=RUB&LMI_PAYMENT_DESC=Оплата%20товара%20${vars.title}%20на%20${days == 360 ? '1 год' : days}%20${days == 360 ? '' : days == 1 ? 'день' : 'дней'}&LMI_INVOICE_CONFIRMATION_URL=${uiEndpoint}/invoice-confirmation&LMI_PAYMENT_NOTIFICATION_URL=${uiEndpoint}/payment-notification&LMI_SUCCESS_METHOD=GET&LMI_SUCCESS_URL=${uiEndpoint}/dashboard/subscriptions&LMI_FAIL_URL=${uiEndpoint}/failure-payment&LMI_PAYMENT_NO=${paymentNumber}&__USER_AGENT__=${vars.navigator.userAgent}&__LOCATION__=${vars.locationData.location}&__PRODUCT_TITLE__=${vars.title}&__USERNAME__=${vars.name}&__PRODUCT_COST__=${vars.productCost}&__DAYS__=${days}&LMI_SHOPPINGCART.ITEMS[0].NAME=${vars.title}&LMI_SHOPPINGCART.ITEMS[0].QTY=1&LMI_SHOPPINGCART.ITEMS[0].PRICE=${vars.productCost}.&LMI_SHOPPINGCART.ITEMS[0].TAX=no_vat`;
+        const paymentURL = `https://paymaster.ru/payment/init?LMI_MERCHANT_ID=${merchantID}&LMI_PAYMENT_AMOUNT=${cost}&LMI_CURRENCY=RUB&LMI_PAYMENT_DESC=Оплата%20товара%20${vars.title}%20на%20${days == 360 ? '1 год' : days}%20${days == 360 ? '' : days == 1 ? 'день' : 'дней'}&LMI_INVOICE_CONFIRMATION_URL=${uiEndpoint}/invoice-confirmation&LMI_PAYMENT_NOTIFICATION_URL=${uiEndpoint}/payment-notification&LMI_SUCCESS_METHOD=GET&LMI_SUCCESS_URL=${uiEndpoint}/success-url&LMI_FAIL_URL=${uiEndpoint}/failure-payment&LMI_PAYMENT_NO=${paymentNumber}&__USER_AGENT__=${vars.navigator.userAgent}&__LOCATION__=${vars.locationData.location}&__PRODUCT_TITLE__=${vars.title}&__USERNAME__=${vars.name}&__PRODUCT_COST__=${vars.productCost}&__DAYS__=${days}&LMI_SHOPPINGCART.ITEMS[0].NAME=${vars.title}&LMI_SHOPPINGCART.ITEMS[0].QTY=1&LMI_SHOPPINGCART.ITEMS[0].PRICE=${vars.productCost}.&LMI_SHOPPINGCART.ITEMS[0].TAX=no_vat`;
         window.location.href = paymentURL;
         // const query = `
             // mutation buyProduct(
             //     $title: String!,
             //     $name: String!,
-            //     $navigator: NavigatorInput,
+            //     $navigator: NavigatorInput,dfasdfasd
             //     $productCost: Int!
             // ) {
             //     buyProduct(
@@ -642,6 +642,7 @@ class Dashboard extends React.Component {
                             />
                             <Route
                                 path="/dashboard/subscriptions"
+                                exact
                                 render={
                                     () => (
                                         <Subscriptions
