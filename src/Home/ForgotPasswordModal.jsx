@@ -18,7 +18,7 @@ export default class ForgotPassword extends React.Component {
         e.preventDefault();
         this.setState({ requestMaking: true });
         if (!this.state.captchaPassed) {
-            createNotification('error', 'Вы не прошли Ре Капчу');
+            createNotification('error', 'Вы не прошли проверку на робота');
             this.setState({ requestMaking: false })
             return;
         }

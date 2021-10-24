@@ -65,6 +65,7 @@ class EditProduct extends React.Component {
         this.toggleAdditionalMenu = this.toggleAdditionalMenu.bind(this);
         this.testCost = this.testCost.bind(this);
         this.toggleCostMenu = this.toggleCostMenu.bind(this);
+        this.handleIssueSubsForEverybody = this.handleIssueSubsForEverybody.bind(this);
     }
     async componentDidMount() {
         if (Object.keys(this.props.match.params).length < 1) {
@@ -536,6 +537,39 @@ class EditProduct extends React.Component {
 
         this.setState({ isRequestMaking: false });
     }
+    async handleIssueSubsForEverybody(e) {
+        e.preventDefault();
+        this.setState({ isRequestMaking: true });
+        const form = document.forms.issueSubsForEverybody;
+        const days = +form.days.value;
+        if (isNaN(days)) {
+            createNotification('error', 'Вы должны ввести числовое значение');
+            return;
+        }
+
+        const query = `
+            mutation issueSubForEverybody($days: Int!, $title: String!) {
+                issueSubForEverybody(days: $days, title: $title) {
+                    message
+                    success
+                }
+            }
+        `;
+        const vars = {
+            days,
+            title: this.props.match.params.title
+        };
+
+        const {
+            issueSubForEverybody: {
+                message,
+                success
+            }
+        } = await fetchData(query, vars);
+        createNotification(success ? 'success' : 'error', message);
+
+        this.setState({ isRequestMaking: false });
+    }
     render() {
         const {
             isRequestMaking,
@@ -608,6 +642,23 @@ class EditProduct extends React.Component {
                         }
                     }
                 />
+                <form
+                    name="issueSubsForEverybody"
+                    className="search-bar"
+                    onSubmit={this.handleIssueSubsForEverybody}
+                >
+                    <input
+                        type="text"
+                        className="search-field"
+                        name="days"
+                    />
+                    <button
+                        type="submit"
+                        className="add-days"
+                    >
+                        Добавить дни пользователям
+                    </button>
+                </form>
                 <h2>Редактирование продукта</h2>
                 <div
                     className="editing-product-form"

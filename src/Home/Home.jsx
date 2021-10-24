@@ -207,6 +207,15 @@ class Home extends React.Component {
         this.hideTermsOfUse();
         this.hideContacts();
     }
+    highlightRoots() {
+        const container = document.getElementById('root-files');
+        window.scrollTo(0, document.body.scrollHeight);
+
+        setTimeout(() => {
+            container.style.border = '2px solid #fff';
+            setTimeout(() => container.style.border = '2px solid transparent', 500);
+        }, 650);
+    }
     render() {
         const {
             products,
@@ -410,14 +419,15 @@ class Home extends React.Component {
                 <Signup
                     style={
                         showingSignup
-                            ? {opacity: 1, transform: 'translateY(0)'}
-                            : {opacity: 0, transform: 'translateY(-120%)'}
+                            ? { opacity: 1, transform: 'translateY(0)' }
+                            : { opacity: 0, transform: 'translateY(-120%)' }
                     }
                     getUser={this.props.getUser}
                     hideSignup={this.hideSignup}
                     showLogin={this.showLogin}
                     toggleAgreement={this.toggleAgreement}
                     hideAgreement={this.hideAgreement}
+                    highlightRoots={this.highlightRoots}
                 />
                 <AgreementPrivacyNPolicy
                     style={
@@ -766,7 +776,7 @@ class Home extends React.Component {
                     >
                         <div className="footer-gray-line" />
                         <div className="wrap">
-                            <div className="modal-buttons">
+                            <div id="root-files" className="modal-buttons">
                                 <button
                                     onClick={() => this.setState({ contactsShown: true })}
                                     className="button"

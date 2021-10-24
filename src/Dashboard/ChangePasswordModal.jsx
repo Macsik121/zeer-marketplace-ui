@@ -41,7 +41,7 @@ export default class ChangePassword extends React.Component {
         }
 
         if (!this.state.captchaPassed) {
-            createNotification('error', 'Вы не прошли РеКапчу');
+            createNotification('error', 'Вы не прошли проверку на робота');
             this.setState({ requestMaking: false });
             return;
         }

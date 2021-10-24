@@ -73,21 +73,6 @@ app.post('/uploaded-images', (req, res) => {
 app.post(
     '/invoice-confirmation',
     async (req, res) => {
-        console.log('invoice confirmation has requested');
-        await fetch(apiEndpoint, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                query: `
-                    mutation {
-                        updatePaymentNumber {
-                            message
-                            success
-                        }
-                    }
-                `
-            })
-        });
         res.send('YES');
     }
 );
@@ -222,31 +207,11 @@ app.get('/success-url', (req, res) => {
 })
 
 app.post('/failure-payment', async (req, res) => {
-    await fetch(apiEndpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            query: `
-                mutation {
-                    updatePaymentNumber {
-                        message
-                        success
-                    }
-                }
-            `
-        })
-    });
     res.redirect(`${uiEndpoint}/dashboard/products`);
 });
 
 app.post('/loader.exe', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../src/images/loader.exe'));
-});
-
-app.post('/hashed-string', (req, res) => {
-    const { string } = req.body;
-    let newString = 'some string: ' + string;
-    res.send(newString);
 });
 
 app.use('/', express.static(path.resolve(__dirname, '../src/Home/roots')));

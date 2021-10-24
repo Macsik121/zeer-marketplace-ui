@@ -110,7 +110,7 @@ class Signup extends React.Component {
         }
 
         if (!this.state.reCaptchaPassed) {
-            createNotification('error', 'Вы не прошли РеКапчу');
+            createNotification('error', 'Вы не прошли проверку на робота');
             this.setState({ isRequestMaking: false });
             return;
         }
@@ -323,7 +323,10 @@ class Signup extends React.Component {
                                 <div className="checkmark" />
                             </div>
                             <span className="agreement">
-                                Согласен&nbsp;<span className="rules" onClick={toggleAgreement}>с правилами</span>
+                                Согласен&nbsp;<span className="rules" onClick={async () => {
+                                    await hideSignup();
+                                    this.props.highlightRoots();
+                                }}>с правилами</span>
                             </span>
                         </div>
                         <ReCaptcha

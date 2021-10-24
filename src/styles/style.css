@@ -32,6 +32,7 @@ html {
     color: #fff;
     scrollbar-width: auto;
     scrollbar-color: #1C1C24 #13131A;
+    scroll-behavior: smooth;
 }
 
 body {
@@ -871,8 +872,10 @@ button.disabled {
 .home .footer .modal-buttons {
     display: flex;
     flex-direction: column;
-    max-width: 300px;
+    width: 310px;
     z-index: 1;
+    border: 2px solid transparent;
+    transition: 1s;
 }
 
 .home .footer .modal-buttons .button {
@@ -7891,6 +7894,30 @@ button.disabled {
 
 .admin-panel .edit-product {
     padding-top: var(--padding-top-page);
+}
+
+.admin-panel .edit-product .search-bar .search-field {
+    color: #1C1C24;
+    border: none;
+}
+
+.admin-panel .edit-product .search-bar .add-days {
+    display: flex;
+    justify-content: center;
+    width: 212px;
+    background-color: #FF00006E;
+    color: #fff;
+    border: none;
+    font-size: 12px;
+    padding: 10px 0;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 300ms;
+    margin-left: 15px;
+}
+
+.admin-panel .edit-product .search-bar .add-days:hover {
+    background-color: #92191978;
 }
 
 .admin-panel .edit-product h2 {

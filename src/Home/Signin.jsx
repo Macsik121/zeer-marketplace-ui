@@ -78,7 +78,7 @@ class Signin extends React.Component {
         }
 
         if (!this.state.reCaptchaPassed) {
-            createNotification('error', 'Вы не прошли Ре Капчу');
+            createNotification('error', 'Вы не прошли проверку на робота');
             this.enableSubmitButton();
             return;
         }
