@@ -15,6 +15,7 @@ export default async function downloadLoader(link) {
     if (link.download == '') {
         clickLink = true;
     } else {
+        console.log('checking user for subscriptions')
         let username = jwtDecode(localStorage.getItem('token'));
         username = username.name;
         const { user } = await fetchData(`
