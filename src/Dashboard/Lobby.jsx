@@ -157,9 +157,9 @@ export default function Lobby(props) {
                                 <Link to={`/dashboard/reset-binding`}>
                                     Перейти
                                 </Link>
-                                <Link to="/dashboard/FAQ">
+                                <a href="/terms.pdf">
                                     Правила
-                                </Link>
+                                </a>
                             </div>
                         </div>
                         <div className="questions opportunity">
