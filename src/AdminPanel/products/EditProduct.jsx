@@ -99,6 +99,7 @@ class EditProduct extends React.Component {
                         cost
                         costPer
                         menuText
+                        days
                     }
                     peopleBought {
                         name
@@ -211,6 +212,7 @@ class EditProduct extends React.Component {
             appVersion
         } = navigator;
         const locationData = await getIPData();
+        console.log(product);
         const { ip, city } = locationData;
         const vars = {
             product,
