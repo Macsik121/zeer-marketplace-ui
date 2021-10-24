@@ -420,6 +420,7 @@ class EditProduct extends React.Component {
             title: createProduct.product.title,
             isRequestMaking: false
         });
+        this.props.history.push('/admin/products/' + createProduct.product.title)
     }
     async disableProduct() {
         this.setState({ isRequestMaking: true });
