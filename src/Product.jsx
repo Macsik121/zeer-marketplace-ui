@@ -111,7 +111,7 @@ class Product extends React.Component {
         const changes = !this.props.hideChanges && this.state.changes.map((change, i) => {
             if (!this.state.showAllChanges && i < 3) {
                 return (
-                    <div key={change.id} className="change">
+                    <div key={i} className="change">
                         <div className="general">
                             <span className="version">{change.version} версия</span>
                             <span className="created">{new Date(change.created).toLocaleDateString()}</span>
@@ -123,7 +123,7 @@ class Product extends React.Component {
                 )
             } else if (this.state.showAllChanges) {
                 return (
-                    <div key={change.id} className="change">
+                    <div key={i} className="change">
                         <div className="general">
                             <span className="version">{change.version} версия</span>
                             <span className="created">{new Date(change.created).toLocaleDateString()}</span>
@@ -335,7 +335,7 @@ class Product extends React.Component {
                                 generalInformation.map((information, i) => {
                                     if (information) {
                                         return (
-                                            <div key={information.title} className="general-info-wrap">
+                                            <div key={i} className="general-info-wrap">
                                                 <h3 className="info-title">{information.title}</h3>
                                                 <span className="info-content">{information.content}</span>
                                             </div>

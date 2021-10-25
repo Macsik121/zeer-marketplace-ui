@@ -57,7 +57,12 @@ export default class Calendar extends React.Component {
             activeDate: new Date(),
             chooseYearShown: false,
             chooseDateShown: true,
-            currentDayOfWeek: new Date().getDay()
+            currentDayOfWeek: new Date().getDay(),
+            currentHour: new Date().getHours(),
+            activeHour: new Date().getHours(),
+            currentMinutes: new Date().getMinutes(),
+            activeMinutes: new Date().getMinutes(),
+            chooseHoursMinsShown: false
         };
         this.switchNextMonth = this.switchNextMonth.bind(this);
         this.switchPrevMonth = this.switchPrevMonth.bind(this);
@@ -67,9 +72,16 @@ export default class Calendar extends React.Component {
         this.showChooseDate = this.showChooseDate.bind(this);
         this.chooseYear = this.chooseYear.bind(this);
         this.chooseDay = this.chooseDay.bind(this);
+        this.incHour = this.incHour.bind(this);
+        this.incMin = this.incMin.bind(this);
+        this.decrHour = this.decrHour.bind(this);
+        this.decrMin = this.decrMin.bind(this);
     }
     componentDidUpdate() {
-        if (!this.state.chooseYearShown && !this.state.chooseDateShown) {
+        if (!this.state.chooseYearShown &&
+            !this.state.chooseDateShown &&
+            !this.state.chooseHoursMinsShown
+        ) {
             this.setState({ chooseDateShown: true });
         }
     }
@@ -118,7 +130,11 @@ export default class Calendar extends React.Component {
         }
     }
     showChooseYear() {
-        this.setState({ chooseYearShown: true });
+        this.setState({
+            chooseYearShown: true,
+            chooseDateShown: false,
+            chooseHoursMinsShown: false
+        });
     }
     hideChooseYear() {
         this.setState({ chooseYearShown: false });
@@ -126,11 +142,16 @@ export default class Calendar extends React.Component {
     toggleChooseYear() {
         this.setState({
             chooseYearShown: !this.state.chooseYearShown,
-            chooseDateShown: !this.state.chooseDateShown
+            chooseDateShown: !this.state.chooseDateShown,
+            chooseHoursMinsShown: false
         });
     }
     showChooseDate() {
-        this.setState({ chooseYearShown: false, chooseDateShown: true });
+        this.setState({
+            chooseYearShown: false,
+            chooseDateShown: true,
+            chooseHoursMinsShown: false
+        });
     }
     chooseYear(e) {
         this.setState({
@@ -150,6 +171,42 @@ export default class Calendar extends React.Component {
             currentDayOfWeek: new Date(date).getDay()
         });
     }
+    incHour(e) {
+        let hour = +e.target.parentNode.childNodes[1].textContent;
+        hour++;
+        if (hour > 23) {
+            this.setState({ activeHour: 0 });
+        } else {
+            this.setState({ activeHour: hour });
+        }
+    }
+    decrHour(e) {
+        let hour = +e.target.parentNode.childNodes[1].textContent;
+        hour--;
+        if (hour < 0) {
+            this.setState({ activeHour: 23 });
+        } else {
+            this.setState({ activeHour: hour });
+        }
+    }
+    incMin(e) {
+        let min = +e.target.parentNode.childNodes[1].textContent;
+        min++;
+        if (min > 59) {
+            this.setState({ activeMinutes: 0 });
+        } else {
+            this.setState({ activeMinutes: min });
+        }
+    }
+    decrMin(e) {
+        let min = +e.target.parentNode.childNodes[1].textContent;
+        min--;
+        if (min < 0) {
+            this.setState({ activeMinutes: 59 });
+        } else {
+            this.setState({ activeMinutes: min });
+        }
+    }
     render() {
         let {
             currentMonth,
@@ -163,7 +220,12 @@ export default class Calendar extends React.Component {
             chooseYearShown,
             chooseDateShown,
             daysOfCurrentMonth,
-            currentDayOfWeek
+            currentDayOfWeek,
+            activeHour,
+            currentHour,
+            activeMinutes,
+            currentMinutes,
+            chooseHoursMinsShown
         } = this.state;
 
         const {
@@ -227,7 +289,7 @@ export default class Calendar extends React.Component {
                 <div className="current-date">
                     <div className="year">
                         <label
-                            onClick={this.toggleChooseYear}
+                            onClick={this.showChooseYear}
                             className="active-year"
                             style={
                                 {
@@ -236,7 +298,24 @@ export default class Calendar extends React.Component {
                             }
                         >
                             {activeYear}
-                        </label>
+                        </label>,&nbsp;
+                        <div
+                            className="hours-minutes"
+                            onClick={() => this.setState({
+                                chooseHoursMinsShown: !chooseHoursMinsShown,
+                                chooseDateShown: false,
+                                chooseYearShown: false
+                            })}
+                            style={
+                                {
+                                    color: chooseHoursMinsShown ? '#fff' : 'rgba(255, 255, 255, .6)'
+                                }
+                            }
+                        >
+                            {activeHour.toString().length == 1 ? '0' + activeHour : activeHour}
+                            :
+                            {activeMinutes.toString().length == 1 ? '0' + activeMinutes : activeMinutes}
+                        </div>
                     </div>
                     <div
                         className="day"
@@ -267,13 +346,15 @@ export default class Calendar extends React.Component {
                     >
                         {function() {
                             const years = [
-                                2018, 2019, 2020,
                                 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030,
                                 2031, 2032, 2033, 2034, 2035, 2036, 2037, 2038, 2039, 2040,
                                 2041, 2042, 2043, 2044, 2045, 2046, 2047, 2048, 2049, 2050,
                                 2051, 2052, 2053, 2054, 2055, 2056, 2057, 2058, 2059, 2060,
                                 2061, 2062, 2063, 2064, 2065, 2066, 2067, 2068, 2069, 2070,
-                                2071, 2072, 2073, 2074, 2075, 2076, 2077, 2078, 2079, 2080
+                                2071, 2072, 2073, 2074, 2075, 2076, 2077, 2078, 2079, 2080,
+                                2081, 2082, 2083, 2084, 2085, 2086, 2087, 2088, 2089, 2090,
+                                2091, 2092, 2093, 2094, 2095, 2096, 2097, 2098, 2099, 2100,
+                                2101, 2102, 2103, 2104, 2105, 2106, 2107, 2108, 2109, 2110
                             ];
                             return years.map(year => {
                                 return (
@@ -330,12 +411,49 @@ export default class Calendar extends React.Component {
                             </div>
                         </div>
                     </div>
+                    <div
+                        className="hours-mins-choosing"
+                        style={
+                            {
+                                opacity: chooseHoursMinsShown ? 1 : 0,
+                                pointerEvents: chooseHoursMinsShown ? 'all' : 'none'
+                            }
+                        }
+                    >
+                        <div className="active-hours active-time">
+                            <ArrowBackIosIcon
+                                className="add-hour arrow"
+                                onClick={this.incHour}
+                            />
+                            <div className="hours">
+                                {activeHour.toString().length == 1 ? '0' + activeHour : activeHour}
+                            </div>
+                            <ArrowBackIosIcon
+                                className="minus-hour arrow back"
+                                onClick={this.decrHour}
+                            />
+                        </div>
+                        :
+                        <div className="active-minutes active-time">
+                            <ArrowBackIosIcon
+                                className="add-mins arrow"
+                                onClick={this.incMin}
+                            />
+                            <div className="mins">
+                                {activeMinutes.toString().length == 1 ? '0' + activeMinutes : activeMinutes}
+                            </div>
+                            <ArrowBackIosIcon
+                                className="minus-mins arrow back"
+                                onClick={this.decrMin}
+                            />
+                        </div>
+                    </div>
                 </div>
                 <div className="buttons">
                     <button
                         className="set-date button"
                         onClick={() => {
-                            const date = `${currentYear}-${++currentMonth}-${currentDay}`;
+                            const date = new Date(currentYear, ++currentMonth, currentDay, activeHour, activeMinutes);
                             setDate(date);
                             const currentDate = new Date();
                             const day = currentDate.getDate();

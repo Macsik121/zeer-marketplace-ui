@@ -544,6 +544,7 @@ class EditProduct extends React.Component {
         const days = +form.days.value;
         if (isNaN(days)) {
             createNotification('error', 'Вы должны ввести числовое значение');
+            this.setState({ isRequestMaking: false });
             return;
         }
 

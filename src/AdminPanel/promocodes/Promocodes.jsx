@@ -195,7 +195,7 @@ class CreatePromocode extends React.Component {
                                 className="expired-time"
                                 value={
                                     expiredInDate != ''
-                                        ? expiredInDate.toLocaleDateString()
+                                        ? expiredInDate.toLocaleString()
                                         : 'дд.мм.гггг'
                                 }
                                 readOnly

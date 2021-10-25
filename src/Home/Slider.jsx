@@ -8,30 +8,14 @@ function RenderProductOnclick({
     children,
     showLogin,
     locationOnclick,
-    i
+    keyProp,
+    product
 }) {
-    const token = localStorage.getItem('token');
+    console.log(keyProp);
+    
     const renderOnclick = (
-        token
-            ? (
-                <Link
-                    className="link-to"
-                    to={locationOnclick}
-                    key={i}
-                >
-                    {children}
-                </Link>
-            )
-            : (
-                <button
-                    type="button"
-                    className="link-to"
-                    onClick={showLogin}
-                    key={i}
-                >
-                    {children}
-                </button>
-            )
+        
+        <button key={keyProp}>Something</button>
     )
     return renderOnclick;
 }
@@ -57,21 +41,51 @@ export default class Slider extends React.Component {
             adaptiveHeight: true
         };
         const { products } = this.state;
-        const popProducts = products.map((product, i) => (
-            <RenderProductOnclick
-                children={
-                    <Product
-                        className={this.props.className}
-                        styles={{ background: product.imageURL }}
-                        product={product}
-                    />
-                }
-                showLogin={this.props.showLogin}
-                i={i}
-                product={product}
-                locationOnclick={product.locationOnclick}
-            />
-        ));
+        const token = localStorage.getItem('token');
+        const popProducts = products.map((product, i) => {
+            // console.log(`iteration has completed ${i + 1} times`);
+            return (
+                token
+                    ? (
+                        <Link
+                            className="link-to"
+                            to={product.locationOnclick}
+                            key={i}
+                        >
+                            <Product
+                                className={this.props.className}
+                                styles={{ background: product.imageURL }}
+                                product={product}
+                                keyProp={product.title}
+                            />
+                        </Link>
+                    ) : (
+                        <button
+                            type="button"
+                            className="link-to"
+                            onClick={this.props.showLogin}
+                            key={i}
+                        >
+                            <Product
+                                className={this.props.className}
+                                styles={{ background: product.imageURL }}
+                                product={product}
+                                keyProp={product.title}
+                            />
+                        </button>
+                    )
+                // <RenderProductOnclick
+                //     // children={
+                        
+                //     // }
+                //     keyProp={i}
+                //     showLogin={this.props.showLogin}
+                //     product={product}
+                //     locationOnclick={product.locationOnclick}
+                // />
+                // <div key={i}>Something</div>
+            )
+        });
 
         return (
             <SlickSlider

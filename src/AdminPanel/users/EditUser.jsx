@@ -100,7 +100,7 @@ class EditUser extends React.Component {
         const userStatuses = [];
         Object.keys(user.status).map(status => userStatuses.push(status));
         user.subscriptions.map(sub => {
-            sub.activelyUntil = new Date(sub.activelyUntil).toISOString().substr(0, 10);
+            sub.activelyUntil = new Date(sub.activelyUntil);
             sub.resetCooldown = false;
         });
         this.setState({
@@ -292,7 +292,7 @@ class EditUser extends React.Component {
         const vars = {
             date: (
                 new Date(activelyUntil).getTime()
-                    ? new Date(activelyUntil).toISOString().substr(0, 10)
+                    ? new Date(activelyUntil)
                     : ''
             ),
             subscription,
@@ -353,7 +353,7 @@ class EditUser extends React.Component {
         } = this.state;
         const subscriptions = [...user.subscriptions];
         const products = [...this.state.products];
-        const dateToSet = new Date(date).toISOString().substr(0, 10);
+        const dateToSet = new Date(date);
         let subExists = false;
         for(let i = 0; i < user.subscriptions.length; i++) {
             const sub = subscriptions[i];
@@ -545,10 +545,10 @@ class EditUser extends React.Component {
                             name={title}
                             value={
                                 activelyUntil == ''
-                                    ? new Date('1980-01-01').toLocaleDateString()
+                                    ? new Date('1980-01-01').toLocaleString()
                                     : (
                                         new Date(activelyUntil)
-                                            .toLocaleDateString()
+                                            .toLocaleString()
                                     )
                             }
                             className="edit-actively-until field"
@@ -590,9 +590,7 @@ class EditUser extends React.Component {
                             type="text"
                             name={title}
                             value={
-                                new Date(activelyUntil).getTime() && activelyUntil.length == 10
-                                    ? new Date(activelyUntil).toLocaleDateString()
-                                    : activelyUntil
+                                new Date(activelyUntil).toLocaleString()
                             }
                             className="edit-actively-until field"
                             readOnly

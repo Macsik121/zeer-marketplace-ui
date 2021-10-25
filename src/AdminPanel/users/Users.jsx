@@ -255,7 +255,7 @@ class Users extends React.Component {
                     return (
                         <div
                             onClick={this.toggleBand}
-                            key={user.email}
+                            key={i}
                             className="user"
                         >
                             <span
