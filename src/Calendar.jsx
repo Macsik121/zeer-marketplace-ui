@@ -415,8 +415,8 @@ export default class Calendar extends React.Component {
                         className="hours-mins-choosing"
                         style={
                             {
-                                opacity: chooseHoursMinsShown ? 1 : 0,
-                                pointerEvents: chooseHoursMinsShown ? 'all' : 'none'
+                                opacity: calendarShown && chooseHoursMinsShown ? 1 : 0,
+                                pointerEvents: calendarShown && chooseHoursMinsShown ? 'all' : 'none'
                             }
                         }
                     >
