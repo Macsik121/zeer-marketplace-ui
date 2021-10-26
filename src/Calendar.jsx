@@ -453,7 +453,7 @@ export default class Calendar extends React.Component {
                     <button
                         className="set-date button"
                         onClick={() => {
-                            const date = new Date(currentYear, ++currentMonth, currentDay, activeHour, activeMinutes);
+                            const date = new Date(currentYear, currentMonth, currentDay, activeHour, activeMinutes);
                             setDate(date);
                             const currentDate = new Date();
                             const day = currentDate.getDate();
