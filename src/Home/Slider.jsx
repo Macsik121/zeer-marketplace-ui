@@ -38,8 +38,24 @@ export default class Slider extends React.Component {
             speed: 500,
             slidesToShow: 4,
             slidesToScroll: 4,
-            adaptiveHeight: true
+            adaptiveHeight: true,
+            // variableWidth: true,
+            responsive: [
+                {
+                    breakpoint: 1270,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 2
+                    }
+                },
+                // {
+                //     breakpoint: 950,
+                //     slidesToShow: 2,
+                //     slidesToScroll: 2
+                // }
+            ]
         };
+        console.log(sliderSettings);
         const { products } = this.state;
         const token = localStorage.getItem('token');
         const popProducts = products.map((product, i) => {

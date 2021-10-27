@@ -46,6 +46,7 @@ export default class ChoosingCostModal extends React.Component {
         const { product: { title, allCost }, promoUsed } = this.state;
         const form = document.forms.activatePromo;
         const name = form.promoName.value;
+        form.promoName.blur();
         const user = jwtDecode(localStorage.getItem('token'));
         const { ip, city } = await getIPData();
 

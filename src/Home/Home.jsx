@@ -404,10 +404,10 @@ class Home extends React.Component {
                                 transition: '500ms',
                                 pointerEvents: `${showingForgotPassword ? 'none' : 'all'}`,
                                 userSelect: `${showingForgotPassword ? 'none' : 'text'}`
-                            }
-                            : {
+                            } : {
                                 opacity: 0,
                                 transform: 'translateY(-120%)',
+                                pointerEvents: 'none'
                             }
                     }
                     getUser={this.props.getUser}
@@ -419,8 +419,8 @@ class Home extends React.Component {
                 <Signup
                     style={
                         showingSignup
-                            ? { opacity: 1, transform: 'translateY(0)' }
-                            : { opacity: 0, transform: 'translateY(-120%)' }
+                            ? { opacity: 1, transform: 'translateY(0)', pointerEvents: 'all' }
+                            : { opacity: 0, transform: 'translateY(-120%)', pointerEvents: 'none' }
                     }
                     getUser={this.props.getUser}
                     hideSignup={this.hideSignup}
@@ -432,16 +432,25 @@ class Home extends React.Component {
                 <AgreementPrivacyNPolicy
                     style={
                         showingAgreement
-                            ? { opacity: 1, transform: 'translateY(0)', top: 0 }
-                            : { opacity: 0, transform: 'translateY(-170%)', top: '-100%' }
+                            ? {
+                                opacity: 1,
+                                transform: 'translateY(0)',
+                                top: 0,
+                                pointerEvents: 'all'
+                            } : {
+                                opacity: 0,
+                                transform: 'translateY(-170%)',
+                                top: '-100%',
+                                pointerEvents: 'none'
+                            }
                     }
                     hideAgreement={this.hideAgreement}
                 />
                 <ForgotPassword
                     style={
                         showingForgotPassword
-                            ? { opacity: 1, transform: 'translateY(0)' }
-                            : { opacity: 0, transform: 'translateY(-180%)' }
+                            ? { opacity: 1, transform: 'translateY(0)', pointerEvents: 'all' }
+                            : { opacity: 0, transform: 'translateY(-180%)', pointerEvents: 'none' }
                     }
                     hideForgotPassword={this.hideForgotPassword}
                     showLogin={this.showLogin}
@@ -450,7 +459,8 @@ class Home extends React.Component {
                     style={
                         {
                             opacity: contactsModalShown ? 1 : 0,
-                            transform: `translateY(${contactsModalShown ? 0 : '-150%'})`
+                            transform: `translateY(${contactsModalShown ? 0 : '-150%'})`,
+                            pointerEvents: contactsModalShown ? 'all' : 'none'
                         }
                     }
                     hideModal={this.setAllContactsToHidden}

@@ -13,7 +13,8 @@ class Product extends React.Component {
             product: {},
             changes: [
                 {
-                    createdDate: new Date()
+                    createdDate: new Date(),
+                    version: '1,00'
                 }
             ],
             showAllChanges: false,
@@ -322,10 +323,7 @@ class Product extends React.Component {
                                     </span>
                                     <div className="circle" />
                                     <span className="current-version">
-                                        {this.state.chagnes && this.state.changes[0]
-                                            ? this.state.changes[0].version
-                                            : '1,00'
-                                        } версия
+                                        {lastUpdate ? lastUpdate.version : '1.00'} версия
                                     </span>
                                 </span>
                             </div>

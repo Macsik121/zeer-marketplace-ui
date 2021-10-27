@@ -2,6 +2,15 @@
     position: relative;
 }
 
+@media (max-width: 1270px) {
+    .slider .slick-arrow.slick-next {
+        margin-right: 0;
+    }
+    .slider .slick-arrow.slick-prev {
+        margin-left: 0;
+    }
+}
+
 .slider .slick-track {
     margin-left: auto;
     margin-right: auto;
