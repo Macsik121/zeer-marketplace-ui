@@ -652,6 +652,29 @@ class EditUser extends React.Component {
                                 <button
                                     className="button freeze"
                                     onClick={() => this.freezeUserSubscription(title)}
+                                    style={{
+                                        color: (
+                                            new Date() - new Date(activelyUntil) > 0
+                                                ? '#9F9F9F'
+                                                : '#fff'
+                                        ),
+                                        backgroundColor: (
+                                            new Date() - new Date(activelyUntil) > 0
+                                                ? '#DFDFDF'
+                                                : '#292932'
+                                        ),
+                                        pointerEvents: (
+                                            new Date() - new Date(activelyUntil) > 0
+                                                ? 'none'
+                                                : 'auto'
+                                        )
+                                    }}
+                                    onMouseEnter={e => {
+                                        e.target.style.backgroundColor = '#1F1F26';
+                                    }}
+                                    onMouseLeave={e => {
+                                        e.target.style.backgroundColor = '#292932';
+                                    }}
                                 >
                                     Заморозить
                                 </button>

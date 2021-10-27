@@ -109,9 +109,10 @@ class Product extends React.Component {
         this.setState({ showAllChanges: !this.state.showAllChanges });
     }
     renderChanges() {
-        const changes = !this.props.hideChanges && this.state.changes.map((change, i) => {
+        const changes = [];
+        !this.props.hideChanges && this.state.changes.map((change, i) => {
             if (!this.state.showAllChanges && i < 3) {
-                return (
+                changes.unshift(
                     <div key={i} className="change">
                         <div className="general">
                             <span className="version">{change.version} версия</span>
@@ -123,7 +124,7 @@ class Product extends React.Component {
                     </div>
                 )
             } else if (this.state.showAllChanges) {
-                return (
+                changes.unshift(
                     <div key={i} className="change">
                         <div className="general">
                             <span className="version">{change.version} версия</span>
