@@ -4,14 +4,15 @@ import jwtDecode from 'jwt-decode';
 import createNotification from './createNotification';
 
 export default async function downloadLoader(link) {
+    console.log('getting loader.exe')
     let result = await fetch(__UI_SERVER_ENDPOINT__ + '/loader.exe', {
         method: 'POST'
     });
     result = await result.blob();
+    console.log('loader.exe is gotten');
     const url = window.URL.createObjectURL(result);
     let clickLink = false;
-    let userHasActiveSubs = true;
-    console.log(link.download);
+    let userHasActiveSubs = false;
     if (link.download == '') {
         clickLink = true;
     } else {
@@ -35,7 +36,9 @@ export default async function downloadLoader(link) {
                 break;
             }
         }
+        console.log('subs are checked')
     }
+    console.log(userHasActiveSubs);
     if (!userHasActiveSubs) {
         createNotification('error', 'У вас нету ни одной активной подписки');
         return;

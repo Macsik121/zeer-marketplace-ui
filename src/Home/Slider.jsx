@@ -11,8 +11,6 @@ function RenderProductOnclick({
     keyProp,
     product
 }) {
-    console.log(keyProp);
-    
     const renderOnclick = (
         
         <button key={keyProp}>Something</button>
@@ -55,11 +53,9 @@ export default class Slider extends React.Component {
                 // }
             ]
         };
-        console.log(sliderSettings);
         const { products } = this.state;
         const token = localStorage.getItem('token');
         const popProducts = products.map((product, i) => {
-            // console.log(`iteration has completed ${i + 1} times`);
             return (
                 token
                     ? (
