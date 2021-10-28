@@ -569,14 +569,14 @@ class Dashboard extends React.Component {
                         modalShown={showingChangePassword}
                         hideModal={this.hideModal}
                     />
-                    <AgreementPrivacyNPolicy
+                    {/* <AgreementPrivacyNPolicy
                         style={
                             agreementShown
                                 ? { transform: 'translateY(0)', opacity: 1, pointerEvents: 'all' }
                                 : { transform: 'translateY(-170%)', opacity: 0, pointerEvents: 'none' }
                         }
                         hideAgreement={this.hideAgreement}
-                    />
+                    /> */}
                     <ChoosingCostModal
                         style={
                             {
