@@ -270,7 +270,7 @@ class NavBar extends React.Component {
                                     this.hiddenUserDropdown();
                                 }.bind(this)
                             }
-                            to="/dashboard"
+                            to="/"
                         >
                             <img className="logo" src="/images/zeer-logo.png" />
                         </Link>
