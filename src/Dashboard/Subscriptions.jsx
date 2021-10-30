@@ -282,7 +282,7 @@ export default class Subscriptions extends React.Component {
             } = sub;
             const freezeConditions = wasFreezed;
 
-            if (!showAll && i > limitSubs) {
+            if (!showAll && i >= limitSubs && subscriptions.active.length > 6) {
                 break;
             }
             if (status.isActive || status.isFreezed) {
