@@ -5,3 +5,4 @@ uploaded-images/*
 !uploaded-images/loader.exe
 public/*.js
 public/*.css
+# Some comment right here just to test if commits work in a private repository
